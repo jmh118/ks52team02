@@ -1,1 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="ks52team02.manager.career.mapper.WorkMapper">
+  
+  <select id="getMemberCareer" resultType="Career">
+		/* 회원목록조회 */
+		SELECT
+			m.member_id,
+			mwhd.mentor_POWK_NM,
+			mwhd.mentor_TKCG_TASK,
+			mwhd.FRST_REG_DT
+		FROM
+			member_level ml
+			INNER join
+			member m
+			on
+			ml.member_level_code=m.member_level_code
+			INNER join
+			mentor_work_history_details mwhd
+			on
+			m.member_id=mwhd.member_id
+		WHERE
+			ml.member_level_name='멘토';
+	</select>
+  
+  
+  </mapper>
+  
+  
+  
