@@ -11,16 +11,43 @@
 			member_id AS memberId, 
 			member_password AS memberPw, 
 			search_member_password_answer AS memberPwAnswer, 
-			member_level_code AS memberLevel, 
+			ml.member_level_name AS memberLevel, 
 			member_name AS memberName, 
 			member_phone_number AS memberTelNo, 
 			member_email AS memberEmail, 
 			member_join_YMD AS memberJoinYMD, 
 			member_withdrawal_YN AS memberWithdrawalYN
 		FROM
-			member
+			member m,
+			member_level ml
 		WHERE
 			member_withdrawal_YN = 'N';
 	</select>
+	<select id="getWithdrawalMemberList" resultType="WithdrawalMember">
+		/* 관리자 - 탈퇴 회원 조회 */
+			SELECT
+				mwa.withdrawal_apply_member_code AS withdrawalMemberCode,
+				mwa.withdrawal_reason AS withdrawalReason,
+				ml.member_level_name AS withdrawalMemberLevel,
+				mwa.withdrawal_member_id AS withdrawalMemberId,
+				m.member_password AS withdrawalMemberPw,
+				mwa.withdrawal_demand_YMD AS withdrawalDemandYMD,
+				mwa.withdrawal_approval_YMD AS withdrawalApprovalYMD
+			FROM
+				member m
+				INNER join
+				member_withdrawal_apply mwa
+				ON
+				m.member_id=mwa.withdrawal_member_id
+				RIGHT JOIN
+				member_level ml
+				ON
+				mwa.member_level_code=ml.member_level_code
+			WHERE
+				member_withdrawal_YN = 'Y'
+			ORDER BY
+				mwa.withdrawal_approval_YMD desc;
+	</select>
+
 
 </mapper>

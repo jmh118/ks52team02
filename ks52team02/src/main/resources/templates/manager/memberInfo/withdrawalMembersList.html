@@ -56,19 +56,19 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
+                                    <tr th:each="wml : ${withdrawalMemberList}">
                                         <td>
                                             <div class="form-check">
                                                 <input class="form-check-input" type="checkbox" value="" />
                                             </div>
                                         </td>
-                                        <td>23</td>
-                                        <td><b>더 이상 안 쓸 것 같습니다~</b></td>
-										<td>멘티</td>
-                                        <td>Devon Lane</td>
-                                        <td>password1234</td>
-                                        <td>10.03.2020</td>
-                                        <td>10.04.2020</td>
+                                        <td th:text="${wml.withdrawalMemberCode}">23</td>
+                                        <td th:text="${wml.withdrawalReason}"><b>더 이상 안 쓸 것 같습니다~</b></td>
+										<td th:text="${wml.withdrawalMemberLevel}">멘티</td>
+                                        <td th:text="${wml.withdrawalMemberId}">Devon Lane</td>
+                                        <td th:text="${wml.withdrawalMemberPw}">password1234</td>
+                                        <td th:text="${wml.withdrawalDemandYMD}">10.03.2020</td>
+                                        <td th:text="${wml.withdrawalApprovalYMD}">10.04.2020</td>
                                         <td class="text-end">
                                             <a href="#" class="btn btn-md rounded font-sm">Detail</a>
                                             <div class="dropdown">
@@ -80,215 +80,7 @@
 											</div>
                                             <!-- dropdown //end -->
                                         </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="" />
-                                            </div>
-                                        </td>
-                                        <td>24</td>
-                                        <td><b>멘토링 다 받았어요</b></td>
-										<td>멘티</td>
-                                        <td>Guy Hawkins</td>
-										<td>password1234</td>
-										<td>10.03.2020</td>
-										<td>10.04.2020</td>
-										<td class="text-end">
-										    <a href="#" class="btn btn-md rounded font-sm">Detail</a>
-										    <div class="dropdown">
-										        <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-                                                <div class="dropdown-menu">
-                                                    <a class="dropdown-item" href="#">View detail</a>
-                                                    <a class="dropdown-item" href="#">Edit info</a>
-                                                    <a class="dropdown-item text-danger" href="#">Delete</a>
-                                                </div>
-                                            </div>
-                                            <!-- dropdown //end -->
-                                        </td>
-                                    </tr>
-									<tr>
-									     <td>
-									         <div class="form-check">
-									             <input class="form-check-input" type="checkbox" value="" />
-									         </div>
-									     </td>
-									     <td>24</td>
-									     <td><b>퇴사</b></td>
-										 <td>멘토</td>
-									     <td>Guy Hawkins</td>
-										<td>password1234</td>
-										<td>10.03.2020</td>
-										<td>10.04.2020</td>
-										<td class="text-end">
-										    <a href="#" class="btn btn-md rounded font-sm">Detail</a>
-										    <div class="dropdown">
-										        <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-									             <div class="dropdown-menu">
-									                 <a class="dropdown-item" href="#">View detail</a>
-									                 <a class="dropdown-item" href="#">Edit info</a>
-									                 <a class="dropdown-item text-danger" href="#">Delete</a>
-									             </div>
-									         </div>
-									         <!-- dropdown //end -->
-									     </td>
-									 </tr>
-									 <tr>
-									      <td>
-									          <div class="form-check">
-									              <input class="form-check-input" type="checkbox" value="" />
-									          </div>
-									      </td>
-									      <td>24</td>
-									      <td><b>졸업해서 안봐요</b></td>
-										  <td>멘티</td>
-									      <td>Guy Hawkins</td>
-									 	<td>password1234</td>
-									 	<td>10.03.2020</td>
-									 	<td>10.04.2020</td>
-									 	<td class="text-end">
-									 	    <a href="#" class="btn btn-md rounded font-sm">Detail</a>
-									 	    <div class="dropdown">
-									 	        <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-									              <div class="dropdown-menu">
-									                  <a class="dropdown-item" href="#">View detail</a>
-									                  <a class="dropdown-item" href="#">Edit info</a>
-									                  <a class="dropdown-item text-danger" href="#">Delete</a>
-									              </div>
-									          </div>
-									          <!-- dropdown //end -->
-									      </td>
-									 </tr>
-									 <tr>
-									      <td>
-									          <div class="form-check">
-									              <input class="form-check-input" type="checkbox" value="" />
-									          </div>
-									      </td>
-									      <td>24</td>
-									      <td><b>부서이동</b></td>
-										  <td>멘토</td>
-									      <td>Guy Hawkins</td>
-									 	<td>password1234</td>
-									 	<td>10.03.2020</td>
-									 	<td>10.04.2020</td>
-									 	<td class="text-end">
-									 	    <a href="#" class="btn btn-md rounded font-sm">Detail</a>
-									 	    <div class="dropdown">
-									 	        <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-									              <div class="dropdown-menu">
-									                  <a class="dropdown-item" href="#">View detail</a>
-									                  <a class="dropdown-item" href="#">Edit info</a>
-									                  <a class="dropdown-item text-danger" href="#">Delete</a>
-									              </div>
-									          </div>
-									          <!-- dropdown //end -->
-									      </td>
-									 </tr>
-									 <tr>
-									      <td>
-									          <div class="form-check">
-									              <input class="form-check-input" type="checkbox" value="" />
-									          </div>
-									      </td>
-									      <td>24</td>
-									      <td><b>사용을 안 해서 탈퇴합니다</b></td>
-										  <td>멘티</td>
-									      <td>Guy Hawkins</td>
-									 	<td>password1234</td>
-									 	<td>10.03.2020</td>
-									 	<td>10.04.2020</td>
-									 	<td class="text-end">
-									 	    <a href="#" class="btn btn-md rounded font-sm">Detail</a>
-									 	    <div class="dropdown">
-									 	        <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-									              <div class="dropdown-menu">
-									                  <a class="dropdown-item" href="#">View detail</a>
-									                  <a class="dropdown-item" href="#">Edit info</a>
-									                  <a class="dropdown-item text-danger" href="#">Delete</a>
-									              </div>
-									          </div>
-									          <!-- dropdown //end -->
-									      </td>
-									 </tr>
-									 <tr>
-									      <td>
-									          <div class="form-check">
-									              <input class="form-check-input" type="checkbox" value="" />
-									          </div>
-									      </td>
-									      <td>24</td>
-									      <td><b>안써요</b></td>
-										  <td>멘티</td>
-									      <td>Guy Hawkins</td>
-									 	<td>password1234</td>
-									 	<td>10.03.2020</td>
-									 	<td>10.04.2020</td>
-									 	<td class="text-end">
-									 	    <a href="#" class="btn btn-md rounded font-sm">Detail</a>
-									 	    <div class="dropdown">
-									 	        <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-									              <div class="dropdown-menu">
-									                  <a class="dropdown-item" href="#">View detail</a>
-									                  <a class="dropdown-item" href="#">Edit info</a>
-									                  <a class="dropdown-item text-danger" href="#">Delete</a>
-									              </div>
-									          </div>
-									          <!-- dropdown //end -->
-									      </td>
-									 </tr>
-									 <tr>
-									      <td>
-									          <div class="form-check">
-									              <input class="form-check-input" type="checkbox" value="" />
-									          </div>
-									      </td>
-									      <td>24</td>
-									      <td><b>광고문자 오는 거 짜증나서 탈퇴합니다~</b></td>
-										  <td>멘티</td>
-									      <td>Guy Hawkins</td>
-									 	<td>password1234</td>
-									 	<td>10.03.2020</td>
-									 	<td>10.04.2020</td>
-									 	<td class="text-end">
-									 	    <a href="#" class="btn btn-md rounded font-sm">Detail</a>
-									 	    <div class="dropdown">
-									 	        <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-									              <div class="dropdown-menu">
-									                  <a class="dropdown-item" href="#">View detail</a>
-									                  <a class="dropdown-item" href="#">Edit info</a>
-									                  <a class="dropdown-item text-danger" href="#">Delete</a>
-									              </div>
-									          </div>
-									          <!-- dropdown //end -->
-									      </td>
-									 </tr>
-									 <tr>
-									      <td>
-									          <div class="form-check">
-									              <input class="form-check-input" type="checkbox" value="" />
-									          </div>
-									      </td>
-									      <td>24</td>
-									      <td><b>재미없어요</b></td>
-										  <td>멘티</td>
-									      <td>Guy Hawkins</td>
-									 	<td>password1234</td>
-									 	<td>10.03.2020</td>
-									 	<td>10.04.2020</td>
-									 	<td class="text-end">
-									 	    <a href="#" class="btn btn-md rounded font-sm">Detail</a>
-									 	    <div class="dropdown">
-									 	        <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-									              <div class="dropdown-menu">
-									                  <a class="dropdown-item" href="#">View detail</a>
-									                  <a class="dropdown-item" href="#">Edit info</a>
-									                  <a class="dropdown-item text-danger" href="#">Delete</a>
-									              </div>
-									          </div>
-									          <!-- dropdown //end -->
-									      </td>
-									 </tr>
+                                    </tr>								 
                                 </tbody>
                             </table>
                         </div>
