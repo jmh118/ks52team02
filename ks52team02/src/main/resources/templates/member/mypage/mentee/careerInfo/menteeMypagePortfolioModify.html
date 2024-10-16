@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{member/layouts/layout}">
+    <!--/* 기존 class는 main pages...  pages 누락 시 문제 없음
+    	<main class="main pages"layout:fragment="content"> */-->	
+    <th:block layout:fragment="customContent">
+        <div class="container mb-80 mt-50">
+            <div class="row">
+                <div class="col-lg-8 mb-40">
+                    <h1 class="heading-2 mb-10">포트폴리오</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-7">
+                    <div class="row">
+                        <h3 class="mb-30">수정&삭제</h3>
+                        <form method="post">
+                                <div class="form-group col-lg-6">
+                                    <input type="text" required="" name="fname" placeholder="포트폴리오 제목 *" value="학사 관리 시스템">
+                                </div>
+                                <div class="form-group col-lg-6">포트폴리오 내용*
+                                	<textarea id="summernote" name="editordata">학사 관리 시스템 포트폴리오가 어쩌구 저쩌구</textarea>
+                                </div>
+                                <div class="form-group col-lg-6">포트폴리오 업로드*
+							  		<input type="file" accept="image/png, image/jpeg">
+							  </div>
+							<button class="submit submit-auto-width" type="submit">추가</button>
+							<button class="submit submit-auto-width" type="submit">수정</button>
+							<button class="submit submit-auto-width" type="submit">삭제</button>
+                        </form>
+                    </div>
+                </div>
+             </div>
+          </div>
+    </th:block>
+</html>

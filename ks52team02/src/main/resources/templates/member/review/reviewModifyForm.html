@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{member/layouts/layout}">
+	<!--/* 기존 class는 main pages...  pages 누락 시 문제 없음
+    	<main class="main pages"layout:fragment="content"> */-->
+    <th:block layout:fragment="customContent">
+		<section class="content-main mt-40 mb-40 my-2 text-brand">
+		       <div class="card-body container col-3 my-2">
+                   <h3 class="mb-20 mt-40 text-brand d-flex justify-content-center">멘토링 후기 수정하기</h3>
+                        <form class="container mt-40">
+                            <!-- form-group// -->
+							<div class="mb-4">
+                                <label class="form-label">신청한 멘토링명</label>
+                                <input type="text" class="form-control" name="mentroingName" value="신청한 멘토링명" readonly/>
+                            </div>
+                            <!-- form-group// -->
+							<div class="mb-4">
+                                <label class="form-label">평점</label>
+                                <input type="text" class="form-control" name="mentroingRating"/>
+                            </div>
+                            <!-- form-group// -->
+							<div class="mb-4">
+                                <label class="form-label">내용</label>
+                                <textarea rows="500" cols="500"></textarea>
+                            </div>
+                            <div class="mb-10 d-flex justify-content-center">
+                                <button type="submit" class="btn btn-primary w-80">후기 수정</button>
+                            </div>
+                        </form>
+                </div>
+           </section>
+    </th:block>
+</html>

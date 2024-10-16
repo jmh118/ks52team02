@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{manager/layouts/layout}">
+	  <th:block layout:fragment="customContent">
+            <section class="content-main">
+                <div class="content-header">
+                    <h2 class="content-title">관리자 계정 탈퇴 페이지</h2>
+                </div>
+                <div class="card col-lg-8 d-flex">
+                    <div class="card-body ">
+                        <div class="row gx-5">
+                            <div class="col-lg-9">
+                                <section class="content-body p-xl-4">
+                                	<div class="py-1 mb-30">
+	                                    <h3 class="text-brand">로그인 계정 정보</h3>
+                                	</div>
+                                    <form>
+                                        <div class="row">
+                                                <div class="row gx-3">
+                                                    <div class="col-6 mb-3">
+                                                        <label class="form-label">회사명</label>
+                                                        <input class="form-control" type="text" placeholder="(주)Teach Tech Talk" disabled />
+                                                    </div>
+                                                    <div class="col-6 mb-3">
+                                                        <label class="form-label">직무명</label>
+                                                        <input class="form-control" type="text" placeholder="플랫폼 관리자" disabled />
+                                                    </div>
+                                                    <div class="col-lg-6 mb-3">
+                                                        <label class="form-label">E-mail</label>
+                                                        <input class="form-control" type="email" placeholder="manager002@email.com" disabled />
+                                                    </div>
+                                                    <div class="col-lg-6 mb-3">
+                                                        <label class="form-label">Phone</label>
+                                                        <input class="form-control" type="tel" placeholder="010-0004-4444" disabled />
+                                                    </div>
+                                                    <div class="col-lg-12 mb-3">
+                                                        <label class="form-label">Address</label>
+                                                        <input class="form-control" type="text" placeholder="OOO도 OO시 OOO동 OO로 OOO-OO" disabled />
+                                                    </div>
+                                                    <div class="col-lg-8 mb-3">
+                                                        <label class="form-label">관리자 ID</label>
+                                                        <input class="form-control" type="text" placeholder="manager002" disabled />
+                                                    </div>                                                    
+                                                    <div class="col-lg-8 mb-3">
+                                                        <label class="form-label">관리자 Password</label>
+                                                        <input class="form-control" type="text" placeholder="managerpw002" disabled />
+                                                    </div>                                                    
+                                                    <div class="col-lg-8 mb-3">
+                                                        <label class="form-label">이름</label>
+                                                        <input class="form-control" type="text" placeholder="이OO" disabled />
+                                                    </div>
+                                                    <div>
+			                                            <label class="form-label mt-20">탈퇴사유</label>
+															<select class="col-lg-4 mb-3 form-control" name="withdrawalReason">
+																<option value="withdrawalReason1">플랫폼 이용 기록 삭제</option>
+																<option value="withdrawalReason2">퇴사</option>
+																<option value="withdrawalReason3">업데이트</option>
+																<option value="withdrawalReason4">디버그</option>
+																<option value="withdrawalReason5">기타</option>
+															</select>                                                    
+			                                        	<div class="chek-form ">
+															<div class="custome-checkbox">
+																<input class="form-check-input" type="checkbox" name="checkbox" id="exampleCheckbox13" value="" />
+																<label class="ml-5 form-check-label" for="exampleCheckbox13"><span>회원탈퇴 관련 사항을 모두 숙지하였으며, 탈퇴에 동의합니다.</span></label>
+															</div>
+							                            </div>
+						                            </div>
+                                                </div>
+                                        </div>
+                                        <div class="mt-40 py-1">
+                                      	  <button class="btn btn-primary" type="submit">관리자 계정 삭제</button>
+                                        </div>
+                                    </form>
+                                </section>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+			</section>
+	</th:block>
+</html>

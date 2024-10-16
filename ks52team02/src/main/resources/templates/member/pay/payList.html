@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{member/layouts/layout}">
+    <!--/* 기존 class는 main pages...  pages 누락 시 문제 없음
+    	<main class="main pages"layout:fragment="content"> */-->
+    <th:block layout:fragment="customContent">
+        <div class="page-content pt-50">
+            <div class="container">
+            	<!-- 타이틀 후기 레이아웃 수정 필요~ -->
+                <h3 class="pb-30">결제 내역 조회</h3>
+                <a href="/review/reviewList" class="btn">내가쓴후기내역조회</a>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="table-responsive">
+							<table class="table table-hover text-center">
+								<thead>
+									<tr>
+										<th>신청한 멘토링</th>
+										<th>멘토명</th>
+										<th>결제금액</th>
+										<th>결제일</th>
+										<th>멘토링 진행 상태</th>
+										<th>후기 등록</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>나도 포트폴리오 마스터!!</td>
+										<td>홍길동</td>
+										<td>49000</td>
+										<td>2024. 9. 7 오후 6:00:00</td>
+										<td><span class="badge rounded-pill alert-warning">진행전</span></td>
+										<td><a href="/review/reviewForm" class="btn btn-md rounded font-sm">후기 등록</a></td>
+									</tr>
+									<tr>
+										<td>나도 포트폴리오 마스터!!</td>
+										<td>홍길동</td>
+										<td>49000</td>
+										<td>2024. 9. 7 오후 6:00:00</td>
+										<td><span class="badge rounded-pill alert-danger">진행중</span></td>
+										<td><a href="/review/reviewForm" class="btn btn-md rounded font-sm">후기 등록</a></td>
+									</tr>
+									<tr>
+										<td>나도 포트폴리오 마스터!!</td>
+										<td>홍길동</td>
+										<td>49000</td>
+										<td>2024. 9. 7 오후 6:00:00</td>
+										<td><span class="badge rounded-pill alert-success">진행완료</span></td>
+										<td><a href="/review/reviewForm" class="btn btn-md rounded font-sm">후기 등록</a></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </th:block>
+</html>

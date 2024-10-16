@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{member/layouts/layout}">
+	
+<th:block class="main" layout:fragment="customContent">
+<div class="page-content pt-50">
+	<div class="container">
+			<!-- 타이틀 후기 레이아웃 수정 필요~ -->
+		    <h3 class="pb-30">목표 진행 조회</h3>
+		    <a href="" class="btn">목표 설정 조회</a>
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="table-responsive">
+				        <table class="table text-center">
+				            <thead>
+				                <tr>
+				                    <th>순번</th>
+				                    <th>목표진행제목</th>
+				                    <th>목표 진행 시작 시각</th>
+				                    <th>목표 진행 종료 시각</th>
+				                    <th>목표 달성을 위한 진행 시간</th>
+				                    <th>목표 달성을 위한 누적 시간</th>
+				                    <th>등록일</th>
+				                    <th>수정</th>
+				                    <th>삭제</th>
+				                </tr>
+				            </thead>
+				            <tbody>
+				                <tr>
+				                    <td>1</td>
+				                    <td><a th:href="@{/}">day1</a></td>
+				                    <td>2024-09-01  4:00:00 PM</td>
+				                    <td>2024-06-25  11:00:00 PM</td>
+				                    <td>2</td>
+				                    <td>2</td>
+				                    <td>2024-09-01  9:00:00 PM</td>
+				                    <td>
+										<a href="" class="btn btn-md rounded font-sm">수정</a>
+									</td>
+									<td>
+										<a href="" class="btn btn-md rounded font-sm">삭제</a>
+									</td>
+				                </tr>
+				            </tbody>
+				        </table>
+				    </div>
+				</div>
+			</div>
+		</div>
+	</div>
+</th:block>
+
+</html>

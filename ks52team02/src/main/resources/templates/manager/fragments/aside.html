@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <aside class="navbar-aside" id="offcanvas_aside" th:fragment="asideFragment">
+        <div class="aside-top">
+            <a href="/manager" class="brand-wrap">
+                <img src="/manager/imgs/theme/logo.svg" class="logo" alt="Nest Dashboard" />
+            </a>
+            <div>
+                <button class="btn btn-icon btn-aside-minimize"><i class="text-muted material-icons md-menu_open"></i></button>
+            </div>
+        </div>
+		<nav>
+			<ul class="menu-aside">
+		        <li class="menu-item active">
+		            <a class="menu-link" href="/manager">
+		                <i class="icon material-icons md-home"></i>
+		                <span class="text">대시보드(이승현)</span>
+		            </a>
+		        </li>
+		        <li class="menu-item has-submenu">
+		            <div class="menu-link">
+		                <i class="icon material-icons md-person"></i>
+		                <span class="text">정보조회(이승현)</span>
+		            </div>
+		            <div class="submenu">
+		                <a href="/manager/member/list">전체 회원정보 조회(이승현)</a>
+		                <a href="/manager/member/withdrawalList">탈퇴 회원정보 조회(이승현)</a>
+		                <a href="/manager/member/dormantList">휴면 회원정보 조회(이승현)</a>
+		                <a href="/manager/member/loginLog">회원 로그인 기록 조회(이승현)</a>
+		            </div>
+		        </li>
+		        <li class="menu-item has-submenu">
+		            <div class="menu-link">
+		                <i class="icon material-icons md-shopping_cart"></i>
+		                <span class="text">회원관리(이승현#)</span>
+		            </div>
+		            <div class="submenu">
+		                <a href="/manager/member/infoModify">회원정보수정(이승현)</a>
+		                <a href="#">회원등급관리(이승현#)</a>
+		            </div>
+		        </li>
+		        <li class="menu-item has-submenu">
+		            <div class="menu-link">
+		                <i class="icon material-icons md-store"></i>
+		                <span class="text">가입/탈퇴 관리(이승현)</span>
+		            </div>
+		            <div class="submenu">
+		                <a href="/manager/member/registeredMembers">신규 회원 조회(이승현)</a>
+		                <a href="/manager/member/withdrawalList">탈퇴 회원 조회(이승현)</a>
+		                <a href="/manager/member/waitingForApproval">신규 멘토 승인(이승현)</a>
+		                <a href="/manager/member/waitingForWithdrawal">회원 탈퇴 승인(이승현)</a>
+		            </div>
+		        </li>
+		        <li class="menu-item has-submenu">
+		            <div class="menu-link">
+		                <!-- <i class="icon material-icons md-add_box"></i> -->
+		                <i class="icon material-icons md-pie_chart"></i>
+		                <span class="text">자료 승인(김광민)</span>
+		            </div>
+		            <div class="submenu">
+		                <a href="/manager/career/work">근무경력 자료 승인(김광민)</a>
+		                <a href="/manager/career/project">기술경력 자료 승인(김광민)</a>
+		                <a href="/manager/career/education">학력 자료 승인(김광민)</a>
+		                <a href="/manager/career/certificate">자격증/어학 자료 승인(김광민)</a>
+		            </div>
+		        </li>
+		        <li class="menu-item has-submenu">
+		            <div class="menu-link">
+		                <i class="icon material-icons md-stars"></i>
+		                <span class="text">멘티 목표 관리(조미희)</span>
+		            </div>
+		            <div class="submenu">
+		                <a href="/manager/goal/setList">목표 설정 조회(조미희)</a>
+		                <a href="/manager/goal/recordList">목표 진행 조회(조미희)</a>
+		            </div>
+		        </li>
+		        <li class="menu-item has-submenu">
+		            <div class="menu-link">
+		                <i class="icon material-icons md-monetization_on"></i>
+		                <span class="text">쿠폰 관리(조미희)</span>
+		            </div>
+		            <div class="submenu">
+		                <a href="/manager/coupon/criteriaList">쿠폰 지급 기준 조회(조미희)</a>
+		                <a href="/manager/coupon/list">회원 쿠폰 보유 현황(조미희)</a>
+		            </div>
+				</li>
+		        <li class="menu-item">
+		            <a class="menu-link" href="/manager/mentoring/noticeList">
+		                <i class="icon material-icons md-comment"></i>
+		                <span class="text">멘토링 공고 조회(정용우)</span>
+		            </a>
+		        </li>
+		        <li class="menu-item">
+		            <a class="menu-link" href="/manager/review/list">
+		                <i class="icon material-icons md-comment"></i>
+		                <span class="text">멘토링 후기 관리(조미희)</span>
+		            </a>
+		        </li>
+		        <li class="menu-item has-submenu">
+		            <div class="menu-link">
+		                <i class="icon material-icons md-monetization_on"></i>
+		                <span class="text">정산 및 결제 관리(조미희)</span>
+		            </div>
+		            <div class="submenu">
+		                <a href="/manager/pay/list">멘토링 결제 내역 조회(조미희)</a>
+		                <a href="/manager/pay/settlementList">멘토링 정산 신청 내역 조회(조미희)</a>
+		                <a href="/manager/pay/settlementHistoryList">멘토링 정산 내역 조회(조미희)</a>
+		            </div>
+		        </li>
+				
+				<li class="menu-item has-submenu">
+		            <div class="menu-link">
+		                <i class="icon material-icons md-person"></i>
+		                <span class="text">명예 멘토 관리(조미희)</span>
+		            </div>
+		            <div class="submenu">
+		                <a href="/manager/honor/criteriaList">명예멘토 기준 조회(조미희)</a>
+		                <a href="/manager/honor/list">명예멘토 조회(조미희)</a>
+		            </div>
+		        </li>
+	    	</ul>
+		    <hr />
+		    <ul class="menu-aside">
+		        <li class="menu-item">
+		            <a class="menu-link" href="/manager/member/managerWithdrawal">
+		                <i class="icon material-icons md-local_offer"></i>
+		                <span class="text"> 관리자 계정 탈퇴 </span>
+		            </a>
+		        </li>
+		        <li class="menu-item">
+		            <a class="menu-link" href="/">
+		                <i class="icon material-icons md-local_offer"></i>
+		                <span class="text"> 유저 플랫폼으로 이동 </span>
+		            </a>
+		        </li>
+		    </ul>
+		    <br/>
+		    <br/>
+		</nav>
+	</aside>
+</html>

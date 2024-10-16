@@ -1,0 +1,159 @@
+﻿<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{member/layouts/layout}">
+	<!--/* 기존 class는 main pages...  pages 누락 시 문제 없음
+    	<main class="main pages"layout:fragment="content"> */-->
+    <th:block layout:fragment="customContent">
+		<div class="page-content pt-150 pb-150">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-10 m-auto">
+						<div class="row">
+							
+							
+						<!--/* 멘티 마이페이지 사이드바 */-->
+						<th:block layout:fragment="menteeMypageAsideFragment" th:replace="~{member/fragments/menteeMypageAside :: menteeMypageAsideFragment}"></th:block>
+	
+	
+	
+	
+							<div class="col-md-9">
+								<div class="tab-content account dashboard-content pl-50">
+									<div class="tab-pane fade active show">
+										<div class="card">
+											<div class="card-header">
+												<h3 class="mb-0">학력</h3>
+											</div>
+											<div class="card-body">
+												<div class="table-responsive">
+													<table class="table">
+														<thead>
+															<tr>
+																<th>학교명</th>
+																<th>학과</th>
+																<th>학점</th>
+															</tr>
+														</thead>
+														<tbody>
+															<tr>
+																<td>전북대학교</td>
+																<td>컴퓨터공학과</td>
+																<td>4.1</td>
+																<td><a href="/mypage/menteeEducationModify" class="btn-small d-block">수정</a></td>
+															</tr>
+															<tr>
+																<td>#2468</td>
+																<td>June 29, 2020</td>
+																<td>Completed</td>
+																<td><a href="#" class="btn-small d-block">수정</a></td>
+															</tr>
+															<tr>
+																<td>#2366</td>
+																<td>August 02, 2020</td>
+																<td>Completed</td>
+																<td><a href="#" class="btn-small d-block">수정</a></td>
+															</tr>
+														</tbody>
+													</table>
+													<button class="submit submit-auto-width" onclick="location.href='/mypage/menteeEducationAdd'">추가</button>
+												</div>
+											</div>
+										</div>
+										<div class="card">
+											<div class="card-header">
+												<h3 class="mb-0">자격증</h3>
+											</div>
+											<div class="card-body">
+												<div class="table-responsive">
+													<table class="table">
+														<thead>
+															<tr>
+																<th>Order</th>
+																<th>Date</th>
+																<th>Status</th>
+																<th>Total</th>
+																<th>Actions</th>
+															</tr>
+														</thead>
+														<tbody>
+															<tr>
+																<td>#1357</td>
+																<td>March 45, 2020</td>
+																<td>Processing</td>
+																<td>$125.00 for 2 item</td>
+																<td><a href="/mypage/menteeCertificateModify" class="btn-small d-block">수정</a></td>
+															</tr>
+															<tr>
+																<td>#2468</td>
+																<td>June 29, 2020</td>
+																<td>Completed</td>
+																<td>$364.00 for 5 item</td>
+																<td><a href="#" class="btn-small d-block">수정</a></td>
+															</tr>
+															<tr>
+																<td>#2366</td>
+																<td>August 02, 2020</td>
+																<td>Completed</td>
+																<td>$280.00 for 3 item</td>
+																<td><a href="#" class="btn-small d-block">수정</a></td>
+															</tr>
+														</tbody>
+													</table>
+													<button class="submit submit-auto-width"onclick="location.href='/mypage/menteeCertificateAdd'">추가</button>
+												</div>
+											</div>
+										</div>
+										<div class="card">
+											<div class="card-header">
+												<h3 class="mb-0">포트폴리오</h3>
+											</div>
+											<div class="card-body">
+												<div class="table-responsive">
+													<table class="table">
+														<thead>
+															<tr>
+																<th>Order</th>
+																<th>Date</th>
+																<th>Status</th>
+																<th>Total</th>
+																<th>Actions</th>
+															</tr>
+														</thead>
+														<tbody>
+															<tr>
+																<td>#1357</td>
+																<td>March 45, 2020</td>
+																<td>Processing</td>
+																<td>$125.00 for 2 item</td>
+																<td><a href="/mypage/menteePortfolioModify" class="btn-small d-block">수정</a></td>
+															</tr>
+															<tr>
+																<td>#2468</td>
+																<td>June 29, 2020</td>
+																<td>Completed</td>
+																<td>$364.00 for 5 item</td>
+																<td><a href="#" class="btn-small d-block">수정</a></td>
+															</tr>
+															<tr>
+																<td>#2366</td>
+																<td>August 02, 2020</td>
+																<td>Completed</td>
+																<td>$280.00 for 3 item</td>
+																<td><a href="#" class="btn-small d-block">수정</a></td>
+															</tr>
+														</tbody>
+													</table>
+													<button class="submit submit-auto-width" onclick="location.href='/mypage/menteePortfolioAdd'">추가</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</th:block>
+</html>

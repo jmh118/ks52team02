@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+	<meta charset="utf-8" />
+    <title>TTT 관리자 페이지</title>
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="/manager/imgs/theme/favicon.png" />
+    <!-- Template CSS -->
+    <link href="/manager/css/main.css?v=1.1" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+	<div class="screen-overlay"></div>
+	<!--Start aside-->
+	<div th:replace="~{manager/fragments/aside :: asideFragment}"></div>
+	<!--End aside-->
+	
+	<main class="main-wrap">
+	<!--Start header-->
+	<div th:replace="~{manager/fragments/header :: headerFragment}"></div>
+	<!--End header-->
+	
+	<!-- contents -->
+	<th:block layout:fragment="customContent"></th:block>
+	
+	<!--Start footer-->
+	<div th:replace="~{manager/fragments/footer :: footerFragment}"></div>
+	<!--End footer-->
+	</main>
+	
+	<script src="/manager/js/vendors/jquery-3.6.0.min.js"></script>
+    <script src="/manager/js/vendors/bootstrap.bundle.min.js"></script>
+    <script src="/manager/js/vendors/select2.min.js"></script>
+    <script src="/manager/js/vendors/perfect-scrollbar.js"></script>
+    <script src="/manager/js/vendors/jquery.fullscreen.min.js"></script>
+    <script src="/manager/js/vendors/chart.js"></script>
+    
+    <script src="/manager/js/main.js?v=1.1" type="text/javascript"></script>
+
+    <!-- 사용자정의 js -->
+   	<th:block layout:fragment="customJsFile"></th:block>
+   	<th:block layout:fragment="customJs"></th:block>
+</body>
+</html>

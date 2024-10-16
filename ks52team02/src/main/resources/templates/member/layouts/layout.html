@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html class="no-js"
+	  xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+	<meta charset="utf-8" />
+	<title>TTT (teach tech talk)</title>
+	<meta http-equiv="x-ua-compatible" content="ie=edge" />
+	<meta name="description" content="" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="/member/imgs/theme/favicon.png" />
+    <!-- Template CSS -->
+    <link rel="stylesheet" href="/member/css/plugins/animate.min.css" />
+	<link rel="stylesheet" href="/member/css/plugins/slider-range.css" />
+    <link rel="stylesheet" href="/member/css/main.css?v=5.6" />
+	
+</head>
+
+<body>
+	
+	<!--/* 멘토링 신청 페이지에서 결제하기 버튼 클릭시 모달 */-->
+	<th:block layout:fragment="payModalFragment"></th:block>
+	
+	
+	
+	
+	
+	<!--Start header-->
+	<div th:replace="~{member/fragments/header :: hearderFragment}"></div>
+	<!--End header-->
+	
+	
+	<main class="main" >
+	
+		<!--/* 멘티 마이페이지 사이드바 */-->
+		<th:block layout:fragment="menteeMypageAsideFragment"></th:block>
+		
+		<!--/* 멘토 마이페이지 사이드바 */-->
+		<th:block layout:fragment="mentorMypageAsideFragment"></th:block>
+	
+		<!-- contents -->
+	    <th:block layout:fragment="customContent"></th:block>
+	</main>
+    
+    <!--Start footer-->
+	<div th:replace="~{/member/fragments/footer :: footerFragment}"></div>
+	<!--End footer-->
+	
+	<!--/* 아래는 index 로딩 시 사용하는 js목록이었는데 안 쓰는 js 파일 삭제 필요 페이지별 필요한 js가 있다면 사용자정의 js에 추가 필요함 */-->
+	<!-- Vendor JS-->
+    <script src="/member/js/vendor/modernizr-3.6.0.min.js"></script>
+    <script src="/member/js/vendor/jquery-3.6.0.min.js"></script>
+    <script src="/member/js/vendor/jquery-migrate-3.3.0.min.js"></script>
+    <script src="/member/js/vendor/bootstrap.bundle.min.js"></script>
+    <script src="/member/js/plugins/slick.js"></script>
+    <script src="/member/js/plugins/jquery.syotimer.min.js"></script>
+    <script src="/member/js/plugins/waypoints.js"></script>
+    <script src="/member/js/plugins/wow.js"></script>
+    <script src="/member/js/plugins/perfect-scrollbar.js"></script>
+    <script src="/member/js/plugins/magnific-popup.js"></script>
+    <script src="/member/js/plugins/select2.min.js"></script>
+    <script src="/member/js/plugins/counterup.js"></script>
+    <script src="/member/js/plugins/jquery.countdown.min.js"></script>
+    <script src="/member/js/plugins/images-loaded.js"></script>
+    <script src="/member/js/plugins/isotope.js"></script>
+    <script src="/member/js/plugins/scrollup.js"></script>
+    <script src="/member/js/plugins/jquery.vticker-min.js"></script>
+    <script src="/member/js/plugins/jquery.theia.sticky.js"></script>
+    <script src="/member/js/plugins/jquery.elevatezoom.js"></script>
+    <!-- Template  JS -->
+    <script src="/member/js/main.js?v=5.6"></script>
+    <script src="/member/js/shop.js?v=5.6"></script>
+	<!-- 사용자정의 js -->
+   	<th:block layout:fragment="customJsFile"></th:block>
+   	<th:block layout:fragment="customJs"></th:block>
+</body>

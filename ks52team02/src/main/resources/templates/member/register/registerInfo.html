@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html>
+<html class="no-js" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{member/layouts/layout}">
+    <!--/* 기존 class는 main pages...  pages 누락 시 문제 없음
+    	<main class="main pages"layout:fragment="content"> */-->
+    <th:block layout:fragment="customContent">
+        <div class="page-content pt-100">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-5 mx-auto text-center">
+                        <h1 class="title heading-1 style-3 mb-40">Start an online retail business with <span class="text-brand">Nest</span> today</h1>
+                        <p class="font-xl mb-80">Sell your products and accept credit card payments from buying customers. Shopify gives you everything you need to run a successful online store.</p>
+                    </div>
+                    <div class="col-xl-10 col-lg-12 m-auto">
+                        <section class="text-center mb-50">
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 mb-24">
+									<a href="/register/mentor1">
+	                                    <div class="featured-card">
+	                                        <img src="/member/imgs/theme/icons/icon-1.svg" alt="" />
+	                                        <h4>멘토 회원가입</h4>
+	                                        <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form</p>
+	                                    </div>
+									</a>
+                                </div>
+                                <div class="col-lg-6 col-md-6 mb-24">
+									<a href="/register/mentee">
+                                    	<div class="featured-card">
+                                        	<img src="/member/imgs/theme/icons/icon-2.svg" alt="" />
+                                        	<h4>멘티 회원가입</h4>
+                                        	<p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form</p>
+                                    	</div>
+									</a>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </th:block>
+</html>

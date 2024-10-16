@@ -1,0 +1,852 @@
+.footerbox {
+	height: 72px;
+}
+
+
+/* =========== meeteeGoalSet =========== */
+
+#hw-gs1 {
+	width: auto;
+	height: 80px;
+	margin-top: -300px;
+}
+
+#hw-gs1_1 {
+	display: flex;
+	justify-content: flex-end;
+	margin-top: -320px;
+	margin-bottom: -800px;
+	margin-right: 640px;
+}
+
+#hw-gs1_2 {
+	width: auto;
+	margin-top: -70px;
+}
+
+#hw-gs1_3 {
+	margin-right: 700px;
+}
+
+#hw-gs2 {
+	display: flex;
+	justify-content: center;
+	margin-left: 160px;
+	margin-top: -420px;
+}
+
+#hw-gs2_1 {
+	display: flex;
+	justify-content: center;
+	justify-content: space-between;
+	align-items: center;
+
+}
+
+#hw-gs2_2 {
+	width: 640px;
+	padding: 50px 100px 50px 100px;
+	border: 1px solid rgb(192, 192, 192);
+	border-radius: 5px;
+	margin-top: 60px;
+}
+
+#hw-gs2_3 {
+	margin-bottom: 20px;
+}
+
+#hw-gs2_4 {
+	margin-bottom: 20px;
+}
+
+.form-check {
+	width: 45%;
+}
+
+#hw-gs2_5 {
+	flex: 1;
+}
+
+.hw-date1 {
+	margin-top: 12px;
+}
+
+.hw-date2 {
+	margin-bottom: 10px;
+
+}
+
+#hw-gs2_6 {
+	margin-left: 885px;
+	margin-top: 15px;
+}
+
+
+#hw-gs2_7 {
+	margin-left: 990px;
+	margin-top: 15px;
+
+
+}
+
+#hw-gs2_8 {
+	margin-left: 960px;
+	margin-top: 15px;
+
+}
+
+input[type="text"]:hover {
+	border: 4px solid rgb(193, 193, 255);
+	padding: 8px;
+	border-radius: 6px;
+	transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+/* 마우스가 입력 필드 위에 있을 때 */
+input[type="datetime-local"]:hover {
+	border: 4px solid rgb(193, 193, 255);
+	padding: 8px;
+	border-radius: 6px;
+	transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+/* 입력 필드가 포커스되었을 때 (선택된 상태) */
+input[type="datetime-local"]:focus {
+	border: 4px solid rgb(193, 193, 255);
+	padding: 8px;
+	border-radius: 6px;
+	transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+/* ===========	meeteeGoalSetting ============ */
+
+.hw-sg {
+	text-align: center;
+}
+
+#hw-sg1 {
+	margin-left: 380px;
+	margin-top: -200px;
+	text-align: center;
+}
+
+#hw-sg1_1 {
+	margin-bottom: 10px;
+}
+
+#hw-sg1_2 {
+	margin-left: 20px;
+	text-align: left;
+	margin-bottom: -40px;
+}
+
+#hw-sg1_3 {
+	width: 700px;
+	margin-right: -600px;
+}
+
+#hw-sg1_4 {
+	margin-right: -180px;
+}
+
+#hw-sg1_5 {
+	width: 160px;
+	margin-bottom: 10px;
+	margin-top: -160px;
+}
+
+#hw-sg1_6 {
+	margin-right: -570px;
+}
+
+#hw-sg1_7 {
+	width: 160px;
+	margin-bottom: 10px;
+	margin-top: -160px;
+}
+
+
+#hw-sg1_8 {
+	width: 1100px;
+	padding-top: 15px;
+	margin-top: -125px;
+	
+}
+
+.hw-sg1 {
+	text-align: center;
+	font-size: 14px;
+}
+
+.hw-sg2 {
+	display: flex;
+	justify-content: center;
+}
+
+.hw-btn-sg {
+	padding: 2px 5px;
+	font-size: 12px;
+}
+
+#hw-sg1_8 {
+	margin-left: 0px;
+	text-align: right;
+	padding: 15px 20px;
+}
+
+#hw-sg1_9 {
+	background-color: #3BB77E;
+	color: white;
+	padding: 10px 20px;
+	border-radius: 5px;
+	font-size: 14px;
+	margin-right: -210px;
+	width: 150px;
+	margin-top: -50px;
+}
+
+#hw-sg1_10 {
+	width: 300px;
+	margin-top: -10px;
+	margin-left: 1310px;
+}
+
+
+#editorBackground {
+	background-image: url('../imgs/totoro.jpg');
+	background-position: center -550px;
+	background-size: cover;
+	position: relative;
+	height: 350px;
+}
+
+
+.blog-note-title {
+	position: absolute;
+	margin-top: -1230px;
+	font-size: 80px;
+	font-weight: bold;
+	text-align: center;
+	z-index: 2;
+	/* 이미지 위에 위치 */
+	text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+	/* 텍스트에 그림자 추가 */
+}
+
+.hw-input {
+	width: 1000px;
+	position: absolute;
+	margin-top: -2240px;
+	z-index: 2;
+}
+
+.mb-hw4 {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 70px;
+}
+
+.mb-hw3 {
+	margin-left: 270px;
+}
+
+#hw-frame {
+	margin-top: 10px;
+}
+
+#mb-hw-5 {
+	margin-left: 400px;
+}
+
+/* ===========	menteeAllBlog ============ */
+
+
+#hw-ab1 {
+	width: 1400px;
+	margin-left: 950px;
+}
+
+#hw-ab2 {
+	display: flex;
+	align-items: center;
+}
+
+#hw-ab3 {
+	display: flex;
+	align-items: center;
+}
+
+#hw-ab4 {
+	width: 50px;
+	border-radius: 5px;
+	margin-right: 10px;
+}
+
+#hw-ab5 {
+	display: flex;
+	align-items: center;
+}
+
+#hw-ab6 {
+	height: 50px;
+	width: 90px;
+}
+
+
+#hw-ab7 {
+	margin-right: 5px;
+}
+
+#hw-ab8 {
+	height: 50px;
+	width: 110px;
+}
+
+#hw-ab9 {
+	margin-left: -10px;
+	width: 300px;
+}
+
+#hw-ab10 {
+	height: 50px;
+}
+
+
+#hw-ab11 {
+	width: 86%;
+	margin: 0 auto;
+}
+
+.hw-cp-1 {
+	background-image: url('../imgs/blog/hw-cp-5.png');
+	background-position: center;
+	/* 이미지를 중앙에 배치 */
+	transform: scale(0.9);
+	height: 280px;
+	margin-top: -11px;
+	border-radius: 20px;
+}
+
+.hw-cp-2 {
+	background-image: url('../imgs/blog/hw-cp-5.png');
+	background-position: center;
+	/* 이미지를 중앙에 배치 */
+	transform: scale(0.9);
+	height: 280px;
+	margin-top: -11px;
+	border-radius: 20px;
+}
+
+.hw-cp-3 {
+	background-image: url('../imgs/blog/hw-cp-4.png');
+	background-position: center;
+	/* 이미지를 중앙에 배치 */
+	transform: scale(0.9);
+	height: 280px;
+	margin-top: -11px;
+	border-radius: 20px;
+}
+
+.hw-cp-6 {
+	background-image: url('../imgs/blog/hw-cp-4.png');
+	background-position: center;
+	/* 이미지를 중앙에 배치 */
+	transform: scale(0.9);
+	height: 280px;
+	margin-top: -11px;
+	border-radius: 20px;
+}
+
+.hw-cp-4 {
+	background-image: url('../imgs/blog/hw-cp-3.png');
+	background-position: center;
+	/* 이미지를 중앙에 배치 */
+	transform: scale(0.9);
+	height: 280px;
+	margin-top: -11px;
+	border-radius: 20px;
+}
+
+.hw-cp-5 {
+	background-image: url('../imgs/blog/hw-cp-3.png');
+	background-position: center;
+	/* 이미지를 중앙에 배치 */
+	transform: scale(0.9);
+	height: 280px;
+	margin-top: -11px;
+	border-radius: 20px;
+}
+
+
+
+.hw-cp-7 {
+	background-image: url('/mentee/mypageBlog');
+
+}
+
+.article-clickable {
+	cursor: pointer;
+	/* 마우스 포인터를 손가락 모양으로 변경 */
+}
+
+
+/* ===========	menteeMyBlog ============ */
+
+#hw-mbg1 {
+	background-image: url('../imgs/blog/hw-cp-5.png');
+	margin-left: -80px;
+	transform: scale(0.6);
+}
+
+#hw-mbg2 {
+	background-image: url('../imgs/blog/hw-cp-4.png');
+	margin-left: -80px;
+	transform: scale(0.6);
+}
+
+#hw-mbg3 {
+	background-image: url('../imgs/blog/hw-cp-3.png');
+	margin-left: -80px;
+}
+
+#hw-mbg4 {
+	background-image: url('../imgs/blog/hw-cp-3.png');
+	margin-left: -80px;
+	
+}
+
+.article-small {
+	transform: scale(0.8);
+	transform-origin: top left;
+	height: 300px;
+	width: 1150px;
+	margin-left: 40px;
+
+}
+
+.article-small1,
+.article-small2,
+.article-small3 {
+
+	transform: scale(0.8);
+	/* 80% 크기로 줄이기 */
+	transform-origin: top left;
+	/* 변환 기준을 왼쪽 위로 설정 */
+	height: 300px;
+	width: 1150px;
+	margin-left: 40px;
+	margin-top: -50px;
+}
+
+.pagination-area {
+	display: flex;
+	justify-content: left;
+	margin-left: 40px;
+}
+
+/* ===========	menteeMyBlogExample ============ */
+
+.single-thumbnail {
+	width: 100%;
+	/* 필요한 너비로 설정 */
+	height: 450px;
+	/* 원하는 높이로 설정 */
+	background-image: url('../imgs/blog/hw-21.jpg');
+	/* 이미지 경로 */
+	background-size: cover;
+	/* 이미지를 요소 크기에 맞게 채움 */
+	background-position: center;
+	/* 이미지를 중앙에 배치 */
+	border-radius: 8px;
+	/* 둥근 모서리 (옵션) */
+}
+
+.image-background {
+	width: 100%;
+	/* 원하는 너비로 설정 */
+	height: 300px;
+	/* 원하는 높이로 설정 */
+	background-image: url('../imgs/blog/hw-22.jpg');
+	/* 이미지 경로 설정 */
+	background-size: cover;
+	/* 이미지를 요소 크기에 맞게 채움 */
+	background-position: center;
+	/* 이미지를 중앙에 위치 */
+	border-radius: 8px;
+	/* 둥근 모서리 (선택 사항) */
+}
+
+.col-lg-9 {
+
+	margin: 0 auto;
+}
+
+.parent-container {
+	display: flex;
+	justify-content: center;
+}
+
+
+.profile-background {
+	background-image: url('../imgs/blog/autor-hw-1.png');
+	/* 이미지 경로 설정 */
+	background-repeat: no-repeat;
+	background-position: center;
+	border-radius: 10px;
+	width: 120px;
+	height: 120px;
+}
+
+.profile-background1 {
+	background-image: url('../imgs/blog/autor-hw-2.png');
+	/* 이미지 경로 설정 */
+
+	background-repeat: no-repeat;
+	background-position: center;
+	border-radius: 10px;
+	width: 200px;
+	height: 80px;
+}
+
+.hw-profile {
+	margin-left: 140px;
+}
+
+.hw-mbge1 {
+	text-align: center;
+}
+
+.hw-mbge2 {
+	margin-top: 80px;
+	text-align: center;
+}
+
+.hw-mbge3 {
+	margin-top: 10px;
+	transform: scale(0.8);
+	text-align: right;
+	margin-right: 200px;
+	margin-left: 100px;
+}
+
+
+
+/* =========== mentoringCheck =========== */
+
+
+
+.hw-mr-1 {
+	background-color: white;
+}
+
+.hw-mr-2 {
+	background-color: white;
+}
+
+.hw-category-column {
+	width: 130px;
+
+}
+
+
+.hw-mentoring-column {
+	width: 250px;
+
+}
+
+#hw-card-body {
+	width: 1000px;
+}
+
+#hw-mc-1 {
+	text-align: left;
+	margin-left: 20px;
+	margin-top: 50px;
+}
+
+#hw-mc-2 {
+	align-items: right;
+	margin-right: -10px;
+	margin-left: 0px;
+	margin-top: 30px;
+}
+
+#hw-mc-3 {
+	align-items: right;
+	margin-right: -120px;
+	margin-top: 30px;
+}
+
+#hw-mc-4 {
+	margin-left: 520px;
+}
+
+#hw-mml-2 {
+	align-items: right;
+	margin-right: -10px;
+	margin-left: 0px;
+	margin-top: 30px;
+}
+
+#hw-mml-3 {
+	align-items: right;
+	margin-right: -120px;
+	margin-top: 30px;
+}
+
+
+/* =========== mentoringDetail =========== */
+
+
+
+#hw-header {
+	display: flex !important;
+	align-items: center;
+	justify-content: center;
+	height: 100px;
+	margin-left: 65px;
+}
+
+#hw-header img {
+	margin-right: 15px;
+	/* 이미지와 제목 사이의 간격 설정 */
+}
+
+#hw-header h2 {
+	margin: 0;
+	/* h2의 기본 마진 제거 */
+}
+
+#hw-md-1 {
+	text-align: right;
+	height: 180px;
+}
+
+#hw-md-2 {
+	text-align: right;
+	margin-bottom: 30px;
+	margin-top: -100px;
+}
+
+#hw-md-3 {
+	background-position: center;
+	/* 이미지를 중앙에 배치 */
+	transform: scale(0.9);
+	height: 280px;
+	margin-top: -11px;
+	border-radius: 20px;
+	height: 190px;
+	width: 200px;
+	margin-top: -120px;
+	background-image: url('../imgs/blog/hw-md-1.png');
+}
+
+#hw-md-4 {
+
+	width: 70%;
+	margin: 0 auto;
+	/* 수평 가운데 정렬 */
+	float: none;
+	/* float가 적용되어 있다면 해제 */
+	margin-top: 30px;
+}
+
+.nav-link {
+	display: flex;
+	align-items: center;
+	height: 50px;
+	/* 링크의 높이 설정 */
+	padding: 5px;
+	font-size: 16px;
+	border-radius: 5px;
+	/* 둥근 모서리 설정 */
+	width: 100%;
+}
+
+.input-text {
+	width: 100%;
+	height: 50px;
+	padding: 5px;
+	margin-top: 5px;
+	border-radius: 5px;
+	font-size: 16px;
+}
+
+
+.square-box {
+	width: 100%;
+	height: 50px;
+	background-color: rgb(255, 255, 255);
+	margin-top: 10px;
+	box-sizing: border-box;
+	border-radius: 5px;
+	border: 1px solid #ccc;
+	align-items: center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 16px;
+	color: #333;
+}
+
+.square-box1 {
+	width: 100%;
+	height: 650px;
+	background-color: rgb(255, 255, 255);
+	margin-top: 10px;
+	box-sizing: border-box;
+	border-radius: 5px;
+	border: 1px solid #ccc;
+	align-items: center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 16px;
+	color: #333;
+}
+
+.memo-text {
+	line-height: 1.8;
+	/* 줄 간격을 1.8배로 설정 */
+}
+
+#hw-mcd-1 {
+	transform: scale(0.7);
+	margin-left: 5px;
+}
+
+#hw-mcd-2 {
+	transform: scale(0.7);
+	margin-left: 5px;
+}
+
+
+
+/* =========== menteeMentoringMemoWrite =========== */
+
+
+.hw-mmw1 {
+	width: 300px;
+}
+
+#hw-summernoteWrapper {
+	padding-right: 110px;
+}
+
+
+#hw-med-1 {
+	margin-right: 150px;
+}
+
+#hw-med-btn-1 {
+	margin-left: 120px;
+}
+
+/* =========== mentorCheckDetail =========== */
+
+#hw-mtd-1 {
+	background-image: url('../imgs/blog/hw-mtd-1.png');
+	height: 180px;
+	margin-top: -100px;
+}
+
+#hw-mtd-2 {
+	height: 150px;
+	text-align: right;
+	margin-top: -100px;
+	margin-bottom: -30px;
+}
+
+
+/* =========== menteeMentoringMemo =========== */
+
+
+#hw-frame {
+	text-align: justify;
+	/* 부모 요소에 텍스트 중앙 정렬 설정 */
+}
+
+
+
+/* =========== mentorMentoringCheck =========== */
+.filter-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    font-family: Arial, sans-serif;
+    color: #333;
+    border: 1px solid #e0e0e0;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    width: 970px;
+	margin-left: 15px;
+	margin-top: 25px;
+}
+
+.filter {
+    display: flex;
+    gap: 10px;
+}
+
+.filter label {
+    font-weight: bold;
+}
+
+.filter select {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: white;
+}
+
+.status, .sort, .view {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.status span, .sort span, .view span {
+    color: #666;
+}
+
+.status span:first-child, 
+.sort span:first-child, 
+.view span:first-child {
+    font-weight: bold;
+    color: #333;
+}
+
+.filter-container span {
+    cursor: pointer;
+}
+
+.filter-container span:hover {
+    color: #007bff;
+}
+
+
+.hw-mtc-btn-1{
+	height: 50px;
+}
+
+.hw-mtc-btn-2{
+	height: 45px;
+}
+
+#hw-mtc-btn-3{
+	height: 45px;
+}
+
+#hw-mtc-btn-4{
+	height: 45px;
+}
+
+#hw-mtc-1 {
+	align-items: left;
+	margin-left: 15px;
+}
+
+
+

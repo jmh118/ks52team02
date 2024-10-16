@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{member/layouts/layout}">
+	
+<th:block class="main" layout:fragment="customContent">
+	<div class="container mb-30">
+	    <div class="archive-header-3 mt-30 mb-80" style="background-image: url(/member/imgs/vendor/vendor-header-bg.png)">
+	        <div class="archive-header-3-inner">
+	            <div class="vendor-logo mr-50">
+	                <img src="/manager/imgs/people/user-avatar.png" alt="" />
+	            </div>
+	            <div class="vendor-content">
+	                <h3 class="mb-5 text-white"><a href="vendor-details-1.html" class="text-white">멘토 이름</a></h3>
+	                <div class="product-rate-cover mb-15">
+	                    <div class="product-rate d-inline-block">
+	                        <div class="product-rating" style="width: 90%"></div>
+	                    </div>
+	                    <span class="font-small ml-5 text-muted">총 누적 평점</span>
+	                </div>
+	                <div class="row">
+	                    <div class="col-lg-4">
+	                        <div class="vendor-des mb-15">
+	                            <p class="font-sm text-white">Got a smooth, buttery spread in your fridge? Chances are good that it's Good Chef. This brand made Lionto's list of the most popular grocery brands across the country.</p>
+	                        </div>
+	                    </div>
+	                    <div class="col-lg-3">
+	                        <div class="vendor-info text-white mb-15">
+	                            <ul class="font-sm">
+	                                <li><img class="mr-5" src="/member/imgs/theme/icons/icon-location.svg" alt="" /><strong>Address: </strong> <span>5171 W Campbell Ave undefined, Utah 53127 United States</span></li>
+	                                <li><img class="mr-5" src="/member/imgs/theme/icons/icon-contact.svg" alt="" /><strong>Call Us:</strong><span>(+91) - 540-025-124553</span></li>
+	                            </ul>
+	                        </div>
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	    <div class="row flex-row-reverse">
+	        <div class="col-12">
+	        	<table class="table-success"> 
+	        		<thead>
+	        			<tr>
+	        				<th>신청멘토링명</th>
+	        				<th>작성 아이디</th>
+	        				<th>후기 내용</th>
+	        				<th>평점</th>
+	        				<th>등록일</th>
+	        			</tr>
+	        		</thead>
+	        		<tbody>
+	        			<tr>
+	        				<td>1</td>
+	        				<td>2</td>
+	        				<td>3</td>
+	        				<td>
+	        					<div class="product-rate-cover">
+                                   <div class="product-rate d-inline-block">
+                                       <div class="product-rating" style="width: 90%"></div>
+                                   </div>
+                                   <span class="font-small ml-5 text-muted"> (4.0)</span>
+                               </div>
+							</td>
+	        				<td>5</td>
+	        			</tr>
+	        		</tbody>
+	        	</table>
+	        </div>
+	    </div>
+	</div>
+</th:block>
+</html>

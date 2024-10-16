@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{manager/layouts/layout}">
+	  <th:block layout:fragment="customContent">
+            <section class="content-main">
+                <div class="content-header">
+                    <div>
+                        <h2 class="content-title card-title">회원 로그인 기록 조회</h2>
+                        <p>회원의 마지막 로그인 기록을 조회합니다.</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-9">
+                        <div class="card mb-4">
+                            <header class="card-header">
+                                <div class="row gx-3">
+                                    <div class="col-lg-4 col-md-6 me-auto">
+                                        <input type="text" placeholder="Search..." class="form-control" />
+                                    </div>
+                                    <div class="col-lg-2 col-md-3 col-6">
+                                        <select class="form-select">
+                                            <option>Status</option>
+                                            <option>Active</option>
+                                            <option>Disabled</option>
+                                            <option>Show all</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-2 col-md-3 col-6">
+                                        <select class="form-select">
+                                            <option>Show 20</option>
+                                            <option>Show 30</option>
+                                            <option>Show 40</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </header>
+                            <!-- card-header end// -->
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>로그인 로그 코드</th>
+                                                <th>ID</th>
+                                                <th>회원 권한</th>
+                                                <th>마지막 로그인 날짜</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Devon Lane</td>
+                                                <td>$948.55</td>
+                                                <td><span class="badge rounded-pill alert-success">멘티</span></td>
+                                                <td>07.05.2020</td>
+                                            </tr>
+											<tr>
+											    <td>Devon Lane</td>
+											    <td>$948.55</td>
+											    <td><span class="badge rounded-pill alert-success">멘티</span></td>
+											    <td>07.05.2020</td>  
+											</tr>
+											<tr>
+											    <td>Devon Lane</td>
+											    <td>$948.55</td>
+											    <td><span class="badge rounded-pill alert-success">멘티</span></td>
+											    <td>07.05.2020</td>
+											</tr>
+											<tr>
+											    <td>Devon Lane</td>
+											    <td>$948.55</td>
+											    <td><span class="badge rounded-pill alert-success">멘티</span></td>
+											    <td>07.05.2020</td>
+											</tr>
+											<tr>
+											    <td>Devon Lane</td>
+											    <td>$948.55</td>
+											    <td><span class="badge rounded-pill alert-success">멘티</span></td>
+											    <td>07.05.2020</td>
+											</tr>
+											<tr>
+											    <td>Devon Lane</td>
+											    <td>$948.55</td>
+											    <td><span class="badge rounded-pill alert-success">멘티</span></td>
+											    <td>07.05.2020</td>
+											</tr>
+											<tr>
+											    <td>Devon Lane</td>
+											    <td>$948.55</td>
+											    <td><span class="badge rounded-pill alert-warning">멘토</span></td>
+											    <td>07.05.2020</td>
+											</tr>
+											<tr>
+											    <td>Devon Lane</td>
+											    <td>$948.55</td>
+											    <td><span class="badge rounded-pill alert-warning">멘토</span></td>
+											    <td>07.05.2020</td>
+											</tr>																																																						
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- table-responsive //end -->
+                            </div>
+                            <!-- card-body end// -->
+                        </div>
+                        <!-- card end// -->
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <h5 class="mb-3">Filter by</h5>
+                                <form>
+                                    <div class="mb-4">
+                                        <label for="order_id" class="form-label">로그인 로그 코드</label>
+                                        <input type="text" placeholder="Type here" class="form-control" id="order_id" />
+                                    </div>
+                                    <div class="mb-4">
+                                        <label for="order_customer" class="form-label">회원아이디</label>
+                                        <input type="text" placeholder="Type here" class="form-control" id="order_customer" />
+                                    </div>
+                                    <div class="mb-4">
+                                        <label class="form-label">회원권한</label>
+                                        <select class="form-select">
+                                            <option>멘티</option>
+                                            <option>멘토</option>
+                                            <option>관리자</option>
+                                        </select>
+                                    </div>
+	                                    <div class="mb-4">
+	                                        <label for="order_total" class="form-label">마지막 로그인 날짜</label>
+											<div class="mb-5">
+											    <input type="date" value="26.09.2024" class="form-control" />
+											</div>
+											<div class="mb-5">
+											    <input type="date" value="27.09.2024" class="form-control" />
+											</div>
+	                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <!-- card end// -->
+                    </div>
+                </div>
+                <div class="pagination-area mt-15 mb-50">
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination justify-content-start">
+                            <li class="page-item active"><a class="page-link" href="#">01</a></li>
+                            <li class="page-item"><a class="page-link" href="#">02</a></li>
+                            <li class="page-item"><a class="page-link" href="#">03</a></li>
+                            <li class="page-item"><a class="page-link dot" href="#">...</a></li>
+                            <li class="page-item"><a class="page-link" href="#">16</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#"><i class="material-icons md-chevron_right"></i></a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+			</section>
+	<!-- content-main end// -->
+	</th:block>
+</html>

@@ -1,0 +1,90 @@
+﻿<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{member/layouts/layout}">
+    <!--/* 기존 class는 main pages...  pages 누락 시 문제 없음
+    	<main class="main pages"layout:fragment="content"> */-->
+    <th:block layout:fragment="customContent">
+        <div class="page-content pt-50">
+            <div class="container">
+                <h1 class="display-10 pb-30">Portfolio</h1>
+                <hr class="mb-40" />
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h3 class="mb-30">포트폴리오</h3>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>순서</th>
+                                        <th>아이디</th>
+                                        <th>제목</th>
+                                        <th>등록 날짜</th>
+                                        <th>조회</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>#1</td>
+                                        <td>김광만</td>
+                                        <td>멘토&멘티 플렛폼</td>
+										<td>2020-05-18</td>
+                                        <td><a href="/portfolio/detail" class="btn-small d-block">View</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>#2</td>
+                                        <td>June 29, 2020</td>
+                                        <td>Completed</td>
+                                        <td>$364.00 for 5 item</td>
+                                        <td><a href="#" class="btn-small d-block">View</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>#3</td>
+                                        <td>August 02, 2020</td>
+                                        <td>Completed</td>
+                                        <td>$280.00 for 3 item</td>
+                                        <td><a href="#" class="btn-small d-block">View</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>#4</td>
+                                        <td>March 45, 2020</td>
+                                        <td>Processing</td>
+                                        <td>$125.00 for 2 item</td>
+                                        <td><a href="#" class="btn-small d-block">View</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>#5</td>
+                                        <td>June 29, 2020</td>
+                                        <td>Completed</td>
+                                        <td>$364.00 for 5 item</td>
+                                        <td><a href="#" class="btn-small d-block">View</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>#6</td>
+                                        <td>August 02, 2020</td>
+                                        <td>Completed</td>
+                                        <td>$280.00 for 3 item</td>
+                                        <td><a href="#" class="btn-small d-block">View</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>#7</td>
+                                        <td>March 45, 2020</td>
+                                        <td>Processing</td>
+                                        <td>$125.00 for 2 item</td>
+                                        <td><a href="#" class="btn-small d-block">View</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>#8</td>
+                                        <td>June 29, 2020</td>
+                                        <td>Completed</td>
+                                        <td>$364.00 for 5 item</td>
+                                        <td><a href="#" class="btn-small d-block">View</a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+       	</div>
+    </th:block>
+</html>

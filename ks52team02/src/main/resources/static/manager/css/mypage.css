@@ -1,0 +1,43 @@
+/* =========== managerMenteeGoalSetList =========== */
+
+html,
+body {
+	overflow-x: visible;
+	/* 부모 요소에 숨겨진 가로 스크롤 허용 */
+}
+
+#contentMain1 {
+	width: 2000px;
+	/* 너비를 2000px로 유지 */
+	overflow-x: auto;
+	/* 가로 스크롤 허용 */
+}
+
+#contentMain2 {
+	width: 2000px;
+	/* 너비를 2000px로 유지 */
+	overflow-x: auto;
+	/* 가로 스크롤 허용 */
+}
+
+#hw-manager-goalset-1 {
+	text-align: center;
+}
+
+#hw-manager-goalset-2 {
+	margin-top: -10px;
+	margin-bottom: 20px;
+}
+
+
+/* =========== managerMenteeGoalSettingList =========== */
+
+#hw-manager-goalsetting-1 {
+	text-align: center;
+}
+
+
+/* =========== managerMentoringProgressList =========== */
+#contentMain4 {
+	width: 2400px;
+}

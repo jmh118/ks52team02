@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{manager/layouts/layout}">
+
+<head>
+	<link rel="stylesheet" href="/manager/css/mypage.css">
+</head>
+
+<th:block layout:fragment="customContent">
+	<section id="contentMain2" class="content-main">
+		<div>
+			<h2 class="content-title card-title">멘토링 목표진행 조회</h2>
+			<p id="hw-manager-goalset-2">멘티 멘토링 목표진행 조회화면</p>
+		</div>
+		</div>
+		<div class="card mb-4">
+			<!-- card-header end// -->
+			<div class="card-body">
+				<div class="table-responsive">
+					<table id="hw-manager-goalsetting-1" class="table table-hover">
+						<thead>
+							<tr>
+								<th>목표진행기록코드</th>
+								<th>멘토설정코드</th>
+								<th>멘티아이디</th>
+								<th>목표진행날짜</th>
+								<th>목표진행제목</th>
+								<th>목표진행내용</th>
+								<th>진행기록 시작시각</th>
+								<th>진행기록 종료시각</th>
+								<th>진행기록 진행시간</th>
+								<th>진행기록 누적시간</th>
+								<th>진행기록 누적개수</th>
+								<th>진행노트 등록일</th>
+
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>mentee_goal_progress_record_code_01</td>
+								<td>mentee_goal_setting_code_01</td>
+								<td>mentee001</td>
+								<td>2024-09-01</td>
+								<td>day1</td>
+								<td>초기 프로그램 설정</td>
+								<td>2024-09-01 16:00:00</td>
+								<td>2024-09-01 18:00:00</td>
+								<td>2</td>
+								<td>2</td>
+								<td>1</td>
+								<td>2024-09-01 21:00:00</td>
+
+
+							</tr>
+
+						</tbody>
+
+						<tbody>
+							<tr>
+								<td>mentee_goal_progress_record_code_02</td>
+								<td>mentee_goal_setting_code_01</td>
+								<td>mentee001</td>
+								<td>2024-09-02</td>
+								<td>day2</td>
+								<td>부동산 임대 계약 플랫폼 설계 시작</td>
+								<td>2024-09-02 20:00:00</td>
+								<td>2024-09-02 23:00:00</td>
+								<td>3</td>
+								<td>5</td>
+								<td>2</td>
+								<td>2024-09-02 23:30:00</td>
+
+							</tr>
+
+						</tbody>
+						<tbody>
+						<tr>
+							<td>mentee_goal_progress_record_code_03</td>
+							<td>mentee_goal_setting_code_01</td>
+							<td>mentee001</td>
+							<td>2024-09-03</td>
+							<td>day3</td>
+							<td>구현하는데 필요한 A 기술에 대한 공부를 시작함</td>
+							<td>2024-09-03 15:00:00</td>
+							<td>2024-09-03 17:00:00</td>
+							<td>2</td>
+							<td>7</td>
+							<td>3</td>
+							<td>2024-09-03 21:00:00</td>
+
+						</tr>
+
+						</tbody>
+						<tr>
+							
+							<td>mentee_goal_progress_record_code_04</td>
+							<td>mentee_goal_setting_code_01</td>
+							<td>mentee001</td>
+							<td>2024-09-04</td>
+							<td>day4</td>
+							<td>구현하는데 필요한 A 기술에 대한 공부를 시작함</td>
+							<td>2024-09-04 13:00:00</td>
+							<td>2024-09-04 14:00:00</td>
+							<td>1</td>
+							<td>8</td>
+							<td>4</td>
+							<td>2024-09-04 15:00:00</td>
+
+						</tr>
+
+						</tbody>
+
+						<tbody>
+						<tr>
+							<td>mentee_goal_progress_record_code_05</td>
+							<td>mentee_goal_setting_code_01</td>
+							<td>mentee001</td>
+							<td>2024-09-05</td>
+							<td>day5</td>
+							<td>구현하는데 필요한 A 기술에 대한 공부를 시작함</td>
+							<td>2024-09-05 18:00:00</td>
+							<td>2024-09-05 20:00:00</td>
+							<td>2</td>
+							<td>10</td>
+							<td>5</td>
+							<td>2024-09-01 21:00:00</td>
+
+						</tr>
+
+						</tbody>
+
+						<tbody>
+						<tr>
+							<td>mentee_goal_progress_record_code_06</td>
+							<td>mentee_goal_setting_code_01</td>
+							<td>mentee001</td>
+							<td>2024-09-06</td>
+							<td>day6</td>
+							<td>초기 프로그램 설정</td>
+							<td>2024-09-06 18:30:00</td>
+							<td>2024-09-06 18:00:00</td>
+							<td>2</td>
+							<td>12</td>
+							<td>6</td>
+							<td>2024-09-06 19:00:00</td>
+
+						</tr>
+
+						</tbody>
+
+						<tbody>
+						<tr>
+							<td>mentee_goal_progress_record_code_07</td>
+							<td>mentee_goal_setting_code_01</td>
+							<td>mentee001</td>
+							<td>2024-09-07</td>
+							<td>day7</td>
+							<td>기획한 플랫폼의 데이터베이스 설계하기</td>
+							<td>2024-09-07 10:00:00</td>
+							<td>2024-09-07 14:00:00</td>
+							<td>4</td>
+							<td>16</td>
+							<td>7</td>
+							<td>2024-09-07 15:00:00</td>
+
+						</tr>
+
+						</tbody>
+
+						<tbody>
+						<tr>
+							<td>mentee_goal_progress_record_code_08</td>
+							<td>mentee_goal_setting_code_01</td>
+							<td>mentee001</td>
+							<td>2024-09-08</td>
+							<td>day8</td>
+							<td>기획한 플랫폼의 데이터베이스 설계하기</td>
+							<td>2024-09-08 11:00:00</td>
+							<td>2024-09-08 16:00:00</td>
+							<td>5</td>
+							<td>21</td>
+							<td>8</td>
+							<td>2024-09-08 17:00:00</td>
+
+						</tr>
+
+						</tbody>
+
+						<tbody>
+						<tr>
+							<td>mentee_goal_progress_record_code_09</td>
+							<td>mentee_goal_setting_code_01</td>
+							<td>mentee001</td>
+							<td>2024-09-09</td>
+							<td>day9</td>
+							<td>기획한 플랫폼의 데이터베이스 설계하기</td>
+							<td>2024-09-09 15:00:00</td>
+							<td>2024-09-09 18:00:00</td>
+							<td>3</td>
+							<td>24</td>
+							<td>9</td>
+							<td>2024-09-09 19:00:00</td>
+
+						</tr>
+
+						</tbody>
+
+						<tbody>
+						<tr>
+							<td>mentee_goal_progress_record_code_10</td>
+							<td>mentee_goal_setting_code_01</td>
+							<td>mentee001</td>
+							<td>2024-09-10</td>
+							<td>day10</td>
+							<td>기획한 플랫폼의 데이터베이스 설계 중 모르는 개념 찾아 정리</td>
+							<td>2024-09-10 20:00:00</td>
+							<td>2024-09-10 22:00:00</td>
+							<td>2</td>
+							<td>26</td>
+							<td>10</td>
+							<td>2024-09-10 23:00:00</td>
+
+						</tr>
+
+						</tbody>
+
+						<tbody>
+						<tr>
+							<td>mentee_goal_progress_record_code_11</td>
+							<td>mentee_goal_setting_code_02</td>
+							<td>mentee002</td>
+							<td>2024-09-15</td>
+							<td>시작이 반이다</td>
+							<td>정보처리기사 필기 교재 구입하고 1과목 총정리</td>
+							<td>2024-09-15 19:00:00</td>
+							<td>2024-09-15 23:00:00</td>
+							<td>4</td>
+							<td>4</td>
+							<td>1</td>
+							<td>2024-09-15 23:30:00</td>
+
+						</tr>
+
+						</tbody>
+
+					</table>
+				</div>
+				<!-- table-responsive//end -->
+			</div>
+			<!-- card-body end// -->
+		</div>
+		<div class="pagination-area mt-30 mb-50">
+			<nav aria-label="Page navigation example">
+				<ul class="pagination justify-content-start">
+					<li class="page-item active"><a class="page-link" href="#">01</a></li>
+					<li class="page-item"><a class="page-link" href="#">02</a></li>
+					<li class="page-item"><a class="page-link" href="#">03</a></li>
+					<li class="page-item"><a class="page-link dot" href="#">...</a></li>
+					<li class="page-item"><a class="page-link" href="#">16</a></li>
+					<li class="page-item">
+						<a class="page-link" href="#"><i class="material-icons md-chevron_right"></i></a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</section>
+	<!-- content-main end// -->
+</th:block>
+
+</html>

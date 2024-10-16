@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{member/layouts/layout}">
+<head>
+<link rel="stylesheet" href="/member/css/mypage.css">
+</head>
+<th:block class="main" layout:fragment="customContent">
+	<div class="page-content pt-150 pb-150 hw-mr-1">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-10 m-auto">
+					<div class="col-md-3">
+						<div class="dashboard-menu">
+							<ul class="nav flex-column" role="tablist">
+								<li class="nav-item">
+									<a class="nav-link" id="account-detail-tab"
+									href="/management/mentoringCheck" role="tab"
+									aria-controls="account-detail" aria-selected="true"><i class="fi-rs-user mr-10"></i>멘토링 신청 내역</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" id="orders-tab"
+									href="/management/mentoringMemoList" aria-controls="orders"
+									aria-selected="false"><i class="fi-rs-shopping-bag mr-10"></i>메모장리스트</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link"
+									href="/payment/paymentList"><i class="fi-rs-shopping-bag mr-10"></i>결제 내역</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link active" href="/review/reviewList"><i class="fi-rs-shopping-bag mr-10"></i>내가 쓴 후기 조회</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<div id="hw-sg1">
+
+
+						<section class="content-main">
+							<div class="row">
+								<div class="col-lg-6 col-md-9 me-auto">
+									<h2 class="content-title card-title" id="hw-mc-1"> 내가 쓴 후기 </h2>
+								</div>
+							</div>
+						</section>
+
+							<div class="card-body" id="hw-card-body">
+								<div class="table-responsive">
+									<table class="table table-hover">
+										<thead>
+											<tr>
+												<th>신청한 멘토링</th>
+												<th>멘토명</th>
+												<th>후기 내용</th>
+												<th>평점</th>
+												<th>수정</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>나도 포트폴리오 마스터!!</td>
+												<td>홍길동</td>
+												<td>후기 내용</td>
+												<td>평점</td>
+												<!-- 수정 시 alert으로 평점은 수정 불가 안내 -->
+												<td><a href="/review/reviewModify" class="btn btn-md rounded font-sm">수정</a></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<!-- table-responsive //end -->
+							</div>
+							<!-- card-body end// -->
+						</div>
+					<!-- card end// -->
+				</div>
+			</div>
+		</div>
+	</div>
+</th:block>
+</html>

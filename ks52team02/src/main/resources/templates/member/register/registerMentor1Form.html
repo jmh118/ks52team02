@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{member/layouts/layout}">
+	<!--/* 기존 class는 main pages...  pages 누락 시 문제 없음
+    	<main class="main pages"layout:fragment="content"> */-->
+    <th:block layout:fragment="customContent">
+		<section class="content-main mt-40 mb-40 my-2">
+                  <div class="card-body container col-3 my-2">
+	                        <h3 class="mb-20 mt-40 text-brand d-flex justify-content-center">멘토 권한으로 계정 생성</h3>
+								<div>
+								    <p class="text-center mb-2">이미 계정을 가지고 있으신가요? <a href="/member/login"> &nbsp; 로그인하러 가기</a></p>
+								</div>
+	                        <form class="container mt-40">
+	                            <div class="mb-4">
+	                                <label class="form-label">근무 회사명 *</label>
+	                                <input class="form-control" placeholder="Corporate name" type="text" />
+	                            </div>
+	                            <!-- form-group// -->
+								<div class="mb-4">
+	                                <label class="form-label">담당업무 *</label>
+									<div class="mb-4">
+										<select class="mb-10 form-control" name="findPasswordQ">
+											<option value="mtTask1">유지보수</option>
+											<option value="mtTask2">기획 및 개발</option>
+											<option value="mtTask3">기타</option>
+										</select>
+		                                <input class="form-control" placeholder="Comment" type="" />
+		                            </div>
+	                            <!-- form-group// -->
+								<div class="mb-4">
+	                                <label class="form-label">입/퇴사 날짜 1*</label>
+									<div class="row gx-2  mb-4">
+	                                	<div class="col-6"><input class="form-control" placeholder="Date of joining" type="date" /></div>
+										<div class="col-6"><input class="form-control" placeholder="Quite date" type="date" /></div>
+									</div>
+	                            <!-- form-group// -->
+							
+	                            <div class="mb-4">
+	                                <label class="form-label">이메일 *</label>
+	                                <input class="form-control" placeholder="E-mail" type="email" />
+	                            </div>
+								<!-- form-group// -->
+
+	                            <div class="mb-10 d-flex justify-content-center">
+	                                <button type="submit" class="btn btn-primary w-80">멘토 회원가입 계속하기</button>
+	                            </div>
+	                            <!-- form-group// -->
+	                        </form>
+	                    
+	                    </div>
+            </section>
+	</th:block>
+</html>

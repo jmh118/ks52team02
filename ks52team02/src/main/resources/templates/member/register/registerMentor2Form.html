@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{member/layouts/layout}">
+	<!--/* 기존 class는 main pages...  pages 누락 시 문제 없음
+    	<main class="main pages"layout:fragment="content"> */-->
+    <th:block layout:fragment="customContent">
+	<section class="content-main mt-40 mb-40 my-2">
+		<div class="card-body container col-3 my-2">
+			<h3 class="mb-20 mt-40 text-brand d-flex justify-content-center">멘토 권한으로 계정 생성</h3>
+			<div>
+				<p class="text-center mb-2">이미 계정을 가지고 있으신가요? <a href="/common/moveLogin"> &nbsp; 로그인하러 가기</a></p>
+			</div>
+			<form class="container mt-40">
+				<div class="mb-4">
+					<label class="form-label">회원 아이디 *</label>
+					<input class="form-control" placeholder="ID" type="text" />
+				</div>
+				<!-- form-group// -->
+				<div class="mb-4">
+	                <label class="form-label">회원 비밀번호 *</label>
+	                <input class="form-control" placeholder="Password" type="text" />
+				</div>
+	            <!-- form-group// -->
+				<div class="mb-4">
+	                <label class="form-label">비밀번호 확인 *</label>
+	                <input class="form-control" placeholder="Confirm password" type="text" />
+	            </div>
+	            <!-- form-group// -->
+				<div class="mb-4">
+					<label class="form-label">비밀번호 찾기 질문/답변 *</label>
+					<select class="mb-10 form-control" name="findPasswordQ">
+						<option value="pwQuestion1">Q. 내가 태어난 고향은 어디인가?</option>
+						<option value="pwQuestion2">Q. 내가 가장 좋아하는 색깔은?</option>
+						<option value="pwQuestion3">Q. 내가 가장 처음 산 물건은?</option>
+						<option value="pwQuestion4">Q. 여행 가기 좋다고 생각하는 장소는?</option>
+						<option value="pwQuestion5">Q. 내가 가장 좋아하는 캐릭터 이름은?</option>
+					</select>
+					<input class="form-control" placeholder="Answer" type="text" />
+	            </div>
+				<!-- form-group// -->
+				<div class="mb-4">
+					<label class="form-label">회원 이름 *</label>
+					<input class="form-control" placeholder="Name" type="text" />
+				</div>
+				<!-- form-group// -->									
+				<div class="mb-4">
+	                <label class="form-label">연락처 *</label>
+	                <div class="row gx-2">
+	                    <div class="col-4"><input class="form-control" value="+998" type="text" /></div>
+	                    <div class="col-8"><input class="form-control" placeholder="Phone" type="text" /></div>
+	                </div>
+				</div>
+				<!-- form-group// -->
+	            <div class="mb-4">
+	                <label class="form-label">이메일 *</label>
+	                <input class="form-control" placeholder="E-mail" type="email" />
+	            </div>
+				<!-- form-group// -->
+	            <div class="mb-4">
+	               	<label class="form-label"><span>개인정보 이용 약관 전체 동의</span></label>
+						<div class="chek-form">
+							<div class="custome-checkbox">
+								<input class="form-check-input" type="checkbox" name="checkbox" id="exampleCheckbox12" value="" />
+	                            <label class="form-check-label" for="exampleCheckbox12"><span>회원가입 기본 약관(필수)</span></label>
+	                        </div>
+							<div class="custome-checkbox">
+								<input class="form-check-input" type="checkbox" name="checkbox" id="exampleCheckbox13" value="" />
+								<label class="form-check-label" for="exampleCheckbox13"><span>개인정보 수집 및 이용(선택)</span></label>
+							</div>
+	                    </div>
+	             </div>
+	             <!-- form-group// -->
+	             <div class="mb-4 d-flex justify-content-center">
+	                 <p class="small text-center text-muted">By signing up, you confirm that you’ve read and accepted our User Notice and Privacy Policy.</p>
+	             </div>
+				<!-- form-group  .// -->
+	             <div class="mb-10 d-flex justify-content-center">
+	                 <button type="submit" class="btn btn-primary w-80">REGISTER</button>
+	             </div>
+			</form>
+			</div>
+		</section>
+	</th:block>
+</html>

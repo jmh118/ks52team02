@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{member/layouts/layout}">
+    <!--/* 기존 class는 main pages...  pages 누락 시 문제 없음
+    	<main class="main pages"layout:fragment="content"> */-->	
+    <th:block layout:fragment="customContent">
+        <div class="container mb-80 mt-50">
+            <div class="row">
+                <div class="col-lg-8 mb-40">
+                    <h1 class="heading-2 mb-10">학력</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-7">
+                    <div class="row">
+                        <h3 class="mb-30">등록</h3>
+                        <form method="post">
+                                <div class="form-group col-lg-6">
+                                    <input type="text" required="" name="fname" placeholder="학교명 *">
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <input type="text" required="" name="lname" placeholder="학과 *">
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <input type="text" name="billing_address" required="" placeholder="현제 학점 *">
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <input type="text" name="billing_address2" required="" placeholder="졸업 학점 *">
+                                </div>
+                                <div class="form-group col-lg-6">입학일자
+                                    <input type="datetime-local" name="billing_address2" required="" placeholder="입학일자 *">
+                                </div>
+                                <div class="form-group col-lg-6">졸업일자
+                                    <input type="datetime-local" name="billing_address2" required="" placeholder="졸업일자 *">
+                                </div>
+							<button class="submit submit-auto-width" type="submit">추가</button>
+                        </form>
+                    </div>
+                </div>
+             </div>
+          </div>
+    </th:block>
+</html>

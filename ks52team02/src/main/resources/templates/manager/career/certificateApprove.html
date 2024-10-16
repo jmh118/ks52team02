@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{manager/layouts/layout}">
+	<th:block layout:fragment="customContent">
+            <section class="content-main">
+                <div class="content-header">
+                    <h2 class="content-title">멘토 자격증 승인</h2>
+                </div>
+                <div class="card mb-4">
+                    <header class="card-header">
+                        <div class="row gx-3">
+                            <div class="col-lg-4 col-md-6 me-auto">
+                                <input type="text" placeholder="Search..." class="form-control" />
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-6">
+                                <select class="form-select">
+                                    <option>상태</option>
+                                    <option>승인</option>
+                                    <option>대기</option>
+                                </select>
+                            </div>
+                        </div>
+                    </header>
+                    <!-- card-header end// -->
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>멘토</th>
+                                        <th>작성자 이메일</th>
+                                        <th>상태</th>
+                                        <th>신청날짜</th>
+                                        <th class="text-end"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td width="40%">
+                                            <a href="#" class="itemside">
+                                                <div class="left">
+                                                    <img src="/manager/imgs/people/user-avatar.png" class="img-sm img-avatar" alt="Userpic" />
+                                                </div>
+                                                <div class="info pl-3">
+                                                    <h6 class="mb-0 title">Eleanor Pena</h6>
+                                                    <small class="text-muted">Seller ID: #439</small>
+                                                </div>
+                                            </a>
+                                        </td>
+                                        <td >eleanor2020@example.com</td>
+                                        <td><span class="rounded-pill alert-danger">대기</span></td>
+                                        <td>08.07.2020</td>
+                                        <td class="text-end">
+                                            <a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15">승인</a>
+                                            <a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15">거부</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="40%">
+                                            <a href="#" class="itemside">
+                                                <div class="left">
+                                                    <img src="/manager/imgs/people/user-avatar.png" class="img-sm img-avatar" alt="Userpic" />
+                                                </div>
+                                                <div class="info pl-3">
+                                                    <h6 class="mb-0 title">Mary Monasa</h6>
+                                                    <small class="text-muted">Seller ID: #129</small>
+                                                </div>
+                                            </a>
+                                        </td>
+                                        <td>monalisa@example.com</td>
+                                        <td><span class="badge rounded-pill alert-success">승인</span></td>
+                                        <td>11.07.2020</td>
+                                        <td class="text-end">
+											<a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15">승인</a>
+											<a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15">거부</a>
+										</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="40%">
+                                            <a href="#" class="itemside">
+                                                <div class="left">
+                                                    <img src="/manager/imgs/people/user-avatar.png" class="img-sm img-avatar" alt="Userpic" />
+                                                </div>
+                                                <div class="info pl-3">
+                                                    <h6 class="mb-0 title">Jonatan Ive</h6>
+                                                    <small class="text-muted">Seller ID: #400</small>
+                                                </div>
+                                            </a>
+                                        </td>
+                                        <td>mrjohn@example.com</td>
+                                        <td><span class="badge rounded-pill alert-success">승인</span></td>
+                                        <td>08.07.2020</td>
+                                        <td class="text-end">
+											<a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15">승인</a>
+											<a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15">거부</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="40%">
+                                            <a href="#" class="itemside">
+                                                <div class="left">
+                                                    <img src="/manager/imgs/people/user-avatar.png" class="img-sm img-avatar" alt="Userpic" />
+                                                </div>
+                                                <div class="info pl-3">
+                                                    <h6 class="mb-0 title">Eleanor Pena</h6>
+                                                    <small class="text-muted">Seller ID: #439</small>
+                                                </div>
+                                            </a>
+                                        </td>
+                                        <td>eleanor2020@example.com</td>
+                                        <td><span class="badge rounded-pill alert-danger">대기</span></td>
+                                        <td>08.07.2020</td>
+                                        <td class="text-end">
+											<a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15">승인</a>
+											<a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15">거부</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="40%">
+                                            <a href="#" class="itemside">
+                                                <div class="left">
+                                                    <img src="/manager/imgs/people/user-avatar.png" class="img-sm img-avatar" alt="Userpic" />
+                                                </div>
+                                                <div class="info pl-3">
+                                                    <h6 class="mb-0 title">Albert Pushkin</h6>
+                                                    <small class="text-muted">Seller ID: #439</small>
+                                                </div>
+                                            </a>
+                                        </td>
+                                        <td>someone@mymail.com</td>
+                                        <td><span class="badge rounded-pill alert-success">승인</span></td>
+                                        <td>20.11.2019</td>
+                                        <td class="text-end">
+											<a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15">승인</a>
+											<a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15">거부</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="40%">
+                                            <a href="#" class="itemside">
+                                                <div class="left">
+                                                    <img src="/manager/imgs/people/user-avatar.png" class="img-sm img-avatar" alt="Userpic" />
+                                                </div>
+                                                <div class="info pl-3">
+                                                    <h6 class="mb-0 title">Eleanor Pena</h6>
+                                                    <small class="text-muted">Seller ID: #439</small>
+                                                </div>
+                                            </a>
+                                        </td>
+                                        <td>eleanor2020@example.com</td>
+                                        <td><span class="badge rounded-pill alert-danger">대기</span></td>
+                                        <td>08.07.2020</td>
+                                        <td class="text-end">
+											<a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15">승인</a>
+											<a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15">거부</a>
+                                        </td>
+                                    </tr>
+                                    
+                                    <tr>
+                                        <td width="40%">
+                                            <a href="#" class="itemside">
+                                                <div class="left">
+                                                    <img src="/manager/imgs/people/user-avatar.png" class="img-sm img-avatar" alt="Userpic" />
+                                                </div>
+                                                <div class="info pl-3">
+                                                    <h6 class="mb-0 title">Eleanor Pena</h6>
+                                                    <small class="text-muted">Seller ID: #439</small>
+                                                </div>
+                                            </a>
+                                        </td>
+                                        <td>eleanor2020@example.com</td>
+                                        <td><span class="badge rounded-pill alert-success">승인</span></td>
+                                        <td>08.07.2020</td>
+                                        <td class="text-end">
+											<a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15">승인</a>
+											<a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15">거부</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <!-- table-responsive.// -->
+                        </div>
+                    </div>
+                    <!-- card-body end// -->
+                </div>
+                <!-- card end// -->
+                <div class="pagination-area mt-15 mb-50">
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination justify-content-start">
+                            <li class="page-item 승인"><a class="page-link" href="#">01</a></li>
+                            <li class="page-item"><a class="page-link" href="#">02</a></li>
+                            <li class="page-item"><a class="page-link" href="#">03</a></li>
+                            <li class="page-item"><a class="page-link dot" href="#">...</a></li>
+                            <li class="page-item"><a class="page-link" href="#">16</a></li>
+                                <a class="page-link" href="#"><i class="material-icons md-chevron_right"></i></a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </section>
+            <!-- content-main end// -->
+	</th:block>
+</html>
