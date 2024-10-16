@@ -8,11 +8,11 @@
 		<version>3.3.4</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>ksmart</groupId>
-	<artifactId>ksmybatis</artifactId>
+	<groupId>ks52team02</groupId>
+	<artifactId>ks52team02</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>ksmybatis</name>
-	<description>ksmart project for Spring Boot</description>
+	<name>ks52team02</name>
+	<description>ks52team02 project for Spring Boot</description>
 	<url/>
 	<licenses>
 		<license/>
