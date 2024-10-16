@@ -4,10 +4,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import ks52team02.manager.career.mapper.WorkMapper;
+import ks52team02.manager.career.service.CareerService;
+import lombok.RequiredArgsConstructor;
+
 @Controller
+@RequiredArgsConstructor
 @RequestMapping("/manager/career")
 public class ManagerCareerController {
 
+	private final CareerService careerService;
+	
 	@GetMapping("/work")
     public String mentorCareerWork() {
         System.out.println("멘토 근무경력 승인 페이지 이동");

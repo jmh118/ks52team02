@@ -14,6 +14,7 @@ public class MenteeMypageController {
     public String MoveMypageAccount() {
         System.out.println("mypage account 페이지 이동");
         return  "member/mypage/mentee/menteeMypageAccount";
+        
     }
 	
 	@GetMapping("/introduce")
