@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ks52team02.manager.goal.mapper.GoalMapper">
+	<select id="getMemberGoalList" resultType="MemberGoal">
+		/* 회원 목표 설정 조회 */
+		SELECT
+			member_id AS memberId,
+			topic_category_code AS topicCateCode,
+			mentee_goal_setting_name AS goalName,
+			mentee_goal_content AS goalContent,
+			mentee_goal_setting_insert_date AS goatAddDate,
+			mentee_goal_progress_status AS goalStatus
+		FROM 
+			mentee_goal_setting;
+	</select>
+</mapper>

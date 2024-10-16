@@ -26,13 +26,14 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>회원(멘티)ID</td>
-                                        <td>목표 카테고리</td>
-										<td>목표 제목</td>
-										<td>목표 내용</td>
-                                        <td>2024-07-03 20:00:00</td>
-										<td><span class="badge rounded-pill alert-success">사용</span></td>
+                                    <tr th:each="gl : ${goalList}">
+                                        <td th:text="${gl.memberId}"></td>
+                                        <td th:text="${gl.topicCateCode}"></td>
+										<td th:text="${gl.goalName}">목표 제목</td>
+										<td th:text="${gl.goalContent}">목표 내용</td>
+                                        <td th:text="${gl.goatAddDate}">2024-07-03 20:00:00</td>
+                                        <!-- alert-success alert-warning alert-danger -->
+										<td><span th:text="${gl.goalStatus}" class="badge rounded-pill"></span></td>
                                     </tr>
                                 </tbody>
                             </table>
