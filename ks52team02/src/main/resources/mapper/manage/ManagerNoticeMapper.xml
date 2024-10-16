@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ks52team02.manager.mentoring.mapper.ManagerMentoringMapper">
+	
+	<select id="getManagerNoticeList" resultType="ManagerMetoringNotice">
+		/* 공고목록조회 */		
+		SELECT
+			mn.member_id AS memberId,
+			mn.mentoring_notice_code AS noticeCode,
+			mn.mentoring_notice_title AS noticeTitle,
+			mn.mentoring_mentor_PSBLTY_start_YMD AS noticeStartYmd,
+			mn.mentoring_mentor_PSBLTY_end_YMD AS noticeEndYmd,
+			mn.mentor_notice_REG_YMD AS noticeRegYmd
+		FROM
+			mentoring_notice mn;
+	</select>
+</mapper>
