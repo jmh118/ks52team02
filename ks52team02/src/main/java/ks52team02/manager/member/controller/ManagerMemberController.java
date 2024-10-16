@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import ks52team02.manager.member.dto.Member;
-import ks52team02.manager.member.service.ManagerMapperService;
+import ks52team02.manager.member.service.ManagerMemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -18,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/manager/member")
 public class ManagerMemberController {
 
-	private final ManagerMapperService memberMapperService;
+	private final ManagerMemberService memberMapperService;
 	
 	@GetMapping("/list")
     public String allMembers(Model model) {
