@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ks52team02.manager.member.mapper.ManagerMemberMapper">
+
+	<select id="getMemberList" resultType="Member">
+		/* 관리자 - 전체 가입 회원 조회 */
+		SELECT
+			member_id AS memberId, 
+			member_password AS memberPw, 
+			search_member_password_answer AS memberPwAnswer, 
+			member_level_code AS memberLevel, 
+			member_name AS memberName, 
+			member_phone_number AS memberTelNo, 
+			member_email AS memberEmail, 
+			member_join_YMD AS memberJoinYMD, 
+			member_withdrawal_YN AS memberWithdrawalYN
+		FROM
+			member
+		WHERE
+			member_withdrawal_YN = 'N';
+	</select>
+
+</mapper>

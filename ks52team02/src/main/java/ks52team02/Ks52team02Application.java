@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class Ks52team02Application {
 
 	public static void main(String[] args) {
+
 		SpringApplication.run(Ks52team02Application.class, args);
 	}
 
