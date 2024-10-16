@@ -1,126 +1,61 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{manager/layouts/layout}">
-
-<head>
-	<link rel="stylesheet" href="/manager/css/mypage.css">
-</head>
-
-<th:block layout:fragment="customContent">
-	<section id="contentMain1" class="content-main">
-		<div>
-			<h2 class="content-title card-title">멘토링 목표 조회</h2>
-			<p id="hw-manager-goalset-2">멘티 멘토링 목표설정 조회화면</p>
-		</div>
-		</div>
-		<div class="card mb-4">
-			<!-- card-header end// -->
-			<div class="card-body">
-				<div class="table-responsive">
-					<table id="hw-manager-goalset-1" class="table table-hover">
-						<thead>
-							<tr>
-								<th>목표설정 코드</th>
-								<th>멘토 ID</th>
-								<th>목표 카테고리</th>
-								<th>목표 제목</th>
-								<th>목표 내용</th>
-								<th>목표 시작날짜</th>
-								<th>목표 종료날짜</th>
-								<th>목표 진행상태</th>
-								<th>목표 진행노트등록일</th>
-								<th>목표 진행노트공개여부</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>mentee_goal_setting_code_01</td>
-								<td>mentee001</td>
-								<td>topic_category_code_01</td>
-								<td>자바 포트폴리오 준비</td>
-								<td>자바언어마스터 포폴준비하자!! </td>
-								<td>2024-09-01</td>
-								<td>2024-10-31</td>
-								<td><span class="badge rounded-pill alert-success">진행전</span></td>
-								<td>2024-09-01 오후 4:00:00</td>
-								<td>Y</td>
-
-							</tr>
-
-						</tbody>
-
-						<tbody>
-							<tr>
-								<td>mentee_goal_setting_code_02</td>
-								<td>mentee002</td>
-								<td>topic_category_code_02</td>
-								<td>정보처리기사 준비</td>
-								<td>문법부터 차근차근 STEP BY STEP!!</td>
-								<td>2024-09-15</td>
-								<td>2024-10-15</td>
-								<td><span class="badge rounded-pill alert-warning">진행중</span></td>
-								<td>2024. 9. 15 오후 6:00:00</td>
-								<td>Y</td>
-
-							</tr>
-
-						</tbody>
-
-						<tbody>
-							<tr>
-								<td>mentee_goal_setting_code_03</td>
-								<td>mentee003</td>
-								<td>topic_category_code_02</td>
-								<td>정보처리기사 준비</td>
-								<td>실기 준비 확실히 준비하자!!</td>
-								<td>2024-09-12</td>
-								<td>2025-10-12</td>
-								<td><span class="badge rounded-pill alert-warning">진행중</span></td>
-								<td>2024. 9. 12 오후 9:00:00</td>
-								<td>Y</td>
-
-							</tr>
-
-						</tbody>
-
-						<tbody>
-							<tr>
-								<td>mentee_goal_setting_code_04</td>
-								<td>mentee004</td>
-								<td>topic_category_code_01</td>
-								<td>CSS 포트폴리오 준비</td>
-								<td>CSS 디자인 문법을 다양하게 적용해보자!!</td>
-								<td>2024-06-10</td>
-								<td>2025-08-10</td>
-								<td><span class="badge rounded-pill alert-danger">진행완료</span></td>
-								<td>2024. 6. 10 오후 4:00:00</td>
-								<td>N</td>
-
-							</tr>
-
-						</tbody>
-					</table>
-				</div>
-				<!-- table-responsive//end -->
-			</div>
-			<!-- card-body end// -->
-		</div>
-		<div class="pagination-area mt-30 mb-50">
-			<nav aria-label="Page navigation example">
-				<ul class="pagination justify-content-start">
-					<li class="page-item active"><a class="page-link" href="#">01</a></li>
-					<li class="page-item"><a class="page-link" href="#">02</a></li>
-					<li class="page-item"><a class="page-link" href="#">03</a></li>
-					<li class="page-item"><a class="page-link dot" href="#">...</a></li>
-					<li class="page-item"><a class="page-link" href="#">16</a></li>
-					<li class="page-item">
-						<a class="page-link" href="#"><i class="material-icons md-chevron_right"></i></a>
-					</li>
-				</ul>
-			</nav>
-		</div>
-	</section>
-	<!-- content-main end// -->
-</th:block>
-
+<html xmlns:th="http://www.thymeleaf.org" 
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{manager/layouts/layout}">
+	  <th:block layout:fragment="customContent">
+            <section class="content-main">
+                <div class="content-header">
+                    <div>
+                        <h2 class="content-title card-title">멘티 목표 설정 화면</h2>
+                        <p>멘티의 목표 설정 내역 조회 화면</p>
+                    </div>
+                </div>
+                <div class="card mb-4">
+                    <!-- card-header end// -->
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>회원(멘티)ID</th>
+                                        <th>목표 카테고리</th>
+                                        <th>목표 제목</th>
+                                        <th>목표 내용</th>
+                                        <th>목표 설정 등록일</th>
+                                        <th>목표 진행 상태</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>회원(멘티)ID</td>
+                                        <td>목표 카테고리</td>
+										<td>목표 제목</td>
+										<td>목표 내용</td>
+                                        <td>2024-07-03 20:00:00</td>
+										<td><span class="badge rounded-pill alert-success">사용</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- table-responsive//end -->
+                    </div>
+                    <!-- card-body end// -->
+                </div>
+                <div class="pagination-area mt-30 mb-50">
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination justify-content-start">
+                            <li class="page-item active"><a class="page-link" href="#">01</a></li>
+                            <li class="page-item"><a class="page-link" href="#">02</a></li>
+                            <li class="page-item"><a class="page-link" href="#">03</a></li>
+                            <li class="page-item"><a class="page-link dot" href="#">...</a></li>
+                            <li class="page-item"><a class="page-link" href="#">16</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#"><i class="material-icons md-chevron_right"></i></a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+		</section>
+      <!-- content-main end// -->
+      </th:block>
 </html>
