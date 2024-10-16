@@ -37,7 +37,7 @@ public class MemberMentoringController {
     }
 	
 	@GetMapping("/apply")
-    public String MoveMentoringApply() {
+    public String moveMentoringApply() {
 		
     	System.out.println("멘토링 신청 화면");
         return  "member/mentoring/mentoringApply";
