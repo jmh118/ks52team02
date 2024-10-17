@@ -14,6 +14,7 @@ public class Notice {
 	private String noticeStartYmd;
 	private String noticeEndYmd;
 	private int noticeUntprc;
-	
+	private String topicName;
+	private String mentorPowkName;
 	
 }

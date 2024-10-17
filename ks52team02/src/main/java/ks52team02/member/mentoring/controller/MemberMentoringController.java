@@ -5,12 +5,12 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import ks52team02.member.mentoring.dto.Notice;
-import ks52team02.member.mentoring.dto.NoticeList;
 import ks52team02.member.mentoring.dto.Topic;
 import ks52team02.member.mentoring.service.MentoringService;
 import lombok.RequiredArgsConstructor;
@@ -35,16 +35,18 @@ public class MemberMentoringController {
 		return "redirect:/mentoring/notice";
 	}
 	
-	@GetMapping("/noticeDetail")
-    public String MoveNoticeDetail() {
+	@GetMapping("/noticeDetail/{code}")
+    public String MoveNoticeDetail(@PathVariable("code") String noticeCode, Model model) {
     	System.out.println("멘토링 | 멘토링 공고 조회 | 멘토링 공고 상세 조회 화면");
+    	List<Notice> noticeDetail = mentoringService.getNoticeDetailByCode(noticeCode);
+    	model.addAttribute("noticeDetail", noticeDetail);
         return  "member/mentoring/noticeDetail";
     }
 	
 	@GetMapping("/notice")
 	public String movenoticeList(@RequestParam(required = false) String category, Model model) {
 		
-		List<NoticeList> noticeList;
+		List<Notice> noticeList;
 		System.out.println(category);
 		if(category != null && !category.isEmpty()) {
 			noticeList = mentoringService.getNoticeByCategory(category);
