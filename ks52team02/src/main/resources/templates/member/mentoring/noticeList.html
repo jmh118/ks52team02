@@ -41,7 +41,7 @@
                                 <div class="product-content-wrap">
                                     <div class="product-category">
                                     </div>
-                                    <h2><a href="/mentoring/noticeDetail" th:text="${nl.noticeTitle}">HTML,CSS 관심있으신분!</a></h2>
+                                    <h2 th:text="${nl.noticeTitle}"></h2>
                                     <div>
 										<div class="font-small text-muted" th:text="${'분야 : ' + nl.topicName}"></div>
 										<div class="font-small text-muted" th:text="${'직무 : ' + nl.mentorPowkName}"></div>
@@ -55,7 +55,7 @@
 											<span class="font-small ml-5 text-muted"> (4.0)</span>
 										</div>
                                         <div class="add-cart">
-                                            <a class="add" href="/mentoring/noticeDetail"><i class="fi-rs-shopping-cart mr-5"></i>Detail </a>
+                                            <a class="add" th:href="@{/mentoring/noticeDetail/{code}(code=${nl.noticeCode})}"><i class="fi-rs-shopping-cart mr-5"></i>Detail </a>
                                         </div>
                                     </div>
                                 </div>
