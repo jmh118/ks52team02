@@ -26,23 +26,14 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>mentorid001</td>
-                                        <td>mentoring_notice_code_01</td>
-										<td>HTML,CSS 관심있으신분!</td>
-										<td>2024-09-10</td>
-										<td>2024-09-12</td>
-                                        <td>2024-09-01 19:00:00</td>
+                                    <tr th:each="nl : ${noticeList}">
+                                        <td th:text="${nl.memberId}"></td>
+                                        <td th:text="${nl.noticeCode}"></td>
+										<td th:text="${nl.noticeTitle}"></td>
+										<td th:text="${nl.noticeStartYmd}"></td>
+										<td th:text="${nl.noticeEndYmd}"></td>
+                                        <td th:text="${nl.noticeRegYmd}"></td>
                                     </tr>
-                                    <tr>
-                                        <td>mentorid002</td>
-                                        <td>mentoring_notice_code_02</td>
-										<td>Java 처음이신분!</td>
-										<td>2024-10-15</td>
-										<td>2024-10-18</td>
-                                        <td>2024-10-12 19:00:00</td>
-                                    </tr>
-
                                 </tbody>
                             </table>
                         </div>
