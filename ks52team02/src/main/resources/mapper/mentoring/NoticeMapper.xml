@@ -3,6 +3,26 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ks52team02.member.mentoring.mapper.MentoringMapper">
+
+	<insert id="addNotice" parameterType="Notice">
+		/* 공고등록 */
+		INSERT INTO mentoring_notice
+			(mentoring_notice_code, topic_category_code, member_id, mentor_UNTPRC_DCSN_code, mentoring_notice_title, mentoring_notice_content, mentoring_PSBLTY_start_T, mentoring_PSBLTY_end_T, mentoring_mentor_PSBLTY_start_YMD, mentoring_mentor_PSBLTY_end_YMD, mentoring_PSBLTY_mentee_NOPE, mentor_notice_REG_YMD, last_UNTPRC, last_mentoring_T, last_amount)
+		VALUES 
+			(#{noticeCode}, #{topicCode}, 'mentor013', 'mentor_UNTPRC_DCSN_code_01', #{noticeTitle}, #{noticeContent}, #{noticeStartTime}, #{noticeEndTime}, #{noticeStartYmd}, #{noticeEndYmd}, 3, CURDATE(), #{noticeUntprc}, 3, 210000);
+		
+	</insert>
+	
+	<select id="getNextNoticeCode" resultType="String">
+		SELECT 
+			LPAD(
+		        IFNULL(MAX(CAST(SUBSTRING(mentoring_notice_code, 23) AS UNSIGNED)) + 1, 1), 
+		        2, 
+		        '0'
+	    	)
+	    FROM 
+	    	mentoring_notice;
+	</select>
 	
 	<select id="getTopicList" resultType="Topic">
 		/* 주제카테고리조회 */
