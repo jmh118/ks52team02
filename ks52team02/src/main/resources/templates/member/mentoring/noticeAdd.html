@@ -24,15 +24,11 @@
                                 <div class="form-group col-lg-6">
                                     <div class="custom_select">
                                     	카테고리
-                                        <select class="form-control select-active">
-                                            <option value="">Select an option...</option>
-                                            <option value="AX">포트폴리오</option>                                                                                                                                                                                                                                                                
-                                            <option value="VN">자격증</option>
-                                            <option value="WF">공인어학</option>
-                                            <option value="EH">자소서</option>
-                                            <option value="WS">면접</option>
-                                            <option value="YE">이직</option>
-                                            <option value="ZM">기타</option>
+                                        <select name="topic" class="form-control select-active">
+                                            <option value="">===== 카테고리를 선택해주세요 =====</option>
+                                            <th:block>
+                                            	<option th:each="t : ${topicList}" th:value="${t.topicCode}" th:text="${t.topicName}"></option>
+                                            </th:block>                                 
                                         </select>
                                     </div>
                                 </div>

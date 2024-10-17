@@ -7,7 +7,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import ks52team02.member.mentoring.dto.Notice;
+import ks52team02.member.mentoring.dto.NoticeList;
+import ks52team02.member.mentoring.dto.Topic;
 import ks52team02.member.mentoring.service.MentoringService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +30,7 @@ public class MemberMentoringController {
 	@GetMapping("/notice")
 	public String movenoticeList(Model model) {
 		
-		List<Notice> noticeList = mentoringService.getNoticeList();
+		List<NoticeList> noticeList = mentoringService.getNoticeList();
 		model.addAttribute("noticeList", noticeList);
 		
     	System.out.println("멘토링 | 멘토링 공고 조회 화면");
@@ -44,8 +45,11 @@ public class MemberMentoringController {
     }
 	
 	@GetMapping("/noticeAdd")
-	public String movenoticeAdd() {
+	public String movenoticeAdd(Model model) {
     	System.out.println("멘토링 | 멘토링 공고 등록");
+    	List<Topic> topicList = mentoringService.getTopicList();
+    	model.addAttribute("topicList", topicList);
+    	
         return  "member/mentoring/noticeAdd";
     }
 }

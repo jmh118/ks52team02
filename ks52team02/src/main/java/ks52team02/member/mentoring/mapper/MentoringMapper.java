@@ -4,12 +4,16 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import ks52team02.member.mentoring.dto.Notice;
+import ks52team02.member.mentoring.dto.NoticeList;
+import ks52team02.member.mentoring.dto.Topic;
 
 @Mapper
 public interface MentoringMapper {
 	
 	//공고조회
-	List<Notice> getNoticeList();
+	List<NoticeList> getNoticeList();
+	
+	// 공고카테고리조회
+	List<Topic> getTopicList();
 
 }
