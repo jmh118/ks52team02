@@ -3,8 +3,66 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ks52team02.member.mentoring.mapper.MentoringMapper">
+
+	<select id="getNoticeByCategory" parameterType="String" resultType="NoticeList">
+		/* 공고 카테고리별 조회 */
+		SELECT
+		   mn.mentoring_notice_title AS noticeTitle,
+		   mn.member_id AS memberId,
+		   tc.topic_name AS topicName,
+		   COALESCE(mwhd.mentor_POWK_NM, mw2.mentor_POWK_NM) AS mentorPowkName
+		FROM
+		   topic_category tc INNER JOIN mentoring_notice mn
+		   ON tc.topic_category_code = mn.topic_category_code
+			INNER JOIN member m
+		   ON mn.member_id = m.member_id
+			LEFT JOIN mentor_work_history_details mwhd
+		    ON m.member_id = mwhd.member_id
+		    AND mwhd.mentor_RSGNTN_YMD = (
+		        SELECT MAX(mentor_RSGNTN_YMD)
+		        FROM mentor_work_history_details
+		        WHERE member_id = m.member_id
+		    )
+			LEFT JOIN mentor_work_history_details mw2
+		    ON m.member_id = mw2.member_id
+		    AND mw2.mentor_RSGNTN_YMD IS NULL
+		WHERE
+			tc.topic_name=#{category};
+	</select>
+
+	<insert id="addNotice" parameterType="Notice">
+		/* 공고등록 */
+		INSERT INTO mentoring_notice
+			(mentoring_notice_code, topic_category_code, member_id, mentor_UNTPRC_DCSN_code, mentoring_notice_title, mentoring_notice_content, mentoring_PSBLTY_start_T, mentoring_PSBLTY_end_T, mentoring_mentor_PSBLTY_start_YMD, mentoring_mentor_PSBLTY_end_YMD, mentoring_PSBLTY_mentee_NOPE, mentor_notice_REG_YMD, last_UNTPRC, last_mentoring_T, last_amount)
+		VALUES 
+			(#{noticeCode}, #{topicCode}, 'mentor013', 'mentor_UNTPRC_DCSN_code_01', #{noticeTitle}, #{noticeContent}, #{noticeStartTime}, #{noticeEndTime}, #{noticeStartYmd}, #{noticeEndYmd}, 3, CURDATE(), #{noticeUntprc}, 3, 210000);
+		
+	</insert>
 	
-	<select id="getNoticeList" resultType="Notice">
+	<select id="getNextNoticeCode" resultType="String">
+		/* 공고 코드 추가 */
+		SELECT 
+			LPAD(
+		        IFNULL(MAX(CAST(SUBSTRING(mentoring_notice_code, 23) AS UNSIGNED)) + 1, 1), 
+		        2, 
+		        '0'
+	    	)
+	    FROM 
+	    	mentoring_notice;
+	</select>
+	
+	<select id="getTopicList" resultType="Topic">
+		/* 주제카테고리조회 */
+		SELECT
+			tc.topic_category_code AS topicCode,
+			tc.topic_name AS topicName
+		FROM
+			topic_category tc;
+	
+	</select>
+
+
+	<select id="getNoticeList" resultType="NoticeList">
 		/* 공고목록조회 */		
 		SELECT
 		    mn.mentoring_notice_title AS noticeTitle,
