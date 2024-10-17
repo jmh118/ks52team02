@@ -1,9 +1,7 @@
 package ks52team02.manager.member.service;
 
 import java.util.List;
-
 import org.springframework.stereotype.Service;
-
 import ks52team02.manager.member.dto.Member;
 import ks52team02.manager.member.dto.WithdrawalMember;
 import ks52team02.manager.member.mapper.ManagerMemberMapper;
@@ -27,5 +25,12 @@ public class ManagerMemberServiceImpl implements ManagerMemberService {
 		List<WithdrawalMember> withdrawalMemberList = managerMemberMapper.getWithdrawalMemberList();
 		
 		return withdrawalMemberList;
+	}
+
+	@Override
+	public List<Member> getDormantMemberList() {
+		List<Member> dormantMemberList = managerMemberMapper.getDormantMemberList();
+		
+		return dormantMemberList;
 	}
 }

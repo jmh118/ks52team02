@@ -11,8 +11,12 @@ public interface ManagerMemberService {
 	// 관리자 - 전체 회원 조회
 	List<Member> getMemberList();
 	
+	// 관리자 - 휴면 회원 조회
+	List<Member> getDormantMemberList();
+	
 	// 관리자 - 탈퇴 회원 조회
 	List<WithdrawalMember> getWithdrawalMemberList();
 
+	
 
 }

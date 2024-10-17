@@ -49,6 +49,36 @@
 			ORDER BY
 				mwa.withdrawal_approval_YMD desc;
 	</select>
-
+	
+	<select id="getDormantMemberList" resultType="Member">
+		/* 관리자 - 휴면 회원 조회(6개월 이상 접속 기록이 없을 시) */
+		SELECT
+			m.member_id AS memberId, 
+			m.member_password AS memberPw, 
+			m.search_member_password_answer AS memberPwAnswer, 
+			ml.member_level_name AS memberLevel, 
+			m.member_name AS memberName, 
+			m.member_phone_number AS memberTelNo, 
+			m.member_email AS memberEmail, 
+			m.member_join_YMD AS memberJoinYMD,
+			mll.member_login_YMD AS memberLoginLog,
+			DATEDIFF(NOW(), mll.member_login_YMD) AS 'dormantDays'
+		FROM
+			member_login_log mll
+			LEFT JOIN
+			member m
+			ON
+			mll.member_id=m.member_id
+			LEFT JOIN
+			member_level ml
+			ON
+			ml.member_level_code=m.member_level_code
+			
+		WHERE
+			DATEDIFF(NOW(), mll.member_login_YMD)>=183 AND
+			m.member_withdrawal_YN = 'N'
+		GROUP BY memberId
+		ORDER BY mll.member_login_YMD desc;
+	</select>
 
 </mapper>
