@@ -3,16 +3,37 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ks52team02.manager.goal.mapper.GoalMapper">
-	<select id="getMemberGoalList" resultType="MemberGoal">
-		/* 회원 목표 설정 조회 */
+	<resultMap type="MemberGoal" id="memberGoalMap">
+		<!-- MemberGoal 매핑 -->
+		<id column="mentee_goal_setting_code" property="goalCode"/>
+		<result column="member_id" property="memberId"/>
+		<result column="mentee_goal_setting_name" property="goalName"/>
+		<result column="mentee_goal_content" property="goalContent"/>
+		<result column="mentee_goal_setting_insert_date" property="goatAddDate"/>
+		<result column="mentee_goal_progress_status" property="goalStatus"/>
+		
+		<!-- GoalTopic 매핑: GoalTopic 객체에 매핑될 부분을 정의 -->
+		<association property="goaltopic" javaType="GoalTopic">
+			<result column="topic_category_code" property="topicCateCode"/>
+			<result column="topic_name" property="topicName"/>
+		</association>
+	</resultMap>
+
+	<select id="getMemberGoalList" resultMap="memberGoalMap">
+		/* 회원 목표 설정 및 토픽 조회 */
 		SELECT
-			member_id AS memberId,
-			topic_category_code AS topicCateCode,
-			mentee_goal_setting_name AS goalName,
-			mentee_goal_content AS goalContent,
-			mentee_goal_setting_insert_date AS goatAddDate,
-			mentee_goal_progress_status AS goalStatus
+			mgs.mentee_goal_setting_code,  <!-- goalCode -->
+			mgs.member_id,  <!-- memberId -->
+			mgs.mentee_goal_setting_name,  <!-- goalName -->
+			mgs.mentee_goal_content,  <!-- goalContent -->
+			mgs.mentee_goal_setting_insert_date,  <!-- goatAddDate -->
+			mgs.mentee_goal_progress_status,  <!-- goalStatus -->
+			tc.topic_category_code,  <!-- goaltopic.topicCateCode -->
+			tc.topic_name  <!-- goaltopic.topicName -->
 		FROM 
-			mentee_goal_setting;
+			mentee_goal_setting mgs
+		INNER JOIN 
+			topic_category tc 
+		ON mgs.topic_category_code = tc.topic_category_code;
 	</select>
 </mapper>

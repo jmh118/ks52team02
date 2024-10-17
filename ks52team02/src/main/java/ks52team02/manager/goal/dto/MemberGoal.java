@@ -16,4 +16,5 @@ public class MemberGoal {
 	private String goatAddDate;
 	private char disclosireStatus;
 
+	private GoalTopic goaltopic;
 }

@@ -28,12 +28,16 @@
                                 <tbody>
                                     <tr th:each="gl : ${goalList}">
                                         <td th:text="${gl.memberId}"></td>
-                                        <td th:text="${gl.topicCateCode}"></td>
+                                        <td th:text="${gl.goaltopic.topicName}"></td>
 										<td th:text="${gl.goalName}">목표 제목</td>
 										<td th:text="${gl.goalContent}">목표 내용</td>
                                         <td th:text="${gl.goatAddDate}">2024-07-03 20:00:00</td>
                                         <!-- alert-success alert-warning alert-danger -->
-										<td><span th:text="${gl.goalStatus}" class="badge rounded-pill"></span></td>
+                                        <th:block th:switch="${gl.goalStatus}">
+                                        	<td th:case="${'시작 전'}"><span th:text="${gl.goalStatus}" class="badge rounded-pill" th:classappend="${'alert-warning'}"></span></td>
+                                        	<td th:case="${'진행 중'}"><span th:text="${gl.goalStatus}" class="badge rounded-pill" th:classappend="${'alert-danger'}"></span></td>
+                                        	<td th:case="${'완료'}" ><span th:text="${gl.goalStatus}" class="badge rounded-pill" th:classappend="${'alert-success'}"></span></td>
+                                        </th:block>
                                     </tr>
                                 </tbody>
                             </table>
