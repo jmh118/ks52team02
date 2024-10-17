@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import ks52team02.manager.career.dto.Education;
 import ks52team02.manager.career.dto.Project;
 import ks52team02.manager.career.dto.Work;
 
@@ -14,5 +15,8 @@ public interface CareerMapper {
 	
 	List<Project> getProjectCareer();
 	
-
+	
+	List<Education> getEducationCareer();
+	
+	
 }
