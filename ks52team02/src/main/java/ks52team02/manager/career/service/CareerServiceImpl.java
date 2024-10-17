@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import ks52team02.manager.career.dto.Certificate;
 import ks52team02.manager.career.dto.Education;
 import ks52team02.manager.career.dto.Project;
 import ks52team02.manager.career.dto.Work;
@@ -40,6 +41,14 @@ public class CareerServiceImpl implements CareerService {
 	public List<Education> getMemberEducationCareer() {
 		
 		List<Education> memberList = careerMapper.getEducationCareer();
+		
+		return memberList;
+	}
+	
+	@Override
+	public List<Certificate> getMemberCertificateCareer() {
+		
+		List<Certificate> memberList = careerMapper.getCertificateCareer();
 		
 		return memberList;
 	}
