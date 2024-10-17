@@ -5,7 +5,6 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import ks52team02.member.mentoring.dto.Notice;
-import ks52team02.member.mentoring.dto.NoticeList;
 import ks52team02.member.mentoring.dto.Topic;
 
 @Mapper
@@ -17,12 +16,15 @@ public interface MentoringMapper {
 	int addNotice(Notice notice);
 	
 	//공고조회
-	List<NoticeList> getNoticeList();
+	List<Notice> getNoticeList();
 	
 	// 공고카테고리조회
 	List<Topic> getTopicList();
 
 	// 공고목록 카테고리별조회
-	List<NoticeList> getNoticeByCategory(String category);
+	List<Notice> getNoticeByCategory(String category);
+
+	// 공고상세조회
+	List<Notice> getNoticeDetailByCode(String noticeCode);
 
 }
