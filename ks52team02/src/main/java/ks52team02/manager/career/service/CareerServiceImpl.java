@@ -5,8 +5,9 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import ks52team02.manager.career.dto.Career;
-import ks52team02.manager.career.mapper.WorkMapper;
+import ks52team02.manager.career.dto.Project;
+import ks52team02.manager.career.dto.Work;
+import ks52team02.manager.career.mapper.CareerMapper;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -14,12 +15,22 @@ import lombok.RequiredArgsConstructor;
 @Transactional
 public class CareerServiceImpl implements CareerService {
 
-	private final WorkMapper workMapper;
+	private final CareerMapper careerMapper;
+	
+
 	
 	@Override
-	public List<Career> getMemberCareer() {
+	public List<Work> getMemberWorkCareer() {
 		
-		List<Career> memberList = workMapper.getMemberCareer();
+		List<Work> memberList = careerMapper.getWorkCareer();
+		
+		return memberList;
+	}
+	
+	@Override
+	public List<Project> getMemberProjectCareer() {
+		
+		List<Project> memberList = careerMapper.getProjectCareer();
 		
 		return memberList;
 	}

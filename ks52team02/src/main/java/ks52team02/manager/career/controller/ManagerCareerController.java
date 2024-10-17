@@ -7,7 +7,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import ks52team02.manager.career.dto.Career;
+import ks52team02.manager.career.dto.Project;
+import ks52team02.manager.career.dto.Work;
 import ks52team02.manager.career.service.CareerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,17 +25,25 @@ public class ManagerCareerController {
     public String mentorCareerWork(Model model) {
         System.out.println("멘토 근무경력 승인 페이지 이동");
         
-        List<Career> memberList = careerService.getMemberCareer();
+        List<Work> memberList = careerService.getMemberWorkCareer();
         
         model.addAttribute("memberList", memberList);
+        
         log.info("memberList :{}", memberList);
         
         return  "manager/career/workApprove";
     }
 
     @GetMapping("/project")
-    public String mentorCareerProject() {
+    public String mentorCareerProject(Model model) {
         System.out.println("멘토 기술경력 승인 페이지 이동");
+        
+        List<Project> memberList = careerService.getMemberProjectCareer();
+        
+        model.addAttribute("memberList", memberList);
+        
+        log.info("memberList :{}", memberList);
+        
         return  "manager/career/projectApprove";
     }
 
