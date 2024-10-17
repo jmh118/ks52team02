@@ -19,21 +19,33 @@
 		</association>
 	</resultMap>
 
-	<select id="getMemberGoalList" resultMap="memberGoalMap">
+	<select id="getMenteeGoalList" resultMap="memberGoalMap">
 		/* 회원 목표 설정 및 토픽 조회 */
 		SELECT
-			mgs.mentee_goal_setting_code,  <!-- goalCode -->
-			mgs.member_id,  <!-- memberId -->
-			mgs.mentee_goal_setting_name,  <!-- goalName -->
-			mgs.mentee_goal_content,  <!-- goalContent -->
-			mgs.mentee_goal_setting_insert_date,  <!-- goatAddDate -->
-			mgs.mentee_goal_progress_status,  <!-- goalStatus -->
-			tc.topic_category_code,  <!-- goaltopic.topicCateCode -->
-			tc.topic_name  <!-- goaltopic.topicName -->
+			mgs.mentee_goal_setting_code, 
+			mgs.member_id, 
+			mgs.mentee_goal_setting_name, 
+			mgs.mentee_goal_content, 
+			mgs.mentee_goal_setting_insert_date, 
+			mgs.mentee_goal_progress_status, 
+			tc.topic_category_code, 
+			tc.topic_name 
 		FROM 
 			mentee_goal_setting mgs
 		INNER JOIN 
 			topic_category tc 
 		ON mgs.topic_category_code = tc.topic_category_code;
 	</select>
+	
+	<select id="getMenteeGoalRecordList" resultType="MemberGoalRecord">
+		/* 회원 목표 진행 조회 */
+        SELECT
+			mentee_id AS memberId,
+			mentee_goal_progress_title AS goalRecordTitle,
+			mentee_goal_progress_content AS goalRecordContent,
+			mentee_goal_progress_record_insert_date AS goalRecordAddDate
+		FROM
+			mentee_goal_progress_record 
+		ORDER BY mentee_goal_progress_record_insert_date DESC;
+    </select>
 </mapper>
