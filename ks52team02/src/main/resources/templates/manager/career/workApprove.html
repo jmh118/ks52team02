@@ -30,29 +30,20 @@
                                     <tr>
                                         <th>아이디</th>
                                         <th>회사명</th>
-                                        <th>담당업무</th>
+                                        <th>승인 상태</th>
                                         <th>신청날짜</th>
                                         <th class="text-end"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr th:each="m : ${memberList}">
-                                        <td width="40%">
-                                            <a href="#" class="itemside">
-                                                <div class="left">
-                                                    <img src="/manager/imgs/people/user-avatar.png" class="img-sm img-avatar" alt="Userpic" />
-                                                </div>
-                                                <div class="info pl-3">
-                                                    <h6 class="mb-0 title" th:text="${l.memtorId}"></h6>
-                                                    <small class="text-muted" th:text="${l.memtorPowk}"></small>
-                                                </div>
-                                            </a>
-                                        </td>
-                                        <td th:text="${l.memtorTKCG}"></td>
-                                        <td><span class="rounded-pill alert-danger" th:text="${l.memtorDate}"></span></td>
-                                        <td>08.07.2020</td>
+                                        <td th:text="${m.memtorId}"></td>
+                                        <td class="text-muted" th:text="${m.memtorPowk}"></td>
+                                        <td th:if="${m.memtorYn == 'Y'}"><span class="rounded-pill alert-success" th:text="${m.memtorYn}"></span></td>
+                                        <td th:if="${m.memtorYn == 'N'}"><span class="rounded-pill alert-danger" th:text="${m.memtorYn}"></span></td>
+                                        <td th:text="${m.memtorDate}"></td>
                                         <td class="text-end">
-                                            <a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15">승인</a>
+                                            <a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15" th:unless="${m.memtorYn == 'Y'}">승인</a>
                                             <a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15">거부</a>
                                         </td>
                                     </tr>

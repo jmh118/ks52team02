@@ -27,6 +27,7 @@ public class ManagerCareerController {
         List<Career> memberList = careerService.getMemberCareer();
         
         model.addAttribute("memberList", memberList);
+        log.info("memberList :{}", memberList);
         
         return  "manager/career/workApprove";
     }

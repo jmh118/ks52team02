@@ -7,7 +7,7 @@ public class Career {
 
 	private String memtorId;
 	private String memtorPowk;
-	private String memtorTKCG;
+	private String memtorYn;
 	private String memtorDate;
 	
 }

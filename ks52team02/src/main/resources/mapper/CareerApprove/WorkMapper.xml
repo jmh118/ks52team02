@@ -5,12 +5,13 @@
   <mapper namespace="ks52team02.manager.career.mapper.WorkMapper">
   
   <select id="getMemberCareer" resultType="Career">
+  
 		/* 회원목록조회 */
 		SELECT
-			m.member_id,
-			mwhd.mentor_POWK_NM,
-			mwhd.mentor_TKCG_TASK,
-			mwhd.FRST_REG_DT
+			m.member_id AS memtorId,
+			mwhd.mentor_POWK_NM AS memtorPowk,
+			mentor_career_DATA_REG_upload_YN AS memtorYn,
+			mwhd.FRST_REG_DT AS memtorDate
 		FROM
 			member_level ml
 			INNER join
