@@ -5,9 +5,12 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import ks52team02.manager.member.dto.Member;
+import ks52team02.manager.member.dto.WithdrawalMember;
 import ks52team02.manager.member.service.ManagerMemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,17 +30,18 @@ public class ManagerMemberController {
     	model.addAttribute("memberList", memberList);
     	
     	return  "manager/memberInfo/membersInfoList";
-	
 	}
-
+	
 	@GetMapping("/withdrawalList")
-    public String withdrawalMembers() {
+    public String withdrawalMembers(Model model) {
     	System.out.println("탈퇴 회원 조회 페이지 이동");
-        return  "manager/memberInfo/withdrawalMembersList";
+    	List<WithdrawalMember> withdrawalmemberList = memberMapperService.getWithdrawalMemberList();
+    	model.addAttribute("withdrawalmemberList", withdrawalmemberList);
+    	return  "manager/memberInfo/withdrawalMembersList";
     }
 	
 	@GetMapping("/dormantList")
-    public String dormantMembers() {
+    public String dormantMembers(Model model) {
     	System.out.println("휴면 회원 조회 페이지 이동");
         return  "manager/memberInfo/dormantMembersList";
     }

@@ -14,4 +14,5 @@ public interface ManagerMemberService {
 	// 관리자 - 탈퇴 회원 조회
 	List<WithdrawalMember> getWithdrawalMemberList();
 
+
 }

@@ -13,4 +13,8 @@ public interface ManagerMemberMapper {
 	
 	// 관리자 - 탈퇴 회원 조회	
 	List<WithdrawalMember> getWithdrawalMemberList();
+	
+	// 관리자 - 휴면 회원 정보 조회
+	List<Member> getDormantMemberList();
+	
 }

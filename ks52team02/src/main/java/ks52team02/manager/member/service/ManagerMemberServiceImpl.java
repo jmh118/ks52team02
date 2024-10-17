@@ -26,6 +26,6 @@ public class ManagerMemberServiceImpl implements ManagerMemberService {
 	public List<WithdrawalMember> getWithdrawalMemberList() {
 		List<WithdrawalMember> withdrawalMemberList = managerMemberMapper.getWithdrawalMemberList();
 		
-		return null;
+		return withdrawalMemberList;
 	}
 }

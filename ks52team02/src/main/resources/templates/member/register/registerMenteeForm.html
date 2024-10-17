@@ -1,75 +1,143 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{member/layouts/layout}">
-	<!--/* 기존 class는 main pages...  pages 누락 시 문제 없음
-    	<main class="main pages"layout:fragment="content"> */-->
-    <th:block layout:fragment="customContent">
+			
+			
+	<th:block layout:fragment="customJs">		
+ 	<script>
+			$('#memberId').change(function(){
+					$('#registerMenteeForm input').not('#memberId').prop('disabled', true);
+					$('#registerMenteeForm select').prop('disabled', false);
+					$('#registerMenteeForm button').not('#duplicateIdCheckBtn').prop('disabled', true);	
+				});
+			
+				$('#duplicateIdCheckBtn').click(function(){
+					const memberId = $('#memberId').val();
+					
+					if(!memberId) {
+						alert('회원의 아이디를 입력해주세요');
+						$('#memberId').focus();
+						return;
+					}
+					
+					const request = $.ajax({
+						url : "/register/dupicatedCheckById",
+						method : 'POST',
+						data : {'memberId' : memberId},
+						dataType : 'json'
+					});
+					request.done(function(data){
+						console.log('연결?');
+						console.log(typeof data);
+						if(data){
+							alert('이미 사용중인 회원 ID입니다.');
+							$('#memberId').val('');
+							$('#memberId').focus();
+							return ;
+						}
+						else{
+							alert('사용할 수 있는 ID입니다.');
+							$('#registerMenteeForm input').prop('disabled', data);
+							$('#registerMenteeForm select').prop('disabled', data);
+							$('#registerMenteeForm button').prop('disabled', data);
+						}
+
+					});
+					request.fail(function(jqXHR, textStatus, error){
+						console.log(error);
+					});	
+					
+				});		
+				
+				$('#registerBtn').click(function(){
+					let isSubmit = true;
+					const $formControl = $('#registerMenteeForm input, #registerMenteeForm select');
+					
+					$formControl.each((index, item)=>{
+						const value = $(item).val();
+						if(!value){
+							const cate = $(item).attr('name');
+							const msg = `${cate}는 필수 입력 항목입니다.`;
+							alert(msg);
+							$(item).focus();
+							isSubmit = false;
+							return false;
+						}
+					});
+					
+					if(isSubmit) $('#registerMenteeForm').submit();
+				});
+		</script>
+		
+		
+	</th:block>
+    
+	<th:block layout:fragment="customContent">
 		<section class="content-main mt-40 mb-40 my-2 text-brand">
 		       <div class="card-body container col-3 my-2">
                    <h3 class="mb-20 mt-40 text-brand d-flex justify-content-center">멘티 권한으로 계정 생성</h3>
 						<div>
 						    <p class="text-center mb-2">이미 계정을 가지고 있으신가요? <a href="/member/login"> &nbsp; 로그인하러 가기</a></p>
 						</div>
-                        <form class="container mt-40">
+                        <form class="member container mt-40" th:action="@{/register/mentee}" method="post" id="registerMenteeForm" name="registerMenteeForm">
                             <div class="mb-4">
-                                <label class="form-label">회원 아이디 *</label>
+                                <label class="form-label" for="memberId">회원 아이디 *</label>
 								<div class="row gx-2">									
-	                                <div class="col-7"><input class="form-control" placeholder="ID" type="text" /></div>
-									<div class="col-5 "><button type="submit" class="btn btn-primary w-20">중복확인</button></div>
+	                                <div class="col-7"><input class="form-control" id="memberId" name="memberId" placeholder="ID" type="text" /></div>
+									<div class="col-5 "><button type="button" class="btn btn-primary w-20" id="duplicateIdCheckBtn" name="duplicateIdCheckBtn" >중복확인</button></div>
 
                             	</div>
 							</div>
                             <!-- form-group// -->
 							<div class="mb-4">
-                                <label class="form-label">회원 비밀번호 *</label>
-                                <input class="form-control" placeholder="Password" type="text" />
+                                <label class="form-label" for="memberPw">회원 비밀번호 *</label>
+                                <input class="form-control" id="memberPw" name="memberPw" placeholder="Password" type="text" disabled="disabled" />
                             </div>
                             <!-- form-group// -->
 							<div class="mb-4">
-                                <label class="form-label">비밀번호 확인 *</label>
-                                <input class="form-control" placeholder="Confirm password" type="text" />
+                                <label class="form-label" for="checkMemberPw">비밀번호 확인 *</label>
+                                <input class="form-control" id="checkMemberPw" name="checkMemberPw" placeholder="Confirm password" type="text" disabled="disabled"/>
                             </div>
                             <!-- form-group// -->
 							<div class="mb-4">
-                                <label class="form-label">비밀번호 찾기 질문/답변 *</label>
+                                <label class="form-label" for="findPasswordQnA">비밀번호 찾기 질문/답변 *</label>
 								<select class="mb-10 form-control" name="findPasswordQ">
-									<option value="pwQuestion1">Q. 내가 태어난 고향은 어디인가?</option>
-									<option value="pwQuestion2">Q. 내가 가장 좋아하는 색깔은?</option>
-									<option value="pwQuestion3">Q. 내가 가장 처음 산 물건은?</option>
-									<option value="pwQuestion4">Q. 여행 가기 좋다고 생각하는 장소는?</option>
-									<option value="pwQuestion5">Q. 내가 가장 좋아하는 캐릭터 이름은?</option>
+									<option value="pwQuestion1" id="pwQuestion1">Q. 내가 태어난 고향은 어디인가?</option>
+									<option value="pwQuestion2" id="pwQuestion2">Q. 내가 가장 좋아하는 색깔은?</option>
+									<option value="pwQuestion3" id="pwQuestion3">Q. 내가 가장 처음 산 물건은?</option>
+									<option value="pwQuestion4" id="pwQuestion4">Q. 여행 가기 좋다고 생각하는 장소는?</option>
+									<option value="pwQuestion5" id="pwQuestion5">Q. 내가 가장 좋아하는 캐릭터 이름은?</option>
 								</select>
-                                <input class="form-control" placeholder="Answer" type="text" />
+                                <input class="form-control" id="memberPwAnswer" name="memberPwAnswer" placeholder="Answer" type="text"  disabled="disabled"/>
                             </div>
                             <!-- form-group// -->
 							<div class="mb-4">
-                                <label class="form-label">회원 이름 *</label>
-                                <input class="form-control" placeholder="Name" type="text" />
+                                <label class="form-label" for="memberName">회원 이름 *</label>
+                                <input class="form-control" id="memberName" name="memberName" placeholder="Name" type="text" disabled="disabled" />
                             </div>
                             <!-- form-group// -->									
                             <div class="mb-4">
-                                <label class="form-label">연락처 *</label>
+                                <label class="form-label" for="memberTelNo">연락처 *</label>
                                 <div class="row gx-2">
-                                    <div class="col-4"><input class="form-control" value="+998" type="text" /></div>
-                                    <div class="col-8"><input class="form-control" placeholder="Phone" type="text" /></div>
+                                    <div class="col-12"><input class="form-control" id="memberTelNo" name="memberTelNo" placeholder="Phone" type="text" disabled="disabled" /></div>
                                 </div>
                             </div>
                             <!-- form-group// -->
                             <div class="mb-4">
-                                <label class="form-label">이메일 *</label>
-                                <input class="form-control" placeholder="E-mail" type="email" />
+                                <label class="form-label" for="memberEmail">이메일 *</label>
+                                <input class="form-control" id="memberEmail" name="memberEmail" placeholder="E-mail" type="email" disabled="disabled" />
                             </div>
 							<!-- form-group// -->
                             <div class="mb-4">
                                	<label class="form-label"><span>개인정보 이용 약관 전체 동의</span></label>
 								<div class="chek-form">
                                     <div class="custome-checkbox">
-                                        <input class="form-check-input" type="checkbox" name="checkbox" id="exampleCheckbox12" value="" />
-                                        <label class="form-check-label" for="exampleCheckbox12"><span>회원가입 기본 약관(필수)</span></label>
+                                        <input class="form-check-input" type="checkbox" name="registerBasicTermCheckbox" id="registerBasicTermCheckbox" value="checked" />
+                                        <label class="form-check-label" for="registerBasicTermCheckbox"><span>회원가입 기본 약관(필수)</span></label>
                                     </div>
 									<div class="custome-checkbox">
-										<input class="form-check-input" type="checkbox" name="checkbox" id="exampleCheckbox13" value="" />
-										<label class="form-check-label" for="exampleCheckbox13"><span>개인정보 수집 및 이용(선택)</span></label>
+										<input class="form-check-input" type="checkbox" name="registerPersonalDataCheckbox" id="registerPersonalDataCheckbox" value="checked" />
+										<label class="form-check-label" for="registerPersonalDataCheckbox"><span>개인정보 수집 및 이용(선택)</span></label>
 									</div>
                                 </div>
                             </div>
@@ -79,7 +147,8 @@
                             </div>
                             <!-- form-group  .// -->
                             <div class="mb-10 d-flex justify-content-center">
-                                <button type="submit" class="btn btn-primary w-80">REGISTER</button>
+								<input type="hidden" id="memberJoinYMD" name="memberJoinYMD" value="">
+                                <button type="button" class="btn btn-primary w-80" id="registerBtn" name="registerBtn">REGISTER</button>
                             </div>
                             <!-- form-group// -->
                         </form>

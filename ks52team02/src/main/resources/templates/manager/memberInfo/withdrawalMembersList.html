@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" 
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{manager/layouts/layout}">
-		<th:block layout:fragment="customContent">
+	<th:block layout:fragment="customContent">
             <section class="content-main">
                 <div class="content-header">
                     <div>
@@ -56,19 +56,19 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr th:each="wml : ${withdrawalMemberList}">
+                                    <tr th:each="wml:${withdrawalmemberList}">
                                         <td>
                                             <div class="form-check">
                                                 <input class="form-check-input" type="checkbox" value="" />
                                             </div>
                                         </td>
-                                        <td th:text="${wml.withdrawalMemberCode}">23</td>
-                                        <td th:text="${wml.withdrawalReason}"><b>더 이상 안 쓸 것 같습니다~</b></td>
-										<td th:text="${wml.withdrawalMemberLevel}">멘티</td>
-                                        <td th:text="${wml.withdrawalMemberId}">Devon Lane</td>
-                                        <td th:text="${wml.withdrawalMemberPw}">password1234</td>
-                                        <td th:text="${wml.withdrawalDemandYMD}">10.03.2020</td>
-                                        <td th:text="${wml.withdrawalApprovalYMD}">10.04.2020</td>
+                                        <td th:text="${wml.withdrawalMemberCode}"></td>
+                                        <td th:text="${wml.withdrawalReason}"><b></b></td>
+										<td th:text="${wml.withdrawalMemberLevel}"></td>
+                                        <td th:text="${wml.withdrawalMemberId}"></td>
+                                        <td th:text="${wml.withdrawalMemberPw}"></td>
+                                        <td th:text="${wml.withdrawalDemandYMD}"></td>
+                                        <td th:text="${wml.withdrawalApprovalYMD}"></td>
                                         <td class="text-end">
                                             <a href="#" class="btn btn-md rounded font-sm">Detail</a>
                                             <div class="dropdown">
