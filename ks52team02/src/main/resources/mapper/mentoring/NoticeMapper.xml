@@ -4,6 +4,32 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ks52team02.member.mentoring.mapper.MentoringMapper">
 
+	<select id="getNoticeByCategory" parameterType="String" resultType="NoticeList">
+		/* 공고 카테고리별 조회 */
+		SELECT
+		   mn.mentoring_notice_title AS noticeTitle,
+		   mn.member_id AS memberId,
+		   tc.topic_name AS topicName,
+		   COALESCE(mwhd.mentor_POWK_NM, mw2.mentor_POWK_NM) AS mentorPowkName
+		FROM
+		   topic_category tc INNER JOIN mentoring_notice mn
+		   ON tc.topic_category_code = mn.topic_category_code
+			INNER JOIN member m
+		   ON mn.member_id = m.member_id
+			LEFT JOIN mentor_work_history_details mwhd
+		    ON m.member_id = mwhd.member_id
+		    AND mwhd.mentor_RSGNTN_YMD = (
+		        SELECT MAX(mentor_RSGNTN_YMD)
+		        FROM mentor_work_history_details
+		        WHERE member_id = m.member_id
+		    )
+			LEFT JOIN mentor_work_history_details mw2
+		    ON m.member_id = mw2.member_id
+		    AND mw2.mentor_RSGNTN_YMD IS NULL
+		WHERE
+			tc.topic_name=#{category};
+	</select>
+
 	<insert id="addNotice" parameterType="Notice">
 		/* 공고등록 */
 		INSERT INTO mentoring_notice
@@ -14,6 +40,7 @@
 	</insert>
 	
 	<select id="getNextNoticeCode" resultType="String">
+		/* 공고 코드 추가 */
 		SELECT 
 			LPAD(
 		        IFNULL(MAX(CAST(SUBSTRING(mentoring_notice_code, 23) AS UNSIGNED)) + 1, 1), 

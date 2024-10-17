@@ -19,6 +19,14 @@ public class MentoringServiceImpl implements MentoringService{
 	private final MentoringMapper mentoringMapper;
 	
 	@Override
+	public List<NoticeList> getNoticeByCategory(String category) {
+
+		List<NoticeList> noticeCateList = mentoringMapper.getNoticeByCategory(category);
+		
+		return noticeCateList;
+	}
+	
+	@Override
 	public String getNextNoticeCode() {
 		
 		return mentoringMapper.getNextNoticeCode();
