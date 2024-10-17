@@ -19,4 +19,7 @@ public interface MentoringService {
 	// 공고카테고리조회
 	List<Topic> getTopicList();
 
+	// 공고목록 카테고리별조회
+	List<NoticeList> getNoticeByCategory(String category);
+
 }
