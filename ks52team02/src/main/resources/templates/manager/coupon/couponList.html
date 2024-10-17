@@ -18,7 +18,6 @@
                                 <thead>
                                     <tr>
                                         <th>회원(멘티)ID</th>
-                                        <th>회원(멘티)이름</th>
                                         <th>쿠폰명</th>
                                         <th>쿠폰금액</th>
                                         <th>사용 유무</th>
@@ -26,23 +25,16 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>menteeid001</td>
-                                        <td>멘티1</td>
-										<td>목표 진행 기록 개수 10개 이상</td>
-										<td>1000</td>
-										<td><span class="badge rounded-pill alert-success">사용</span></td>
-                                        <td>2024-07-03 20:00:00</td>
+                                    <tr th:each="cl : ${couponList}">
+                                        <td th:text="${cl.memberId}">menteeid001</td>
+										<td th:text="${cl.couponName}">목표 진행 기록 개수 10개 이상</td>
+										<td th:text="${cl.couponAmount}">1000</td>
+										<th:block th:switch="${cl.couponUseYN}">
+											<td th:case="${'Y'}"><span class="badge rounded-pill" th:text="${'사용'}" th:classappend="${'alert-success'}">사용</span></td>
+											<td th:case="${'N'}"><span class="badge rounded-pill" th:text="${'미사용'}" th:classappend="${'alert-warning'}">미사용</span></td>
+										</th:block>
+                                        <td th:text="${cl.couponRdgDate}">2024-07-03 20:00:00</td>
                                     </tr>
-                                    <tr>
-                                        <td>menteeid002</td>
-                                        <td>멘티1</td>
-										<td>목표 진행 기록 개수 10개 이상</td>
-										<td>1000</td>
-										<td><span class="badge rounded-pill alert-warning">미사용</span></td>
-                                        <td>2024-08-08 19:00:00</td>
-                                    </tr>
-
                                 </tbody>
                             </table>
                         </div>
