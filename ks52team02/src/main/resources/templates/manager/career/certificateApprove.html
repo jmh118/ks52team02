@@ -38,7 +38,7 @@
                                 <tbody>
                                     <tr th:each="m : ${memberList}">
                                         <td th:text="${m.mentorId}"></td>
-                                        <td class="text-muted" th:text="mentorSchlnm"></td>
+                                        <td class="text-muted" th:text="mentorCertificatenm"></td>
                                         <td th:unless="${m.mentorYn == 'N'}"><span class="rounded-pill alert-success">승인</span></td>
                                         <td th:if="${m.mentorYn == 'N'}"><span class="rounded-pill alert-danger">대기</span></td>
                                         <td th:text="${m.mentorDate}"></td>
