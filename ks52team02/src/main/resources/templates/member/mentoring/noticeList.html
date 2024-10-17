@@ -40,9 +40,8 @@
                                 </div>
                                 <div class="product-content-wrap">
                                     <div class="product-category">
-                                        <!--<a href="/noticeDetail">Snack</a>-->
                                     </div>
-                                    <h2><a href="/mentoring/noticeDetail" th:text="${nl.noticeTitle}">HTML,CSS 관심있으신분!</a></h2>
+                                    <h2 th:text="${nl.noticeTitle}"></h2>
                                     <div>
 										<div class="font-small text-muted" th:text="${'분야 : ' + nl.topicName}"></div>
 										<div class="font-small text-muted" th:text="${'직무 : ' + nl.mentorPowkName}"></div>
@@ -56,7 +55,7 @@
 											<span class="font-small ml-5 text-muted"> (4.0)</span>
 										</div>
                                         <div class="add-cart">
-                                            <a class="add" href="/mentoring/noticeDetail"><i class="fi-rs-shopping-cart mr-5"></i>Detail </a>
+                                            <a class="add" th:href="@{/mentoring/noticeDetail/{code}(code=${nl.noticeCode})}"><i class="fi-rs-shopping-cart mr-5"></i>Detail </a>
                                         </div>
                                     </div>
                                 </div>
@@ -90,22 +89,22 @@
                         <h5 class="section-title style-1 mb-30">Category</h5>
                         <ul>
                             <li>
-                                <a href="shop-grid-right.html">포트폴리오</a><span class="count">30</span>
+                                <a th:href="@{/mentoring/notice(category='포트폴리오')}">포트폴리오</a><span class="count">30</span>
                             </li>
                             <li>
-                                <a href="shop-grid-right.html">자격증</a><span class="count">35</span>
+                                <a th:href="@{/mentoring/notice(category='자격증')}">자격증</a><span class="count">35</span>
                             </li>
                             <li>
-                                <a href="shop-grid-right.html">공인어학</a><span class="count">42</span>
+                                <a th:href="@{/mentoring/notice(category='공인어학')}">공인어학</a><span class="count">42</span>
                             </li>
                             <li>
-                                <a href="shop-grid-right.html">자기소개서</a><span class="count">68</span>
+                                <a th:href="@{/mentoring/notice(category='자소서')}">자기소개서</a><span class="count">68</span>
                             </li>
                             <li>
-                                <a href="shop-grid-right.html">면접</a><span class="count">87</span>
+                                <a th:href="@{/mentoring/notice(category='면접')}">면접</a><span class="count">87</span>
                             </li>
 							<li>
-	                            <a href="shop-grid-right.html">기타</a><span class="count">87</span>
+	                            <a th:href="@{/mentoring/notice(category='기타')}">기타</a><span class="count">87</span>
 	                        </li>
                         </ul>
                     </div>

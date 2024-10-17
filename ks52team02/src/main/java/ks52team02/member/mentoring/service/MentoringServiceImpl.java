@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ks52team02.member.mentoring.dto.Notice;
+import ks52team02.member.mentoring.dto.Topic;
 import ks52team02.member.mentoring.mapper.MentoringMapper;
 import lombok.RequiredArgsConstructor;
 
@@ -15,6 +16,37 @@ import lombok.RequiredArgsConstructor;
 public class MentoringServiceImpl implements MentoringService{
 	
 	private final MentoringMapper mentoringMapper;
+	
+	@Override
+	public List<Notice> getNoticeDetailByCode(String noticeCode) {
+		List<Notice> noticeDetail = mentoringMapper.getNoticeDetailByCode(noticeCode);
+		return noticeDetail;
+	}
+	
+	@Override
+	public List<Notice> getNoticeByCategory(String category) {
+
+		List<Notice> noticeCateList = mentoringMapper.getNoticeByCategory(category);
+		
+		return noticeCateList;
+	}
+	
+	@Override
+	public String getNextNoticeCode() {
+		
+		return mentoringMapper.getNextNoticeCode();
+	}
+	
+	@Override
+	public void addNotice(Notice notice) {
+		mentoringMapper.addNotice(notice);		
+	}
+	
+	@Override
+	public List<Topic> getTopicList() {
+		
+		return mentoringMapper.getTopicList();
+	}
 	
 	@Override
 		public List<Notice> getNoticeList() {
