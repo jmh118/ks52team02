@@ -28,153 +28,23 @@
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
-                                        <th>멘토</th>
-                                        <th>작성자 이메일</th>
-                                        <th>상태</th>
+                                        <th>아이디</th>
+                                        <th>학교 명</th>
+                                        <th>승인 상태</th>
                                         <th>신청날짜</th>
                                         <th class="text-end"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td width="40%">
-                                            <a href="#" class="itemside">
-                                                <div class="left">
-                                                    <img src="/manager/imgs/people/user-avatar.png" class="img-sm img-avatar" alt="Userpic" />
-                                                </div>
-                                                <div class="info pl-3">
-                                                    <h6 class="mb-0 title">Eleanor Pena</h6>
-                                                    <small class="text-muted">Seller ID: #439</small>
-                                                </div>
-                                            </a>
-                                        </td>
-                                        <td >eleanor2020@example.com</td>
-                                        <td><span class="rounded-pill alert-danger">대기</span></td>
-                                        <td>08.07.2020</td>
+                                     <tr th:each="m : ${memberList}">
+                                        <td th:text="${m.mentorId}"></td>
+                                        <td class="text-muted" th:text="mentorSchlnm"></td>
+                                        <td th:unless="${m.mentorYn == 'N'}"><span class="rounded-pill alert-success">승인</span></td>
+                                        <td th:if="${m.mentorYn == 'N'}"><span class="rounded-pill alert-danger">대기</span></td>
+                                        <td th:text="${m.mentorDate}"></td>
                                         <td class="text-end">
-                                            <a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15">승인</a>
+                                            <a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15" th:if="${m.mentorYn == 'N'}">승인</a>
                                             <a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15">거부</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td width="40%">
-                                            <a href="#" class="itemside">
-                                                <div class="left">
-                                                    <img src="/manager/imgs/people/user-avatar.png" class="img-sm img-avatar" alt="Userpic" />
-                                                </div>
-                                                <div class="info pl-3">
-                                                    <h6 class="mb-0 title">Mary Monasa</h6>
-                                                    <small class="text-muted">Seller ID: #129</small>
-                                                </div>
-                                            </a>
-                                        </td>
-                                        <td>monalisa@example.com</td>
-                                        <td><span class="badge rounded-pill alert-success">승인</span></td>
-                                        <td>11.07.2020</td>
-                                        <td class="text-end">
-											<a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15">승인</a>
-											<a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15">거부</a>
-										</td>
-                                    </tr>
-                                    <tr>
-                                        <td width="40%">
-                                            <a href="#" class="itemside">
-                                                <div class="left">
-                                                    <img src="/manager/imgs/people/user-avatar.png" class="img-sm img-avatar" alt="Userpic" />
-                                                </div>
-                                                <div class="info pl-3">
-                                                    <h6 class="mb-0 title">Jonatan Ive</h6>
-                                                    <small class="text-muted">Seller ID: #400</small>
-                                                </div>
-                                            </a>
-                                        </td>
-                                        <td>mrjohn@example.com</td>
-                                        <td><span class="badge rounded-pill alert-success">승인</span></td>
-                                        <td>08.07.2020</td>
-                                        <td class="text-end">
-											<a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15">승인</a>
-											<a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15">거부</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td width="40%">
-                                            <a href="#" class="itemside">
-                                                <div class="left">
-                                                    <img src="/manager/imgs/people/user-avatar.png" class="img-sm img-avatar" alt="Userpic" />
-                                                </div>
-                                                <div class="info pl-3">
-                                                    <h6 class="mb-0 title">Eleanor Pena</h6>
-                                                    <small class="text-muted">Seller ID: #439</small>
-                                                </div>
-                                            </a>
-                                        </td>
-                                        <td>eleanor2020@example.com</td>
-                                        <td><span class="badge rounded-pill alert-danger">대기</span></td>
-                                        <td>08.07.2020</td>
-                                        <td class="text-end">
-											<a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15">승인</a>
-											<a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15">거부</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td width="40%">
-                                            <a href="#" class="itemside">
-                                                <div class="left">
-                                                    <img src="/manager/imgs/people/user-avatar.png" class="img-sm img-avatar" alt="Userpic" />
-                                                </div>
-                                                <div class="info pl-3">
-                                                    <h6 class="mb-0 title">Albert Pushkin</h6>
-                                                    <small class="text-muted">Seller ID: #439</small>
-                                                </div>
-                                            </a>
-                                        </td>
-                                        <td>someone@mymail.com</td>
-                                        <td><span class="badge rounded-pill alert-success">승인</span></td>
-                                        <td>20.11.2019</td>
-                                        <td class="text-end">
-											<a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15">승인</a>
-											<a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15">거부</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td width="40%">
-                                            <a href="#" class="itemside">
-                                                <div class="left">
-                                                    <img src="/manager/imgs/people/user-avatar.png" class="img-sm img-avatar" alt="Userpic" />
-                                                </div>
-                                                <div class="info pl-3">
-                                                    <h6 class="mb-0 title">Eleanor Pena</h6>
-                                                    <small class="text-muted">Seller ID: #439</small>
-                                                </div>
-                                            </a>
-                                        </td>
-                                        <td>eleanor2020@example.com</td>
-                                        <td><span class="badge rounded-pill alert-danger">대기</span></td>
-                                        <td>08.07.2020</td>
-                                        <td class="text-end">
-											<a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15">승인</a>
-											<a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15">거부</a>
-                                        </td>
-                                    </tr>
-                                    
-                                    <tr>
-                                        <td width="40%">
-                                            <a href="#" class="itemside">
-                                                <div class="left">
-                                                    <img src="/manager/imgs/people/user-avatar.png" class="img-sm img-avatar" alt="Userpic" />
-                                                </div>
-                                                <div class="info pl-3">
-                                                    <h6 class="mb-0 title">Eleanor Pena</h6>
-                                                    <small class="text-muted">Seller ID: #439</small>
-                                                </div>
-                                            </a>
-                                        </td>
-                                        <td>eleanor2020@example.com</td>
-                                        <td><span class="badge rounded-pill alert-success">승인</span></td>
-                                        <td>08.07.2020</td>
-                                        <td class="text-end">
-											<a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15">승인</a>
-											<a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15">거부</a>
                                         </td>
                                     </tr>
                                 </tbody>
