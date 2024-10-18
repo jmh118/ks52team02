@@ -38,7 +38,7 @@ public class MemberMentoringController {
 	@GetMapping("/noticeDetail/{code}")
     public String MoveNoticeDetail(@PathVariable("code") String noticeCode, Model model) {
     	System.out.println("멘토링 | 멘토링 공고 조회 | 멘토링 공고 상세 조회 화면");
-    	List<Notice> noticeDetail = mentoringService.getNoticeDetailByCode(noticeCode);
+    	Notice noticeDetail = mentoringService.getNoticeDetailByCode(noticeCode);
     	model.addAttribute("noticeDetail", noticeDetail);
         return  "member/mentoring/noticeDetail";
     }

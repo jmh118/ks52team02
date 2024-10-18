@@ -22,6 +22,6 @@ public interface MentoringService {
 	List<Notice> getNoticeByCategory(String category);
 
 	// 공고상세조회
-	List<Notice> getNoticeDetailByCode(String noticeCode);
+	Notice getNoticeDetailByCode(String noticeCode);
 
 }
