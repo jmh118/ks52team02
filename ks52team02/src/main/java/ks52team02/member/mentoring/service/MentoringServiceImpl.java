@@ -18,10 +18,11 @@ public class MentoringServiceImpl implements MentoringService{
 	private final MentoringMapper mentoringMapper;
 	
 	@Override
-	public List<Notice> getNoticeDetailByCode(String noticeCode) {
-		List<Notice> noticeDetail = mentoringMapper.getNoticeDetailByCode(noticeCode);
-		return noticeDetail;
+	public List<Notice> getNoticeDetailTimeByCode(String noticeCode) {
+		List<Notice> mentoringTime = mentoringMapper.getNoticeDetailTimeByCode(noticeCode);
+		return mentoringTime;
 	}
+
 	
 	@Override
 	public List<Notice> getNoticeByCategory(String category) {

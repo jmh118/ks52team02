@@ -25,6 +25,11 @@ public interface MentoringMapper {
 	List<Notice> getNoticeByCategory(String category);
 
 	// 공고상세조회
-	List<Notice> getNoticeDetailByCode(String noticeCode);
+	Notice getNoticeDetailByCode(String noticeCode);
+
+	// 공고 상세 멘토링 시간
+	List<Notice> getNoticeDetailTimeByCode(String noticeCode);
+	
+	
 
 }
