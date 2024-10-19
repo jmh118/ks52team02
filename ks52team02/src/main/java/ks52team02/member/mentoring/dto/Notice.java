@@ -16,5 +16,7 @@ public class Notice {
 	private int noticeUntprc;
 	private String topicName;
 	private String mentorPowkName;
+	private String mentoringPeriod;
+	private String metoringTime;
 	
 }

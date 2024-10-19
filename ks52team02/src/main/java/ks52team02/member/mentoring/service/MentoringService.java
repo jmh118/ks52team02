@@ -21,7 +21,7 @@ public interface MentoringService {
 	// 공고목록 카테고리별조회
 	List<Notice> getNoticeByCategory(String category);
 
-	// 공고상세조회
-	Notice getNoticeDetailByCode(String noticeCode);
+	// 공고 상세 멘토링 시간
+	List<Notice> getNoticeDetailTimeByCode(String noticeCode);
 
 }
