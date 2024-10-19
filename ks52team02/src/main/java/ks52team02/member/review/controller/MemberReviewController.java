@@ -29,7 +29,7 @@ public class MemberReviewController {
 	@GetMapping("/mentorReviewList")
 	public String mentorReviewList() {
 		System.out.println("멘토 아이디별 후기내역 조회");
-		return "member/mentorReviewList";
+		return "member/review/mentorReviewList";
 	}
 
 }

@@ -25,7 +25,7 @@
 	
   <select id="getProjectCareer" resultType="Project">
   
-		/* 멘토 프로젝트경력 목록조회 */
+		/* 멘토 프로젝트경력승인 목록조회 */
 		
 		SELECT
 		 	m.member_id 								AS mentorId,
@@ -43,6 +43,48 @@
 		
 	</select>
   
+  
+  <select id="getEducationCareer" resultType="Education">
+  
+		/* 멘토 학력승인 목록조회 */
+		
+		SELECT
+			m.member_id AS mentorId,
+			mad.mentor_SCHL_NM AS mentorSchlnm,
+			mad.mentor_CRTFCT_NM_approval_manager AS mentorYn,
+			mad.mentor_upload_ACBG_file_date AS mentorDate
+		FROM
+			member m
+			INNER join
+			mentor_acbg_detail mad
+			on
+			m.member_id=mad.member_id
+		ORDER BY 
+			mad.mentor_upload_ACBG_file_date DESC;	
+		
+	</select>
+  
+  <select id="getCertificateCareer" resultType="Certificate">
+  
+		/* 멘토 자격증승인 목록조회 */
+		
+		SELECT
+			mcd.member_id AS mentorId,
+			cn.issue_certificate_name AS mentorCertificatenm,
+			mcd.mentor_certificate_approval_manager AS mentorYn,
+			mcd.mentor_certificate_DATA_REG_upload_date AS mentorDate
+			
+		FROM
+		 	mentor_certificate_detail mcd
+		 	INNER join
+		 	certificate_name cn
+		 	on
+		 	mcd.certificate_name_code=cn.certificate_name_code
+		ORDER BY 
+			mcd.mentor_certificate_DATA_REG_upload_date DESC;
+		
+		
+	</select>
   
   </mapper>
   
