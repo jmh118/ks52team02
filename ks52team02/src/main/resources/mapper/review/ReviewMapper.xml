@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ks52team02.manager.review.mapper.ManagerReviewMapper">
+	<resultMap type="Review" id="mentoringAllReivewMap">
+		<id column="mentoring_postscript_code" 					property="reviewCode"/>
+		<result column="mentee_id" 								property="menteeId"/>	
+		<result column="mentee_settlement_mentor_calculation" 	property="settlementCalCode"/>	
+		<result column="mentoring_postscript_content" 			property="reviewContent"/>	
+		<result column="mentoring_postscript_score" 			property="reviewScore"/>	
+		<result column="mentoring_postscript_date" 				property="reviewRegDate"/>	
+	</resultMap>
+	
+	<select id="getAllMentoringReviewList" resultMap="mentoringAllReivewMap">
+		/* 전체 후기 조회 */
+		SELECT 
+			mentoring_postscript_code, 
+			mentee_id, 
+			mentoring_postscript_content,
+			mentoring_postscript_score, 
+			mentoring_postscript_date
+		FROM 
+			mentoring_postscript
+	
+	</select>
+</mapper>
