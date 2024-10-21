@@ -15,22 +15,55 @@
 		<result column="mentee_disclosure_status"			property="disclosireStatus" />
 		
 		<association property="goaltopic" javaType="GoalTopic">
-			<result column="topic_category_code" 	property="topicCateCode"/>
+			<id		column="topic_category_code" 	property="topicCateCode"/>
 			<result column="topic_name" 			property="topicName"/>
 		</association>
 	</resultMap>
+	
+	<resultMap type="MemberGoalRecord" id="MemberGoalRecordMap">
+	    <id 	column="mentee_goal_progress_record_code" 			property="goalRecordCode"/>
+	    <result column="mentee_goal_setting_code" 					property="goalCode"/>
+	    <result column="mentee_id" 									property="memberId"/>
+	    <result column="mentee_goal_writing_date" 					property="goalAddDate"/>  
+	    <result column="mentee_goal_progress_title" 				property="goalRecordTitle"/>  
+	    <result column="mentee_goal_progress_content" 				property="goalRecordContent"/>  
+	    <result column="mentee_goal_progress_beginning_time" 		property="goalRecordBeginningTime"/>  
+	    <result column="mentee_goal_progress_end_time" 				property="goalRecordEndTime"/>  
+	    <result column="mentee_goal_progress_hour" 					property="goalRecordHour"/>  
+	    <result column="mentee_goal_progress_ACML_hour" 			property="goalRecordACMLHour"/>  
+	    <result column="mentee_goal_progress_registration_ACML_CNT" property="goalRecordACMLCnt"/>  
+	    <result column="mentee_goal_progress_record_insert_date" 	property="goalRecordAddDate"/>  
+	    
+	    
+	    <association property="goal" javaType="MemberGoal">
+	    	<id 	column="mentee_goal_setting_code" 			property="goalCode"/>
+			<result column="member_id" 							property="memberId"/>
+			<result column="mentee_goal_setting_name" 			property="goalName"/>
+			<result column="mentee_goal_content" 			 	property="goalContent"/>
+			<result column="mentee_goal_setting_beginning_date" property="goalBeginningDate"/>
+			<result column="mentee_goal_setting_end_date" 		property="goalEndDate"/>
+			<result column="mentee_goal_progress_status" 		property="goalStatus"/>
+			<result column="mentee_goal_setting_insert_date" 	property="goatAddDate"/>
+			<result column="mentee_disclosure_status"			property="disclosireStatus" />
+	    </association>
+	    
+	    <association property="goal.goaltopic" javaType="GoalTopic">
+	        <id 	column="topic_category_code" 	property="topicCateCode" />
+	        <result column="topic_name" 			property="topicName"/>
+	    </association>
+	</resultMap>
+	
 
 	<select id="getMenteeGoalList" resultMap="memberGoalMap">
-		/* 회원 목표 설정 및 토픽 조회 */
+		/* 멘티의 목표 설정 내역 조회 */
 		SELECT
 			mgs.mentee_goal_setting_code, 
 			mgs.member_id, 
+			tc.topic_name,
 			mgs.mentee_goal_setting_name, 
 			mgs.mentee_goal_content, 
 			mgs.mentee_goal_setting_insert_date, 
-			mgs.mentee_goal_progress_status, 
-			tc.topic_category_code, 
-			tc.topic_name 
+			mgs.mentee_goal_progress_status
 		FROM 
 			mentee_goal_setting mgs
 		INNER JOIN 
@@ -38,15 +71,20 @@
 		ON mgs.topic_category_code = tc.topic_category_code;
 	</select>
 	
-	<select id="getMenteeGoalRecordList" resultType="MemberGoalRecord">
-		/* 회원 목표 진행 조회 */
+	<select id="getMenteeGoalRecordList" resultMap="MemberGoalRecordMap">
+		/* 멘티의 목표 진행 내역 내역 조회 */
         SELECT
-			mentee_id AS memberId,
-			mentee_goal_progress_title AS goalRecordTitle,
-			mentee_goal_progress_content AS goalRecordContent,
-			mentee_goal_progress_record_insert_date AS goalRecordAddDate
+			mgpr.mentee_id,
+			tc.topic_name,
+			mgs.mentee_goal_setting_name, 
+			mgpr.mentee_goal_progress_title,
+			mgpr.mentee_goal_progress_content,
+			mgpr.mentee_goal_progress_record_insert_date
 		FROM
-			mentee_goal_progress_record 
-		ORDER BY mentee_goal_progress_record_insert_date DESC;
+			mentee_goal_progress_record mgpr INNER	JOIN mentee_goal_setting mgs
+			ON mgpr.mentee_goal_setting_code = mgs.mentee_goal_setting_code
+			INNER JOIN topic_category tc
+			ON	mgs.topic_category_code = tc.topic_category_code
+		ORDER BY mgpr.mentee_goal_progress_record_insert_date desc;
     </select>
 </mapper>
