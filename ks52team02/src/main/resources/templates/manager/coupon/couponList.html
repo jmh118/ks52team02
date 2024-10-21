@@ -6,8 +6,8 @@
             <section class="content-main">
                 <div class="content-header">
                     <div>
-                        <h2 class="content-title card-title">쿠폰 보유 내역</h2>
-                        <p>멘티의 쿠폰 보유 내역 조회 화면</p>
+                        <h2 class="content-title card-title" th:text="${title}"></h2>
+                        <p th:text="${content}"></p>
                     </div>
                 </div>
                 <div class="card mb-4">
@@ -26,14 +26,14 @@
                                 </thead>
                                 <tbody>
                                     <tr th:each="cl : ${couponList}">
-                                        <td th:text="${cl.memberId}">menteeid001</td>
-										<td th:text="${cl.couponName}">목표 진행 기록 개수 10개 이상</td>
-										<td th:text="${cl.couponAmount}">1000</td>
+                                        <td th:text="${cl.memberId}"></td>
+										<td th:text="${cl.couponCriteria.couponName}"></td>
+										<td th:text="${cl.couponAmount}"></td>
 										<th:block th:switch="${cl.couponUseYN}">
 											<td th:case="${'Y'}"><span class="badge rounded-pill" th:text="${'사용'}" th:classappend="${'alert-success'}">사용</span></td>
 											<td th:case="${'N'}"><span class="badge rounded-pill" th:text="${'미사용'}" th:classappend="${'alert-warning'}">미사용</span></td>
 										</th:block>
-                                        <td th:text="${cl.couponRdgDate}">2024-07-03 20:00:00</td>
+                                        <td th:text="${cl.couponRdgDate}"></td>
                                     </tr>
                                 </tbody>
                             </table>

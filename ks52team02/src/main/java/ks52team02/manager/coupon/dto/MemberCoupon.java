@@ -5,10 +5,13 @@ import lombok.Data;
 @Data
 public class MemberCoupon {
 	
+	private String memberCouponCode;
+	private String couponCriteriaCode;
 	private String memberId;
-	private String couponName;
+	private String goalCode;
 	private String couponAmount;
 	private String couponUseYN;
 	private String couponRdgDate;
 
+	private CouponCriteria couponCriteria;
 }

@@ -13,9 +13,9 @@ public class MemberGoalRecord {
 	private String goalRecordContent;
 	private String goalRecordBeginningTime;
 	private String goalRecordEndTime;
-	private String goalRecordHour;
-	private String goalRecordACMLHour;
-	private String goalRecordACMLCnt;
+	private int goalRecordHour;
+	private int goalRecordACMLHour;
+	private int goalRecordACMLCnt;
 	private String goalRecordAddDate;
 	
 	
