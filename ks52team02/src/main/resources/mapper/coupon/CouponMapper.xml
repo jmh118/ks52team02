@@ -3,19 +3,70 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ks52team02.manager.coupon.mapper.ManagerCouponMapper">
-	<select id="getMenteeCouponList" resultType="MemberCoupon">
+	<resultMap type="MemberCoupon" id="MemberCouponStatusMap">
+	    <id 	column="member_coupon_code" 			property="memberCouponCode"/>
+	    <result column="criteria_mentee_coupon_code" 	property="couponCriteriaCode"/>
+	    <result column="member_id" 						property="memberId"/>
+	    <result column="mentee_goal_setting_code" 		property="goalCode"/>
+	    <result column="mentee_coupon_amount" 			property="couponAmount"/>
+	    <result column="coupon_use_YN" 					property="couponUseYN"/>
+	    <result column="coupon_registration_date" 		property="couponRdgDate"/>
+	
+	    <association property="couponCriteria" javaType="CouponCriteria">
+	        <id column="criteria_mentee_coupon_code" 			property="criteriaCouponCode"/>
+	        <result column="mentee_coupon_give_criteria_name" 	property="couponName"/>
+	        <result column="mentee_coupon_give_criteria_number" property="couponCriteriaNum"/>
+	        <result column="coupon_amount" 						property="couponAmount"/>
+	    </association>
+	</resultMap>
+	
+	<resultMap type="CouponCriteriaList" id="MenteeCouponProgressMap">
+	    <id column="mentee_id" 										property="menteeId"/>
+	    <result column="mentee_goal_setting_code" 					property="goalSettingCode"/>
+	    <result column="mentee_goal_progress_registration_ACML_CNT" property="acmlCnt"/>
+	    <result column="mentee_coupon_give_criteria_name" 			property="couponName"/>
+	    <result column="coupon_amount" 								property="couponAmount"/>
+	</resultMap>
+	
+
+	<select id="getMenteeCouponList" resultMap="MemberCouponStatusMap">
 			/* 회원 쿠폰 내역 조회 */
 	        SELECT 
-				mchs.member_id AS memberId, 
-				cmc.mentee_coupon_give_criteria_name AS couponName, 
-				mchs.mentee_coupon_amount AS couponAmount, 
-				mchs.coupon_use_YN AS couponUseYN, 
-				mchs.coupon_registration_date AS couponRdgDate
+				mchs.member_id,  
+				cmc.mentee_coupon_give_criteria_name, 
+				mchs.mentee_coupon_amount, 
+				mchs.coupon_use_YN,
+				mchs.coupon_registration_date
 			FROM 
 				mentee_coupon_holding_status mchs
 				INNER	JOIN	
 				criteria_mentee_cupon cmc
 				ON mchs.criteria_mentee_cupon_code = cmc.criteria_mentee_cupon_code
 			ORDER BY mchs.coupon_registration_date DESC;
+    </select>
+    
+    <select id="getMenteeCouponCriteriaList" resultMap="MenteeCouponProgressMap">
+    	/* 쿠폰 지급을 위한 내역 조회 */
+    	SELECT 
+			mgpr.mentee_id, 
+			mgpr.mentee_goal_setting_code,
+			mgpr.mentee_goal_progress_registration_ACML_CNT,
+			cmc.mentee_coupon_give_criteria_name,
+			cmc.coupon_amount
+		FROM 
+			mentee_goal_progress_record mgpr INNER JOIN 
+			(SELECT 
+					mentee_id, mentee_goal_setting_code, 
+			      MAX(mentee_goal_progress_registration_ACML_CNT) AS max_acml_cnt
+			FROM 
+				mentee_goal_progress_record
+			GROUP BY mentee_id, mentee_goal_setting_code) AS mentee_goal_record_cnt
+			ON mgpr.mentee_id = mentee_goal_record_cnt.mentee_id 
+				AND mgpr.mentee_goal_setting_code = mentee_goal_record_cnt.mentee_goal_setting_code
+				AND mgpr.mentee_goal_progress_registration_ACML_CNT = mentee_goal_record_cnt.max_acml_cnt
+			INNER JOIN criteria_mentee_cupon cmc
+		   ON mgpr.mentee_goal_progress_registration_ACML_CNT >= cmc.mentee_coupon_give_criteria_number
+		ORDER BY 
+		   mgpr.mentee_id, mgpr.mentee_goal_setting_code;	
     </select>
 </mapper>
