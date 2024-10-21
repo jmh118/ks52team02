@@ -4,6 +4,18 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ks52team02.member.mentoring.mapper.MentoringMapper">
 
+	<select id="getNoticeDetailTimeByCode" parameterType="String" resultType="Notice">
+		/* 공고 상세 멘토링 시간 */
+		SELECT
+			DISTINCT 
+			day_mentoring_time AS metoringTime
+		FROM
+			mentoring_notice_detail
+		WHERE
+			mentoring_notice_code = #{noticeCode};
+		
+	</select>
+
 	<select id="getNoticeDetailByCode" parameterType="String" resultType="Notice">
 		/* 공고상세조회 */
 		SELECT
@@ -12,7 +24,9 @@
 			mn.member_id AS memberId,
 			tc.topic_name AS topicName,
 			mn.last_UNTPRC AS noticeUntprc,
-			COALESCE(mwhd.mentor_POWK_NM, mw2.mentor_POWK_NM) AS mentorPowkName
+			COALESCE(mwhd.mentor_POWK_NM, mw2.mentor_POWK_NM) AS mentorPowkName,
+			mn.mentoring_notice_content AS noticeContent,
+			CONCAT(DATE_FORMAT(mn.mentoring_mentor_PSBLTY_start_YMD, '%Y-%m-%d'), ' ~ ', DATE_FORMAT(mn.mentoring_mentor_PSBLTY_end_YMD, '%Y-%m-%d')) AS mentoringPeriod
 		FROM
 			topic_category tc INNER JOIN mentoring_notice mn
 			ON tc.topic_category_code = mn.topic_category_code
