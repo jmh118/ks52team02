@@ -14,6 +14,9 @@ public class Member {
 	private String memberEmail; 
 	private String memberJoinYMD; 
 	private String memberWithdrawalYN; 
-
+	
+	private String dormantDays;
+	private String isHonorMentor;
+	
 
 }

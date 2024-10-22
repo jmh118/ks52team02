@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import ks52team02.manager.member.dto.LoginLog;
 import ks52team02.manager.member.dto.Member;
 import ks52team02.manager.member.dto.WithdrawalMember;
 import ks52team02.manager.member.service.ManagerMemberService;
@@ -48,12 +49,15 @@ public class ManagerMemberController {
     public String dormantMembers(Model model) {
     	System.out.println("휴면 회원 조회 페이지 이동");
     	List<Member> dormantMemberList = memberMapperService.getDormantMemberList();
+    	model.addAttribute("dormantMemberList", dormantMemberList);
         return  "manager/memberInfo/dormantMembersList";
     }
 	
 	@GetMapping("/loginLog")
-    public String loginLog() {
+    public String loginLog(Model model) {
     	System.out.println("멤버 로그인 로그 조회 페이지 이동");
+    	List<LoginLog> loginLog = memberMapperService.getLoginLog();
+    	model.addAttribute("loginLog", loginLog);
         return  "manager/memberInfo/memberLoginLogList";
     }
 	
@@ -76,8 +80,11 @@ public class ManagerMemberController {
     }
 	
 	@GetMapping("/infoModify")
-    public String membersInfoModify() {
+    public String membersInfoModify(Model model) {
     	System.out.println("전체 회원 정보 수정 페이지 이동");
+    	List<Member> memberList = memberMapperService.getMemberList();
+    	model.addAttribute("memberList", memberList);
+    	
         return  "manager/memberInfo/membersInfoModifyForm";
     }
 	
@@ -87,5 +94,13 @@ public class ManagerMemberController {
         return  "manager/setting/managerWithdrawal";
 
     }
+	
+	@GetMapping("/memberLevelManage")
+	public String memberLevelManage(Model model) {
+		System.out.println("회원 등급 수정 페이지 이동");
+		List<Member> mentorList = memberMapperService.getMentorList();
+		model.addAttribute("mentorList", mentorList);
+		return "manager/memberInfo/memberLevelManagement";
+	}
 
 }
