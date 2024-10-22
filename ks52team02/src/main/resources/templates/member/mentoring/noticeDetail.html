@@ -9,7 +9,8 @@
                         <div class="row mb-50 mt-30" >
                             <div class="col-md-6 col-sm-12 col-xs-12">
                                 <div class="detail-info pr-30 pl-30">
-                                    <span class="stock-status out-stock"> 명예멘토 </span>
+                                    <span class="stock-status out-stock" th:if="*{honorMentor == 'Y'}"> 명예멘토 </span>
+                                    <span class="stock-status out-stock" th:unless="*{honorMentor == 'Y'}"> 일반멘토 </span>
                                     <h2 class="title-detail" th:text="*{noticeTitle}"></h2>
                                     <div class="product-detail-rating">
                                         <div class="text-end">

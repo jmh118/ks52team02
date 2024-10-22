@@ -4,7 +4,7 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ks52team02.member.mentoring.mapper.MentoringMapper">
 
-	<select id="getNoticeDetailTimeByCode" parameterType="String" resultType="Notice">
+	<select id="getNoticeDetailTimeByCode" parameterType="String" resultType="NoticeDetail">
 		/* 공고 상세 멘토링 시간 */
 		SELECT
 			DISTINCT 
@@ -26,12 +26,15 @@
 			mn.last_UNTPRC AS noticeUntprc,
 			COALESCE(mwhd.mentor_POWK_NM, mw2.mentor_POWK_NM) AS mentorPowkName,
 			mn.mentoring_notice_content AS noticeContent,
-			CONCAT(DATE_FORMAT(mn.mentoring_mentor_PSBLTY_start_YMD, '%Y-%m-%d'), ' ~ ', DATE_FORMAT(mn.mentoring_mentor_PSBLTY_end_YMD, '%Y-%m-%d')) AS mentoringPeriod
+			CONCAT(DATE_FORMAT(mn.mentoring_mentor_PSBLTY_start_YMD, '%Y-%m-%d'), ' ~ ', DATE_FORMAT(mn.mentoring_mentor_PSBLTY_end_YMD, '%Y-%m-%d')) AS mentoringPeriod,
+			maa.honor_mentor_YN AS honorMentor
 		FROM
 			topic_category tc INNER JOIN mentoring_notice mn
 			ON tc.topic_category_code = mn.topic_category_code
 			INNER JOIN member m
 			ON mn.member_id = m.member_id
+			INNER JOIN mentor_authority_approval maa
+			ON m.member_id= maa.member_id
 			LEFT JOIN mentor_work_history_details mwhd
 		    ON m.member_id = mwhd.member_id
 		    AND mwhd.mentor_RSGNTN_YMD = (
@@ -50,25 +53,29 @@
 		/* 공고 카테고리별 조회 */
 		SELECT
 			mn.mentoring_notice_code AS noticeCode,
-		   	mn.mentoring_notice_title AS noticeTitle,
-		   	mn.member_id AS memberId,
-		   	tc.topic_name AS topicName,
-		   	COALESCE(mwhd.mentor_POWK_NM, mw2.mentor_POWK_NM) AS mentorPowkName
+		    mn.mentoring_notice_title AS noticeTitle,
+		    m.member_name AS memberName,
+		    tc.topic_name AS topicName,
+		    COALESCE(mwhd.mentor_POWK_NM, mw2.mentor_POWK_NM) AS mentorPowkName,
+		    maa.honor_mentor_YN AS honorMentor
 		FROM
-		   topic_category tc INNER JOIN mentoring_notice mn
-		   ON tc.topic_category_code = mn.topic_category_code
+			topic_category tc
+			INNER JOIN mentoring_notice mn
+			    ON tc.topic_category_code = mn.topic_category_code
 			INNER JOIN member m
-		   ON mn.member_id = m.member_id
+			    ON mn.member_id = m.member_id
+			INNER JOIN mentor_authority_approval maa
+				ON m.member_id= maa.member_id
 			LEFT JOIN mentor_work_history_details mwhd
-		    ON m.member_id = mwhd.member_id
-		    AND mwhd.mentor_RSGNTN_YMD = (
-		        SELECT MAX(mentor_RSGNTN_YMD)
-		        FROM mentor_work_history_details
-		        WHERE member_id = m.member_id
-		    )
+			    ON m.member_id = mwhd.member_id
+			    AND mwhd.mentor_RSGNTN_YMD = (
+			        SELECT MAX(mentor_RSGNTN_YMD)
+			        FROM mentor_work_history_details
+			        WHERE member_id = m.member_id
+			    )
 			LEFT JOIN mentor_work_history_details mw2
-		    ON m.member_id = mw2.member_id
-		    AND mw2.mentor_RSGNTN_YMD IS NULL
+			    ON m.member_id = mw2.member_id
+			    AND mw2.mentor_RSGNTN_YMD IS NULL
 		WHERE
 			tc.topic_name=#{category};
 	</select>
@@ -110,15 +117,18 @@
 		SELECT
 			mn.mentoring_notice_code AS noticeCode,
 		    mn.mentoring_notice_title AS noticeTitle,
-		    mn.member_id AS memberId,
+		    m.member_name AS memberName,
 		    tc.topic_name AS topicName,
-		    COALESCE(mwhd.mentor_POWK_NM, mw2.mentor_POWK_NM) AS mentorPowkName
+		    COALESCE(mwhd.mentor_POWK_NM, mw2.mentor_POWK_NM) AS mentorPowkName,
+		    maa.honor_mentor_YN AS honorMentor
 		FROM
 			topic_category tc
 			INNER JOIN mentoring_notice mn
 			    ON tc.topic_category_code = mn.topic_category_code
 			INNER JOIN member m
 			    ON mn.member_id = m.member_id
+			INNER JOIN mentor_authority_approval maa
+				ON m.member_id= maa.member_id
 			LEFT JOIN mentor_work_history_details mwhd
 			    ON m.member_id = mwhd.member_id
 			    AND mwhd.mentor_RSGNTN_YMD = (
