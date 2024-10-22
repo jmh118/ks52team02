@@ -7,6 +7,7 @@ public class Notice {
 	private String noticeCode;
 	private String topicCode;
 	private String memberId;
+	private String memberName;
 	private String noticeTitle;
 	private String noticeContent;
 	private String noticeStartTime;
@@ -17,6 +18,6 @@ public class Notice {
 	private String topicName;
 	private String mentorPowkName;
 	private String mentoringPeriod;
-	private String metoringTime;
+	private String honorMentor;
 	
 }
