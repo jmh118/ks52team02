@@ -10,6 +10,10 @@ import ks52team02.member.mentoring.dto.Topic;
 
 @Mapper
 public interface MentoringMapper {
+	
+	// 신청가능한 요일 조회
+	List<NoticeDetail> getNoticeApplyYmdByCode(String noticeCode);
+	
 	// 공고 코드 추가
 	String getNextNoticeCode();
 	
@@ -30,7 +34,6 @@ public interface MentoringMapper {
 
 	// 공고 상세 멘토링 시간
 	List<NoticeDetail> getNoticeDetailTimeByCode(String noticeCode);
-	
-	
+
 
 }

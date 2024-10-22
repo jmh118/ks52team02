@@ -18,7 +18,6 @@ public class Notice {
 	private String topicName;
 	private String mentorPowkName;
 	private String mentoringPeriod;
-	// private String metoringTime;
 	private String honorMentor;
 	
 }

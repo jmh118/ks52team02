@@ -67,9 +67,14 @@ public class MemberMentoringController {
     }
 	
 	@GetMapping("/apply")
-    public String moveMentoringApply() {
+    public String moveMentoringApply(@RequestParam(name="noticeCode")String noticeCode, Model model) {
 		
     	System.out.println("멘토링 신청 화면");
+    	List<NoticeDetail> noticeDetailYmd = mentoringMapper.getNoticeApplyYmdByCode(noticeCode);
+    	model.addAttribute("noticeDetailYmd", noticeDetailYmd);
+    	
+    	log.info("noticeDetailYmd : {}",noticeDetailYmd);
+
         return  "member/mentoring/mentoringApply";
     }
 	

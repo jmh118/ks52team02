@@ -6,6 +6,7 @@ import lombok.Data;
 public class NoticeDetail {
 	
 	private String noticeDetailCode;
-	private String metoringTime;
+	private String mentoringTime;
+	private String mentoringYmd;
 
 }

@@ -4,11 +4,25 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ks52team02.member.mentoring.mapper.MentoringMapper">
 
+	<select id="getNoticeApplyYmdByCode" parameterType="String" resultType="NoticeDetail">
+		/* 신청가능한 공고요일 */
+		SELECT
+			DISTINCT
+			day_mentoring_YMD AS mentoringYmd,
+			day_mentoring_time AS mentoringTime
+		FROM
+			mentoring_notice_detail
+		WHERE
+			mentoring_notice_code = #{noticeCode}
+			and
+			RSVT_status = '예약 가능';
+	</select>
+
 	<select id="getNoticeDetailTimeByCode" parameterType="String" resultType="NoticeDetail">
 		/* 공고 상세 멘토링 시간 */
 		SELECT
 			DISTINCT 
-			day_mentoring_time AS metoringTime
+			day_mentoring_time AS mentoringTime
 		FROM
 			mentoring_notice_detail
 		WHERE
