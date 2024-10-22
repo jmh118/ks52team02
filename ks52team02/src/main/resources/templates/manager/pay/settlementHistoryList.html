@@ -5,7 +5,7 @@
 	  <th:block layout:fragment="customContent">
 			<section class="content-main">
                 <div class="content-header">
-                    <h2 class="content-title">멘토링 정산 내역 조회 화면</h2>
+                    <h2 class="content-title" th:text="${title}"></h2>
                 </div>
                 <div class="card">
                     <div class="card-body">
@@ -22,12 +22,12 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>mentorid001</td>
-                                                <td>mentoring_notice_code_01</td>
-                                                <td>정산금액</td>
-                                                <td>2024. 9. 12 오후 7:00:12</td>
-                                            </tr>
+                                            <tr th:each="pshl : ${paymentSettlementHistoryList}">
+                                                <td th:text="${pshl.mentorId}"></td>
+                                                <td th:text="${pshl.noticeCode}"></td>
+                                                <td th:text="${pshl.pay.mentorCalAmount}"></td>
+                                                <td th:text="${pshl.paymentSettlementGiveDate}"></td>
+		                                    </tr>
                                         </tbody>
                                     </table>
                                 </div>

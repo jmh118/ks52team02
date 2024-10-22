@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ks52team02.manager.pay.mapper.ManagerPayMapper">
+	<resultMap type="Pay" id="payMap">
+		<id column="mentee_settlement_mentor_calculation_code" 	property="paySettlementCalCode"/>
+		<result column="mentor_notice_code" 					property="noticeCode"/>	
+		<result column="mentee_coupon_holding_status_code" 		property="menteeCouponStatusCode"/>	
+		<result column="settlement_id" 							property="payId"/>	
+		<result column="settlement_amount_before_discount" 		property="payAmountBeforeDiscount"/>	
+		<result column="mentee_coupon" 							property="menteeCoupon"/>	
+		<result column="last_amount" 							property="totalAmount"/>	
+		<result column="settlement_day" 						property="payDate"/>	
+		<result column="settlement_method" 						property="payMethod"/>	
+		<result column="fee" 									property="payFee"/>	
+		<result column="mentor_calculation_amount" 				property="mentorCalAmount"/>	
+		<result column="last_flatform_calculation_amount" 		property="flatformCalAmount"/>	
+		<result column="situation_mentor_calculation" 			property="mentorCalSituation"/>	
+		<result column="mentor_calculation_completion_day" 		property="mentorCalCompletionDate"/>	
+		<result column="mentoring_progress_status" 				property="mentoringProcStatus"/>	
+	</resultMap>
+	
+	<resultMap id="PaymentSettlementtMap" type="PaymentSettlement">
+	    <id 	column="pay_settlement_cal_code" 	property="paymentSettlementCode"/>
+	    <result column="mentor_notice_code" 		property="noticeCode"/>
+	    <result column="mentor_id" 					property="mentorId"/>
+	    <result column="mentee_id" 					property="menteeId"/>
+	    <result column="calculation_demand_date" 	property="paymentSettlementDemandDate"/>
+	    <result column="calculation_give_date" 		property="paymentSettlementGiveDate"/>
+	    <result column="calculation_status" 		property="paymentSettlementStatus"/>
+	    <result column="manager_id" 				property="managerId"/>
+
+	    <association property="pay" javaType="Pay">
+	        <id column="mentee_settlement_mentor_calculation_code" 	property="paySettlementCalCode"/>
+			<result column="mentor_notice_code" 					property="noticeCode"/>	
+			<result column="mentee_coupon_holding_status_code" 		property="menteeCouponStatusCode"/>	
+			<result column="settlement_id" 							property="payId"/>	
+			<result column="settlement_amount_before_discount" 		property="payAmountBeforeDiscount"/>	
+			<result column="mentee_coupon" 							property="menteeCoupon"/>	
+			<result column="last_amount" 							property="totalAmount"/>	
+			<result column="settlement_day" 						property="payDate"/>	
+			<result column="settlement_method" 						property="payMethod"/>	
+			<result column="fee" 									property="payFee"/>	
+			<result column="mentor_calculation_amount" 				property="mentorCalAmount"/>	
+			<result column="last_flatform_calculation_amount" 		property="flatformCalAmount"/>	
+			<result column="situation_mentor_calculation" 			property="mentorCalSituation"/>	
+			<result column="mentor_calculation_completion_day" 		property="mentorCalCompletionDate"/>	
+			<result column="mentoring_progress_status" 				property="mentoringProcStatus"/>
+	    </association>
+	</resultMap>
+	
+	
+	<select id="getPaymentSettlementHistoryList" resultMap="PaymentSettlementtMap">
+		/* 정산 신청 내역 조회 */
+		SELECT
+			mcdc.mentor_id,
+			msmc.mentor_notice_code,
+			msmc.mentor_calculation_amount,
+			mcdc.calculation_give_date
+		FROM
+			mentor_calculation_demand_completion mcdc INNER JOIN mentee_settlement_mentor_calculation msmc
+			ON mcdc.mentee_settlement_mentor_calculation_code = msmc.mentee_settlement_mentor_calculation_code
+		WHERE
+			mcdc.calculation_status = '플랫폼이 멘토에게 정산 완료';
+	</select>
+	
+	<select id="getPaymentSettlementList" resultMap="PaymentSettlementtMap">
+		/* 정산 신청 내역 조회 */
+		SELECT
+			mcdc.mentor_id,
+			mcdc.mentor_notice_code,
+			msmc.last_amount,
+			msmc.mentor_calculation_amount,
+			mcdc.calculation_demand_date
+		FROM
+			mentor_calculation_demand_completion mcdc INNER JOIN mentee_settlement_mentor_calculation msmc
+			ON mcdc.mentee_settlement_mentor_calculation_code = msmc.mentee_settlement_mentor_calculation_code
+		WHERE
+			mcdc.calculation_status = '멘토가 플랫폼에 정산 요청';
+	</select>
+	
+	<select id="getPayList" resultMap="payMap">
+		/* 결제 내역 조회 */
+		SELECT
+			settlement_id,
+			settlement_amount_before_discount,
+			mentee_coupon,
+			last_amount,
+			settlement_day,
+			settlement_method
+		FROM
+			mentee_settlement_mentor_calculation;
+	</select>
+	
+	
+</mapper>
