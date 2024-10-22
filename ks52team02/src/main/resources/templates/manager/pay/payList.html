@@ -5,7 +5,7 @@
 	  <th:block layout:fragment="customContent">
 			<section class="content-main">
                 <div class="content-header">
-                    <h2 class="content-title">멘토링 결제 내역 조회 화면</h2>
+                    <h2 class="content-title" th:text="${title}"></h2>
                 </div>
                 <div class="card">
                     <div class="card-body">
@@ -25,7 +25,7 @@
                                 </header>
                                 <!-- card-header end// -->
                                 <div class="table-responsive">
-                                    <table class="table table-hover">
+                                    <table class="table table-hover text-center">
                                         <thead>
                                             <tr>
                                                 <th>결제(멘티) ID</th>
@@ -38,30 +38,22 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>menteeid001</td>
-                                                <td>50000</td>
-                                                <td><span class="badge rounded-pill alert-success">사용</span></td>
-                                                <td>1000</td>
-                                                <td>49000</td>
-                                                <td>2024. 9. 7 오후 6:00:00</td>
+                                            <tr th:each="p : ${payList}">
+                                                <td th:text="${p.payId}"></td>
+                                                <td th:text="${p.payAmountBeforeDiscount}"></td>
+                                                <th:block th:if="${p.menteeCoupon != 0}">
+                                                	<td><span class="badge rounded-pill alert-success">사용</span></td>
+                                                </th:block>
+                                                <th:block th:unless="${p.menteeCoupon != 0}">
+                                                	<td><span class="badge rounded-pill alert-warning">미사용</span></td>
+                                                </th:block>
+                                                <td th:text="${p.menteeCoupon}"></td>
+                                                <td th:text="${p.totalAmount}"></td>
+                                                <td th:text="${p.payDate}"></td>
                                                 <td>
                                                     <div class="icontext">
                                                         <img class="icon border" src="/manager/imgs/card-brands/1.png" alt="Payment" />
-                                                        <span class="text text-muted">카드</span>
-                                                    </div>
-                                                </td>
-                                            <tr>
-                                                <td>menteeid003</td>
-                                                <td>60000</td>
-                                                <td><span class="badge rounded-pill alert-warning">미사용</span></td>
-                                                <td>0</td>
-                                                <td>60000</td>
-                                                <td>2024. 10. 8 오후 7:00:01</td>
-                                                <td>
-                                                    <div class="icontext">
-                                                        <img class="icon border" src="/manager/imgs/card-brands/1.png" alt="Payment" />
-                                                        <span class="text text-muted">카드</span>
+                                                        <span class="text text-muted" th:text="${p.payMethod}">카드</span>
                                                     </div>
                                                 </td>
                                             </tr>
