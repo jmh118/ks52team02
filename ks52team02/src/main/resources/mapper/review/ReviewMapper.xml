@@ -12,6 +12,22 @@
 		<result column="mentoring_postscript_date" 				property="reviewRegDate"/>	
 	</resultMap>
 	
+	<select id="getMentorReviewsDataList" resultType="MentorReviews">
+		/* 관리자 전체 멘토의 후기 관련 통계 조회 */
+		SELECT 
+			mpsa.mentor_postscript_and_score_average_code AS mentorReviewAvgCntCode, 
+			mpsa.mentor_id AS mentorId, 
+			mpsa.count_postscript AS mentorReviewCnt, 
+			mpsa.average_postscript_point AS mentorReviewAvg, 
+			mpsa.first_postscript_register_time AS firstRegDate,  
+			mpsa.last_postscript_update_time AS lastUpDate,
+			map.honor_mentor_YN AS isHonorMentor
+		FROM
+			mentor_postscript_score_average mpsa INNER JOIN mentor_authority_approval map
+			ON mpsa.mentor_id = map.member_id;
+	</select>
+	
+	
 	<select id="getAllMentoringReviewList" resultMap="mentoringAllReivewMap">
 		/* 전체 후기 조회 */
 		SELECT 
