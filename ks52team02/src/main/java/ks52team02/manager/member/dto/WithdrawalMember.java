@@ -14,7 +14,6 @@ public class WithdrawalMember {
 	private String withdrawalYMD;
 	private String withdrawalApplyManager;
 	
-	
 	private String withdrawalMemberPw;
 	private String withdrawalMemberLevel;
 }
