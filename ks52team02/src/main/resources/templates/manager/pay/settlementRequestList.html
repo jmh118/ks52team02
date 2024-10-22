@@ -5,7 +5,7 @@
 	  <th:block layout:fragment="customContent">
 			<section class="content-main">
                 <div class="content-header">
-                    <h2 class="content-title">멘토링 정산 신청 내역 조회 화면</h2>
+                    <h2 class="content-title" th:text="${title}"></h2>
                 </div>
                 <div class="card">
                     <div class="card-body">
@@ -16,40 +16,24 @@
                                         <thead>
                                             <tr>
                                                 <th>신청(멘토) ID</th>
-                                                <th>명예멘토 여부</th>
                                                 <th>멘토링 공지 코드</th>
                                                 <th>멘티 결제 금액</th>
-                                                <th>수수료</th>
                                                 <th>정산 금액</th>
                                                 <th>정산 요청 날짜</th>
                                                 <th>정산 지급</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>mentorid001</td>
-                                                <td><span class="badge rounded-pill alert-success">명예멘토</span></td>
-                                                <td>mentoring_notice_code_01</td>
-                                                <td>멘티가 결제한 금액</td>
-                                                <td>8%</td>
-                                                <td>정산금액</td>
-                                                <td>2024. 9. 7 오후 6:00:00</td>
+                                            <tr th:each="psl : ${paymentSettlementList}">
+                                                <td th:text="${psl.mentorId}"></td>
+                                                <td th:text="${psl.noticeCode}"></td>
+                                                <td th:text="${psl.pay.totalAmount}"></td>
+                                                <td th:text="${psl.pay.mentorCalAmount}"></td>
+                                                <td th:text="${psl.paymentSettlementDemandDate}"></td>
                                                 <td>
 		                                            <a href="#" class="btn btn-md rounded font-sm">정산</a>
 		                                        </td>
 		                                    </tr>
-                                            <tr>
-                                                <td>menteeid003</td>
-                                                <td><span class="badge rounded-pill alert-warning">일반멘토</span></td>
-                                                <td>mentoring_notice_code_01</td>
-                                                <td>멘티가 결제한 금액</td>
-                                                <td>10%</td>
-                                                <td>정산금액</td>
-                                                <td>2024. 10. 8 오후 7:00:01</td>
-                                                <td>
-		                                            <a href="#" class="btn btn-md rounded font-sm">정산</a>
-		                                        </td>
-                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>

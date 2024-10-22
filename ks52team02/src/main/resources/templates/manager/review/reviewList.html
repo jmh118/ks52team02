@@ -6,9 +6,9 @@
 	    <section class="content-main">
 	        <div class="content-header">
 	            <div>
-	                <h2 class="content-title card-title">멘토링 후기 관리</h2>
-	                <p>멘티가 등록한 멘토링 후기 관리 페이지내(내용이 부적절할 시 삭제)</p>
-	            </div>
+                    <h2 class="content-title card-title" th:text="${title}"></h2>
+                    <p th:text="${content}"></p>
+                </div>
 	            <div>
 	                <input type="text" placeholder="Search by name" class="form-control bg-white" />
 	            </div>
@@ -20,32 +20,32 @@
 	                    <table class="table table-hover">
 	                        <thead>
 	                            <tr>
+	                                <th>후기 코드</th>
 	                                <th>멘토 아이디</th>
-	                                <th>멘토 공지 코드</th>
-	                                <th>멘토 아이디</th>
-	                                <th>후기 평점</th>
+	                                <th>평점</th>
+	                                <th>평점</th>
 	                                <th>후기 내용</th>
 	                                <th>후기 등록일자</th>
 	                                <th>후기삭제</th>
 	                            </tr>
 	                        </thead>
 	                        <tbody>
-	                            <tr>
-	                                <td>mentee001</td>
-	                                <td>mentoring_notice_code_01</td>
-	                                <td>mentor001</td>
+	                            <tr th:each="rl : ${reviewList}">
+	                                <td th:text="${rl.reviewCode}"></td>
+	                                <td th:text="${rl.menteeId}"></td>
 	                                <td>
-	                                    <ul class="rating-stars">
-	                                        <li style="width: 100%" class="stars-active">
-	                                            <img src="/manager/imgs/icons/stars-active.svg" alt="stars" />
-	                                        </li>
-	                                        <li>
-	                                            <img src="/manager/imgs/icons/starts-disable.svg" alt="stars" />
-	                                        </li>
-	                                    </ul>
-	                                </td>
-	                                <td>저에게 꼭 필요한 상담이었습니다!!</td>
-	                                <td>2024-07-02</td>
+								        <ul class="rating-stars">
+								            <li th:style="'width:' + (${rl.reviewScore} / 5.0) * 100 + '%'" class="stars-active">
+								                <img src="/manager/imgs/icons/stars-active.svg" alt="stars" />
+								            </li>
+								            <li>
+								                <img src="/manager/imgs/icons/starts-disable.svg" alt="stars" />
+								            </li>
+								        </ul>
+								    </td>
+	                                <td th:text="${rl.reviewScore}"></td>
+	                                <td th:text="${rl.reviewContent}"></td>
+	                                <td th:text="${rl.reviewRegDate}"></td>
 	                                <td>
 	                                    <a href="#" class="btn btn-md rounded font-sm">삭제</a>
 	                                </td>
