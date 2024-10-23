@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{member/layouts/layout}">
-	<!--/* 기존 class는 main pages...  pages 누락 시 문제 없음
-    	<main class="main pages"layout:fragment="content"> */-->
-    <th:block layout:fragment="customContent">
+	
+	<th:block layout:fragment="payModalFragment" th:replace="~{member/fragments/registerMentorModal :: registerMentorModalFragment}"></th:block>
+	<th:block layout:fragment="customContent">
+	
 		<section class="content-main mt-40 mb-40 my-2">
                   <div class="card-body container col-3 my-2">
 	                        <h3 class="mb-20 mt-40 text-brand d-flex justify-content-center">멘토 권한으로 계정 생성</h3>
@@ -33,17 +34,17 @@
 	                                	<div class="col-6"><input class="form-control" placeholder="Date of joining" type="date" /></div>
 										<div class="col-6"><input class="form-control" placeholder="Quite date" type="date" /></div>
 									</div>
-	                            <!-- form-group// -->
-							
-	                            <div class="mb-4">
-	                                <label class="form-label">이메일 *</label>
-	                                <input class="form-control" placeholder="E-mail" type="email" />
-	                            </div>
-								<!-- form-group// -->
-
-	                            <div class="mb-10 d-flex justify-content-center">
-	                                <button type="submit" class="btn btn-primary w-80">멘토 회원가입 계속하기</button>
-	                            </div>
+								</div>
+								</div>
+									<div class="mt-60">
+										<h1 class="m-2 text-brand d-flex justify-content-center">222D</h1>
+									</div>
+									
+		                            <div class="mb-10 d-flex justify-content-center">
+		                                <button type="button" data-bs-toggle="modal" data-bs-target="#registerMentorModal">Open Modal</button>
+		                                <button type="button" class="btn btn-primary w-80 mt-20">멘토 회원가입 계속하기</button>
+		                            </div>
+								</div>
 	                            <!-- form-group// -->
 	                        </form>
 	                    

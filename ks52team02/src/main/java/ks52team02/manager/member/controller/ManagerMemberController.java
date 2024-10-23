@@ -56,8 +56,8 @@ public class ManagerMemberController {
 	@GetMapping("/loginLog")
     public String loginLog(Model model) {
     	System.out.println("멤버 로그인 로그 조회 페이지 이동");
-    	List<LoginLog> loginLog = memberMapperService.getLoginLog();
-    	model.addAttribute("loginLog", loginLog);
+    	List<LoginLog> loginLogList = memberMapperService.getLoginLog();
+    	model.addAttribute("loginLogList", loginLogList);
         return  "manager/memberInfo/memberLoginLogList";
     }
 	

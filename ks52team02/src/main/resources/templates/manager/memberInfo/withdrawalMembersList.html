@@ -37,7 +37,7 @@
                     <!-- card-header end// -->
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-hover">
+                            <table class="table thead-light text-center table-hover">
                                 <thead>
                                     <tr>
                                         <th>
@@ -52,7 +52,7 @@
                                         <th>Password</th>
                                         <th>탈퇴요청일자</th>
                                         <th>탈퇴승인일자</th>
-                                        <th class="text-end">Detail</th>
+                                        <th>Detail</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -64,12 +64,15 @@
                                         </td>
                                         <td th:text="${wml.withdrawalMemberCode}"></td>
                                         <td th:text="${wml.withdrawalReason}"><b></b></td>
-										<td th:text="${wml.withdrawalMemberLevel}"></td>
+										<td><span th:if="${wml.withdrawalMemberLevel == '멘티'}" class="badge rounded-pill alert-success">멘티</span>
+										    <span th:if="${wml.withdrawalMemberLevel == '멘토'}" class="badge rounded-pill alert-warning">멘토</span>
+										    <span th:if="${wml.withdrawalMemberLevel == '플랫폼 관리자'}" class="badge rounded-pill alert-danger">플랫폼 관리자</span>
+										</td>
                                         <td th:text="${wml.withdrawalMemberId}"></td>
                                         <td th:text="${wml.withdrawalMemberPw}"></td>
                                         <td th:text="${wml.withdrawalDemandYMD}"></td>
                                         <td th:text="${wml.withdrawalApprovalYMD}"></td>
-                                        <td class="text-end">
+                                        <td>
                                             <a href="#" class="btn btn-md rounded font-sm">Detail</a>
                                             <div class="dropdown">
 												<a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>

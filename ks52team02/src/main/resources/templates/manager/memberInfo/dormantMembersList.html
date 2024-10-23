@@ -65,7 +65,10 @@
                                         <td th:text="${dm.memberEmail}"></td>
 										<td th:text="${dm.memberPw}"></td>
 										<td th:text="${dm.memberPwAnswer}"></td>
-										<td th:text="${dm.memberLevel}"><span class="badge rounded-pill alert-success"></span></td>
+										<td><span th:if="${dm.memberLevel == '멘티'}" class="badge rounded-pill alert-success">멘티</span>
+										    <span th:if="${dm.memberLevel == '멘토'}" class="badge rounded-pill alert-warning">멘토</span>
+										    <span th:if="${dm.memberLevel == '플랫폼 관리자'}" class="badge rounded-pill alert-danger">플랫폼 관리자</span>
+										</td>
                                         <td th:text="${dm.memberName}"></td>
                                         <td th:text="${dm.memberTelNo}"></td>
                                         <td th:text="${dm.memberJoinYMD}"></td>
