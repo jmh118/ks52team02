@@ -24,8 +24,14 @@ public class MemberLoginController {
 	
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
+		
+		String viewName = "redirect:/member/login";
+		String memberLevel = (String) session.getAttribute("SLEVEL");
+		if (memberLevel != null && memberLevel.equals("member_level_manager")) {
+	        viewName = "redirect:/member/managerLogin";
+	    } 
 		session.invalidate();
-		return "redirect:/member/login";
+		return viewName;
 	}
 	
 	@PostMapping("/loginProc")
@@ -44,12 +50,16 @@ public class MemberLoginController {
 			Member memberInfo = (Member) loginMap.get("memberInfo");
 			String memberLevel = memberInfo.getMemberLevel();
 			String memberName = memberInfo.getMemberName();
+			if(memberLevel.equals("member_level_manager")) {
+				viewName = "redirect:/manager";
+			} else {
+				viewName = "redirect:/member";
+			}
 			
 			session.setAttribute("SID", memberId);
 			session.setAttribute("SLEVEL", memberLevel);
 			session.setAttribute("SNAME", memberName);
 			
-			viewName = "redirect:/member";
 		}else {
 			reAttr.addAttribute("msg", msg);
 		}
@@ -57,6 +67,12 @@ public class MemberLoginController {
 		return viewName;
 	}
 	
+	
+	@GetMapping("/managerLogin")
+	public String managerLoginView() {
+		System.out.println("관리자 로그인 화면");
+		return  "member/login/managerLogin";
+	}
 	
 	@GetMapping("/login")
 	public String loginView() {

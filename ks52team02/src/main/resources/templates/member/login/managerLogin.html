@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8" />
+        <title>관리자 로그인 화면</title>
+        <meta http-equiv="x-ua-compatible" content="ie=edge" />
+        <meta name="description" content="" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <!-- Favicon -->
+        <link rel="shortcut icon" type="image/x-icon" href="/manager/imgs/theme/favicon.png" />
+        <!-- Template CSS -->
+        <link href="/manager/css/main.css?v=1.1" rel="stylesheet" type="text/css" />
+    </head>
+
+    <body>
+        <main>
+            <header class="main-header style-2 navbar">
+                <div class="col-brand">
+                    <a class="brand-wrap">
+                        <img src="/manager/imgs/theme/logo.svg" class="logo" alt="Nest Dashboard" />
+                    </a>
+                </div>
+                <div class="col-nav">
+                    <ul class="nav">
+                        <li class="nav-item">
+                            <a class="nav-link btn-icon darkmode" href="#"> <i class="material-icons md-nights_stay"></i> </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="requestfullscreen nav-link btn-icon"><i class="material-icons md-cast"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </header>
+            <section class="content-main mt-80 mb-80">
+                <div class="card mx-auto card-login">
+                    <div class="card-body">
+                        <h4 class="card-title mb-4 text-center">관리자 로그인</h4>
+                        <form id="managerLoginForm" th:action="@{/member/loginProc}" method="post">
+                            <div class="mb-3">
+                                <input type="text" class="form-control" id="memberId" name="memberId" placeholder="아이디" />
+                            </div>
+                            <!-- form-group// -->
+                            <div class="mb-3">
+                                <input type="password" class="form-control" id="memberPw" name="memberPw" placeholder="비밀번호" />
+                            </div>
+                            <!-- form-group// -->
+                            <div class="mb-4">
+                                <button type="submit" class="btn btn-primary d-block mx-auto">Login</button>
+                            </div>
+                            <!-- form-group// -->
+                        </form>
+                    </div>
+                </div>
+            </section>
+            <footer class="main-footer text-center">
+                <p class="font-xs">
+                    <script>
+                        document.write(new Date().getFullYear());
+                    </script>
+                    &copy; Nest - HTML Ecommerce Template .
+                </p>
+                <p class="font-xs mb-30">All rights reserved</p>
+            </footer>
+        </main>
+        <script src="/manager/js/vendors/jquery-3.6.0.min.js"></script>
+        <script src="/manager/js/vendors/bootstrap.bundle.min.js"></script>
+        <script src="/manager/js/vendors/jquery.fullscreen.min.js"></script>
+        <!-- Main Script -->
+        <script src="/manager/js/main.js?v=1.1" type="text/javascript"></script>
+    </body>
+</html>
