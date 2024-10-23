@@ -1,12 +1,12 @@
-
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="UTF-8">
 	<title>project infomation</title>
-	<link rel="stylesheet" href="/common/css/intro-css.css">
-	<link rel="stylesheet" href="/common/css/common-css.css">
-	<link rel="stylesheet" href="/common/css/font/font.css">
+	<link rel="shortcut icon" type="image/x-icon" th:href="@{/member/imgs/theme/favicon.png}" />
+	<link rel="stylesheet" th:href="@{/common/css/intro-css.css}">
+	<link rel="stylesheet" th:href="@{/common/css/common-css.css}">
+	<link rel="stylesheet" th:href="@{/common/css/font/font.css}">
 	<style>
 		#wrap {
 			margin: 50px 0;
@@ -91,8 +91,8 @@
 				<tr class="table-th">
 					<td colspan="3">
 						<ul style="padding-left:15px; list-style-type: none; text-align:center; display:inline-block;">
-							<li class="title-li"><a class="menu-title" href="/member" target="_blank ">사용자 메인화면</a></li>
-							<li class="title-li"><a class="menu-title" href="/member/managerLogin" target="_blank ">관리자 메인화면</a></li>
+							<li class="title-li"><a class="menu-title" th:href="@{/member}" target="_blank ">사용자 메인화면</a></li>
+							<li class="title-li"><a class="menu-title" th:href="@{/member/managerLogin}" target="_blank ">관리자 메인화면</a></li>
 						</ul>
 					</td>
 				</tr>	
@@ -100,7 +100,7 @@
 					<td class="table-th">
 						관리자 계정
 					</td>
-					<td class="table-th">
+					<td class="table-th">a
 						멘토 계정
 					</td>
 					<td class="table-th">
