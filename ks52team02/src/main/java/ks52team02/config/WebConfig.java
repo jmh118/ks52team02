@@ -23,8 +23,9 @@ public class WebConfig implements WebMvcConfigurer {
 	public void addInterceptors(InterceptorRegistry registry) {
 		
 		
+		
 		List<String> excludePath = new ArrayList<String>();
-		excludePath.add("/favicon.ico");
+		
 		excludePath.add("/common/css/**");
 		excludePath.add("/manager/css/**");
 		excludePath.add("/manager/fonts/**");
@@ -36,7 +37,8 @@ public class WebConfig implements WebMvcConfigurer {
 		excludePath.add("/member/imgs/**");
 		excludePath.add("/member/js/**");
 		excludePath.add("/member/sass/**");
-		
+		excludePath.add("/error");
+		excludePath.add("/error/**");
 		
 		registry.addInterceptor(commonInterceptor)
 				.addPathPatterns("/**")
@@ -45,7 +47,7 @@ public class WebConfig implements WebMvcConfigurer {
 		excludePath.add("/");
 		excludePath.add("/member");
 		excludePath.add("/manager");
-		excludePath.add("/member/register");
+		excludePath.add("/register/**");
 		excludePath.add("/member/login");
 		excludePath.add("/member/managerLogin");
 		excludePath.add("/member/loginProc");

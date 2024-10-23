@@ -18,6 +18,7 @@ public class CommonInterceptor implements HandlerInterceptor{
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		
+		
 		Set<String> paramMap = request.getParameterMap().keySet();
 		
 		StringJoiner param = new StringJoiner(", ");
