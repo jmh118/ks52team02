@@ -7,4 +7,7 @@ public class LoginLog {
 	
 	private String loginLogCode;
 	private String loginLog;
+	private String loginMemberId;
+	private String loginMemberLevel;
+	
 }

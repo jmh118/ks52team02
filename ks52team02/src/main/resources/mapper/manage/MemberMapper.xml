@@ -45,10 +45,15 @@
 			member_join_YMD AS memberJoinYMD, 
 			member_withdrawal_YN AS memberWithdrawalYN
 		FROM
-			member m,
+			member m
+			LEFT JOIN
 			member_level ml
+			ON
+			m.member_level_code=ml.member_level_code
 		WHERE
 			member_withdrawal_YN = 'N';
+		
+		
 	</select>
 	
 	<select id="getWithdrawalMemberList" resultType="WithdrawalMember">
@@ -105,6 +110,23 @@
 			DATEDIFF(NOW(), mll.member_login_YMD)>=183 AND
 			m.member_withdrawal_YN = 'N'
 		GROUP BY memberId
+		ORDER BY mll.member_login_YMD desc;
+	</select>
+	
+	<select id="getLoginLog" resultType="LoginLog">
+		/* 관리자 - 로그인 로그 조회 */
+		SELECT
+			mll.login_log_code AS loginLogCode,
+			m.member_id AS loginMemberId,
+			m.member_level_code AS loginMemberLevel,
+			mll.member_login_YMD AS loginLog
+		FROM
+			member_login_log mll
+			INNER JOIN
+			member m
+			ON
+			mll.member_id=m.member_id
+			
 		ORDER BY mll.member_login_YMD desc;
 	</select>
 
