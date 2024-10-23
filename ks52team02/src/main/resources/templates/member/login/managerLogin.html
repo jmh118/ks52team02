@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8" />
+        <title>관리자 로그인 화면</title>
+        <meta http-equiv="x-ua-compatible" content="ie=edge" />
+        <meta name="description" content="" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <!-- Favicon -->
+        <link rel="shortcut icon" type="image/x-icon" href="/manager/imgs/theme/favicon.png" />
+        <!-- Template CSS -->
+        <link href="/manager/css/main.css?v=1.1" rel="stylesheet" type="text/css" />
+    </head>
+
+    <body>
+        <main>
+            <header class="main-header style-2 navbar">
+                <div class="col-brand">
+                    <a class="brand-wrap">
+                        <img src="/manager/imgs/theme/Preview.png" class="logo" alt="Nest Dashboard" />
+                    </a>
+                </div>
+                <div class="col-nav">
+                    <ul class="nav">
+                        <li class="nav-item">
+                            <a class="nav-link btn-icon darkmode" href="#"> <i class="material-icons md-nights_stay"></i> </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="requestfullscreen nav-link btn-icon"><i class="material-icons md-cast"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </header>
+            <section class="content-main mt-80 mb-80">
+                <div class="card mx-auto card-login">
+                    <div class="card-body">
+                        <h4 class="card-title mb-4 text-center">관리자 로그인</h4>
+                        <form id="managerLoginForm" th:action="@{/member/loginProc}" method="post">
+                            <div class="mb-3">
+                                <input type="text" class="form-control" id="memberId" name="memberId" placeholder="아이디" />
+                            </div>
+                            <!-- form-group// -->
+                            <div class="mb-3">
+                                <input type="password" class="form-control" id="memberPw" name="memberPw" placeholder="비밀번호" />
+                            </div>
+                            <!-- form-group// -->
+                            <div class="mb-4">
+                                <button type="button" id="loginBtn" class="btn btn-primary d-block mx-auto">Login</button>
+                            </div>
+                            <!-- form-group// -->
+                        </form>
+                    </div>
+                </div>
+            </section>
+            <footer class="main-footer text-center">
+                <p class="font-xs">
+                    <script>
+                        document.write(new Date().getFullYear());
+                    </script>
+                    &copy; Nest - HTML Ecommerce Template .
+                </p>
+                <p class="font-xs mb-30">All rights reserved</p>
+            </footer>
+        </main>
+        <script src="/manager/js/vendors/jquery-3.6.0.min.js"></script>
+        <script src="/manager/js/vendors/bootstrap.bundle.min.js"></script>
+        <script src="/manager/js/vendors/jquery.fullscreen.min.js"></script>
+        <!-- Main Script -->
+        <script src="/manager/js/main.js?v=1.1" type="text/javascript"></script>
+        
+        <script th:inline="javascript">
+			const msg = [[${msg}]];
+			if(msg) alert(msg);
+		
+			$('#loginBtn').click(function(){
+				let isSubmit = true;
+				const $formEles = $('#managerLoginForm input');
+				
+				$formEles.each((index, item) => {
+					const value = $(item).val();
+					if (!value) {
+						const cate = $(item).attr('placeholder');
+						const msg = `${cate} 필수 입력항목입니다.`;
+						alert(msg);
+						$(item).focus();
+						isSubmit = false;
+						return false;
+					}
+
+					// memberId가 있는 input 요소에서 값을 가져옵니다
+					if ($(item).attr('name') === 'memberId') {
+						memberId = value;
+					}
+				});
+
+				if (isSubmit) {
+					$.ajax({
+		                url: '/member/checkLevel',  // 권한 체크를 할 서버 URL
+		                type: 'POST',
+		                data: { "memberId": memberId },  // memberId 전달
+		                dataType: 'text'  // 서버의 반환 타입이 boolean이므로 text로 받음
+					})
+					.done(function(data) {
+						if (data === 'true') {  // 서버에서 true를 문자열로 반환
+							$('#managerLoginForm').submit();
+						} else {
+							alert('관리자 전용 로그인 화면입니다~');
+						}
+					})
+					.fail(function(jqXHR, textStatus, error) {
+						console.log(error);
+					});
+		        }	
+			});
+			
+		</script>
+	</body>
+</html>

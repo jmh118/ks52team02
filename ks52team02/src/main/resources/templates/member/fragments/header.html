@@ -8,7 +8,7 @@
 			<div class="container">
 				<div class="header-wrap">
 					<div class="logo logo-width-1">
-						<a href="/"><img src="/member/imgs/theme/logo.svg" alt="logo" /></a>
+						<a href="/member"><img src="/manager/imgs/theme/Preview.png" alt="logo" /></a>
 					</div>
 					<div class="header-right">
 						<div class="search-style-2">
@@ -18,11 +18,44 @@
 							<div class="header-action-2">
 	
 								<div class="header-action-icon-2">
-									<a href="/member/login"><span class="lable ml-0">로그인(이승현)</span></a>
+									<a href="/member/login"><span class="lable ml-0" th:if="${session.SID == null}">로그인(이승현)</span></a>
 								</div>
 								<div class="header-action-icon-2">
-									<a href="/register/info"><span class="lable">회원가입(이승현)</span></a>
+									<a href="/register/info"><span class="lable" th:if="${session.SID == null}">회원가입(이승현)</span></a>
 								</div>
+								<div class="header-action-icon-2" th:unless="${session.SID == null}">
+                                    <a>
+                                        <img class="svgInject" alt="Nest" src="/member/imgs/theme/icons/icon-user.svg" />
+                                    </a>
+                                    <span class="lable ml-0"></span>
+                                    <div class="cart-dropdown-wrap cart-dropdown-hm2 account-dropdown">
+                                        <ul>
+                                        	<th:block th:switch="${session.SLEVEL}">
+                                        		<li th:case="${'member_level_mentee'}">
+                                                	<a th:href="@{/mypage/mentee/account}"><i class="fi fi-rs-user mr-10"></i>마이페이지</a>
+                                            	</li>
+	                                            <li th:case="${'member_level_mentor'}">
+	                                                <a th:href="@{/mypage/mentor/account}"><i class="fi fi-rs-user mr-10"></i>마이페이지</a>
+	                                            </li>
+                                        	</th:block>
+                                            <li th:if="${session.SLEVEL == 'member_level_mentee'}">
+                                                <a th:href="@{/coupon/list}"><i class="fi fi-rs-label mr-10"></i>쿠폰</a>
+                                            </li>
+                                            <li th:if="${session.SLEVEL == 'member_level_mentee'}">
+                                                <a th:href="@{/goal/list}"><i class="fi fi-rs-label mr-10"></i>목표설정</a>
+                                            </li>
+                                            <li th:if="${session.SLEVEL == 'member_level_mentee'}">
+                                                <a th:href="@{/pay/list}"><i class="fi fi-rs-label mr-10"></i>결제내역</a>
+                                            </li>
+                                            <li th:if="${session.SLEVEL == 'member_level_mentor'}">
+                                                <a th:href="@{/pay/settlementList}"><i class="fi fi-rs-label mr-10"></i>정산내역</a>
+                                            </li>
+                                            <li>
+                                                <a th:href="@{/member/logout}"><i class="fi fi-rs-sign-out mr-10"></i>logout</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
 							</div>
 						</div>
 					</div>
@@ -31,7 +64,7 @@
 		</div>
 		<div class="header-bottom header-bottom-bg-color sticky-bar">
 			<div class="container">
-				<div class="header-wrap header-space-between position-relative">
+				<div class="header-wrap d-flex justify-content-center position-relative">
 					<div class="logo logo-width-1 d-block d-lg-none">
 						<a href="index.html"><img src="/member/imgs/theme/logo.svg" alt="logo" /></a>
 					</div>
@@ -46,32 +79,14 @@
 										<a href="/mentoring/notice">멘토링(정용우)</a>
 									</li>
 									<li>
-										<a href="#">멘토 찾기(서브메뉴)<i class="fi-rs-angle-down"></i></a>
+										<a href="#">멘토 찾기(이승현)<i class="fi-rs-angle-down"></i></a>
 										<ul class="sub-menu">
-											<li><a href="/honor/mentorList">명예멘토(조미희)</a></li>
+											<li><a href="/honor/mentorList">명예멘토(이승현)</a></li>
 											<li><a href="/mentor/list">멘토(이승현)</a></li>
 										</ul>
 									</li>
 									<li>
 										<a href="/portfolio/list">포트폴리오(김광민)</a>
-									</li>
-									<li>
-										<a href="/coupon/list">쿠폰내역(조미희)</a>
-									</li>
-									<li>
-										<a href="/mypage/mentee/account">마이페이지(멘티)김광민</a>
-									</li>
-									<li>
-										<a href="/mypage/mentor/account">마이페이지(멘토)김광민</a>
-									</li>
-									<li>
-										<a href="/pay/list">결제내역(조미희)</a>
-									</li>
-									<li>
-										<a href="/pay/settlementList">정산내역(조미희)</a>
-									</li>
-									<li>
-										<a href="/goal/list">목표설정(조미희)</a>
 									</li>
 								</ul>
 							</nav>
