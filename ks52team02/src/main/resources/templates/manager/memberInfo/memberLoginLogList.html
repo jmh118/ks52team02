@@ -38,21 +38,22 @@
                             <!-- card-header end// -->
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table class="table table-hover">
+                                    <table class="table thead-light text-center table-hover">
                                         <thead>
                                             <tr>
                                                 <th>로그인 로그 코드</th>
                                                 <th>ID</th>
                                                 <th>회원 권한</th>
-                                                <th>마지막 로그인 날짜</th>
+                                                <th>로그인 날짜</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>Devon Lane</td>
-                                                <td>$948.55</td>
-                                                <td><span class="badge rounded-pill alert-success">멘티</span></td>
-                                                <td>07.05.2020</td>
+                                            <tr th:each="ll:${loginLogList}">
+                                                <td th:text="${ll.loginLogCode}"></td>
+                                                <td th:text="${ll.loginMemberId}"></td>
+                                                <td><span th:if="${ll.loginMemberLevel == 'member_level_mentee'}" class="badge rounded-pill alert-success">멘티</span>
+                                                	<span th:if="${ll.loginMemberLevel == 'member_level_mentor'}" class="badge rounded-pill alert-warning">멘토</span></td>
+                                                <td th:text="${ll.loginLog}"></td>
                                             </tr>
                                         </tbody>
                                     </table>

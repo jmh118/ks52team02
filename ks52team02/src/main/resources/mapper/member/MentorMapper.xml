@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ks52team02.member.mentor.mapper.MemberMentorMapper">
+
+	<select id="getMentorList" resultType="Member">
+		/* 명예멘토 포함 멘토 조회 */
+		SELECT
+			m.member_id AS memberId, 
+			m.member_password AS memberPw, 
+			m.search_member_password_answer AS memberPwAnswer,
+			m.member_name AS memberName, 
+			m.member_phone_number AS memberTelNo, 
+			m.member_email AS memberEmail, 
+			m.member_join_YMD AS memberJoinYMD, 
+			maa.honor_mentor_YN AS isHonorMentor
+		FROM
+			member m
+			LEFT JOIN
+			member_level ml
+			ON
+			m.member_level_code=ml.member_level_code
+			LEFT JOIN
+			mentor_authority_approval maa
+			ON
+			m.member_id=maa.member_id
+		WHERE
+			m.member_withdrawal_YN = 'N' AND 
+			ml.member_level_code = 'member_level_mentor';
+	</select>
+	
+	<select id="getHonorMentorList" resultType="Member">
+		/* 명예멘토만 조회 */
+			SELECT
+				m.member_id AS memberId,
+				m.member_phone_number AS memberTelNo, 
+				m.member_email AS memberEmail
+			FROM
+				member m
+				LEFT JOIN
+				mentor_authority_approval maa
+				ON
+				m.member_id=maa.member_id
+			WHERE
+				m.member_withdrawal_YN = 'N' AND 
+				maa.honor_mentor_YN = 'Y';
+	</select>
+	
+</mapper>

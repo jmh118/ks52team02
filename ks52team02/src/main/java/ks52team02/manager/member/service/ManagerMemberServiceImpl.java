@@ -3,15 +3,19 @@ package ks52team02.manager.member.service;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import ks52team02.manager.member.dto.LoginLog;
 import ks52team02.manager.member.dto.Member;
 import ks52team02.manager.member.dto.WithdrawalMember;
 import ks52team02.manager.member.mapper.ManagerMemberMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
+@Slf4j
 public class ManagerMemberServiceImpl implements ManagerMemberService {
 
 	private final ManagerMemberMapper managerMemberMapper;
@@ -39,9 +43,9 @@ public class ManagerMemberServiceImpl implements ManagerMemberService {
 	
 	@Override
 	public List<LoginLog> getLoginLog(){
-		List<LoginLog> loginLog = managerMemberMapper.getLoginLog();
+		List<LoginLog> loginLogList = managerMemberMapper.getLoginLog();
 		
-		return loginLog;
+		return loginLogList;
 	}
 
 	@Override
