@@ -3,7 +3,7 @@ package ks52team02.home.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import lombok.extern.slf4j.Slf4j;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class HomeController {
@@ -14,7 +14,7 @@ public class HomeController {
 	}
 	
 	@GetMapping("/member")
-	public String MemberPageMove() {
+	public String MemberPageMove(HttpSession session) {
 		return "member/memberMain";
 	}
 	
