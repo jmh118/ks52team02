@@ -6,10 +6,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.servlet.http.HttpSession;
 import ks52team02.manager.member.dto.Member;
+import ks52team02.member.login.mapper.MemberLoginMapper;
 import ks52team02.member.login.service.MemberLoginService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +24,21 @@ import lombok.extern.slf4j.Slf4j;
 public class MemberLoginController {
 	
 	private final MemberLoginService memberLoginService;
+	private final MemberLoginMapper memberLoginMapper;
+	
+	@PostMapping("checkLevel")
+	@ResponseBody
+	public boolean checkLevel(@RequestParam(value="memberId") String memberId) {
+		
+		boolean isLevelManager = false;
+
+		String memberLevel = memberLoginMapper.getMemberLevelById(memberId);
+		
+		if (memberLevel != null && memberLevel.equals("member_level_manager")) isLevelManager = true;
+
+		return isLevelManager;
+	}
+	
 	
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
@@ -49,16 +67,15 @@ public class MemberLoginController {
 		if(checkMember) {
 			Member memberInfo = (Member) loginMap.get("memberInfo");
 			String memberLevel = memberInfo.getMemberLevel();
-			String memberName = memberInfo.getMemberName();
+			
 			if(memberLevel.equals("member_level_manager")) {
 				viewName = "redirect:/manager";
 			} else {
 				viewName = "redirect:/member";
-			}
+			} 
 			
 			session.setAttribute("SID", memberId);
 			session.setAttribute("SLEVEL", memberLevel);
-			session.setAttribute("SNAME", memberName);
 			
 		}else {
 			reAttr.addAttribute("msg", msg);

@@ -17,7 +17,7 @@
             <header class="main-header style-2 navbar">
                 <div class="col-brand">
                     <a class="brand-wrap">
-                        <img src="/manager/imgs/theme/logo.svg" class="logo" alt="Nest Dashboard" />
+                        <img src="/manager/imgs/theme/Preview.png" class="logo" alt="Nest Dashboard" />
                     </a>
                 </div>
                 <div class="col-nav">
@@ -45,7 +45,7 @@
                             </div>
                             <!-- form-group// -->
                             <div class="mb-4">
-                                <button type="submit" class="btn btn-primary d-block mx-auto">Login</button>
+                                <button type="button" id="loginBtn" class="btn btn-primary d-block mx-auto">Login</button>
                             </div>
                             <!-- form-group// -->
                         </form>
@@ -67,5 +67,52 @@
         <script src="/manager/js/vendors/jquery.fullscreen.min.js"></script>
         <!-- Main Script -->
         <script src="/manager/js/main.js?v=1.1" type="text/javascript"></script>
-    </body>
+        
+        <script th:inline="javascript">
+			const msg = [[${msg}]];
+			if(msg) alert(msg);
+		
+			$('#loginBtn').click(function(){
+				let isSubmit = true;
+				const $formEles = $('#managerLoginForm input');
+				
+				$formEles.each((index, item) => {
+					const value = $(item).val();
+					if (!value) {
+						const cate = $(item).attr('placeholder');
+						const msg = `${cate} 필수 입력항목입니다.`;
+						alert(msg);
+						$(item).focus();
+						isSubmit = false;
+						return false;
+					}
+
+					// memberId가 있는 input 요소에서 값을 가져옵니다
+					if ($(item).attr('name') === 'memberId') {
+						memberId = value;
+					}
+				});
+
+				if (isSubmit) {
+					$.ajax({
+		                url: '/member/checkLevel',  // 권한 체크를 할 서버 URL
+		                type: 'POST',
+		                data: { "memberId": memberId },  // memberId 전달
+		                dataType: 'text'  // 서버의 반환 타입이 boolean이므로 text로 받음
+					})
+					.done(function(data) {
+						if (data === 'true') {  // 서버에서 true를 문자열로 반환
+							$('#managerLoginForm').submit();
+						} else {
+							alert('관리자 전용 로그인 화면입니다~');
+						}
+					})
+					.fail(function(jqXHR, textStatus, error) {
+						console.log(error);
+					});
+		        }	
+			});
+			
+		</script>
+	</body>
 </html>
