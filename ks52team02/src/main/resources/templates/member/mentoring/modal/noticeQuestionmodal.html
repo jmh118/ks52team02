@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<!-- 연결성공?? -->
+<div th:fragment="NoticeQuestion">
+<div class="modal fade custom-modal" id="NoticeQuestion" data-bs-backdrop="static" tabindex="-1" aria-labelledby="NoticeQuestion" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-body">
+	            <div class="deal">
+	                <div class="deal-top">
+	                    <h4 class="mb-15">질문하기</h4>
+	                </div>
+	                <div class="deal-content detail-info">
+	                	<ul>
+	                		<li>공고를 참고하고 멘토링에 대해 궁금한 점을 멘토에게 질문해 주세요.</li>
+	                		<li>공개 게시판이므로 전화번호, 메일 주소 등 소중한 개인정보는 남기지 말아주세요.</li>
+	                		<li>사적인 상담 및 광고성, 욕설, 비방, 도배 등 멘토링에 관련 없는 글은 예고 없이 노출 제한, 삭제 될 수 있습니다.</li>
+	                	</ul>
+	                    <div class="comment-form">
+	                        <div class="col-lg-8 col-md-12">
+	                            <form class="form-contact comment_form" th:action="@{/mentoring/noticeQuestion}" method="post" id="commentForm">
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                        	<!-- <input type="text" id="noticeTitle" name="noticeTitle" th:value="${noticeCode}" placeholder="제목" required> -->
+                                            <textarea class="form-control w-100" name="comment" id="comment" cols="30" rows="9" placeholder="Write Comment"></textarea>
+                                        </div>
+                                    </div>
+	                                <button type="button" id="questionBtn" class="button button-contactForm">작성 하기<i class="fi-rs-arrow-right"></i></button>
+	                            </form>
+	                        </div>
+	                    </div>
+	                </div>
+	            </div>
+			</div>
+        </div>
+    </div>
+</div>
+</div>
+</html>
