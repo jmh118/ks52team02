@@ -51,7 +51,7 @@ public class MemberRegisterController {
     }
 
 	@GetMapping("/mentor2")
-    public String registerMento2r() {
+    public String registerMento2() {
     	System.out.println("멘토 회원가입 화면2");
         return  "member/register/registerMentor2Form";
     }
