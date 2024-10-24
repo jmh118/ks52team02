@@ -26,6 +26,18 @@ public class MemberLoginController {
 	private final MemberLoginService memberLoginService;
 	private final MemberLoginMapper memberLoginMapper;
 	
+	@PostMapping("checkPw")
+	@ResponseBody
+	public boolean checkPw(HttpSession session, @RequestParam(value="memberPw") String memberPw) {
+
+		log.info("아이디 뭐임?? : {}", session.getAttribute("SID"));
+		String memberId = (String) session.getAttribute("SID");
+		boolean isCheckPw = memberLoginService.isCheckMemberPw(memberId, memberPw);
+		
+		return isCheckPw; 
+	}
+	
+	
 	@PostMapping("checkLevel")
 	@ResponseBody
 	public boolean checkLevel(@RequestParam(value="memberId") String memberId) {
@@ -52,6 +64,8 @@ public class MemberLoginController {
 		return viewName;
 	}
 	
+	
+	
 	@PostMapping("/loginProc")
 	public String loginProcess(String memberId, String memberPw,
 							   HttpSession session, RedirectAttributes reAttr) {
@@ -65,6 +79,7 @@ public class MemberLoginController {
 		boolean checkMember = (boolean) loginMap.get("isCheck");
 		
 		if(checkMember) {
+			
 			Member memberInfo = (Member) loginMap.get("memberInfo");
 			String memberLevel = memberInfo.getMemberLevel();
 			
@@ -76,10 +91,11 @@ public class MemberLoginController {
 			
 			session.setAttribute("SID", memberId);
 			session.setAttribute("SLEVEL", memberLevel);
-			
+					
 		}else {
 			reAttr.addAttribute("msg", msg);
 		}
+	
 		
 		return viewName;
 	}

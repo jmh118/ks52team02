@@ -7,7 +7,7 @@
         <meta name="description" content="" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <!-- Favicon -->
-        <link rel="shortcut icon" type="image/x-icon" href="/manager/imgs/theme/favicon.png" />
+        <link rel="shortcut icon" type="image/x-icon" href="/common/img/favicon.png" />
         <!-- Template CSS -->
         <link href="/manager/css/main.css?v=1.1" rel="stylesheet" type="text/css" />
     </head>
@@ -71,10 +71,14 @@
         <script th:inline="javascript">
 			const msg = [[${msg}]];
 			if(msg) alert(msg);
+			
+			
 		
 			$('#loginBtn').click(function(){
 				let isSubmit = true;
 				const $formEles = $('#managerLoginForm input');
+				
+				
 				
 				$formEles.each((index, item) => {
 					const value = $(item).val();
@@ -95,13 +99,13 @@
 
 				if (isSubmit) {
 					$.ajax({
-		                url: '/member/checkLevel',  // 권한 체크를 할 서버 URL
+		                url: '/member/checkLevel', 
 		                type: 'POST',
-		                data: { "memberId": memberId },  // memberId 전달
-		                dataType: 'text'  // 서버의 반환 타입이 boolean이므로 text로 받음
+		                data: { "memberId": memberId },  
+		                dataType: 'text'  
 					})
 					.done(function(data) {
-						if (data === 'true') {  // 서버에서 true를 문자열로 반환
+						if (data === 'true') {  
 							$('#managerLoginForm').submit();
 						} else {
 							alert('관리자 전용 로그인 화면입니다~');
