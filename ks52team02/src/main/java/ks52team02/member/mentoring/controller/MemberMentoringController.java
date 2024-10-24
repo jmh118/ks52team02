@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import ks52team02.member.mentoring.dto.Notice;
 import ks52team02.member.mentoring.dto.NoticeDetail;
+import ks52team02.member.mentoring.dto.NoticeQuestion;
 import ks52team02.member.mentoring.dto.Topic;
 import ks52team02.member.mentoring.mapper.MentoringMapper;
 import ks52team02.member.mentoring.service.MentoringService;
@@ -41,10 +42,17 @@ public class MemberMentoringController {
 	@GetMapping("/noticeDetail")
     public String MoveNoticeDetail(@RequestParam(name="noticeCode")String noticeCode, Model model) {
     	System.out.println("멘토링 | 멘토링 공고 조회 | 멘토링 공고 상세 조회 화면");
+    	// 공고상세내용
     	Notice noticeDetail = mentoringMapper.getNoticeDetailByCode(noticeCode);
     	List<NoticeDetail> mentoringTime = mentoringService.getNoticeDetailTimeByCode(noticeCode);
     	model.addAttribute("noticeDetail", noticeDetail);
     	model.addAttribute("mentoringTime", mentoringTime);
+    	
+    	// 공고관련질문
+    	List<NoticeQuestion> noticeQnA = mentoringService.getNoticeQuestionByCode(noticeCode);
+    	log.info("noticeQnA : {}",noticeQnA);
+    	model.addAttribute("noticeQnA", noticeQnA);
+    	
     	
         return  "member/mentoring/noticeDetail";
     }

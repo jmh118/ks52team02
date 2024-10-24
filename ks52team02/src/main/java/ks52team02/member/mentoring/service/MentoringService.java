@@ -2,8 +2,10 @@ package ks52team02.member.mentoring.service;
 
 import java.util.List;
 
+
 import ks52team02.member.mentoring.dto.Notice;
 import ks52team02.member.mentoring.dto.NoticeDetail;
+import ks52team02.member.mentoring.dto.NoticeQuestion;
 import ks52team02.member.mentoring.dto.Topic;
 
 public interface MentoringService {
@@ -24,5 +26,8 @@ public interface MentoringService {
 
 	// 공고 상세 멘토링 시간
 	List<NoticeDetail> getNoticeDetailTimeByCode(String noticeCode);
+
+	// 공고관련질문답변 조회
+	List<NoticeQuestion> getNoticeQuestionByCode(String noticeCode);
 
 }

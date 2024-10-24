@@ -6,10 +6,14 @@ import org.apache.ibatis.annotations.Mapper;
 
 import ks52team02.member.mentoring.dto.Notice;
 import ks52team02.member.mentoring.dto.NoticeDetail;
+import ks52team02.member.mentoring.dto.NoticeQuestion;
 import ks52team02.member.mentoring.dto.Topic;
 
 @Mapper
 public interface MentoringMapper {
+	
+	// 공고관련질문답변 조회
+	List<NoticeQuestion> getNoticeQuestionByCode(String noticeCode);
 	
 	// 신청가능한 요일 조회
 	List<NoticeDetail> getNoticeApplyYmdByCode(String noticeCode);

@@ -65,60 +65,43 @@
                                                 <div class="col-lg-8">
                                                     <h4 class="mb-30">Customer questions & answers</h4>
                                                     <div class="comment-list">
-                                                        <div class="single-comment justify-content-between d-flex mb-30">
-                                                            <div class="user justify-content-between d-flex">
-                                                                <div class="thumb text-center">
-
-                                                                    <a href="#" class="font-heading text-brand">Sienna</a>
-                                                                </div>
-                                                                <div class="desc">
-                                                                    <div class="d-flex justify-content-between mb-10">
-                                                                        <div class="d-flex align-items-center">
-                                                                            <span class="font-xs text-muted">December 4, 2022 at 3:12 pm </span>
-                                                                        </div>
-                                                                    </div>
-                                                                    <p class="mb-10">
-	                                                                    Java 조금 배웠습니다.완전 처음은 아니여서 활용느낌으로 배울수 있나요? 
-	                                                                    <a href="#replyform" data-bs-toggle="collapse" class="collapsed" aria-expanded="false">Reply</a>
-                                                                    </p>
-                                                                </div>                                                             
-                                                            </div>                                                           
-                                                        </div>
-                                                        <div class="single-comment justify-content-between d-flex mb-30 ml-30">
-                                                            <div class="user justify-content-between d-flex">
-                                                                <div class="thumb text-center">
-                                                                    <a href="#" class="font-heading text-brand">Brenna</a>
-                                                                </div>
-                                                                <div class="desc">
-                                                                    <div class="d-flex justify-content-between mb-10">
-                                                                        <div class="d-flex align-items-center">
-                                                                            <span class="font-xs text-muted">December 4, 2022 at 3:12 pm </span>
-                                                                        </div>
-                                                                    </div>
-                                                                    <p class="mb-10">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus, suscipit exercitationem accusantium obcaecati quos voluptate nesciunt facilis itaque modi commodi dignissimos sequi repudiandae minus ab deleniti totam officia id incidunt? 
-                                                                    <a href="#replyform" data-bs-toggle="collapse" class="collapsed" aria-expanded="false">Reply</a>
-                                                                    </p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="single-comment justify-content-between d-flex">
-                                                            <div class="user justify-content-between d-flex">
-                                                                <div class="thumb text-center">
-                                                                    <a href="#" class="font-heading text-brand">Gemma</a>
-                                                                </div>
-                                                                <div class="desc">
-                                                                    <div class="d-flex justify-content-between mb-10">
-                                                                        <div class="d-flex align-items-center">
-                                                                            <span class="font-xs text-muted">December 4, 2022 at 3:12 pm </span>
-                                                                        </div>
-                                                                    </div>
-                                                                    <p class="mb-10">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus, suscipit exercitationem accusantium obcaecati quos voluptate nesciunt facilis itaque modi commodi dignissimos sequi repudiandae minus ab deleniti totam officia id incidunt? <a href="#" class="reply" onclick="showReplyForm(event, this)">Reply</a></p>
-                                                                </div>
-                                                            </div>
+	                                                    <div class="single-comment" th:each="nqa : ${noticeQnA}">
+	                                                        <div class="single-comment justify-content-between d-flex mb-30">
+	                                                            <div class="user justify-content-between d-flex">
+	                                                                <div class="thumb text-center">
+	                                                                    <a href="#" class="font-heading text-brand" th:text="${nqa.memberId}"></a>
+	                                                                </div>
+	                                                                <div class="desc">
+	                                                                    <div class="d-flex justify-content-between mb-10">
+	                                                                        <div class="d-flex align-items-center">
+	                                                                            <span class="font-xs text-muted" th:text="${nqa.questionYmd}"></span>
+	                                                                        </div>
+	                                                                    </div>
+	                                                                    <p class="mb-10" th:text="${nqa.questionContent}">
+		                                                                    <a href="#replyform" data-bs-toggle="collapse" class="collapsed" aria-expanded="false">Reply</a>
+	                                                                    </p>
+	                                                                </div>                                                             
+	                                                            </div>                                                           
+	                                                        </div>
+	                                                        <div class="single-comment justify-content-between d-flex mb-30 ml-30">
+	                                                            <div class="user justify-content-between d-flex">
+	                                                                <div class="thumb text-center">
+	                                                                    <a href="#" class="font-heading text-brand" th:text="${nqa.noticeAnswer.memberId}"></a>
+	                                                                </div>
+	                                                                <div class="desc">
+	                                                                    <div class="d-flex justify-content-between mb-10">
+	                                                                        <div class="d-flex align-items-center">
+	                                                                            <span class="font-xs text-muted" th:text="${nqa.noticeAnswer.answerYmd}"></span>
+	                                                                        </div>
+	                                                                    </div>
+	                                                                    <p class="mb-10" th:text="${nqa.noticeAnswer.answerContent}">
+	                                                                    </p>
+	                                                                </div>
+	                                                            </div>
+	                                                        </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                
                                             </div>
                                         </div>
                                         <div class="panel-collapse collapse comment-form" id="replyform">
