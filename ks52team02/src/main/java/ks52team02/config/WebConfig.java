@@ -26,6 +26,8 @@ public class WebConfig implements WebMvcConfigurer {
 		
 		List<String> excludePath = new ArrayList<String>();
 		
+		excludePath.add("/favicon.ico");
+		excludePath.add("/common/img/**");
 		excludePath.add("/common/css/**");
 		excludePath.add("/manager/css/**");
 		excludePath.add("/manager/fonts/**");
@@ -49,17 +51,18 @@ public class WebConfig implements WebMvcConfigurer {
 		excludePath.add("/member");
 		excludePath.add("/manager");
 		excludePath.add("/register/**");
+		excludePath.add("/member/findPassword");
 		excludePath.add("/member/login");
 		excludePath.add("/member/managerLogin");
 		excludePath.add("/member/loginProc");
 		excludePath.add("/member/logout");
 		excludePath.add("/member/checkLevel");
+		excludePath.add("/member/checkPw");
 		
 		// 로그인 없이 접근 가능한 경로 추가
 		excludePath.add("/mentoring/notice");
 	    excludePath.add("/mentoring/noticeDetail");
-	    excludePath.add("/portfolio/list");
-	    excludePath.add("/portfolio/detail");
+	    excludePath.add("/portfolio/**");
 	    excludePath.add("/honor/mentorList");
 	    excludePath.add("/mentor/list");
 	    excludePath.add("/review/mentorReviewList");

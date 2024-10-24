@@ -12,6 +12,16 @@
 		<result column="mentoring_postscript_date" 				property="reviewRegDate"/>	
 	</resultMap>
 	
+	<delete id="removeReview">
+		/* 후기 삭제 */
+		DELETE 
+		FROM 
+			mentoring_postscript 
+		WHERE mentoring_postscript_code = #{reviewCode};
+	
+	
+	</delete>
+	
 	<select id="getMentorReviewsDataList" resultType="MentorReviews">
 		/* 관리자 전체 멘토의 후기 관련 통계 조회 */
 		SELECT 

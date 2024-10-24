@@ -14,8 +14,7 @@ public class MemberLoginInterceptor implements HandlerInterceptor {
 	
 	
 	@Override
-	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
-			throws Exception {
+	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 		
 		HttpSession session = request.getSession();
 		String sessionId = (String) session.getAttribute("SID");
