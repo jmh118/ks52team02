@@ -81,13 +81,13 @@
 	<select id="getNoticeApplyYmdByCode" parameterType="String" resultType="NoticeDetail">
 		/* 신청가능한 공고요일 */
 		SELECT
-			DISTINCT
 			day_mentoring_YMD AS mentoringYmd,
-			day_mentoring_time AS mentoringTime
+			day_mentoring_time AS mentoringTime,
+			mentoring_notice_detail_code AS noticeDetailCode
 		FROM
-			mentoring_notice_detail
+			mentoring_notice_detail 
 		WHERE
-			mentoring_notice_code = #{noticeCode}
+			mentoring_notice_code = 'mentoring_notice_code_01'
 			and
 			RSVT_status = '예약 가능';
 	</select>

@@ -80,6 +80,9 @@ public class MemberMentoringController {
     	log.info("noticeQnA : {}",noticeQnA);
     	model.addAttribute("noticeQnA", noticeQnA);
     	System.out.println(noticeQnA);
+    	
+    	List<NoticeDetail> noticeDetailYmd = mentoringMapper.getNoticeApplyYmdByCode(noticeCode);
+    	model.addAttribute("noticeDetailYmd", noticeDetailYmd);
 
         return  "member/mentoring/noticeDetail";
     }
