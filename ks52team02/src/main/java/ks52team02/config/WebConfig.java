@@ -56,6 +56,7 @@ public class WebConfig implements WebMvcConfigurer {
 		excludePath.add("/member/loginProc");
 		excludePath.add("/member/logout");
 		excludePath.add("/member/checkLevel");
+		excludePath.add("/member/checkPw");
 		
 		// 로그인 없이 접근 가능한 경로 추가
 		excludePath.add("/mentoring/notice");

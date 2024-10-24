@@ -4,26 +4,28 @@
      <!--/* 기존 class는 main pages...  pages 누락 시 문제 없음
     	<main class="main pages"layout:fragment="content"> */-->
     <th:block layout:fragment="customJs">
-    	<script>
-			
-	    	$('#loginBtn').click(function(){
-				let isSubmit = true;
-				const $formEles = $('#loginForm input');
-				
-				$formEles.each((index, item)=>{
-					const value = $(item).val();
-					if(!value){
-						const cate = $(item).attr('placeholder');
-						const msg = `${cate} 필수 입력항목입니다.`;
-						alert(msg);
-						$(item).focus();
-						isSubmit = false;
-						return false;
-					}
-				});
-				
-				if(isSubmit) $('#loginForm').submit();
-			});
+    	<script th:inline="javascript">
+	
+	        $('#loginBtn').click(function(){
+	            let isSubmit = true;
+	    		
+	            const $formEles = $('#loginForm input');
+	            
+	            $formEles.each((index, item)=>{
+	                const value = $(item).val();
+	                if(!value){
+	                    const cate = $(item).attr('placeholder');
+	                    const msg = `${cate} 필수 입력항목입니다.`;
+	                    alert(msg);
+	                    $(item).focus();
+	                    isSubmit = false;
+	                    return false;
+	                }
+	            });
+	            
+	            
+	            if(isSubmit) $('#loginForm').submit();
+	        });
     	
     	</script>
     </th:block>
@@ -43,6 +45,10 @@
                                             <h1 class="mb-10">Login</h1>
                                             <p class="mb-30">회원이 아니신가요!!!!!? <a href="/register/info"> 회원가입</a></p>
                                         </div>
+                                        <!-- 여기서 msg 값 표시
+	                                    <div th:if="${param.msg}">
+	                                        <p style="color: red;" th:text="${param.msg}"></p>
+	                                    </div> -->
                                         <form id="loginForm" th:action="@{/member/loginProc}" method="post">
                                             <div class="form-group">
                                                 <input type="text" id="memberId" name="memberId" placeholder="아이디" />
