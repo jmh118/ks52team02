@@ -1,6 +1,22 @@
 ﻿<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{member/layouts/layout}">
+	<th:block layout:fragment="customJs">
+		<script type="text/javascript">
+			$(document).ready(function () {
+			    $('#NoticeAnswer').on('show.bs.modal', function (event) {
+			        var button = $(event.relatedTarget);  // 모달을 연 버튼
+			        var questionCode = button.data('question-code');  // questionCode 가져오기
+			        var inputQuestionCode = $(this).find('input[name="questionCode"]');
+			        
+			        if (inputQuestionCode.length) {
+			            inputQuestionCode.val(questionCode);  // 모달의 숨겨진 필드에 설정
+			        }
+			    });
+			});
+		</script>
+   	</th:block>
+
     <th:block layout:fragment="customContent">
         <div class="container mb-30">
             <div class="row">
@@ -65,103 +81,47 @@
                                                 <div class="col-lg-8">
                                                     <h4 class="mb-30">Customer questions & answers</h4>
                                                     <div class="comment-list">
-                                                        <div class="single-comment justify-content-between d-flex mb-30">
-                                                            <div class="user justify-content-between d-flex">
-                                                                <div class="thumb text-center">
-
-                                                                    <a href="#" class="font-heading text-brand">Sienna</a>
-                                                                </div>
-                                                                <div class="desc">
-                                                                    <div class="d-flex justify-content-between mb-10">
-                                                                        <div class="d-flex align-items-center">
-                                                                            <span class="font-xs text-muted">December 4, 2022 at 3:12 pm </span>
-                                                                        </div>
-                                                                    </div>
-                                                                    <p class="mb-10">
-	                                                                    Java 조금 배웠습니다.완전 처음은 아니여서 활용느낌으로 배울수 있나요? 
-	                                                                    <a href="#replyform" data-bs-toggle="collapse" class="collapsed" aria-expanded="false">Reply</a>
-                                                                    </p>
-                                                                </div>                                                             
-                                                            </div>                                                           
-                                                        </div>
-                                                        <div class="single-comment justify-content-between d-flex mb-30 ml-30">
-                                                            <div class="user justify-content-between d-flex">
-                                                                <div class="thumb text-center">
-                                                                    <a href="#" class="font-heading text-brand">Brenna</a>
-                                                                </div>
-                                                                <div class="desc">
-                                                                    <div class="d-flex justify-content-between mb-10">
-                                                                        <div class="d-flex align-items-center">
-                                                                            <span class="font-xs text-muted">December 4, 2022 at 3:12 pm </span>
-                                                                        </div>
-                                                                    </div>
-                                                                    <p class="mb-10">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus, suscipit exercitationem accusantium obcaecati quos voluptate nesciunt facilis itaque modi commodi dignissimos sequi repudiandae minus ab deleniti totam officia id incidunt? 
-                                                                    <a href="#replyform" data-bs-toggle="collapse" class="collapsed" aria-expanded="false">Reply</a>
-                                                                    </p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="single-comment justify-content-between d-flex">
-                                                            <div class="user justify-content-between d-flex">
-                                                                <div class="thumb text-center">
-                                                                    <a href="#" class="font-heading text-brand">Gemma</a>
-                                                                </div>
-                                                                <div class="desc">
-                                                                    <div class="d-flex justify-content-between mb-10">
-                                                                        <div class="d-flex align-items-center">
-                                                                            <span class="font-xs text-muted">December 4, 2022 at 3:12 pm </span>
-                                                                        </div>
-                                                                    </div>
-                                                                    <p class="mb-10">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus, suscipit exercitationem accusantium obcaecati quos voluptate nesciunt facilis itaque modi commodi dignissimos sequi repudiandae minus ab deleniti totam officia id incidunt? <a href="#" class="reply" onclick="showReplyForm(event, this)">Reply</a></p>
-                                                                </div>
-                                                            </div>
+	                                                    <div class="single-comment" th:each="nqa : ${noticeQnA}">
+	                                                        <div class="single-comment justify-content-between d-flex mb-30">
+	                                                            <div class="user justify-content-between d-flex">
+	                                                                <div class="thumb text-center">
+	                                                                    <a href="#" class="font-heading text-brand" th:text="${nqa.memberId}"></a>
+	                                                                </div>
+	                                                                <div class="desc">
+	                                                                    <div class="d-flex justify-content-between mb-10">
+	                                                                        <div class="d-flex align-items-center">
+	                                                                            <span class="font-xs text-muted" th:text="${nqa.questionYmd}"></span>
+	                                                                        </div>
+	                                                                    </div>
+	                                                                    <p class="mb-10" th:text="${nqa.questionContent}"></p>
+		                                                                <a class="collapsed"data-bs-toggle="modal" data-bs-target="#NoticeAnswer" th:attr="data-question-code=${nqa.questionCode}">답변하기</a>
+	                                                                </div>                                                             
+	                                                            </div>                                                           
+	                                                        </div>
+	                                                        <div class="single-comment justify-content-between d-flex mb-30 ml-30" th:if="${nqa.noticeAnswer != null}">
+	                                                            <div class="user justify-content-between d-flex" >
+	                                                                <div class="thumb text-center">
+	                                                                    <a href="#" class="font-heading text-brand" th:text="${nqa.noticeAnswer.mentorId}"></a>
+	                                                                </div>
+	                                                                <div class="desc">
+	                                                                    <div class="d-flex justify-content-between mb-10">
+	                                                                        <div class="d-flex align-items-center">
+	                                                                            <span class="font-xs text-muted" th:text="${nqa.noticeAnswer.answerYmd}"></span>
+	                                                                        </div>
+	                                                                    </div>
+	                                                                    <p class="mb-10" th:text="${nqa.noticeAnswer.answerContent}">
+	                                                                    </p>
+	                                                                </div>
+	                                                            </div>
+	                                                        </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                
                                             </div>
                                         </div>
-                                        <div class="panel-collapse collapse comment-form" id="replyform">
-				                        	<div class="panel-body">
-					                        	<h4 class="mb-15">Add a Answer</h4>                                             
-												<div class="row">
-						                        	<div class="col-lg-8 col-md-12"> 
-						                        		<form class="form-contact comment_form" action="#" id="commentForm">
-												            <div class="row">
-													            <div class="col-12">
-													                <div class="form-group">
-													                    <textarea class="form-control w-100" name="comment" id="comment" cols="30" rows="9" placeholder="Write Comment"></textarea>
-													                </div>
-													            </div>
-													        </div>
-													        <div class="form-group">
-													            <button type="submit" class="button button-contactForm">Submit Answer</button>
-													        </div>
-														</form>
-													</div>
-												</div>
-				                        	</div>
-			                            </div>
-                                        <!--comment form-->
-                                        <div class="comment-form">
-                                            <h4 class="mb-15">Add a Question</h4>
-                                            <div class="row">
-                                                <div class="col-lg-8 col-md-12">
-                                                    <form class="form-contact comment_form" action="#" id="commentForm">
-                                                        <div class="row">
-                                                            <div class="col-12">
-                                                                <div class="form-group">
-                                                                    <textarea class="form-control w-100" name="comment" id="comment" cols="30" rows="9" placeholder="Write Comment"></textarea>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <button type="submit" class="button button-contactForm">Submit Question</button>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        <a class="btn btn-block mt-30"data-bs-toggle="modal" data-bs-target="#NoticeQuestion">등록하기</a>
+                                        <div th:insert="~{member/mentoring/modal/noticeQuestionModal :: NoticeQuestion}"></div>
+                                        <div th:insert="~{member/mentoring/modal/noticeAnswerModal :: NoticeAnswer}"></div>
                                     </div>
                                 </div>
                             </div>
