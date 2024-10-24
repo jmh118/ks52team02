@@ -6,8 +6,10 @@ import lombok.Data;
 public class NoticeAnswer {
 	
 	private String answerCode;
-	private String memberId;
+	private String questionCode;
+	private String mentorId;
 	private String answerContent;
 	private String answerYmd;
+
 
 }

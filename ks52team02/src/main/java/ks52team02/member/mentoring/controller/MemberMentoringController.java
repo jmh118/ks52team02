@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import jakarta.servlet.http.HttpSession;
 import ks52team02.member.mentoring.dto.Notice;
+import ks52team02.member.mentoring.dto.NoticeAnswer;
 import ks52team02.member.mentoring.dto.NoticeDetail;
 import ks52team02.member.mentoring.dto.NoticeQuestion;
 import ks52team02.member.mentoring.dto.Topic;
@@ -28,19 +30,44 @@ public class MemberMentoringController {
 	private final MentoringService mentoringService;
 	private final MentoringMapper mentoringMapper;
 	
+	@PostMapping("/noticeAnswer")
+	public String addNoticeAnswer(NoticeAnswer noticeAnswer) {
+		
+		mentoringService.addNoticeAnswer(noticeAnswer);
+		
+		return "redirect:/mentoring/notice";
+	}
+	
+	@PostMapping("/noticeQuestion")
+	public String addNoticeQuestion(NoticeQuestion noticeQuestion,@RequestParam(name="noticeCode")String noticeCode) {
+		
+		mentoringService.addNoticeQuestion(noticeQuestion);
+
+		return "redirect:/mentoring/noticeDetail?noticeCode=" + noticeCode;
+	}
+	
 	@PostMapping("/noticeAdd")
 	public String addNotice(Notice notice) {
 		
-		String nextCode = mentoringService.getNextNoticeCode();
-		notice.setNoticeCode("mentoring_notice_code_" + nextCode);
+		
 		log.info("notice: {}", notice);
 		mentoringService.addNotice(notice);
 		
 		return "redirect:/mentoring/notice";
 	}
 	
+	@GetMapping("/noticeAdd")
+	public String movenoticeAdd(Model model) {
+    	System.out.println("멘토링 | 멘토링 공고 등록");
+    	
+    	List<Topic> topicList = mentoringService.getTopicList();
+    	model.addAttribute("topicList", topicList);
+    	
+        return  "member/mentoring/noticeAdd";
+    }
+	
 	@GetMapping("/noticeDetail")
-    public String MoveNoticeDetail(@RequestParam(name="noticeCode")String noticeCode, Model model) {
+    public String MoveNoticeDetail(@RequestParam(name="noticeCode")String noticeCode, HttpSession session, Model model) {
     	System.out.println("멘토링 | 멘토링 공고 조회 | 멘토링 공고 상세 조회 화면");
     	// 공고상세내용
     	Notice noticeDetail = mentoringMapper.getNoticeDetailByCode(noticeCode);
@@ -52,8 +79,8 @@ public class MemberMentoringController {
     	List<NoticeQuestion> noticeQnA = mentoringService.getNoticeQuestionByCode(noticeCode);
     	log.info("noticeQnA : {}",noticeQnA);
     	model.addAttribute("noticeQnA", noticeQnA);
-    	
-    	
+    	System.out.println(noticeQnA);
+
         return  "member/mentoring/noticeDetail";
     }
 	
@@ -86,14 +113,6 @@ public class MemberMentoringController {
         return  "member/mentoring/mentoringApply";
     }
 	
-	@GetMapping("/noticeAdd")
-	public String movenoticeAdd(Model model) {
-    	System.out.println("멘토링 | 멘토링 공고 등록");
-    	
-    	List<Topic> topicList = mentoringService.getTopicList();
-    	model.addAttribute("topicList", topicList);
-    	
-        return  "member/mentoring/noticeAdd";
-    }
+	
 
 }

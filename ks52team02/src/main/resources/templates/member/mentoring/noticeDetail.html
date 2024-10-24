@@ -2,8 +2,18 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{member/layouts/layout}">
 	<th:block layout:fragment="customJs">
-		<script>
-
+		<script type="text/javascript">
+			$(document).ready(function () {
+			    $('#NoticeAnswer').on('show.bs.modal', function (event) {
+			        var button = $(event.relatedTarget);  // 모달을 연 버튼
+			        var questionCode = button.data('question-code');  // questionCode 가져오기
+			        var inputQuestionCode = $(this).find('input[name="questionCode"]');
+			        
+			        if (inputQuestionCode.length) {
+			            inputQuestionCode.val(questionCode);  // 모달의 숨겨진 필드에 설정
+			        }
+			    });
+			});
 		</script>
    	</th:block>
 
@@ -83,16 +93,15 @@
 	                                                                            <span class="font-xs text-muted" th:text="${nqa.questionYmd}"></span>
 	                                                                        </div>
 	                                                                    </div>
-	                                                                    <p class="mb-10" th:text="${nqa.questionContent}">
-		                                                                    <a href="#replyform" data-bs-toggle="collapse" class="collapsed" aria-expanded="false">Reply</a>
-	                                                                    </p>
+	                                                                    <p class="mb-10" th:text="${nqa.questionContent}"></p>
+		                                                                <a class="collapsed"data-bs-toggle="modal" data-bs-target="#NoticeAnswer" th:attr="data-question-code=${nqa.questionCode}">답변하기</a>
 	                                                                </div>                                                             
 	                                                            </div>                                                           
 	                                                        </div>
-	                                                        <div class="single-comment justify-content-between d-flex mb-30 ml-30">
-	                                                            <div class="user justify-content-between d-flex">
+	                                                        <div class="single-comment justify-content-between d-flex mb-30 ml-30" th:if="${nqa.noticeAnswer != null}">
+	                                                            <div class="user justify-content-between d-flex" >
 	                                                                <div class="thumb text-center">
-	                                                                    <a href="#" class="font-heading text-brand" th:text="${nqa.noticeAnswer.memberId}"></a>
+	                                                                    <a href="#" class="font-heading text-brand" th:text="${nqa.noticeAnswer.mentorId}"></a>
 	                                                                </div>
 	                                                                <div class="desc">
 	                                                                    <div class="d-flex justify-content-between mb-10">
@@ -110,8 +119,9 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <a class="btn btn-block mt-30" data-bs-toggle="modal" data-bs-target="#NoticeQuestion">등록하기</a>
-                                        <div th:insert="~{member/mentoring/modal/noticeQuestionmodal :: NoticeQuestion}"></div>
+                                        <a class="btn btn-block mt-30"data-bs-toggle="modal" data-bs-target="#NoticeQuestion">등록하기</a>
+                                        <div th:insert="~{member/mentoring/modal/noticeQuestionModal :: NoticeQuestion}"></div>
+                                        <div th:insert="~{member/mentoring/modal/noticeAnswerModal :: NoticeAnswer}"></div>
                                     </div>
                                 </div>
                             </div>

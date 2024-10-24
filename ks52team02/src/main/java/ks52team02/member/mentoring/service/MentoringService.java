@@ -2,15 +2,20 @@ package ks52team02.member.mentoring.service;
 
 import java.util.List;
 
-
+import jakarta.servlet.http.HttpSession;
 import ks52team02.member.mentoring.dto.Notice;
+import ks52team02.member.mentoring.dto.NoticeAnswer;
 import ks52team02.member.mentoring.dto.NoticeDetail;
 import ks52team02.member.mentoring.dto.NoticeQuestion;
 import ks52team02.member.mentoring.dto.Topic;
 
 public interface MentoringService {
-	// 공고 코드 추가
-	String getNextNoticeCode();
+	
+	// 공고관련질문에 대한 답변 등록
+	void addNoticeAnswer(NoticeAnswer noticeAnswer);
+	
+	// 공고관련질문 등록
+	void addNoticeQuestion(NoticeQuestion noticeQuestion);
 	
 	//공고등록
 	void addNotice(Notice notice);
@@ -29,5 +34,7 @@ public interface MentoringService {
 
 	// 공고관련질문답변 조회
 	List<NoticeQuestion> getNoticeQuestionByCode(String noticeCode);
+
+
 
 }

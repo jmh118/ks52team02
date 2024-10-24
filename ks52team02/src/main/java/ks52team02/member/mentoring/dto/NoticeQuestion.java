@@ -11,6 +11,7 @@ public class NoticeQuestion {
 	private String questionContent;
 	private String questionYmd;
 	
+
 	private NoticeAnswer noticeAnswer;
 
 }
