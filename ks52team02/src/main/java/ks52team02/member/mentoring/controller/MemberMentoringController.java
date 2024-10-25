@@ -5,12 +5,12 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpSession;
+import ks52team02.member.mentoring.dto.MentoringApply;
 import ks52team02.member.mentoring.dto.Notice;
 import ks52team02.member.mentoring.dto.NoticeAnswer;
 import ks52team02.member.mentoring.dto.NoticeDetail;
@@ -30,12 +30,20 @@ public class MemberMentoringController {
 	private final MentoringService mentoringService;
 	private final MentoringMapper mentoringMapper;
 	
+	@PostMapping("/apply")
+	public String addMentoringApply(MentoringApply mentoringApply) {
+		
+		mentoringService.addMentoringApply(mentoringApply);
+		
+		return "redirect:/mentoring/notice";
+	}
+	
 	@PostMapping("/noticeAnswer")
-	public String addNoticeAnswer(NoticeAnswer noticeAnswer) {
+	public String addNoticeAnswer(NoticeAnswer noticeAnswer,@RequestParam(name="noticeCode")String noticeCode) {
 		
 		mentoringService.addNoticeAnswer(noticeAnswer);
 		
-		return "redirect:/mentoring/notice";
+		return "redirect:/mentoring/noticeDetail?noticeCode=" + noticeCode;
 	}
 	
 	@PostMapping("/noticeQuestion")
@@ -80,7 +88,11 @@ public class MemberMentoringController {
     	log.info("noticeQnA : {}",noticeQnA);
     	model.addAttribute("noticeQnA", noticeQnA);
     	System.out.println(noticeQnA);
-
+    	
+    	List<NoticeDetail> noticeDetailYmd = mentoringMapper.getNoticeApplyYmdByCode(noticeCode);
+    	model.addAttribute("noticeDetailYmd", noticeDetailYmd);
+    	String memberGrade = (String)session.getAttribute("SLEVEL");
+    	System.out.println("멤버등급"+memberGrade);
         return  "member/mentoring/noticeDetail";
     }
 	
