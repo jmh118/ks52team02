@@ -18,8 +18,15 @@
 			<result column="answer_writing_YMD" property="answerYmd"/>
 		</association>
 	</resultMap>
-
 	
+	<insert id="addMentoringApply" parameterType="MentoringApply">
+		/* 멘토링 신청 */
+		INSERT INTO mentoring_apply
+			(mentoring_apply_code, mentoring_notice_code, mentoring_notice_detail_code, member_id, amount, amount_status, update_YMD)
+		VALUES 
+			(#{applyCode}, #{noticeCode}, #{noticeDetailCode}, #{memberId}, #{noticeUntprc}, '결제 전', CURDATE());
+	</insert>
+
 	<insert id="addNoticeAnswer" parameterType="NoticeAnswer">
 		/* 공고관련질문 등록 */
 		INSERT INTO mentoring_notice_question_answer
@@ -27,18 +34,6 @@
 		VALUES 
 			(#{answerCode}, #{questionCode},  #{mentorId}, #{answerContent},CURDATE());
 	</insert>
-
-	<select id="getNextNoticeAnswerCode" resultType="String">
-		/* 공고관련답변 코드 추가 */
-		SELECT 
-			LPAD(
-		        IFNULL(MAX(CAST(SUBSTRING(mentoring_notice_question_answer_code, 39) AS UNSIGNED)) + 1, 1), 
-		        2, 
-		        '0'
-	    	)
-	    FROM 
-	    	mentoring_notice_question_answer;
-	</select>
 	
 	<insert id="addNoticeQuestion" parameterType="NoticeQuestion">
 		/* 공고관련질문 등록 */
@@ -47,18 +42,6 @@
 		VALUES 
 			(#{questionCode}, #{noticeCode}, #{memberId}, #{questionContent}, CURDATE());
 	</insert>
-	
-	<select id="getNextNoticeQuestionCode" resultType="String">
-		/* 공고관련질문 코드 추가 */
-		SELECT 
-			LPAD(
-		        IFNULL(MAX(CAST(SUBSTRING(mentoring_notice_question_code, 32) AS UNSIGNED)) + 1, 1), 
-		        2, 
-		        '0'
-	    	)
-	    FROM 
-	    	mentoring_notice_question;
-	</select>
 	
 	<select id="getNoticeQuestionByCode" parameterType="String" resultMap="noticeQuestionMap">
 		/* 공고관련질문답변 조회 */
@@ -176,18 +159,6 @@
 			(#{noticeCode}, #{topicCode}, 'mentor013', 'mentor_UNTPRC_DCSN_code_01', #{noticeTitle}, #{noticeContent}, #{noticeStartTime}, #{noticeEndTime}, #{noticeStartYmd}, #{noticeEndYmd}, 3, CURDATE(), #{noticeUntprc}, 3, 210000);
 		
 	</insert>
-	
-	<select id="getNextNoticeCode" resultType="String">
-		/* 공고 코드 추가 */
-		SELECT 
-			LPAD(
-		        IFNULL(MAX(CAST(SUBSTRING(mentoring_notice_code, 23) AS UNSIGNED)) + 1, 1), 
-		        2, 
-		        '0'
-	    	)
-	    FROM 
-	    	mentoring_notice;
-	</select>
 	
 	<select id="getTopicList" resultType="Topic">
 		/* 주제카테고리조회 */

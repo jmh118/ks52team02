@@ -3,7 +3,6 @@
 	layout:decorate="~{member/layouts/layout}">
 	<th:block layout:fragment="customJs">
 		<script type="text/javascript">
-			$(document).ready(function () {
 			    $('#NoticeAnswer').on('show.bs.modal', function (event) {
 			        var button = $(event.relatedTarget);  // 모달을 연 버튼
 			        var questionCode = button.data('question-code');  // questionCode 가져오기
@@ -13,7 +12,7 @@
 			            inputQuestionCode.val(questionCode);  // 모달의 숨겨진 필드에 설정
 			        }
 			    });
-			});
+
 		</script>
    	</th:block>
 
@@ -41,7 +40,7 @@
                                     </div>
                                     <div class="detail-extralink mb-50">
                                    		<a class="button button-add-to-cart" data-bs-toggle="modal" data-bs-target="#MentoringApply">신청하기</a>
-	                                    <a th:href="@{/mentoring/apply(noticeCode=*{noticeCode})}" class="button button-add-to-cart"><i class="fi-rs-shopping-cart"></i>신청하기</a>                                    
+	                                   <!--  <a th:href="@{/mentoring/apply(noticeCode=*{noticeCode})}" class="button button-add-to-cart"><i class="fi-rs-shopping-cart"></i>신청하기</a> -->                                    
                                     </div>
                                 </div>
                             </div>
@@ -81,7 +80,7 @@
                                         <div class="comments-area">
                                             <div class="row">
                                                 <div class="col-lg-8">
-                                                    <h4 class="mb-30">Customer questions & answers</h4>
+                                                    <h4 class="mb-30">멘토링전 문의</h4>
                                                     <div class="comment-list">
 	                                                    <div class="single-comment" th:each="nqa : ${noticeQnA}">
 	                                                        <div class="single-comment justify-content-between d-flex mb-30">
@@ -121,6 +120,7 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <!-- <button type="button" class="btn btn-block mt-30" data-bs-toggle="modal" data-bs-target="#NoticeQuestion">등록하기</button> -->
                                         <a class="btn btn-block mt-30"data-bs-toggle="modal" data-bs-target="#NoticeQuestion">등록하기</a>
                                         <div th:insert="~{member/mentoring/modal/noticeQuestionModal :: NoticeQuestion}"></div>
                                         <div th:insert="~{member/mentoring/modal/noticeAnswerModal :: NoticeAnswer}"></div>
