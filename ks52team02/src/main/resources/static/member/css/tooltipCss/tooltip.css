@@ -1,0 +1,27 @@
+.tooltip-button {
+     position: relative;
+     padding: 10px 20px;
+     background-color: #4CAF50;
+     color: white;
+     border: none;
+     cursor: pointer;
+ }
+
+ /* 말풍선 숨겨두기 */
+ .tooltip {
+     display: none;
+     position: absolute;
+     bottom: 100%; /* 버튼 위에 말풍선 위치 */
+     left: 50%;
+     transform: translateX(-50%);
+     background-color: black;
+     color: white;
+     padding: 5px;
+     border-radius: 5px;
+ }
+
+ /* 버튼 비활성화 스타일 */
+ .disabled {
+     background-color: #aaa;
+     cursor: not-allowed;
+ }

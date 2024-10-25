@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>404 error - Page Not Found</title>
+	<!-- Template CSS -->
+    <link rel="stylesheet" href="/member/css/main.css?v=5.6" />
+</head>
+
+<body id="page-top" class="vh-100">	
+	<main class="main page-404">
+        <div class="page-content pt-150 pb-150">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-8 col-lg-10 col-md-12 m-auto text-center">
+                        <h1 class="display-2 mb-30">404</h1>
+                        <h1 class="display-2 mb-30">Page Not Found</h1>
+                        <p class="font-lg text-grey-700 mb-30">
+                            The link you clicked may be broken or the page may have been removed.<br />
+                        </p>
+                        <a class="btn btn-default submit-auto-width font-xs hover-up mt-30" th:href="@{/member}"><i class="fi-rs-home mr-5"></i> Back To Home Page</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+	
+</body>
+
+</html>

@@ -4,6 +4,80 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ks52team02.member.mentoring.mapper.MentoringMapper">
 
+	<resultMap type="NoticeQuestion" id="noticeQuestionMap">
+		<id column="mentoring_notice_question_code" property="questionCode"/>
+		<result column="mentoring_notice_code" property="noticeCode"/>	
+		<result column="member_id" property="memberId"/>	
+		<result column="question_content" property="questionContent"/>	
+		<result column="question_writing_YMD" property="questionYmd"/>	
+		
+		<association property="noticeAnswer" javaType="NoticeAnswer">
+			<id column="mentoring_notice_question_answer_code" property="answerCode"/>
+			<result column="mentor_id" property="mentorId"/>	
+			<result column="answer_content" property="answerContent"/>	
+			<result column="answer_writing_YMD" property="answerYmd"/>
+		</association>
+	</resultMap>
+
+	
+	<insert id="addNoticeAnswer" parameterType="NoticeAnswer">
+		/* 공고관련질문 등록 */
+		INSERT INTO mentoring_notice_question_answer
+			(mentoring_notice_question_answer_code, mentoring_notice_question_code, mentor_id, answer_content, answer_writing_YMD)
+		VALUES 
+			(#{answerCode}, #{questionCode},  #{mentorId}, #{answerContent},CURDATE());
+	</insert>
+
+	<select id="getNextNoticeAnswerCode" resultType="String">
+		/* 공고관련답변 코드 추가 */
+		SELECT 
+			LPAD(
+		        IFNULL(MAX(CAST(SUBSTRING(mentoring_notice_question_answer_code, 39) AS UNSIGNED)) + 1, 1), 
+		        2, 
+		        '0'
+	    	)
+	    FROM 
+	    	mentoring_notice_question_answer;
+	</select>
+	
+	<insert id="addNoticeQuestion" parameterType="NoticeQuestion">
+		/* 공고관련질문 등록 */
+		INSERT INTO mentoring_notice_question
+			(mentoring_notice_question_code, mentoring_notice_code, member_id, question_content, question_writing_YMD)
+		VALUES 
+			(#{questionCode}, #{noticeCode}, #{memberId}, #{questionContent}, CURDATE());
+	</insert>
+	
+	<select id="getNextNoticeQuestionCode" resultType="String">
+		/* 공고관련질문 코드 추가 */
+		SELECT 
+			LPAD(
+		        IFNULL(MAX(CAST(SUBSTRING(mentoring_notice_question_code, 32) AS UNSIGNED)) + 1, 1), 
+		        2, 
+		        '0'
+	    	)
+	    FROM 
+	    	mentoring_notice_question;
+	</select>
+	
+	<select id="getNoticeQuestionByCode" parameterType="String" resultMap="noticeQuestionMap">
+		/* 공고관련질문답변 조회 */
+		SELECT
+			mnq.mentoring_notice_question_code,
+			mnq.question_content,
+			mnq.mentoring_notice_code,
+			mnq.member_id,
+			mnq.question_writing_YMD,
+			mnqa.answer_content,
+			mnqa.mentor_id,
+			mnqa.answer_writing_YMD
+		FROM
+			mentoring_notice_question mnq LEFT JOIN mentoring_notice_question_answer mnqa
+			USING (mentoring_notice_question_code)
+		WHERE
+			mnq.mentoring_notice_code=#{noticeCode};
+	</select>
+
 	<select id="getNoticeApplyYmdByCode" parameterType="String" resultType="NoticeDetail">
 		/* 신청가능한 공고요일 */
 		SELECT

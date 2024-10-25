@@ -2,6 +2,60 @@
 <html xmlns:th="http://www.thymeleaf.org" 
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  layout:decorate="~{manager/layouts/layout}">
+	<th:block layout:fragment="customJs">
+		<script>
+		
+		    function checkPassword(memberPw) {
+		        return $.ajax({
+		            type: 'POST',
+		            url: '/member/checkPw',
+		            data: { 'memberPw': memberPw },
+		            dataType: 'json'
+		        });
+		    }
+	
+		    function deleteReview(reviewCode) {
+		        return $.ajax({
+		            type: 'GET',
+		            url: '/manager/review/remove',
+		            data: { 'reviewCode': reviewCode }
+		        });
+		    }
+	
+		    
+		    $('.reviewDelBtn').click(function(){
+		    	
+		        let reviewCode = $(this).data('review-code');
+
+		        let memberPw = prompt("관리자 비밀번호를 입력하세요:");
+	
+		        
+		        if (memberPw === null || memberPw === "") {
+		            alert("비밀번호를 입력해 주세요 .");
+		            return;
+		        }
+	
+		        checkPassword(memberPw).done(function(data) {
+		            if (data) {
+		                deleteReview(reviewCode).done(function() {
+		                    alert('후기가 성공적으로 삭제되었습니다.');
+		                    location.reload(); 
+		                }).fail(function() {
+		                    alert('후기 삭제 중 오류가 발생했습니다.~~');
+		                });
+		            } else {
+		                alert("비밀번호가 잘못되었습니다.");
+		            }
+		        }).fail(function() {
+		            alert('비밀번호 검증 중 오류가 발생했습니다~.');
+		        });
+		  
+		    });
+		    	
+		
+    	</script>
+		
+	</th:block>
 	<th:block layout:fragment="customContent">  
 	    <section class="content-main">
 	        <div class="content-header">
@@ -17,7 +71,7 @@
 	            <!-- card-header end// -->
 	            <div class="card-body">
 	                <div class="table-responsive">
-	                    <table class="table table-hover">
+	                    <table class="table table-hover text-center">
 	                        <thead>
 	                            <tr>
 	                                <th>후기 코드</th>
@@ -30,7 +84,7 @@
 	                            </tr>
 	                        </thead>
 	                        <tbody>
-	                            <tr th:each="rl : ${reviewList}">
+	                            <tr th:unless="${#lists.isEmpty(reviewList)}" th:each="rl : ${reviewList}">
 	                                <td th:text="${rl.reviewCode}"></td>
 	                                <td th:text="${rl.menteeId}"></td>
 	                                <td>
@@ -47,9 +101,12 @@
 	                                <td th:text="${rl.reviewContent}"></td>
 	                                <td th:text="${rl.reviewRegDate}"></td>
 	                                <td>
-	                                    <a href="#" class="btn btn-md rounded font-sm">삭제</a>
+	                                	<button type="button" class="btn btn-sm font-sm btn-light rounded reviewDelBtn" th:data-review-code="${rl.reviewCode}"><i class="material-icons md-delete_forever"></i>삭제</button>
 	                                </td>
 	                            </tr>
+	                            <tr th:if="${#lists.isEmpty(memberList)}">
+									<td class="text-center" colspan="7">등록된 멘토링 후기가 없습니다.</td>
+								</tr>
 	                        </tbody>
 	                    </table>
 	                </div>

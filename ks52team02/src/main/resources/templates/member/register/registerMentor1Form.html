@@ -1,53 +1,95 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{member/layouts/layout}">
-	<!--/* 기존 class는 main pages...  pages 누락 시 문제 없음
-    	<main class="main pages"layout:fragment="content"> */-->
-    <th:block layout:fragment="customContent">
+	<th:block layout:fragment="payModalFragment" th:replace="~{member/fragments/registerMentorModal :: registerMentorModalFragment}"></th:block>
+	<th:block layout:fragment="customJs">
+		<script>
+			/*커리어 추가*/
+			let rowCount = 1;
+			$('#addBtn').click(function(){
+				if(rowCount <= 10 && rowCount>=1){
+					const $row = $('#row').clone(true); // 이벤트 복제?
+					rowCount ++;
+					$row.attr('id', 'row' + rowCount);
+					$row.insertAfter('#row');
+				}else{
+					alert("항목은 10개까지 등록할 수 있습니다.");
+					return ;
+				}
+			});
+			
+			/*커리어 삭제*/
+			$('#delBtn').click(function(){
+				if(rowCount <= 1){
+					alert("첫 항목은 삭제할 수 없습니다.");
+					return ;
+				}else{
+					rowCount --;
+					$(this).closest('.careerRows').remove();
+				}
+			});			
+				
+				
+			/*누적 근무경력 일수 계산*/
+			const $careerTimeInput = document.getElementById('careerTimeInput');
+			
+				$careerTimeInput.addEventListener('change', function(e){
+						const $totalCareerDays = document.getElementById('totalCareerDays');
+						$totalCareerDays.textContent = (careerInput).toLocaleString('ko-KR');
+				});
+				
+				document.getElementById('totalCareerDays').textContent = Number($careerTimeInput.value).toLocaleString('ko-KR');
+				
+				
+			/*근무 경력 730일 이상 검증*/
+			const totalCareerDays = Number(document.getElementById('totalCareerDays').textContent.replace(/,/g, ''));
+			const $continueBtn = document.getElementById('continueBtn');
+			console.log(totalCareerDays);
+			
+			if (totalCareerDays >= 730) {
+						// console.log("730 이상");
+			            $continueBtn.disabled = false;
+			 	} else if (totalCareerDays <730) {
+						// console.log("730 미만");
+			            $continueBtn.disabled = true;
+			            $continueBtn.style.backgroundColor = 'gray';
+			       		
+						// 툴팁 표시...
+					 }
+					
+		    /*경력일수 변경시 버튼 상태 업데이트*/
+		    $careerTimeInput.addEventListener('change', updateCareerDays);
+			
+			
+		</script>
+	</th:block>
+	<th:block layout:fragment="customContent">
 		<section class="content-main mt-40 mb-40 my-2">
-                  <div class="card-body container col-3 my-2">
-	                        <h3 class="mb-20 mt-40 text-brand d-flex justify-content-center">멘토 권한으로 계정 생성</h3>
-								<div>
-								    <p class="text-center mb-2">이미 계정을 가지고 있으신가요? <a href="/member/login"> &nbsp; 로그인하러 가기</a></p>
-								</div>
-	                        <form class="container mt-40">
-	                            <div class="mb-4">
-	                                <label class="form-label">근무 회사명 *</label>
-	                                <input class="form-control" placeholder="Corporate name" type="text" />
-	                            </div>
-	                            <!-- form-group// -->
-								<div class="mb-4">
-	                                <label class="form-label">담당업무 *</label>
-									<div class="mb-4">
-										<select class="mb-10 form-control" name="findPasswordQ">
-											<option value="mtTask1">유지보수</option>
-											<option value="mtTask2">기획 및 개발</option>
-											<option value="mtTask3">기타</option>
-										</select>
-		                                <input class="form-control" placeholder="Comment" type="" />
-		                            </div>
-	                            <!-- form-group// -->
-								<div class="mb-4">
-	                                <label class="form-label">입/퇴사 날짜 1*</label>
-									<div class="row gx-2  mb-4">
-	                                	<div class="col-6"><input class="form-control" placeholder="Date of joining" type="date" /></div>
-										<div class="col-6"><input class="form-control" placeholder="Quite date" type="date" /></div>
-									</div>
-	                            <!-- form-group// -->
-							
-	                            <div class="mb-4">
-	                                <label class="form-label">이메일 *</label>
-	                                <input class="form-control" placeholder="E-mail" type="email" />
-	                            </div>
-								<!-- form-group// -->
-
-	                            <div class="mb-10 d-flex justify-content-center">
-	                                <button type="submit" class="btn btn-primary w-80">멘토 회원가입 계속하기</button>
-	                            </div>
-	                            <!-- form-group// -->
-	                        </form>
-	                    
-	                    </div>
-            </section>
+          <div class="card-body container col-5 my-2">
+            <h3 class="mb-20 mt-40 text-brand justify-content-center text-center">멘토 권한으로 계정 생성</h3>
+				<div>
+				    <p class="text-center mb-2">이미 계정을 가지고 있으신가요? <a href="/member/login"> &nbsp; 로그인하러 가기</a></p>
+				</div>
+				     <h5 class="mb-20 mt-50">Step 1. 근무 경력을 등록해 주세요</h5>
+						 <div id="row" class="careerRows d-flex justify-content-center align-items-center mt-20">
+							<input id="careerInput" type="text" class="ml-10" value="한국스마트정보교육원" disabled/>
+							<input id="careerDetailInput" type="text" class="ml-10" value="유지보수" disabled/>
+							<input id="careerTimeInput" type="text" class="ml-10" value="100" disabled/>
+								<button id="modiBtn"type="button" class="btn btn-block w-90 ml-20" data-bs-toggle="modal" data-bs-target="#registerMentorModal" style="background-color: #3BB77E;">enter</button>
+								<button id="delBtn" type="button" class="btn btn-block w-90 ml-10" style="background-color: #cc7171;">delete</button>
+				                <button id="addBtn" type="button" class="btn ml-10" style="background-color: darkgray;">+</button>
+						 </div>
+						 	<div class="d-flex justify-content-center align-items-center p-40">
+								<span>총 근무 경력 : </span>
+								<h4 id="totalCareerDays" class="text-brand mb-5 d-inline mb-0 ml-10" value=""></h4>
+								<span>days</span>
+							</div>
+               	<div id="continue" class="mb-10 d-flex justify-content-center">
+					<div>
+    	              	<button id="continueBtn" type="button" class="btn btn-block w-80" th:onclick="|location.href='@{/register/mentor2}'|" disabled>회원가입 계속하기</button>
+					</div>
+				</div>
+           </div>
+		</section>
 	</th:block>
 </html>
