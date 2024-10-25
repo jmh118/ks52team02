@@ -22,7 +22,7 @@
 		        });
 		    }
 	
-		    // 삭제 버튼 클릭 이벤트 핸들러
+		    
 		    $('.reviewDelBtn').click(function(){
 		    	
 		        let reviewCode = $(this).data('review-code');
@@ -84,7 +84,7 @@
 	                            </tr>
 	                        </thead>
 	                        <tbody>
-	                            <tr th:each="rl : ${reviewList}">
+	                            <tr th:unless="${#lists.isEmpty(reviewList)}" th:each="rl : ${reviewList}">
 	                                <td th:text="${rl.reviewCode}"></td>
 	                                <td th:text="${rl.menteeId}"></td>
 	                                <td>
@@ -101,10 +101,12 @@
 	                                <td th:text="${rl.reviewContent}"></td>
 	                                <td th:text="${rl.reviewRegDate}"></td>
 	                                <td>
-                                    	<!-- <a th:href="@{/manager/review/remove(reviewCode=${rl.reviewCode})}" id="reviewDelBtn" class="btn btn-sm font-sm btn-light rounded"><i class="material-icons md-delete_forever"></i>삭제</a> -->
 	                                	<button type="button" class="btn btn-sm font-sm btn-light rounded reviewDelBtn" th:data-review-code="${rl.reviewCode}"><i class="material-icons md-delete_forever"></i>삭제</button>
 	                                </td>
 	                            </tr>
+	                            <tr th:if="${#lists.isEmpty(memberList)}">
+									<td class="text-center" colspan="7">등록된 멘토링 후기가 없습니다.</td>
+								</tr>
 	                        </tbody>
 	                    </table>
 	                </div>

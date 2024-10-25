@@ -10,7 +10,7 @@
                 <hr class="mb-40" />
                 <div class="row">
                     <div class="col-lg-12">
-                        <h3 class="mb-30">현재 총 금액 : 1000</h3>
+                        <!-- <h3 class="mb-30">현재 총 금액 : 1000</h3> -->
                         <div class="table-responsive">
                             <table class="table">
                                 <thead>
@@ -22,17 +22,16 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>제목1</td>
-                                        <td>등록 개수</td>
-                                        <td>500</td>
-                                        <td><span class="badge rounded-pill alert-danger">사용</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td>제목1</td>
-                                        <td>등록 개수</td>
-                                        <td>1000</td>
-                                        <td><span class="badge rounded-pill alert-warning">미사용</span></td>
+                                    <tr th:each="c : ${couponList}">
+                                        <td th:text="${c.goalName}"></td>
+                                        <td th:text="${c.goalRecordCnt}"></td>
+                                        <td th:text="${c.couponAmount}"></td>
+                                        <th:block th:if="${c.couponUseYN == 'Y'}">
+	                                        <td><span th:text="${'사용'}" class="badge rounded-pill alert-success"></span></td>
+                                        </th:block>
+                                        <th:block th:if="${c.couponUseYN == 'N'}">
+	                                        <td><span th:text="${'미사용'}" class="badge rounded-pill alert-warning"></span></td>
+                                        </th:block>
                                     </tr>
                                 </tbody>
                             </table>
