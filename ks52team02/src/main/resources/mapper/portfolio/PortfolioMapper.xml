@@ -26,5 +26,19 @@
   	
   </select>
   
+  <select id="getPortfolioDetailById" parameterType="string" resultMap="portfolioDetailMap">
+	  /* 포트폴리오 선택 조회 */
+	  SELECT 
+			member_id, 
+			portfolio_title, 
+			portfolio_content, 
+			portfolio_register_date
+		FROM 
+			mentee_portfolio_registration_details
+		WHERE
+			member_id=#{portfolioId};
+  </select>
+  
+  
   
   </mapper>

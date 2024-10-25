@@ -11,4 +11,6 @@ public interface PortfolioMapper {
 
 	List<Portfolio> getPortfolioList();
 	
+	Portfolio getPortfolioDetailById(String portfolioId);
+	
 }
