@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ks52team02.member.coupon.mapper.MemberCouponMapper">
+
+
+	<select id="getMenteeCouponListById" parameterType="string" resultType="Coupon">
+		/* 보유 중인 쿠폰 조회 */
+		
+		SELECT
+			mchs.mentee_coupon_holding_status_code AS couponCode,
+		    mgs.mentee_goal_setting_name AS goalName,
+		    COUNT(mgpr.mentee_goal_progress_record_code) AS goalRecordCnt,
+		    mchs.mentee_coupon_amount AS couponAmount,
+		    mchs.coupon_use_YN AS couponUseYN
+		FROM 
+		    mentee_coupon_holding_status mchs
+		INNER JOIN mentee_goal_setting mgs
+		    ON mchs.mentee_goal_setting_code = mgs.mentee_goal_setting_code
+		LEFT JOIN mentee_goal_progress_record mgpr
+		    ON mgs.mentee_goal_setting_code = mgpr.mentee_goal_setting_code
+		WHERE 
+		    mchs.member_id = #{memberId}
+		GROUP BY 
+		    mgs.mentee_goal_setting_name, 
+		    mchs.mentee_coupon_amount, 
+		    mchs.coupon_use_YN;
+    
+    
+	
+	</select>
+	
+
+	
+    
+    
+</mapper>
