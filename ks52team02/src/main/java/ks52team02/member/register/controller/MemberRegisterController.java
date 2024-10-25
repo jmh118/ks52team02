@@ -1,5 +1,10 @@
 package ks52team02.member.register.controller;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -55,6 +60,7 @@ public class MemberRegisterController {
     	System.out.println("멘토 회원가입 화면2");
         return  "member/register/registerMentor2Form";
     }
+	
 	
 	@PostMapping("/dupicatedCheckById")
 	@ResponseBody
