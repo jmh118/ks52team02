@@ -15,6 +15,7 @@ public class HomeController {
 	
 	@GetMapping("/member")
 	public String MemberPageMove(HttpSession session) {
+		System.out.println("세션 아이디 : " +  session.getAttribute("SID"));
 		return "member/memberMain";
 	}
 	
