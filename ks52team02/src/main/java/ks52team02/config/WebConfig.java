@@ -41,6 +41,7 @@ public class WebConfig implements WebMvcConfigurer {
 		excludePath.add("/member/sass/**");
 		excludePath.add("/error");
 		excludePath.add("/error/**");
+
 		
 		registry.addInterceptor(commonInterceptor)
 				.addPathPatterns("/**")
