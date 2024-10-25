@@ -5,25 +5,26 @@
         <div class="container mb-30">
             <div class="row">
                 <div class="col-xl-10 col-lg-12 m-auto">
-                    <div class="product-detail accordion-detail">
-                        <div class="row mb-50 mt-30" th:each="nl : ${noticeDetail}">
+                    <div class="product-detail accordion-detail" th:object="${noticeDetail}">
+                        <div class="row mb-50 mt-30" >
                             <div class="col-md-6 col-sm-12 col-xs-12">
                                 <div class="detail-info pr-30 pl-30">
-                                    <span class="stock-status out-stock"> 명예멘토 </span>
-                                    <h2 class="title-detail" th:text="${nl.noticeTitle}"></h2>
+                                    <span class="stock-status out-stock" th:if="*{honorMentor == 'Y'}"> 명예멘토 </span>
+                                    <span class="stock-status out-stock" th:unless="*{honorMentor == 'Y'}"> 일반멘토 </span>
+                                    <h2 class="title-detail" th:text="*{noticeTitle}"></h2>
                                     <div class="product-detail-rating">
                                         <div class="text-end">
-                                                <span class="font-md ml-15" th:text="${'ID : ' + nl.memberId}"></span>
+                                                <span class="font-md ml-15" th:text="*{'ID : ' + memberId}"></span>
                                             <span class="font-small ml-5 text-muted"><a href="/review/mentorReviewList">(32 reviews)</a></span>
                                         </div>
                                     </div>
                                     <div class="short-desc mb-30">
-	                                   	<p class="font-md ml-15" th:text="${'1회 멘토링 : '+ nl.noticeUntprc +'원'}"></p>                                    
-	                                   	<p class="font-md ml-15" th:text="${'분야 : ' + nl.topicName}"></p>                                    
-	                                   	<p class="font-md ml-15" th:text="${'현직 : ' + nl.mentorPowkName}"></p>
+	                                   	<p class="font-md ml-15" th:text="*{'1회 멘토링 : '+ noticeUntprc +'원'}"></p>                                    
+	                                   	<p class="font-md ml-15" th:text="*{'분야 : ' + topicName}"></p>                                    
+	                                   	<p class="font-md ml-15" th:text="*{'현직 : ' + mentorPowkName}"></p>
                                     </div>
                                     <div class="detail-extralink mb-50">
-	                                    <a href="/mentoring/apply" class="button button-add-to-cart"><i class="fi-rs-shopping-cart"></i>신청하기</a>                                    
+	                                    <a th:href="@{/mentoring/apply(noticeCode=*{noticeCode})}" class="button button-add-to-cart"><i class="fi-rs-shopping-cart"></i>신청하기</a>                                    
                                     </div>
                                 </div>
                             </div>
@@ -43,20 +44,17 @@
                                         <div class="">
 											<h4 class="mt-30">소개</h4>
                                             <ul class="product-more-infor mt-30">
-                                                <li>HTML과 CSS에 관심이 있거나, 웹 개발을 시작하려는 분들을 위한 멘토링 프로그램을 모집합니다. 본 멘토링에서는 웹 페이지 제작의 기초부터 실전 프로젝트까지 함께 다루며, 실력을 쌓아갈 수 있는 기회를 제공합니다.</li>
+                                                <li th:text=*{noticeContent}>HTML과 CSS에 관심이 있거나, 웹 개발을 시작하려는 분들을 위한 멘토링 프로그램을 모집합니다. 본 멘토링에서는 웹 페이지 제작의 기초부터 실전 프로젝트까지 함께 다루며, 실력을 쌓아갈 수 있는 기회를 제공합니다.</li>
                                             </ul>
 											<hr class="wp-block-separator is-style-wide" />
 											<h4 class="mt-30">멘토링 가능 일자</h4>
 											<ul class="product-more-infor mt-30">
-	                                            <li>2024-11-01 ~ 2024-11-04</li>
+	                                            <li th:text=*{mentoringPeriod}>2024-11-01 ~ 2024-11-04</li>
 	                                        </ul>
                                             <hr class="wp-block-separator is-style-wide" />
                                             <h4 class="mt-30">멘토링 가능 시간</h4>
-                                            <ul class="product-more-infor mt-30">
-                                                <li>17:00 ~ 18:00</li>
-                                                <li>18:00 ~ 19:00</li>
-												<li>19:00 ~ 20:00</li>
-												<li>20:00 ~ 21:00</li>
+                                            <ul class="product-more-infor mt-30" th:each="m : ${mentoringTime}">   
+                                                <li th:text="${m.mentoringTime}"></li>
                                             </ul>                                                                                       
                                         </div>
                                     </div>

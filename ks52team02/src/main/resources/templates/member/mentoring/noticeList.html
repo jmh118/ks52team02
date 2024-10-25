@@ -35,7 +35,8 @@
                             <div class="product-cart-wrap mb-30">
                                 <div class="product-img-action-wrap">
                                     <div class="product-badges product-badges-position product-badges-mrg">
-                                        <span class="hot">Hot</span>
+                                        <span class="hot" th:if="${nl.honorMentor == 'Y'}">명예멘토</span>
+                                        <span class="new" th:unless="${nl.honorMentor == 'Y'}">일반멘토</span>
                                     </div>
                                 </div>
                                 <div class="product-content-wrap">
@@ -45,17 +46,11 @@
                                     <div>
 										<div class="font-small text-muted" th:text="${'분야 : ' + nl.topicName}"></div>
 										<div class="font-small text-muted" th:text="${'직무 : ' + nl.mentorPowkName}"></div>
-										<div class="font-small text-muted" th:text="${'By : ' + nl.memberId}"></div>
+										<div class="font-small text-muted" th:text="${'By : ' + nl.memberName}"></div>
                                     </div>
                                     <div class="product-card-bottom">
-										<div class="product-rate-cover">
-	                                        <div class="product-rate d-inline-block">
-												<div class="product-rating" style="width: 90%"></div>
-										    </div>
-											<span class="font-small ml-5 text-muted"> (4.0)</span>
-										</div>
                                         <div class="add-cart">
-                                            <a class="add" th:href="@{/mentoring/noticeDetail/{code}(code=${nl.noticeCode})}"><i class="fi-rs-shopping-cart mr-5"></i>Detail </a>
+                                            <a class="add" th:href="@{/mentoring/noticeDetail(noticeCode=${nl.noticeCode})}"><i class="fi-rs-shopping-cart mr-5"></i>Detail </a>
                                         </div>
                                     </div>
                                 </div>

@@ -6,8 +6,8 @@
             <section class="content-main">
                 <div class="content-header">
                     <div>
-                        <h2 class="content-title card-title">멘티 목표 진행 조회 화면</h2>
-                        <p>멘티의 목표 설정 진행 내역 조회 화면</p>
+                        <h2 class="content-title card-title" th:text="${title}"></h2>
+                        <p th:text="${content}"></p>
                     </div>
                 </div>
                 <div class="card mb-4">
@@ -18,6 +18,8 @@
                                 <thead>
 									<tr>
 										<th>멘티 아이디</th>
+										<th>목표 카테고리</th>
+										<th>목표 설정 제목</th>
 										<th>목표 진행 제목</th>
 										<th>목표 진행 내용</th>
 										<th>진행노트 등록일</th>
@@ -26,6 +28,8 @@
 								<tbody>
 									<tr th:each="record : ${goalRecordList}">
 									    <td th:text="${record.memberId}"></td>
+									    <td th:text="${record.goal.goaltopic.topicName}"></td>
+									    <td th:text="${record.goal.goalName}"></td>
 									    <td th:text="${record.goalRecordTitle}"></td>
 									    <td th:text="${record.goalRecordContent}"></td>
 									    <td th:text="${record.goalRecordAddDate}"></td>

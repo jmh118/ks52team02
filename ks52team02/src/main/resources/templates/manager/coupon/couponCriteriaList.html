@@ -6,8 +6,8 @@
             <section class="content-main">
                 <div class="content-header">
                     <div>
-                        <h2 class="content-title card-title">쿠폰 기준 조회 및 지급</h2>
-                        <p>멘티의 쿠폰 기준 (목표 설정별 블로그 개수) 충족 시 쿠폰 지급 버튼으로 해당 쿠폰 지급</p>
+                        <h2 class="content-title card-title" th:text="${title}"></h2>
+                        <p th:text="${content}"></p>
                     </div>
                 </div>
                 <div class="card mb-4">
@@ -18,7 +18,6 @@
                                 <thead>
                                     <tr>
                                         <th>회원(멘티)ID</th>
-                                        <th>회원(멘티)이름</th>
                                         <th>목표 설정 코드</th>
                                         <th>목표 진행(블로그) 개수</th>
                                         <th>쿠폰명</th>
@@ -27,13 +26,12 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>menteeid001</td>
-                                        <td>멘티1</td>
-										<td>mentee_goal_setting_code_01</td>
-										<td>10</td>
-										<td>목표 진행 기록 개수 10개 이상</td>
-                                        <td>1000</td>
+                                    <tr th:each="ccl : ${couponCriteriaList}">
+                                        <td th:text="${ccl.menteeId}"></td>
+										<td th:text="${ccl.goalSettingCode}"></td>
+										<td th:text="${ccl.acmlCnt}"></td>
+										<td th:text="${ccl.couponName}"></td>
+                                        <td th:text="${ccl.couponAmount}"></td>
                                         <td>
                                             <a href="#" class="btn btn-md rounded font-sm">지급</a>
                                         </td>

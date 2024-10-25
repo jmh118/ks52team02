@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import ks52team02.member.mentoring.dto.Notice;
+import ks52team02.member.mentoring.dto.NoticeDetail;
 import ks52team02.member.mentoring.dto.Topic;
+import ks52team02.member.mentoring.mapper.MentoringMapper;
 import ks52team02.member.mentoring.service.MentoringService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 public class MemberMentoringController {
 
 	private final MentoringService mentoringService;
+	private final MentoringMapper mentoringMapper;
 	
 	@PostMapping("/noticeAdd")
 	public String addNotice(Notice notice) {
@@ -35,11 +38,14 @@ public class MemberMentoringController {
 		return "redirect:/mentoring/notice";
 	}
 	
-	@GetMapping("/noticeDetail/{code}")
-    public String MoveNoticeDetail(@PathVariable("code") String noticeCode, Model model) {
+	@GetMapping("/noticeDetail")
+    public String MoveNoticeDetail(@RequestParam(name="noticeCode")String noticeCode, Model model) {
     	System.out.println("멘토링 | 멘토링 공고 조회 | 멘토링 공고 상세 조회 화면");
-    	List<Notice> noticeDetail = mentoringService.getNoticeDetailByCode(noticeCode);
+    	Notice noticeDetail = mentoringMapper.getNoticeDetailByCode(noticeCode);
+    	List<NoticeDetail> mentoringTime = mentoringService.getNoticeDetailTimeByCode(noticeCode);
     	model.addAttribute("noticeDetail", noticeDetail);
+    	model.addAttribute("mentoringTime", mentoringTime);
+    	
         return  "member/mentoring/noticeDetail";
     }
 	
@@ -61,9 +67,14 @@ public class MemberMentoringController {
     }
 	
 	@GetMapping("/apply")
-    public String moveMentoringApply() {
+    public String moveMentoringApply(@RequestParam(name="noticeCode")String noticeCode, Model model) {
 		
     	System.out.println("멘토링 신청 화면");
+    	List<NoticeDetail> noticeDetailYmd = mentoringMapper.getNoticeApplyYmdByCode(noticeCode);
+    	model.addAttribute("noticeDetailYmd", noticeDetailYmd);
+    	
+    	log.info("noticeDetailYmd : {}",noticeDetailYmd);
+
         return  "member/mentoring/mentoringApply";
     }
 	

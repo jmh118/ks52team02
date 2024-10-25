@@ -25,11 +25,11 @@ public class ManagerGoalController {
     public String moveMentoringGoalSetList(Model model) {		
 		
 		List<MemberGoal> goalList = goalMapper.getMenteeGoalList();
-		log.info("goalList : {}", goalList);
 		
 		model.addAttribute("goalList", goalList);
+		model.addAttribute("title", "멘티 목표 설정 조회 화면");
+		model.addAttribute("content", "멘티의 목표 설정 내역을 조회합니다.");
 
-		log.info("멘티 목표 설정 조회 화면");
         return  "manager/goal/goalList";
     }
 
@@ -40,8 +40,10 @@ public class ManagerGoalController {
 		log.info("goalRecordList : {}", goalRecordList);
 		
 		model.addAttribute("goalRecordList", goalRecordList);
+		model.addAttribute("title", "멘티의 목표 진행 목록 조회");
+		model.addAttribute("content", "멘티의 목표 설정 진행 내역 조회합니다.");
+
 		
-		log.info("멘티 목표 진행 조회 화면");
         return  "manager/goal/goalRecordList";
     }
 
