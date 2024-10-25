@@ -13,7 +13,7 @@ public class HomeController {
 		return "/index";
 	}
 	
-	@GetMapping("/member")
+	@GetMapping(value = {"/member","/member/"})
 	public String MemberPageMove(HttpSession session) {
 		return "member/memberMain";
 	}
