@@ -26,7 +26,7 @@
                         </div>
                         <div class="sort-by-product-area">
 							<div class="sort-by-cover mr-10">
-								<a th:href="@{/mentoring/noticeAdd}" class="btn btn-fill-out btn-block mt-30">등록하기</a>                            
+								<a th:href="@{/mentoring/noticeAdd}" class="btn btn-fill-out btn-block mt-30" th:if="${session.SLEVEL == 'member_level_mentor'}">등록하기</a>                            
                         	</div>
                         </div>
                     </div>
