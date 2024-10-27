@@ -56,6 +56,12 @@ public interface MentoringMapper {
 	//멘토링 신청
 	int addMentoringApply(MentoringApply mentoringApply);
 
+	// 특정공고 조회
+	Notice getNoticeInfoByCode(String noticeCode);
+
+	// 공고 수정
+	int modifyNotice(Notice notice);
+
 
 
 

@@ -30,6 +30,25 @@ public class MemberMentoringController {
 	private final MentoringService mentoringService;
 	private final MentoringMapper mentoringMapper;
 	
+	@PostMapping("/modifyNotice")
+	public String modifyNotice(Notice notice) {
+		
+		mentoringService.modifyNotice(notice);
+		
+		return "redirect:/mentoring/notice";
+	}
+	
+	@GetMapping("/modifyNotice")
+	public String modifyNotice(@RequestParam(name="noticeCode") String noticeCode, Model model) {
+		List<Topic> topicList = mentoringService.getTopicList();
+    	model.addAttribute("topicList", topicList);
+    	
+    	Notice noticeInfo = mentoringService.getNoticeInfoByCode(noticeCode);
+    	model.addAttribute("noticeInfo", noticeInfo);
+		
+		return "member/mentoring/noticeModify";
+	}
+	
 	@PostMapping("/apply")
 	public String addMentoringApply(MentoringApply mentoringApply) {
 		
