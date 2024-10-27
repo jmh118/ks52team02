@@ -1,16 +1,51 @@
 package ks52team02.member.mypage.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+import ks52team02.member.mypage.dto.MentorInfo;
+import ks52team02.member.mypage.mapper.MentorMypageMapper;
+import ks52team02.member.mypage.service.MentorMypageService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
+@RequiredArgsConstructor
 @RequestMapping("/mypage/mentor")
+@Slf4j
 public class MentorMypageController {
 
+	private final MentorMypageMapper mentorMypageMapper;
+	private final MentorMypageService mentorMypageService;
+	
+	//계정정보 수정
+	 @PostMapping("/account")
+	 public String MoveMypageAccount(MentorInfo mentorInfo) {
+		 
+		 mentorMypageService.modifyMentor(mentorInfo);
+		 
+		 return "redirect:/mypage/mentor/mentorMypageAccount";
+	 }
+	
+	//계정정보 조회
 	@GetMapping("/account")
-    public String MoveMypageAccount() {
+    public String MoveMypageAccount(HttpServletRequest request, Model model) {
+		
         System.out.println("mypage account 페이지 이동");
+        HttpSession session = request.getSession();
+        String sessionId = (String) session.getAttribute("SID");
+		
+		MentorInfo mentorInfo = mentorMypageMapper.getMentorInfoById(sessionId);
+		log.info("mentorInfo:{}", mentorInfo);
+		 
+		model.addAttribute("mentorInfo", mentorInfo);
+		 
         return  "member/mypage/mentor/mentorMypageAccount";
     }
 

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="ks52team02.member.mypage.mapper.MentorMypageMapper">
+  
+  	<resultMap type="MentorInfo" id="mentorInfoMap">
+  		<id column="member_id" property="mentorId"/>
+  		<result column="member_name" property="mentorNm"/>
+  		<result column="member_phone_number" property="mentorTelNo"/>
+  		<result column="member_email" property="mentorEmail"/>
+  		<result column="member_password" property="mentorPw"/>
+  	</resultMap>
+  
+  	<select id="getMentorInfoById" parameterType="string" resultMap="mentorInfoMap">
+  		/* 로그인 되어있는 회원의 계정 정보 조회 */
+	   	SELECT 
+			member_id, 
+			member_password, 
+			member_name, 
+			member_phone_number, 
+			member_email
+		FROM 
+			member
+		WHERE 
+			member_id = #{mentorId}; 
+  	</select>
+  
+  	<!-- <update id="modifyMentor" parameterMap="mentorInfoMap">
+  		/* 로그인 되어있는 회원의 계정 정보 수정 */
+  		UPDATE 
+			`member`
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="mentorPw != null and mentorPw != ''">
+			member_password = #{mentorPw},
+			</if>
+			<if test="mentorNm != null and mentorNm != ''">
+			member_name = #{mentorNm},
+			</if>
+			<if test="mentorTelNo != null and mentorTelNo != ''">
+			member_phone_number = ${mentorTelNo},
+			</if>
+			<if test="mentorEmail != null and mentorEmail != ''">
+			member_email = ${mentorEmail},
+			</if>
+		</trim>
+		WHERE 
+			member_id = #{mentorId};
+  	</update> -->
+  	
+  	
+  
+  
+  
+  </mapper>
