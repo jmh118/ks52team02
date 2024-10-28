@@ -39,10 +39,10 @@
 	                                            </li>
                                         	</th:block>
                                             <li th:if="${session.SLEVEL == 'member_level_mentee'}">
-                                                <a th:href="@{/pay/list}"><i class="fi fi-rs-label mr-10"></i>결제내역</a>
+                                                <a th:href="@{/pay/list}"><i class="fi fi-rs-label mr-10"></i>멘토링 관리</a>
                                             </li>
                                             <li th:if="${session.SLEVEL == 'member_level_mentor'}">
-                                                <a th:href="@{/pay/settlementList}"><i class="fi fi-rs-label mr-10"></i>정산내역</a>
+                                                <a th:href="@{/pay/settlementList}"><i class="fi fi-rs-label mr-10"></i>멘토링 관리</a>
                                             </li>
                                             <li th:if="${session.SLEVEL == 'member_level_manager'}">
                                                 <a th:href="@{/manager}"><i class="fi fi-rs-label mr-10"></i>관리자 페이지</a>
