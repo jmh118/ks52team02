@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ks52team02.member.pay.mapper.MemberPayMapper">
+
+	<resultMap type="ManagerMetoringNotice" id="memberPayMap">
+	
+	
+	</resultMap>
+	
+	
+	<select id="getMenteePaymentListById" parameterType="string" resultType="MemberPay">
+		/* 결제 내역 조회 */
+		SELECT 
+			mn.mentoring_notice_title AS noticeTitle,
+			m.member_id AS memberId,
+		    msmc.last_amount AS payAmount,
+		    msmc.settlement_day AS paymentDate,
+			msmc.mentoring_progress_status AS mentoringStatus
+		FROM 
+		    mentee_settlement_mentor_calculation msmc INNER JOIN mentoring_notice mn 
+		    ON msmc.mentor_notice_code = mn.mentoring_notice_code
+		    INNER JOIN `member` m
+		    ON mn.member_id = m.member_id
+		WHERE 
+		    msmc.settlement_id = #{memberId};
+			
+	</select>
+	
+	
+	
+	
+	
+</mapper>
