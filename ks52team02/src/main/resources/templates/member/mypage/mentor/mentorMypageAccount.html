@@ -21,32 +21,31 @@
                                             </div>
                                             <div class="card-body">
                                                 <p>Already have an account? <a href="page-login.html">Log in instead!</a></p>
-                                                <form th:action="@{/mypage/mentor/account}" method="post" name="enq" th:object="${mentorInfo}">
-                                                    <div class="row">
-                                                        <div class="form-group col-md-6">
-                                                            <label>이름 <span class="required">*</span></label>
-                                                            <input required="" class="form-control" name="name" type="text" th:value="*{mentorNm}"/>
-                                                        </div>
-                                                        <div class="form-group col-md-12">
-                                                            <label>휴대전화 <span class="required">*</span></label>
-                                                            <input required class="form-control" name="dname" type="text" th:value="*{mentorTelNo}"/>
-                                                        </div>
-                                                        <div class="form-group col-md-12">
-                                                            <label>이메일 <span class="required">*</span></label>
-                                                            <input required class="form-control" name="email" type="email" th:value="*{mentorEmail}"/>
-                                                        </div>
-                                                        <div class="form-group col-md-12">
-                                                            <label>비밀번호 <span class="required">*</span></label>
-                                                            <input required class="form-control" name="password" type="password" th:value="*{mentorPw}"/>
-                                                        </div>
-                                                        <div class="form-group col-md-12">
-                                                            <label>비밀번호 확인(비밀번호를 다시한번 입력해 주세요) <span class="required">*</span></label>
-                                                            <input required class="form-control" name="npassword" type="password"/>
-                                                        </div>
-                                                        <div class="col-md-12">
-                                                            <button type="submit" class="btn btn-fill-out submit font-weight-bold" name="submit" value="Submit">계정정보 수정</button>
-                                                        </div>
-                                                    </div>
+                                                <form th:action="@{/mypage/mentor/account}" method="post" th:object="${mentorInfo}">
+	                                                <input required class="form-control" name="mentorId" type="hidden" th:value="*{mentorId}"/>
+	                                                <div class="form-group col-md-6">
+	                                                    <label>이름 <span class="required">*</span></label>
+	                                                    <input required class="form-control" name="mentorNm" type="text" th:value="*{mentorNm}"/>
+	                                                </div>
+	                                                <div class="form-group col-md-6">
+	                                                    <label>휴대전화 <span class="required">*</span></label>
+	                                                    <input required class="form-control" name="mentorTelNo" type="text" th:value="*{mentorTelNo}"/>
+	                                                </div>
+	                                                <div class="form-group col-md-6">
+	                                                    <label>이메일 <span class="required">*</span></label>
+	                                                    <input required class="form-control" name="mentorEmail" type="email" th:value="*{mentorEmail}"/>
+	                                                </div>
+	                                                <div class="form-group col-md-6">
+	                                                    <label>비밀번호 <span class="required">*</span></label>
+	                                                    <input required class="form-control" name="mentorPw" type="password" th:value="*{mentorPw}"/>
+	                                                </div>
+	                                                <div class="form-group col-md-6">
+	                                                    <label>비밀번호 확인(비밀번호를 다시한번 입력해 주세요) <span class="required">*</span></label>
+	                                                    <input required class="form-control" name="npassword" type="password"/>
+	                                                </div>
+	                                                <div class="col-md-6">
+	                                                    <button type="submit" class="btn btn-fill-out submit font-weight-bold">계정정보 수정</button>
+	                                                </div>
                                                 </form>
                                             </div>
                                         </div>

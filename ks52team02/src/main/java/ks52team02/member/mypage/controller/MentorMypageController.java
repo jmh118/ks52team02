@@ -30,6 +30,8 @@ public class MentorMypageController {
 		 
 		 mentorMypageService.modifyMentor(mentorInfo);
 		 
+		 log.info("mentorInfo ;{}",mentorInfo);
+		 
 		 return "redirect:/mypage/mentor/mentorMypageAccount";
 	 }
 	

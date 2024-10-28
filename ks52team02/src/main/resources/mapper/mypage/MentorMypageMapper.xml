@@ -26,10 +26,10 @@
 			member_id = #{mentorId}; 
   	</select>
   
-  	<!-- <update id="modifyMentor" parameterMap="mentorInfoMap">
+  	<update id="modifyMentor" parameterType="MentorInfo">
   		/* 로그인 되어있는 회원의 계정 정보 수정 */
   		UPDATE 
-			`member`
+			member
 		<trim prefix="SET" suffixOverrides=",">
 			<if test="mentorPw != null and mentorPw != ''">
 			member_password = #{mentorPw},
@@ -38,15 +38,15 @@
 			member_name = #{mentorNm},
 			</if>
 			<if test="mentorTelNo != null and mentorTelNo != ''">
-			member_phone_number = ${mentorTelNo},
+			member_phone_number = #{mentorTelNo},
 			</if>
 			<if test="mentorEmail != null and mentorEmail != ''">
-			member_email = ${mentorEmail},
+			member_email = #{mentorEmail},
 			</if>
 		</trim>
 		WHERE 
 			member_id = #{mentorId};
-  	</update> -->
+  	</update>
   	
   	
   
