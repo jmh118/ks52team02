@@ -3,16 +3,14 @@
 	layout:decorate="~{member/layouts/layout}">
 	<th:block layout:fragment="customJs">
 		<script type="text/javascript">
-			    $('#NoticeAnswer').on('show.bs.modal', function (event) {
-			        var button = $(event.relatedTarget);  // 모달을 연 버튼
-			        var questionCode = button.data('question-code');  // questionCode 가져오기
-			        var inputQuestionCode = $(this).find('input[name="questionCode"]');
-			        
-			        if (inputQuestionCode.length) {
-			            inputQuestionCode.val(questionCode);  // 모달의 숨겨진 필드에 설정
-			        }
-			    });
-			    
+	    	$('#NoticeAnswer').on('show.bs.modal', function (event) {
+		        var button = $(event.relatedTarget);  // 모달을 연 버튼
+		        var questionCode = button.data('question-code');  // questionCode 가져오기
+		        var inputQuestionCode = $(this).find('input[name="questionCode"]');
+		        if (inputQuestionCode.length) {
+		            inputQuestionCode.val(questionCode);  // 모달의 숨겨진 필드에 설정
+		        }
+		    });			    
 
 		</script>
    	</th:block>
@@ -133,7 +131,7 @@
                             </div>
                         </div>
                         <a class="btn btn-fill-out btn-block mt-30" th:href="@{/mentoring/modifyNotice(noticeCode=${noticeDetail.noticeCode})}">수정하기</a>
-                        <!-- <a th:href="@{/mentoring/noticeAdd}" class="btn btn-fill-out btn-block mt-30" th:if="${session.SLEVEL == 'member_level_mentor'}">등록하기</a> -->
+                        
                     </div>
                 </div>
             </div>
