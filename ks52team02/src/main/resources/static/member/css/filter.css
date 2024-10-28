@@ -1,0 +1,86 @@
+@charset "UTF-8";
+
+.filter-container, .table-responsive {
+    width: 100%; /* 부모 컨테이너의 전체 너비를 차지하도록 설정 */
+    max-width: 100%; /* 가로 너비 제한 */
+    margin: 0 auto; /* 중앙 정렬 */
+    box-sizing: border-box; /* 패딩과 보더를 너비에 포함 */
+}
+
+.filter-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    font-family: Arial, sans-serif;
+    color: #333;
+    border: 1px solid #e0e0e0;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    width: 970px;
+	margin-left: 15px;
+	margin-top: 25px;
+}
+
+.filter {
+    display: flex;
+    gap: 10px;
+}
+
+.filter label {
+    font-weight: bold;
+}
+
+.filter select {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: white;
+}
+
+.status, .sort, .view {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.status span, .sort span, .view span {
+    color: #666;
+}
+
+.status span:first-child, 
+.sort span:first-child, 
+.view span:first-child {
+    font-weight: bold;
+    color: #333;
+}
+
+.filter-container span {
+    cursor: pointer;
+}
+
+.filter-container span:hover {
+    color: #007bff;
+}
+
+
+.fl-mtc-btn-1{
+	height: 50px;
+}
+
+.fl-mtc-btn-2{
+	height: 45px;
+}
+
+#fl-mtc-btn-3{
+	height: 45px;
+}
+
+#fl-mtc-btn-4{
+	height: 45px;
+}
+
+#fl-mtc-1 {
+	align-items: left;
+	margin-left: 15px;
+}

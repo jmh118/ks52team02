@@ -26,6 +26,7 @@ public class MemberPayController {
 		String memberId = (String) session.getAttribute("SID");
 		List<MemberPay> paymentList = memberPayMapper.getMenteePaymentListById(memberId);
 		
+		model.addAttribute("activeMenu", "payList");
 		model.addAttribute("paymentList", paymentList);
 		
 		return "member/pay/payList.html";
@@ -44,7 +45,10 @@ public class MemberPayController {
 	}
 		
 	@GetMapping("/settlementList")
-	public String getAdjustmentList() {
+	public String getAdjustmentList(Model model) {
+		
+		model.addAttribute("activeMenu", "settlementList");
+		
 		System.out.println("정산내역 조회 화면");
 		return "member/pay/settlementList";
 	}
