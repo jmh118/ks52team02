@@ -10,7 +10,7 @@ public class HomeController {
 	
 	@GetMapping("/")
 	public String indexMove() {
-		return "/index";
+		return "index";
 	}
 	
 	@GetMapping(value = {"/member","/member/"})
