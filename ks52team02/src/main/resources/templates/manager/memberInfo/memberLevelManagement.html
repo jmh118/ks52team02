@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{manager/layouts/layout}">
+	  <th:block layout:fragment="customContent">
+            <section class="content-main">
+                <div class="content-header">
+                    <div>
+                        <h2 class="content-title card-title">회원등급관리</h2>
+                        <p>현재 가입 중인 회원 등급(멘토)를 수정합니다.</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card mb-3">
+                            <header class="card-header d-flex">
+                                <div class="col-10">
+                        			<div class= "d-flex">
+	                                        <select class="form-select col-xxs ">
+	                                            <option>회원 코드로 검색</option>
+	                                            <option>회원 ID로 검색</option>
+	                                        </select>
+		                                <div class="col-ml-4 col-6 col-md-6 d-flex">
+		                                   <input type="text" placeholder="search..." class="form-control" />
+		                                   <button class="btn btn-light bg" type="button"><i class="material-icons md-search"></i></button>
+		                                </div>
+                        			</div>
+                                </div>
+                            </header>
+                            <!-- card-header end// -->
+                            <div class="card-body">
+								<div class="mt-1">
+									<table class="table thead-light text-center table-hover">
+									    <thead>
+									        <tr>
+									            <th>ID</th>
+									            <th>회원이름</th>
+									            <th>회원연락처</th>
+									            <th>회원이메일</th>
+									            <th>명예멘토여부</th>
+									        </tr>
+									    </thead>
+									    <tbody>
+									        <tr th:each="mtl:${mentorList}">
+									            <td th:text="${mtl.memberId}"></td>
+									            <td th:text="${mtl.memberName}"></td>
+									            <td th:text="${mtl.memberTelNo}"></td>
+									            <td th:text="${mtl.memberEmail}"></td>
+									            <td th:text="${mtl.isHonorMentor}"></td>
+									        </tr>																																																												
+									    </tbody>
+									</table> <!-- 페이징 처리 필요 -->
+                                </div>
+                                <!-- table-responsive //end -->
+                            </div>
+                            <!-- card-body end// -->
+                        </div>
+                        <!-- card end// -->
+                    </div>
+                    
+                    
+                    <div class="col-md-5">
+                        <div class="card mb-4">
+	                            <form class="container mt-40 mb-30 ml-20">
+									<h3>명예멘토 기준표</h3>
+								<div class="col-11 mt-4">
+									<table class="table thead-light text-center table-hover">
+										<thead>
+											<tr>
+												<th>권한</th>
+												<th>후기 개수(이상)</th>
+												<th>평점 평균(이상)</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>명예멘토</td>
+												<td>10</td>
+												<td>4</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+									<h3>수수료율</h3>
+								<div class="col-11 mt-4">
+									<table class="table thead-light text-center table-hover">
+										<thead>
+											<tr>
+												<th>권한</th>
+												<th>수수료율(%)</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>일반멘토</td>
+												<td>10</td>
+											</tr>
+											<tr>
+												<td>명예멘토</td>
+												<td>8</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+	                            <div class="mb-4">
+	                                <label class="form-label">회원 아이디</label>
+			                        <div class="col-4"><input class="form-control" placeholder="현재 ID" type="text" disabled /></div>
+								</div>
+
+	                            <!-- form-group// -->
+									<div class="mb-4 row gx-2">
+		                                <label class="form-label">회원권한</label>
+			                               <div class="col-5"><input class="form-control" placeholder="현재 권한" type="text" disabled /></div>
+			                               	<div class="col-5">	
+												<select class="mb-10 form-control" name="levelControl" >
+		   											<option value="levelControltoMentor">멘토</option>
+		   											<option value="levelControltoHonorMentor">명예멘토</option>
+		   										</select>
+											</div>
+		                            	</div>
+		                            <div class="mt-60 d-flex justify-content-center">
+		                                <button type="button" class="btn btn-primary w-90">모두 저장하기</button>
+		                            </div>
+	                        	</form>
+	                           </div>
+								<!-- form-group// -->
+	                            <!-- form-group// -->
+                        </div>
+                        <!-- card end// -->
+                    </div>
+
+			</section>
+	<!-- content-main end// -->
+	</th:block>
+</html>

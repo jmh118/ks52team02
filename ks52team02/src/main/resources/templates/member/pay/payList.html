@@ -8,7 +8,7 @@
             <div class="container">
             	<!-- 타이틀 후기 레이아웃 수정 필요~ -->
                 <h3 class="pb-30">결제 내역 조회</h3>
-                <a href="/review/reviewList" class="btn">내가쓴후기내역조회</a>
+                <a href="/review/list" class="btn">내가쓴후기내역조회</a>
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="table-responsive">
@@ -24,29 +24,18 @@
 									</tr>
 								</thead>
 								<tbody>
-									<tr>
-										<td>나도 포트폴리오 마스터!!</td>
-										<td>홍길동</td>
-										<td>49000</td>
-										<td>2024. 9. 7 오후 6:00:00</td>
-										<td><span class="badge rounded-pill alert-warning">진행전</span></td>
-										<td><a href="/review/reviewForm" class="btn btn-md rounded font-sm">후기 등록</a></td>
-									</tr>
-									<tr>
-										<td>나도 포트폴리오 마스터!!</td>
-										<td>홍길동</td>
-										<td>49000</td>
-										<td>2024. 9. 7 오후 6:00:00</td>
-										<td><span class="badge rounded-pill alert-danger">진행중</span></td>
-										<td><a href="/review/reviewForm" class="btn btn-md rounded font-sm">후기 등록</a></td>
-									</tr>
-									<tr>
-										<td>나도 포트폴리오 마스터!!</td>
-										<td>홍길동</td>
-										<td>49000</td>
-										<td>2024. 9. 7 오후 6:00:00</td>
-										<td><span class="badge rounded-pill alert-success">진행완료</span></td>
-										<td><a href="/review/reviewForm" class="btn btn-md rounded font-sm">후기 등록</a></td>
+									<!-- alert-warning 진행전 / alert-danger 진행중 / alert-success 진행완료 -->
+									<tr th:each="p : ${paymentList}">
+										<td th:text=${p.noticeTitle}>나도 포트폴리오 마스터!!</td>
+										<td th:text="${p.memberId}">홍길동</td>
+										<td th:text="${p.payAmount}">49000</td>
+										<td th:text="${p.paymentDate}">2024. 9. 7 오후 6:00:00</td>
+										<th:block th:switch="${p.mentoringStatus}">
+											<td th:case="*"><span th:text="${'진행 전'}" class="badge rounded-pill alert-warning"></span></td>
+											<td th:case="${'진행 중'}"><span th:text="${p.mentoringStatus}" class="badge rounded-pill alert-danger"></span></td>
+											<td th:case="${'완료'}"><span th:text="${p.mentoringStatus}" class="badge rounded-pill alert-warning"></span></td>
+										</th:block>
+										<td><a href="/review/form" class="btn btn-md rounded font-sm">후기 등록</a></td>
 									</tr>
 								</tbody>
 							</table>

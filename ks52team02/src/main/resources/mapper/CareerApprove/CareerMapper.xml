@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="ks52team02.manager.career.mapper.CareerMapper">
+  
+  <select id="getWorkCareer" resultType="Work">
+  
+		/* 멘토 근무경력승인 목록조회 */
+		SELECT
+			m.member_id 					 AS mentorId,
+			mwhd.mentor_POWK_NM 			 AS mentorPowk,
+			mwhd.mentor_career_apply_manager AS mentorYn,
+			mwhd.FRST_REG_DT 				 AS mentorDate
+		FROM
+			member m
+			INNER join
+			mentor_work_history_details mwhd
+			on
+			m.member_id=mwhd.member_id
+		ORDER BY 
+			mwhd.FRST_REG_DT desc;
+	</select>
+	
+	
+  <select id="getProjectCareer" resultType="Project">
+  
+		/* 멘토 프로젝트경력승인 목록조회 */
+		
+		SELECT
+		 	m.member_id 								AS mentorId,
+		 	mtcd.mentor_project_NM 						AS mentorProjectNm,
+		 	mtcd.TECH_career_DATA_REG_approval_manager  AS mentorYn,
+		 	mtcd.mentor_upload_career_file_date 		AS mentorDate
+		from
+			member m
+			INNER join
+			mentor_tech_career_detail mtcd
+			on
+			m.member_id=mtcd.mentor_id
+		ORDER BY 
+			mtcd.mentor_upload_career_file_date DESC;
+		
+	</select>
+  
+  
+  <select id="getEducationCareer" resultType="Education">
+  
+		/* 멘토 학력승인 목록조회 */
+		
+		SELECT
+			m.member_id AS mentorId,
+			mad.mentor_SCHL_NM AS mentorSchlnm,
+			mad.mentor_CRTFCT_NM_approval_manager AS mentorYn,
+			mad.mentor_upload_ACBG_file_date AS mentorDate
+		FROM
+			member m
+			INNER join
+			mentor_acbg_detail mad
+			on
+			m.member_id=mad.member_id
+		ORDER BY 
+			mad.mentor_upload_ACBG_file_date DESC;	
+		
+	</select>
+  
+  <select id="getCertificateCareer" resultType="Certificate">
+  
+		/* 멘토 자격증승인 목록조회 */
+		
+		SELECT
+			mcd.member_id AS mentorId,
+			cn.issue_certificate_name AS mentorCertificatenm,
+			mcd.mentor_certificate_approval_manager AS mentorYn,
+			mcd.mentor_certificate_DATA_REG_upload_date AS mentorDate
+			
+		FROM
+		 	mentor_certificate_detail mcd
+		 	INNER join
+		 	certificate_name cn
+		 	on
+		 	mcd.certificate_name_code=cn.certificate_name_code
+		ORDER BY 
+			mcd.mentor_certificate_DATA_REG_upload_date DESC;
+		
+		
+	</select>
+  
+  </mapper>
+  
+  
+  

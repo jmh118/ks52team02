@@ -7,7 +7,7 @@
                 <div class="content-header">
                     <div>
                         <h2 class="content-title card-title">휴면 회원 정보 조회</h2>
-                        <p>Lorem ipsum dolor sit amet.</p>
+                        <p>6개월(기준 183일) 이상 로그인하지 않은 회원의 정보를 조회합니다.</p>
                     </div>
                 </div>
                 <div class="card mb-4">
@@ -35,451 +35,44 @@
                     </header>
                     <!-- card-header end// -->
                     <div class="card-body">
-                        <div class="table-responsive">
                             <table class="table table-hover">
                                 <thead>
-                                    <tr>
+                                    <tr class="text-center">
                                         <th>
                                             <div class="form-check">
                                                 <input class="form-check-input" type="checkbox" value="" />
                                             </div>
                                         </th>
-                                        <th>#ID</th>
-                                        <th>Product</th>
-                                        <th>Name</th>
-                                        <th>Rating</th>
-                                        <th>Date</th>
-                                        <th class="text-end">Action</th>
+										<th>회원ID</th>
+										<th>회원이메일</th>
+										<th>회원비밀번호</th>
+										<th>비밀번호찾기 답변</th>
+										<th>회원권한</th>
+										<th>회원이름</th>
+										<th>회원연락처</th>
+										<th>가입일자</th>
+										<th>미접속일수</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
+                                    <tr th:each="dm:${dormantMemberList}" class="text-center">
                                         <td>
                                             <div class="form-check">
                                                 <input class="form-check-input" type="checkbox" value="" />
                                             </div>
                                         </td>
-                                        <td>23</td>
-                                        <td><b>Organic Quinoa, Brown, & Red Rice</b></td>
-                                        <td>Devon Lane</td>
-                                        <td>
-                                            <ul class="rating-stars">
-                                                <li style="width: 60%" class="stars-active">
-                                                    <img src="assets/imgs/icons/stars-active.svg" alt="stars" />
-                                                </li>
-                                                <li>
-                                                    <img src="assets/imgs/icons/starts-disable.svg" alt="stars" />
-                                                </li>
-                                            </ul>
-                                        </td>
-                                        <td>10.03.2020</td>
-                                        <td class="text-end">
-                                            <a href="#" class="btn btn-md rounded font-sm">Detail</a>
-                                            <div class="dropdown">
-                                                <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-                                                <div class="dropdown-menu">
-                                                    <a class="dropdown-item" href="#">View detail</a>
-                                                    <a class="dropdown-item" href="#">Edit info</a>
-                                                    <a class="dropdown-item text-danger" href="#">Delete</a>
-                                                </div>
-                                            </div>
-                                            <!-- dropdown //end -->
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="" />
-                                            </div>
-                                        </td>
-                                        <td>24</td>
-                                        <td><b>All Natural Italian-Style</b></td>
-                                        <td>Guy Hawkins</td>
-                                        <td>
-                                            <ul class="rating-stars">
-                                                <li style="width: 80%" class="stars-active">
-                                                    <img src="assets/imgs/icons/stars-active.svg" alt="stars" />
-                                                </li>
-                                                <li>
-                                                    <img src="assets/imgs/icons/starts-disable.svg" alt="stars" />
-                                                </li>
-                                            </ul>
-                                        </td>
-                                        <td>04.12.2019</td>
-                                        <td class="text-end">
-                                            <a href="#" class="btn btn-md rounded font-sm">Detail</a>
-                                            <div class="dropdown">
-                                                <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-                                                <div class="dropdown-menu">
-                                                    <a class="dropdown-item" href="#">View detail</a>
-                                                    <a class="dropdown-item" href="#">Edit info</a>
-                                                    <a class="dropdown-item text-danger" href="#">Delete</a>
-                                                </div>
-                                            </div>
-                                            <!-- dropdown //end -->
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="" />
-                                            </div>
-                                        </td>
-                                        <td>25</td>
-                                        <td><b>Angie’s Boomchickapop Sweet</b></td>
-                                        <td>Steven John</td>
-                                        <td>
-                                            <ul class="rating-stars">
-                                                <li style="width: 90%" class="stars-active">
-                                                    <img src="assets/imgs/icons/stars-active.svg" alt="stars" />
-                                                </li>
-                                                <li>
-                                                    <img src="assets/imgs/icons/starts-disable.svg" alt="stars" />
-                                                </li>
-                                            </ul>
-                                        </td>
-                                        <td>25.05.2020</td>
-                                        <td class="text-end">
-                                            <a href="#" class="btn btn-md rounded font-sm">Detail</a>
-                                            <div class="dropdown">
-                                                <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-                                                <div class="dropdown-menu">
-                                                    <a class="dropdown-item" href="#">View detail</a>
-                                                    <a class="dropdown-item" href="#">Edit info</a>
-                                                    <a class="dropdown-item text-danger" href="#">Delete</a>
-                                                </div>
-                                            </div>
-                                            <!-- dropdown //end -->
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="" />
-                                            </div>
-                                        </td>
-                                        <td>26</td>
-                                        <td><b>Foster Farms Takeout Crispy Classic</b></td>
-                                        <td>Kristin Watson</td>
-                                        <td>
-                                            <ul class="rating-stars">
-                                                <li style="width: 90%" class="stars-active">
-                                                    <img src="assets/imgs/icons/stars-active.svg" alt="stars" />
-                                                </li>
-                                                <li>
-                                                    <img src="assets/imgs/icons/starts-disable.svg" alt="stars" />
-                                                </li>
-                                            </ul>
-                                        </td>
-                                        <td>01.06.2020</td>
-                                        <td class="text-end">
-                                            <a href="#" class="btn btn-md rounded font-sm">Detail</a>
-                                            <div class="dropdown">
-                                                <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-                                                <div class="dropdown-menu">
-                                                    <a class="dropdown-item" href="#">View detail</a>
-                                                    <a class="dropdown-item" href="#">Edit info</a>
-                                                    <a class="dropdown-item text-danger" href="#">Delete</a>
-                                                </div>
-                                            </div>
-                                            <!-- dropdown //end -->
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="" />
-                                            </div>
-                                        </td>
-                                        <td>27</td>
-                                        <td><b>Blue Diamond Almonds Lightly Salted</b></td>
-                                        <td>Jane Cooper</td>
-                                        <td>
-                                            <ul class="rating-stars">
-                                                <li style="width: 100%" class="stars-active">
-                                                    <img src="assets/imgs/icons/stars-active.svg" alt="stars" />
-                                                </li>
-                                                <li>
-                                                    <img src="assets/imgs/icons/starts-disable.svg" alt="stars" />
-                                                </li>
-                                            </ul>
-                                        </td>
-                                        <td>13.03.2020</td>
-                                        <td class="text-end">
-                                            <a href="#" class="btn btn-md rounded font-sm">Detail</a>
-                                            <div class="dropdown">
-                                                <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-                                                <div class="dropdown-menu">
-                                                    <a class="dropdown-item" href="#">View detail</a>
-                                                    <a class="dropdown-item" href="#">Edit info</a>
-                                                    <a class="dropdown-item text-danger" href="#">Delete</a>
-                                                </div>
-                                            </div>
-                                            <!-- dropdown //end -->
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="" />
-                                            </div>
-                                        </td>
-                                        <td>28</td>
-                                        <td><b>Chobani Complete Vanilla Greek Yogurt</b></td>
-                                        <td>Courtney Henry</td>
-                                        <td>
-                                            <ul class="rating-stars">
-                                                <li style="width: 100%" class="stars-active">
-                                                    <img src="assets/imgs/icons/stars-active.svg" alt="stars" />
-                                                </li>
-                                                <li>
-                                                    <img src="assets/imgs/icons/starts-disable.svg" alt="stars" />
-                                                </li>
-                                            </ul>
-                                        </td>
-                                        <td>21.02.2020</td>
-                                        <td class="text-end">
-                                            <a href="#" class="btn btn-md rounded font-sm">Detail</a>
-                                            <div class="dropdown">
-                                                <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-                                                <div class="dropdown-menu">
-                                                    <a class="dropdown-item" href="#">View detail</a>
-                                                    <a class="dropdown-item" href="#">Edit info</a>
-                                                    <a class="dropdown-item text-danger" href="#">Delete</a>
-                                                </div>
-                                            </div>
-                                            <!-- dropdown //end -->
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="" />
-                                            </div>
-                                        </td>
-                                        <td>29</td>
-                                        <td><b>Canada Dry Ginger Ale – 2 L Bottle</b></td>
-                                        <td>Ralph Edwards</td>
-                                        <td>
-                                            <ul class="rating-stars">
-                                                <li style="width: 90%" class="stars-active">
-                                                    <img src="assets/imgs/icons/stars-active.svg" alt="stars" />
-                                                </li>
-                                                <li>
-                                                    <img src="assets/imgs/icons/starts-disable.svg" alt="stars" />
-                                                </li>
-                                            </ul>
-                                        </td>
-                                        <td>23.03.2020</td>
-                                        <td class="text-end">
-                                            <a href="#" class="btn btn-md rounded font-sm">Detail</a>
-                                            <div class="dropdown">
-                                                <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-                                                <div class="dropdown-menu">
-                                                    <a class="dropdown-item" href="#">View detail</a>
-                                                    <a class="dropdown-item" href="#">Edit info</a>
-                                                    <a class="dropdown-item text-danger" href="#">Delete</a>
-                                                </div>
-                                            </div>
-                                            <!-- dropdown //end -->
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="" />
-                                            </div>
-                                        </td>
-                                        <td>30</td>
-                                        <td><b>Encore Seafoods Stuffed Alaskan</b></td>
-                                        <td>Courtney Henry</td>
-                                        <td>
-                                            <ul class="rating-stars">
-                                                <li style="width: 70%" class="stars-active">
-                                                    <img src="assets/imgs/icons/stars-active.svg" alt="stars" />
-                                                </li>
-                                                <li>
-                                                    <img src="assets/imgs/icons/starts-disable.svg" alt="stars" />
-                                                </li>
-                                            </ul>
-                                        </td>
-                                        <td>20.02.2020</td>
-                                        <td class="text-end">
-                                            <a href="#" class="btn btn-md rounded font-sm">Detail</a>
-                                            <div class="dropdown">
-                                                <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-                                                <div class="dropdown-menu">
-                                                    <a class="dropdown-item" href="#">View detail</a>
-                                                    <a class="dropdown-item" href="#">Edit info</a>
-                                                    <a class="dropdown-item text-danger" href="#">Delete</a>
-                                                </div>
-                                            </div>
-                                            <!-- dropdown //end -->
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="" />
-                                            </div>
-                                        </td>
-                                        <td>31</td>
-                                        <td><b>Gorton Beer Battered Fish Fillets</b></td>
-                                        <td>Theresa Webb</td>
-                                        <td>
-                                            <ul class="rating-stars">
-                                                <li style="width: 20%" class="stars-active">
-                                                    <img src="assets/imgs/icons/stars-active.svg" alt="stars" />
-                                                </li>
-                                                <li>
-                                                    <img src="assets/imgs/icons/starts-disable.svg" alt="stars" />
-                                                </li>
-                                            </ul>
-                                        </td>
-                                        <td>10.03.2020</td>
-                                        <td class="text-end">
-                                            <a href="#" class="btn btn-md rounded font-sm">Detail</a>
-                                            <div class="dropdown">
-                                                <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-                                                <div class="dropdown-menu">
-                                                    <a class="dropdown-item" href="#">View detail</a>
-                                                    <a class="dropdown-item" href="#">Edit info</a>
-                                                    <a class="dropdown-item text-danger" href="#">Delete</a>
-                                                </div>
-                                            </div>
-                                            <!-- dropdown //end -->
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="" />
-                                            </div>
-                                        </td>
-                                        <td>32</td>
-                                        <td><b>Haagen-Dazs Caramel Cone</b></td>
-                                        <td>Darrell Steward</td>
-                                        <td>
-                                            <ul class="rating-stars">
-                                                <li style="width: 80%" class="stars-active">
-                                                    <img src="assets/imgs/icons/stars-active.svg" alt="stars" />
-                                                </li>
-                                                <li>
-                                                    <img src="assets/imgs/icons/starts-disable.svg" alt="stars" />
-                                                </li>
-                                            </ul>
-                                        </td>
-                                        <td>10.04.2020</td>
-                                        <td class="text-end">
-                                            <a href="#" class="btn btn-md rounded font-sm">Detail</a>
-                                            <div class="dropdown">
-                                                <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-                                                <div class="dropdown-menu">
-                                                    <a class="dropdown-item" href="#">View detail</a>
-                                                    <a class="dropdown-item" href="#">Edit info</a>
-                                                    <a class="dropdown-item text-danger" href="#">Delete</a>
-                                                </div>
-                                            </div>
-                                            <!-- dropdown //end -->
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="" />
-                                            </div>
-                                        </td>
-                                        <td>33</td>
-                                        <td><b>Nestle Original Coffee-Mate Coffee Creamer </b></td>
-                                        <td>Leslie Alexander</td>
-                                        <td>
-                                            <ul class="rating-stars">
-                                                <li style="width: 50%" class="stars-active">
-                                                    <img src="assets/imgs/icons/stars-active.svg" alt="stars" />
-                                                </li>
-                                                <li>
-                                                    <img src="assets/imgs/icons/starts-disable.svg" alt="stars" />
-                                                </li>
-                                            </ul>
-                                        </td>
-                                        <td>25.05.2020</td>
-                                        <td class="text-end">
-                                            <a href="#" class="btn btn-md rounded font-sm">Detail</a>
-                                            <div class="dropdown">
-                                                <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-                                                <div class="dropdown-menu">
-                                                    <a class="dropdown-item" href="#">View detail</a>
-                                                    <a class="dropdown-item" href="#">Edit info</a>
-                                                    <a class="dropdown-item text-danger" href="#">Delete</a>
-                                                </div>
-                                            </div>
-                                            <!-- dropdown //end -->
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="" />
-                                            </div>
-                                        </td>
-                                        <td>34</td>
-                                        <td><b>Seeds of Change Organic Quinoa</b></td>
-                                        <td>Esther Howard</td>
-                                        <td>
-                                            <ul class="rating-stars">
-                                                <li style="width: 100%" class="stars-active">
-                                                    <img src="assets/imgs/icons/stars-active.svg" alt="stars" />
-                                                </li>
-                                                <li>
-                                                    <img src="assets/imgs/icons/starts-disable.svg" alt="stars" />
-                                                </li>
-                                            </ul>
-                                        </td>
-                                        <td>07.04.2020</td>
-                                        <td class="text-end">
-                                            <a href="#" class="btn btn-md rounded font-sm">Detail</a>
-                                            <div class="dropdown">
-                                                <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-                                                <div class="dropdown-menu">
-                                                    <a class="dropdown-item" href="#">View detail</a>
-                                                    <a class="dropdown-item" href="#">Edit info</a>
-                                                    <a class="dropdown-item text-danger" href="#">Delete</a>
-                                                </div>
-                                            </div>
-                                            <!-- dropdown //end -->
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="" />
-                                            </div>
-                                        </td>
-                                        <td>35</td>
-                                        <td><b>Organic Frozen Triple Berry Blend</b></td>
-                                        <td>Steven John</td>
-                                        <td>
-                                            <ul class="rating-stars">
-                                                <li style="width: 100%" class="stars-active">
-                                                    <img src="assets/imgs/icons/stars-active.svg" alt="stars" />
-                                                </li>
-                                                <li>
-                                                    <img src="assets/imgs/icons/starts-disable.svg" alt="stars" />
-                                                </li>
-                                            </ul>
-                                        </td>
-                                        <td>10.10.2019</td>
-                                        <td class="text-end">
-                                            <a href="#" class="btn btn-md rounded font-sm">Detail</a>
-                                            <div class="dropdown">
-                                                <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-                                                <div class="dropdown-menu">
-                                                    <a class="dropdown-item" href="#">View detail</a>
-                                                    <a class="dropdown-item" href="#">Edit info</a>
-                                                    <a class="dropdown-item text-danger" href="#">Delete</a>
-                                                </div>
-                                            </div>
-                                            <!-- dropdown //end -->
+										<td th:text="${dm.memberId}"></td>
+                                        <td th:text="${dm.memberEmail}"></td>
+										<td th:text="${dm.memberPw}"></td>
+										<td th:text="${dm.memberPwAnswer}"></td>
+										<td><span th:if="${dm.memberLevel == '멘티'}" class="badge rounded-pill alert-success">멘티</span>
+										    <span th:if="${dm.memberLevel == '멘토'}" class="badge rounded-pill alert-warning">멘토</span>
+										    <span th:if="${dm.memberLevel == '플랫폼 관리자'}" class="badge rounded-pill alert-danger">플랫폼 관리자</span>
+										</td>
+                                        <td th:text="${dm.memberName}"></td>
+                                        <td th:text="${dm.memberTelNo}"></td>
+                                        <td th:text="${dm.memberJoinYMD}"></td>
+										<td th:text="${dm.dormantDays}"></td>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -488,7 +81,6 @@
                         <!-- table-responsive//end -->
                     </div>
                     <!-- card-body end// -->
-                </div>
                 <div class="pagination-area mt-30 mb-50">
                     <nav aria-label="Page navigation example">
                         <ul class="pagination justify-content-start">

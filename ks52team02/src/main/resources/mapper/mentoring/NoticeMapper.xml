@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ks52team02.member.mentoring.mapper.MentoringMapper">
+
+	<resultMap type="NoticeQuestion" id="noticeQuestionMap">
+		<id column="mentoring_notice_question_code" property="questionCode"/>
+		<result column="mentoring_notice_code" property="noticeCode"/>	
+		<result column="member_id" property="memberId"/>	
+		<result column="question_content" property="questionContent"/>	
+		<result column="question_writing_YMD" property="questionYmd"/>	
+		
+		<association property="noticeAnswer" javaType="NoticeAnswer">
+			<id column="mentoring_notice_question_answer_code" property="answerCode"/>
+			<result column="mentor_id" property="mentorId"/>	
+			<result column="answer_content" property="answerContent"/>	
+			<result column="answer_writing_YMD" property="answerYmd"/>
+		</association>
+	</resultMap>
+	
+	<insert id="addMentoringApply" parameterType="MentoringApply">
+		/* 멘토링 신청 */
+		INSERT INTO mentoring_apply
+			(mentoring_apply_code, mentoring_notice_code, mentoring_notice_detail_code, member_id, amount, amount_status, update_YMD)
+		VALUES 
+			(#{applyCode}, #{noticeCode}, #{noticeDetailCode}, #{memberId}, #{noticeUntprc}, '결제 전', CURDATE());
+	</insert>
+
+	<insert id="addNoticeAnswer" parameterType="NoticeAnswer">
+		/* 공고관련질문 등록 */
+		INSERT INTO mentoring_notice_question_answer
+			(mentoring_notice_question_answer_code, mentoring_notice_question_code, mentor_id, answer_content, answer_writing_YMD)
+		VALUES 
+			(#{answerCode}, #{questionCode},  #{mentorId}, #{answerContent},CURDATE());
+	</insert>
+	
+	<insert id="addNoticeQuestion" parameterType="NoticeQuestion">
+		/* 공고관련질문 등록 */
+		INSERT INTO mentoring_notice_question
+			(mentoring_notice_question_code, mentoring_notice_code, member_id, question_content, question_writing_YMD)
+		VALUES 
+			(#{questionCode}, #{noticeCode}, #{memberId}, #{questionContent}, CURDATE());
+	</insert>
+	
+	<select id="getNoticeQuestionByCode" parameterType="String" resultMap="noticeQuestionMap">
+		/* 공고관련질문답변 조회 */
+		SELECT
+			mnq.mentoring_notice_question_code,
+			mnq.question_content,
+			mnq.mentoring_notice_code,
+			mnq.member_id,
+			mnq.question_writing_YMD,
+			mnqa.answer_content,
+			mnqa.mentor_id,
+			mnqa.answer_writing_YMD
+		FROM
+			mentoring_notice_question mnq LEFT JOIN mentoring_notice_question_answer mnqa
+			USING (mentoring_notice_question_code)
+		WHERE
+			mnq.mentoring_notice_code=#{noticeCode};
+	</select>
+
+	<select id="getNoticeApplyYmdByCode" parameterType="String" resultType="NoticeDetail">
+		/* 신청가능한 공고요일 */
+		SELECT
+			day_mentoring_YMD AS mentoringYmd,
+			day_mentoring_time AS mentoringTime,
+			mentoring_notice_detail_code AS noticeDetailCode
+		FROM
+			mentoring_notice_detail 
+		WHERE
+			mentoring_notice_code = 'mentoring_notice_code_01'
+			and
+			RSVT_status = '예약 가능';
+	</select>
+
+	<select id="getNoticeDetailTimeByCode" parameterType="String" resultType="NoticeDetail">
+		/* 공고 상세 멘토링 시간 */
+		SELECT
+			DISTINCT 
+			day_mentoring_time AS mentoringTime
+		FROM
+			mentoring_notice_detail
+		WHERE
+			mentoring_notice_code = #{noticeCode};
+		
+	</select>
+
+	<select id="getNoticeDetailByCode" parameterType="String" resultType="Notice">
+		/* 공고상세조회 */
+		SELECT
+			mn.mentoring_notice_code AS noticeCode,
+			mn.mentoring_notice_title AS noticeTitle,
+			mn.member_id AS memberId,
+			tc.topic_name AS topicName,
+			mn.last_UNTPRC AS noticeUntprc,
+			COALESCE(mwhd.mentor_POWK_NM, mw2.mentor_POWK_NM) AS mentorPowkName,
+			mn.mentoring_notice_content AS noticeContent,
+			CONCAT(DATE_FORMAT(mn.mentoring_mentor_PSBLTY_start_YMD, '%Y-%m-%d'), ' ~ ', DATE_FORMAT(mn.mentoring_mentor_PSBLTY_end_YMD, '%Y-%m-%d')) AS mentoringPeriod,
+			maa.honor_mentor_YN AS honorMentor
+		FROM
+			topic_category tc INNER JOIN mentoring_notice mn
+			ON tc.topic_category_code = mn.topic_category_code
+			INNER JOIN member m
+			ON mn.member_id = m.member_id
+			INNER JOIN mentor_authority_approval maa
+			ON m.member_id= maa.member_id
+			LEFT JOIN mentor_work_history_details mwhd
+		    ON m.member_id = mwhd.member_id
+		    AND mwhd.mentor_RSGNTN_YMD = (
+		        SELECT MAX(mentor_RSGNTN_YMD)
+		        FROM mentor_work_history_details
+		        WHERE member_id = m.member_id
+		    )
+			LEFT JOIN mentor_work_history_details mw2
+		    ON m.member_id = mw2.member_id
+		    AND mw2.mentor_RSGNTN_YMD IS NULL
+		WHERE 
+			mn.mentoring_notice_code=#{noticeCode};	
+	</select>
+
+	<select id="getNoticeByCategory" parameterType="String" resultType="Notice">
+		/* 공고 카테고리별 조회 */
+		SELECT
+			mn.mentoring_notice_code AS noticeCode,
+		    mn.mentoring_notice_title AS noticeTitle,
+		    m.member_name AS memberName,
+		    tc.topic_name AS topicName,
+		    COALESCE(mwhd.mentor_POWK_NM, mw2.mentor_POWK_NM) AS mentorPowkName,
+		    maa.honor_mentor_YN AS honorMentor
+		FROM
+			topic_category tc
+			INNER JOIN mentoring_notice mn
+			    ON tc.topic_category_code = mn.topic_category_code
+			INNER JOIN member m
+			    ON mn.member_id = m.member_id
+			INNER JOIN mentor_authority_approval maa
+				ON m.member_id= maa.member_id
+			LEFT JOIN mentor_work_history_details mwhd
+			    ON m.member_id = mwhd.member_id
+			    AND mwhd.mentor_RSGNTN_YMD = (
+			        SELECT MAX(mentor_RSGNTN_YMD)
+			        FROM mentor_work_history_details
+			        WHERE member_id = m.member_id
+			    )
+			LEFT JOIN mentor_work_history_details mw2
+			    ON m.member_id = mw2.member_id
+			    AND mw2.mentor_RSGNTN_YMD IS NULL
+		WHERE
+			tc.topic_name=#{category};
+	</select>
+
+	<insert id="addNotice" parameterType="Notice">
+		/* 공고등록 */
+		INSERT INTO mentoring_notice
+			(mentoring_notice_code, topic_category_code, member_id, mentor_UNTPRC_DCSN_code, mentoring_notice_title, mentoring_notice_content, mentoring_PSBLTY_start_T, mentoring_PSBLTY_end_T, mentoring_mentor_PSBLTY_start_YMD, mentoring_mentor_PSBLTY_end_YMD, mentoring_PSBLTY_mentee_NOPE, mentor_notice_REG_YMD, last_UNTPRC, last_mentoring_T, last_amount)
+		VALUES 
+			(#{noticeCode}, #{topicCode}, 'mentor013', 'mentor_UNTPRC_DCSN_code_01', #{noticeTitle}, #{noticeContent}, #{noticeStartTime}, #{noticeEndTime}, #{noticeStartYmd}, #{noticeEndYmd}, 3, CURDATE(), #{noticeUntprc}, 3, 210000);
+		
+	</insert>
+	
+	<select id="getTopicList" resultType="Topic">
+		/* 주제카테고리조회 */
+		SELECT
+			tc.topic_category_code AS topicCode,
+			tc.topic_name AS topicName
+		FROM
+			topic_category tc;
+	
+	</select>
+
+
+	<select id="getNoticeList" resultType="Notice">
+		/* 공고목록조회 */		
+		SELECT
+			mn.mentoring_notice_code AS noticeCode,
+		    mn.mentoring_notice_title AS noticeTitle,
+		    m.member_name AS memberName,
+		    tc.topic_name AS topicName,
+		    COALESCE(mwhd.mentor_POWK_NM, mw2.mentor_POWK_NM) AS mentorPowkName,
+		    maa.honor_mentor_YN AS honorMentor
+		FROM
+			topic_category tc
+			INNER JOIN mentoring_notice mn
+			    ON tc.topic_category_code = mn.topic_category_code
+			INNER JOIN member m
+			    ON mn.member_id = m.member_id
+			INNER JOIN mentor_authority_approval maa
+				ON m.member_id= maa.member_id
+			LEFT JOIN mentor_work_history_details mwhd
+			    ON m.member_id = mwhd.member_id
+			    AND mwhd.mentor_RSGNTN_YMD = (
+			        SELECT MAX(mentor_RSGNTN_YMD)
+			        FROM mentor_work_history_details
+			        WHERE member_id = m.member_id
+			    )
+			LEFT JOIN mentor_work_history_details mw2
+			    ON m.member_id = mw2.member_id
+			    AND mw2.mentor_RSGNTN_YMD IS NULL;
+	</select>
+</mapper>

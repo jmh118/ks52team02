@@ -3,18 +3,24 @@ package ks52team02.home.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 public class HomeController {
 	
 	@GetMapping("/")
-	public String moveIndex() {
-		System.out.println("사용자 메인 화면");
-		return "member/index";
+	public String indexMove() {
+		return "index";
+	}
+	
+	@GetMapping(value = {"/member","/member/"})
+	public String MemberPageMove(HttpSession session) {
+		System.out.println("세션 아이디 : " +  session.getAttribute("SID"));
+		return "member/memberMain";
 	}
 	
 	@GetMapping("/manager")
     public String managerPageMove() {
-    	System.out.println("관리자 메인 화면");
         return  "manager/managerMain";
     }
 

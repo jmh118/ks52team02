@@ -36,7 +36,7 @@
                     <!-- card-header end// -->
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-hover">
+                           <table class="table thead-light text-center table-hover">
                                 <thead>
                                     <tr>
                                         <th>
@@ -56,20 +56,23 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
+                                    <tr th:each="ml:${memberList}">
                                         <td>
                                             <div class="form-check">
                                                 <input class="form-check-input" type="checkbox" value="" />
                                             </div>
                                         </td>
-                                        <td>menteeid001</td>
-                                        <td><b>menteeID001@email.com</b></td>
-										<td>menteepw001</td>
-										<td>여수</td>
-										<td><span class="badge rounded-pill alert-success">멘티</span></td>
-                                        <td>Devon Lane</td>
-                                        <td>010-2222-1111</td>
-										<td>10.03.2020</td>
+                                        <td th:text="${ml.memberId}"></td>
+                                        <td th:text="${ml.memberEmail}"></td>
+										<td th:text="${ml.memberPw}"></td>
+										<td th:text="${ml.memberPwAnswer}"></td>
+										<td><span th:if="${ml.memberLevel == '멘티'}" class="badge rounded-pill alert-success">멘티</span>
+										    <span th:if="${ml.memberLevel == '멘토'}" class="badge rounded-pill alert-warning">멘토</span>
+										    <span th:if="${ml.memberLevel == '플랫폼 관리자'}" class="badge rounded-pill alert-danger">플랫폼 관리자</span>
+										</td>
+                                        <td th:text="${ml.memberName}"></td>
+                                        <td th:text="${ml.memberTelNo}"></td>
+										<td th:text="${ml.memberJoinYMD}"></td>
                                         <td>
                                             <a href="#" class="btn btn-md rounded font-sm">Detail</a>
                                             <div class="dropdown">
@@ -82,168 +85,6 @@
                                             </div>
                                         </td>
                                     </tr>
-
-									<tr>
-									    <td>
-									        <div class="form-check">
-									            <input class="form-check-input" type="checkbox" value="" />
-									        </div>
-									    </td>
-									    <td>menteeid002</td>
-									    <td><b>menteeID002@email.com</b></td>
-										<td>menteepw002</td>
-										<td>서울</td>
-										<td><span class="badge rounded-pill alert-success">멘티</span></td>
-									    <td>Deborah Min</td>
-									    <td>010-2222-1112</td>
-										<td>09.03.2022</td>
-									    <td>
-									        <a href="#" class="btn btn-md rounded font-sm">Detail</a>
-									        <div class="dropdown">
-									            <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-									            <div class="dropdown-menu">
-									                <a class="dropdown-item" href="#">View detail</a>
-									                <a class="dropdown-item" href="#">Edit info</a>
-									                <a class="dropdown-item text-danger" href="#">Delete</a>
-									            </div>
-									        </div>
-									    </td>
-									</tr>
-									
-									<tr>
-									    <td>
-									        <div class="form-check">
-									            <input class="form-check-input" type="checkbox" value="" />
-									        </div>
-									    </td>
-									    <td>menteeid003</td>
-									    <td><b>menteeID003@email.com</b></td>
-										<td>menteepw003</td>
-										<td>인천</td>
-										<td><span class="badge rounded-pill alert-success">멘티</span></td>
-									    <td>Devon Lane</td>
-									    <td>010-2222-1113</td>
-										<td>11.03.2023</td>
-									    <td>
-									        <a href="#" class="btn btn-md rounded font-sm">Detail</a>
-									        <div class="dropdown">
-									            <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-									            <div class="dropdown-menu">
-									                <a class="dropdown-item" href="#">View detail</a>
-									                <a class="dropdown-item" href="#">Edit info</a>
-									                <a class="dropdown-item text-danger" href="#">Delete</a>
-									            </div>
-									        </div>
-									    </td>
-									</tr>
-									
-									<tr>
-									    <td>
-									        <div class="form-check">
-									            <input class="form-check-input" type="checkbox" value="" />
-									        </div>
-									    </td>
-									    <td>managerid001</td>
-									    <td><b>managerID001@email.com</b></td>
-										<td>managerpw001</td>
-										<td>산</td>
-										<td><span class="badge rounded-pill alert-danger">매니저</span></td>
-									    <td>Devon Lane</td>
-									    <td>010-1111-1111</td>
-										<td>08.13.2024</td>
-									    <td>
-									        <a href="#" class="btn btn-md rounded font-sm">Detail</a>
-									        <div class="dropdown">
-									            <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-									            <div class="dropdown-menu">
-									                <a class="dropdown-item" href="#">View detail</a>
-									                <a class="dropdown-item" href="#">Edit info</a>
-									                <a class="dropdown-item text-danger" href="#">Delete</a>
-									            </div>
-									        </div>
-									    </td>
-									</tr>
-									
-									<tr>
-									    <td>
-									        <div class="form-check">
-									            <input class="form-check-input" type="checkbox" value="" />
-									        </div>
-									    </td>
-									    <td>mentorid001</td>
-									    <td><b>mentorID001@email.com</b></td>
-										<td>mentorpw001</td>
-										<td>마우스</td>
-										<td><span class="badge rounded-pill alert-warning">멘토</span></td>
-									    <td>Gwang Il Kim</td>
-									    <td>010-3333-1111</td>
-										<td>10.03.2020</td>
-									    <td>
-									        <a href="#" class="btn btn-md rounded font-sm">Detail</a>
-									        <div class="dropdown">
-									            <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-									            <div class="dropdown-menu">
-									                <a class="dropdown-item" href="#">View detail</a>
-									                <a class="dropdown-item" href="#">Edit info</a>
-									                <a class="dropdown-item text-danger" href="#">Delete</a>
-									            </div>
-									        </div>
-									    </td>
-									</tr>
-									
-									<tr>
-									    <td>
-									        <div class="form-check">
-									            <input class="form-check-input" type="checkbox" value="" />
-									        </div>
-									    </td>
-									    <td>menteeid004</td>
-									    <td><b>menteeID004@email.com</b></td>
-										<td>menteepw004</td>
-										<td>부산</td>
-										<td><span class="badge rounded-pill alert-success">멘티</span></td>
-									    <td>Devon Lane</td>
-									    <td>010-2222-1114</td>
-										<td>07.23.2023</td>
-									    <td>
-									        <a href="#" class="btn btn-md rounded font-sm">Detail</a>
-									        <div class="dropdown">
-									            <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-									            <div class="dropdown-menu">
-									                <a class="dropdown-item" href="#">View detail</a>
-									                <a class="dropdown-item" href="#">Edit info</a>
-									                <a class="dropdown-item text-danger" href="#">Delete</a>
-									            </div>
-									        </div>
-									    </td>
-									</tr>
-									
-									<tr>
-									    <td>
-									        <div class="form-check">
-									            <input class="form-check-input" type="checkbox" value="" />
-									        </div>
-									    </td>
-									    <td>mentorid002</td>
-									    <td><b>mentorID002@email.com</b></td>
-										<td>mentorpw002</td>
-										<td>액자</td>
-										<td><span class="badge rounded-pill alert-warning">멘토</span></td>
-									    <td>Yoon Lee</td>
-									    <td>010-3333-1112</td>
-										<td>11.07.2024</td>
-									    <td>
-									        <a href="#" class="btn btn-md rounded font-sm">Detail</a>
-									        <div class="dropdown">
-									            <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-									            <div class="dropdown-menu">
-									                <a class="dropdown-item" href="#">View detail</a>
-									                <a class="dropdown-item" href="#">Edit info</a>
-									                <a class="dropdown-item text-danger" href="#">Delete</a>
-									            </div>
-									        </div>
-									    </td>
-									</tr>
                                 </tbody>
                             </table>
                         </div>
