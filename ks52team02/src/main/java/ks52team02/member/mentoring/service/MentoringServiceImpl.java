@@ -26,6 +26,19 @@ public class MentoringServiceImpl implements MentoringService{
 	private final CommonMapper commonMapper;
 	
 	@Override
+	public void modifyNotice(Notice notice) {
+		mentoringMapper.modifyNotice(notice);
+		
+	}
+	
+	@Override
+	public Notice getNoticeInfoByCode(String noticeCode) {
+		Notice noticeInfo = mentoringMapper.getNoticeInfoByCode(noticeCode);
+		
+		return noticeInfo;
+	}
+	
+	@Override
 	public void addMentoringApply(MentoringApply mentoringApply) {
 		String nextCode = commonMapper.getPrimaryKey("mentoring_apply", "mentoring_apply_code", "mentoring_apply_code_");
 		mentoringApply.setApplyCode(nextCode);

@@ -39,6 +39,12 @@ public interface MentoringService {
 	// 멘토링 신청
 	void addMentoringApply(MentoringApply mentoringApply);
 
+	// 특정공고 조회
+	Notice getNoticeInfoByCode(String noticeCode);
+
+	// 공고수정
+	void modifyNotice(Notice notice);
+
 
 
 }

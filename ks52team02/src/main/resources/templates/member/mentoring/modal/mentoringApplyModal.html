@@ -12,42 +12,48 @@
 		                    <h4 class="mb-15">멘토링 신청</h4>
 		                </div>
 		                <div class="deal-content detail-info">
-		                	<form class="form-contact comment_form text-end" th:action="@{/mentoring/apply}" method="post">
+		                	<form class="form-contact comment_form" th:action="@{/mentoring/apply}" method="post">
 		                		<input type="hidden" id="noticeCode" name="noticeCode" th:value="*{noticeCode}">
 		                		<input type="hidden" id="memberId" name="memberId" th:value="${session.SID}">
 		                		<!-- <div class="form-group col-lg-6">
-									<label for="noticeTitle">제목</label>
-	                                <input type="text" name="noticeTitle" th:value="*{noticeTitle}" readonly>
-	                            </div>
-	                       		<div class="form-group col-lg-6">
 									<label for="memberName">이름</label>
-	                                <input type="text" name="memberName" placeholder="이름" required>
-	                            </div> -->
-								<div class="row shipping_calculator">
-									<div class="form-group col-lg-12">
-										<label for="mentoringYmd">멘토링 일정</label>
-										<div class="custom_select">
-									    	<select id="mentoringYmd" name="noticeDetailCode" class="form-control select-active" style="width: 100%;">
-									        	<option value="">요일을 선택해주세요</option>
-								                <th:block th:if="${noticeDetailYmd != null}">
-		                                    		<option th:each="n : ${noticeDetailYmd}" 
-		                                    				th:value="${n.noticeDetailCode}"
-		                                    				th:text="|${n.mentoringYmd} :::::::: ${n.mentoringTime}|"></option>
-	                                    		</th:block>
-								        	</select>
-										</div>
-									</div>
-		                            <div class="form-group col-lg-12">
-										<label for="noticeUntprc">멘토링 (1회 멘토링 : 1시간 / 1명)</label>
-										<div class="input-group">									
-			                                <input type="text" class="form-control bg-light small border-end-0 text-right" id="noticeUntprc" name="noticeUntprc" th:value="*{noticeUntprc}" readonly>
-			                                <div class="input-group-append">
-			                                	<span class="input-group-text h-100 border-start-0 bg-light" style="border-color: #ececec; border-top-right-radius: 10px; border-bottom-right-radius: 10px;">원</span>
-			                                </div>
-										</div>
-		                            </div>
+                                    <input type="text" id="memberName" name="memberName" placeholder="이름" required>
+                                </div> -->
+								<div class="shipping_calculator">
+									<div class="form-group col-lg-6 mb-3">
+                                        <label for="mentoringYmd" class="form-label">멘토링 일정</label>
+                                        <div class="custom_select">
+                                            <select id="mentoringYmd" name="noticeDetailCode" class="form-control text-center">
+                                                <option value="">날짜 및 시간 선택</option>
+                                                <th:block th:if="${noticeDetailYmd != null}">
+                                                    <option th:each="n : ${noticeDetailYmd}" 
+                                                            th:value="${n.noticeDetailCode}"
+                                                            th:text="|${n.mentoringYmd} :::::::: ${n.mentoringTime}|"></option>
+                                                </th:block>
+                                            </select>
+                                        </div>
+                                    </div>
 								</div>
-	                            <button type="submit" id="applyBtn" class="button button-contactForm">신청 하기<i class="fi-rs-arrow-right"></i></button>
+								<!-- <div class="form-group col-lg-6">
+									<label for="memberEmail">이메일</label>
+                                    <input type="text" id="memberEmail" name="memberEmail" placeholder="이메일" required>
+                                </div>
+                                <div class="form-group col-lg-6">
+									<label for="memberTelNo">휴대폰</label>
+                                    <input type="text" id="memberTelNo" name="memberTelNo" placeholder="휴대폰" required>
+                                </div> -->
+	                            <div class="form-group col-lg-6">
+									<label for="noticeUntprc">멘토링 (1회 멘토링 : 1시간 / 1명)</label>
+									<div class="input-group">									
+		                                <input type="text" class="form-control bg-light small border-end-0 text-end" id="noticeUntprc" name="noticeUntprc" th:value="*{noticeUntprc}" readonly>
+		                                <div class="input-group-append">
+		                                	<span class="input-group-text h-100 border-start-0 bg-light" style="border-color: #ececec; border-top-right-radius: 10px; border-bottom-right-radius: 10px;">원</span>
+		                                </div>
+									</div>
+	                            </div>
+								<div class="form-group col-lg-6 text-end">
+	                            <button type="submit" id="applyBtn" class="button button-contactForm">신청 하기</button>
+	                            </div>
 	                        </form>
 	                        
 		                </div>
