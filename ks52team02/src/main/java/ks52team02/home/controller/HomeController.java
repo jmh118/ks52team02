@@ -8,9 +8,9 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 public class HomeController {
 	
-	@GetMapping("/")
+	@GetMapping("/home")
 	public String indexMove() {
-		return "/index";
+		return "index";
 	}
 	
 	@GetMapping(value = {"/member","/member/"})
