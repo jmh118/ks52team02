@@ -34,13 +34,13 @@ public class MemberPayController {
 	@GetMapping("/success")
 	public String paymentStatusIsSuccessView() {
 		System.out.println("결제 성공 시 화면");
-		return "member/pay/paymentStatusSuccess";
+		return "member/pay/payStatusSuccess";
 	}
 	
 	@GetMapping("/fail")
 	public String paymentStatusIsFailView() {
 		System.out.println("결제 실패 시 화면");
-		return "member/pay/paymentStatusFail";
+		return "member/pay/payStatusFail";
 	}
 		
 	@GetMapping("/settlementList")
