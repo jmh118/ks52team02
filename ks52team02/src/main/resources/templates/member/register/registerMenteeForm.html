@@ -4,7 +4,9 @@
 			
 			
 	<th:block layout:fragment="customJs">		
- 	<script>
+ 	<script>	
+					
+			// 회원 ID 중복여부 검사
 			$('#memberId').change(function(){
 					$('#registerMenteeForm input').not('#memberId').prop('disabled', true);
 					$('#registerMenteeForm select').prop('disabled', false);
@@ -12,12 +14,21 @@
 				});
 			
 				$('#duplicateIdCheckBtn').click(function(){
+					
 					const memberId = $('#memberId').val();
+					const denyChar = /[^A-Za-z0-9]/;
+					
+					// 영문 및 숫자만 아이디로 설정할 수 있도록 함.
+					if(denyChar.test(memberId)){
+						alert('아이디는 영문 및 숫자만 입력 가능합니다.');
+						$('#memberId').focus();
+						return ;
+					}
 					
 					if(!memberId) {
 						alert('회원의 아이디를 입력해주세요');
 						$('#memberId').focus();
-						return;
+						return ;
 					}
 					
 					const request = $.ajax({
@@ -52,12 +63,14 @@
 				$('#registerBtn').click(function(){
 					let isSubmit = true;
 					const $formControl = $('#registerMenteeForm input, #registerMenteeForm select');
+			
 					
+			// 필수 항목 점검
 					$formControl.each((index, item)=>{
 						const value = $(item).val();
 						if(!value){
-							const cate = $(item).attr('name');
-							const msg = `${cate}는 필수 입력 항목입니다.`;
+							const cate = $(item).attr('placeholder');
+							const msg = `${cate}는 필수 입력항목입니다.`;
 							alert(msg);
 							$(item).focus();
 							isSubmit = false;
@@ -65,8 +78,44 @@
 						}
 					});
 					
+					
+			// 비밀번호 확인
+					const $memberPw = $('#memberPw').val();
+					const $checkMemberPw = $('#checkMemberPw').val();
+					
+					// 최소 비밀번호 길이 충족
+					const memberPwLength = $('#memberPw').val().length;
+					if (memberPwLength < 6) {
+						alert('비밀번호는 최소 6자리 이상입니다.');
+					    $('#checkMemberPw').focus();
+						
+					    isSubmit = false;
+					    return false;
+					}
+					
+					// 비밀번호 확인 란 불일치
+					if ($memberPw !== $checkMemberPw) {
+					    alert('비밀번호 확인 란이 일치하지 않습니다.');
+					    $('#checkMemberPw').focus();
+						
+					    isSubmit = false;
+					    return false;
+					}
+					
+			// 필수 동의 항목 체크
+					const $registerBasicTermCheckbox = $('#registerBasicTermCheckbox').prop('checked');
+					
+					if(!$registerBasicTermCheckbox) {
+						alert('회원가입 기본 약관은 필수 항목입니다. 체크해 주세요.');
+						
+						isSubmit = false;
+						return false;
+					}
+					
+			// 모든 조건이 true일 때(isSubmit) 폼 제출
 					if(isSubmit) $('#registerMenteeForm').submit();
 				});
+				
 		</script>
 		
 		
@@ -147,7 +196,7 @@
                             </div>
                             <!-- form-group  .// -->
                             <div class="mb-10 d-flex justify-content-center">
-								<input type="hidden" id="memberJoinYMD" name="memberJoinYMD" value="">
+								<input type="hidden" id="memberJoinYMD" name="memberJoinYMD" value="${memberJoinYMD}">
                                 <button type="button" class="btn btn-block w-80" id="registerBtn" name="registerBtn">REGISTER</button>
                             </div>
                             <!-- form-group// -->

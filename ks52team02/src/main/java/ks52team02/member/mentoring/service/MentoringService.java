@@ -3,6 +3,7 @@ package ks52team02.member.mentoring.service;
 import java.util.List;
 
 import jakarta.servlet.http.HttpSession;
+import ks52team02.member.mentoring.dto.MentoringApply;
 import ks52team02.member.mentoring.dto.Notice;
 import ks52team02.member.mentoring.dto.NoticeAnswer;
 import ks52team02.member.mentoring.dto.NoticeDetail;
@@ -34,6 +35,9 @@ public interface MentoringService {
 
 	// 공고관련질문답변 조회
 	List<NoticeQuestion> getNoticeQuestionByCode(String noticeCode);
+
+	// 멘토링 신청
+	void addMentoringApply(MentoringApply mentoringApply);
 
 
 
