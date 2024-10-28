@@ -26,12 +26,10 @@
                                         <td th:text="${c.goalName}"></td>
                                         <td th:text="${c.goalRecordCnt}"></td>
                                         <td th:text="${c.couponAmount}"></td>
-                                        <th:block th:if="${c.couponUseYN == 'Y'}">
-	                                        <td><span th:text="${'사용'}" class="badge rounded-pill alert-success"></span></td>
-                                        </th:block>
-                                        <th:block th:if="${c.couponUseYN == 'N'}">
-	                                        <td><span th:text="${'미사용'}" class="badge rounded-pill alert-warning"></span></td>
-                                        </th:block>
+                                        <th:blcok th:switch="${c.couponUseYN}">
+                                        	<td th:case="${'Y'}"><span th:text="${'사용'}" class="badge rounded-pill alert-success"></span></td>
+                                        	<td th:case="${'N'}"><span th:text="${'미사용'}" class="badge rounded-pill alert-warning"></span></td>
+                                        </th:blcok>
                                     </tr>
                                 </tbody>
                             </table>

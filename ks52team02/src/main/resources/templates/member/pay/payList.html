@@ -30,7 +30,11 @@
 										<td th:text="${p.memberId}">홍길동</td>
 										<td th:text="${p.payAmount}">49000</td>
 										<td th:text="${p.paymentDate}">2024. 9. 7 오후 6:00:00</td>
-										<td><span th:text="${mentoringStatus}" class="badge rounded-pill alert-warning">진행전</span></td>
+										<th:block th:switch="${p.mentoringStatus}">
+											<td th:case="*"><span th:text="${'진행 전'}" class="badge rounded-pill alert-warning"></span></td>
+											<td th:case="${'진행 중'}"><span th:text="${p.mentoringStatus}" class="badge rounded-pill alert-danger"></span></td>
+											<td th:case="${'완료'}"><span th:text="${p.mentoringStatus}" class="badge rounded-pill alert-warning"></span></td>
+										</th:block>
 										<td><a href="/review/form" class="btn btn-md rounded font-sm">후기 등록</a></td>
 									</tr>
 								</tbody>
