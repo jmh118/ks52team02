@@ -116,43 +116,44 @@
 					});
 					
 			</script>
-			
-			
 		</th:block>
     <th:block layout:fragment="customContent">
 		<section class="content-main mt-40 mb-40 my-2">
 			<div class="card-body container col-3 my-2">
 				<h3 class="mb-20 mt-40 text-brand d-flex justify-content-center">멘토 권한으로 계정 생성</h3>
 				<div>
-					<p class="text-center mb-2">이미 계정을 가지고 있으신가요? <a href="/common/moveLogin"> &nbsp; 로그인하러 가기</a></p>
+					<p class="text-center mb-2">이미 계정을 가지고 있으신가요? <a href="/member/login"> &nbsp; 로그인하러 가기</a></p>
 				</div>
-				<form class="member container mt-40" id="registerMentorForm" name="registerMentorForm">>
+				<form class="member container mt-40" th:action="@{/register/mentor}" method="post" id="registerMentorForm" name="registerMentorForm">
 					<div class="mb-4">
-						<label class="form-label">회원 아이디 *</label>
-						<input class="form-control" placeholder="ID" type="text" />
+						<label class="form-label" for="memberId">회원 아이디 *</label>
+							<div class="row gx-2">									
+                                <div class="col-7"><input class="form-control" id="memberId" name="memberId" placeholder="ID" type="text" /></div>
+								<div class="col-5 "><button type="button" class="btn btn-block w-20" id="duplicateIdCheckBtn" name="duplicateIdCheckBtn" >중복확인</button></div>
+                           	</div>
 					</div>
-					<!-- form-group// -->
-					<div class="mb-4">
-		                <label class="form-label">회원 비밀번호 *</label>
-		                <input class="form-control" placeholder="Password" type="text" />
-					</div>
-		            <!-- form-group// -->
-					<div class="mb-4">
-		                <label class="form-label">비밀번호 확인 *</label>
-		                <input class="form-control" placeholder="Confirm password" type="text" />
-		            </div>
-		            <!-- form-group// -->
-					<div class="mb-4">
-						<label class="form-label">비밀번호 찾기 질문/답변 *</label>
-						<select class="mb-10 form-control" name="findPasswordQ">
-							<option value="pwQuestion1">Q. 내가 태어난 고향은 어디인가?</option>
-							<option value="pwQuestion2">Q. 내가 가장 좋아하는 색깔은?</option>
-							<option value="pwQuestion3">Q. 내가 가장 처음 산 물건은?</option>
-							<option value="pwQuestion4">Q. 여행 가기 좋다고 생각하는 장소는?</option>
-							<option value="pwQuestion5">Q. 내가 가장 좋아하는 캐릭터 이름은?</option>
-						</select>
-						<input class="form-control" placeholder="Answer" type="text" />
-		            </div>
+                           <!-- form-group// -->
+						<div class="mb-4">
+                               <label class="form-label" for="memberPw">회원 비밀번호 *</label>
+                               <input class="form-control" id="memberPw" name="memberPw" placeholder="Password" type="text" disabled="disabled" />
+                           </div>
+                           <!-- form-group// -->
+						<div class="mb-4">
+                               <label class="form-label" for="checkMemberPw">비밀번호 확인 *</label>
+                               <input class="form-control" id="checkMemberPw" name="checkMemberPw" placeholder="Confirm password" type="text" disabled="disabled"/>
+                           </div>
+                           <!-- form-group// -->
+						<div class="mb-4">
+                               <label class="form-label" for="findPasswordQnA">비밀번호 찾기 질문/답변 *</label>
+							<select class="mb-10 form-control" name="findPasswordQ">
+								<option value="pwQuestion1" id="pwQuestion1">Q. 내가 태어난 고향은 어디인가?</option>
+								<option value="pwQuestion2" id="pwQuestion2">Q. 내가 가장 좋아하는 색깔은?</option>
+								<option value="pwQuestion3" id="pwQuestion3">Q. 내가 가장 처음 산 물건은?</option>
+								<option value="pwQuestion4" id="pwQuestion4">Q. 여행 가기 좋다고 생각하는 장소는?</option>
+								<option value="pwQuestion5" id="pwQuestion5">Q. 내가 가장 좋아하는 캐릭터 이름은?</option>
+							</select>
+                               <input class="form-control" id="memberPwAnswer" name="memberPwAnswer" placeholder="Answer" type="text"  disabled="disabled"/>
+                           </div>
 					<!-- form-group// -->
 					<div class="mb-4">
 						<label class="form-label">회원 이름 *</label>

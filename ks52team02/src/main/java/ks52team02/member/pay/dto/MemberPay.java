@@ -5,6 +5,7 @@ import lombok.Data;
 @Data
 public class MemberPay {
 	
+	private String payCode;
 	private String noticeTitle;
 	private String memberId;
 	private int payAmount;

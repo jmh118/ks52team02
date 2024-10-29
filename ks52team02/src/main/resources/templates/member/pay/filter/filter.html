@@ -14,6 +14,16 @@
 	            <option value="all">전체 월</option>
 	            <option value="1">1월</option>
 	            <option value="2">2월</option>
+	            <option value="3">3월</option>
+	            <option value="4">4월</option>
+	            <option value="5">5월</option>
+	            <option value="6">6월</option>
+	            <option value="7">7월</option>
+	            <option value="8">8월</option>
+	            <option value="9">9월</option>
+	            <option value="10">10월</option>
+	            <option value="11">11월</option>
+	            <option value="12">12월</option>
 	            <!-- 다른 옵션 추가 가능 -->
 	        </select>
 	        <input type="text" class="fl-mtc-btn-2" th:if="${session.SLEVEL == 'member_level_mentor'}" placeholder="멘티 아이디 검색" />
@@ -24,9 +34,9 @@
 	    </div>
 	    <div class="status">
 	        <span>STATUS</span>
-	        <span>• 진행전</span>
-	        <span>• 진행중</span>
-	        <span>• 진행완료</span>
+	        <span id="before">• 진행전</span>
+	        <span id="progress">• 진행중</span>
+	        <span id="completed">• 진행완료</span>
 	    </div>
 	    <div class="sort">
 	        <span>SORT</span>
