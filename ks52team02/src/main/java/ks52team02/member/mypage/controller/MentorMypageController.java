@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import ks52team02.member.mypage.dto.MentorInfo;
+import ks52team02.member.mypage.dto.Work;
 import ks52team02.member.mypage.mapper.MentorMypageMapper;
 import ks52team02.member.mypage.service.MentorMypageService;
 import lombok.RequiredArgsConstructor;
@@ -58,7 +59,7 @@ public class MentorMypageController {
         System.out.println("mypage career 페이지 이동");
         HttpSession session= request.getSession();
         String sessionId =(String) session.getAttribute("SID");
-        MentorInfo mentorInfo = mentorMypageMapper.getMentorInfoById(sessionId);
+        Work mentorInfo = mentorMypageMapper.getMentorWorkById(sessionId);
 		log.info("mentorInfo:{}", mentorInfo);
         
         
