@@ -20,6 +20,7 @@ public class MemberPayController {
 	
 	private final MemberPayMapper memberPayMapper;
 	
+	
 	@GetMapping("/list")
 	public String getPayList(HttpSession session, Model model) {
 		
