@@ -8,8 +8,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import jakarta.servlet.http.HttpSession;
+import ks52team02.manager.member.dto.Member;
 import ks52team02.member.mentoring.dto.MentoringApply;
 import ks52team02.member.mentoring.dto.Notice;
 import ks52team02.member.mentoring.dto.NoticeAnswer;
@@ -29,6 +31,23 @@ public class MemberMentoringController {
 
 	private final MentoringService mentoringService;
 	private final MentoringMapper mentoringMapper;
+	
+	@PostMapping("/modifyQuestion")
+	public String modifyQuestion(NoticeQuestion noticeQuestion) {
+		mentoringService.modifyQuestion(noticeQuestion);
+		
+		return "redirect:/mentoring/notice";
+	}
+	
+	
+	@PostMapping("/applyCheck")
+	@ResponseBody
+	public boolean applyCheck(Member member) {
+		boolean isDuplicate = false;
+		isDuplicate = mentoringService.getApplyCheck(member);
+		
+		return isDuplicate; 
+	}
 	
 	@PostMapping("/modifyNotice")
 	public String modifyNotice(Notice notice) {
@@ -106,12 +125,13 @@ public class MemberMentoringController {
     	List<NoticeQuestion> noticeQnA = mentoringService.getNoticeQuestionByCode(noticeCode);
     	log.info("noticeQnA : {}",noticeQnA);
     	model.addAttribute("noticeQnA", noticeQnA);
-    	System.out.println(noticeQnA);
+
     	
     	List<NoticeDetail> noticeDetailYmd = mentoringMapper.getNoticeApplyYmdByCode(noticeCode);
     	model.addAttribute("noticeDetailYmd", noticeDetailYmd);
-    	String memberGrade = (String)session.getAttribute("SLEVEL");
-    	System.out.println("멤버등급"+memberGrade);
+		
+    	
+
         return  "member/mentoring/noticeDetail";
     }
 	
@@ -119,7 +139,7 @@ public class MemberMentoringController {
 	public String movenoticeList(@RequestParam(required = false) String category, Model model) {
 		
 		List<Notice> noticeList;
-		System.out.println(category);
+
 		if(category != null && !category.isEmpty()) {
 			noticeList = mentoringService.getNoticeByCategory(category);
 		}else {
@@ -131,19 +151,6 @@ public class MemberMentoringController {
     	System.out.println("멘토링 | 멘토링 공고 조회 화면");
         return  "member/mentoring/noticeList";
     }
-	
-	@GetMapping("/apply")
-    public String moveMentoringApply(@RequestParam(name="noticeCode")String noticeCode, Model model) {
-		
-    	System.out.println("멘토링 신청 화면");
-    	List<NoticeDetail> noticeDetailYmd = mentoringMapper.getNoticeApplyYmdByCode(noticeCode);
-    	model.addAttribute("noticeDetailYmd", noticeDetailYmd);
-    	
-    	log.info("noticeDetailYmd : {}",noticeDetailYmd);
 
-        return  "member/mentoring/mentoringApply";
-    }
-	
-	
 
 }
