@@ -51,9 +51,17 @@ public class MentorMypageController {
         return  "member/mypage/mentor/mentorMypage";
     }
 
+	//경력정보 조회
     @GetMapping("/career")
-    public String MoveMypageCareer() {
+    public String MoveMypageCareer(HttpServletRequest request, Model model) {
+    	
         System.out.println("mypage career 페이지 이동");
+        HttpSession session= request.getSession();
+        String sessionId =(String) session.getAttribute("SID");
+        MentorInfo mentorInfo = mentorMypageMapper.getMentorInfoById(sessionId);
+		log.info("mentorInfo:{}", mentorInfo);
+        
+        
         return  "member/mypage/mentor/mentorMypageCareer";
     }
     
