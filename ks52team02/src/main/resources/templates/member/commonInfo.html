@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{member/layouts/layout}">
+<head>
+    <!-- 필터 부분 css -->
+    <link rel="stylesheet" href="/member/css/filter.css">
+</head>
+<th:block layout:fragment="customContent">
+    <div class="page-content pt-150 pb-150">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-10 m-auto">
+                    <div class="row">
+                        <!-- 멘토링관리 사이드바 -->
+                        <th:block th:replace="~{member/pay/aside/asideMenu :: asideMenu}"></th:block>
+                        <div class="col-md-9">
+                            <div class="tab-content account dashboard-content pl-50">
+                                <div class="tab-pane fade active show">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h5>신청 멘티 프로필</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <p>멘티 정보</p>
+
+                                            <!-- Row for filter and table -->
+                                            <div class="row">
+                                               <div class="col-lg-12">
+							                        <th:block th:replace="~{member/pay/filter/infoFilter :: infoFilter}"></th:block>
+                                                    
+                                                </div>
+                                            </div>
+                                            <div class="row mt-4">
+                                                <div class="col-lg-12">
+                                                    <div class="table-responsive pl-20">
+                                                        <table class="table table-hover text-center">
+															<thead>
+																<tr>
+																	<th>신청받은 멘토링</th>
+																	<th>멘티 아이디</th>
+																	<th>멘티_관심분야 </th>
+																	<th>멘티_관심분야_필요기술 </th>
+																	<th>멘티_관심분야_경험_수준</th>
+																	<th>멘티_관심분야_경험_설명</th>
+																	<th>상세보기</th>
+																</tr>
+															</thead>
+															<tbody>
+																<!-- alert-warning 진행전 / alert-danger 진행중 / alert-success 진행완료 -->
+																<tr>																
+																	<td>1</td>
+																	<td>2</td>
+																	<td>3</td>
+																	<td>4</td>
+																	<td>5</td>
+																	<td>6</td>
+																	<td>
+																		<a class="btn btn-md rounded font-sm">상세</a>
+																	</td>
+																</tr>
+															</tbody>
+														</table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+</html>

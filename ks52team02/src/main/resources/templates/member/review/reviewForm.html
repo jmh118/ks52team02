@@ -7,11 +7,11 @@
 		<section class="content-main mt-40 mb-40 my-2 text-brand">
 		       <div class="card-body container col-3 my-2">
                    <h3 class="mb-20 mt-40 text-brand d-flex justify-content-center">멘토링 후기 등록하기</h3>
-                        <form class="container mt-40">
+                        <form class="container mt-40" action="/review/add" method="post">
                             <!-- form-group// -->
 							<div class="mb-4">
                                 <label class="form-label">신청한 멘토링명</label>
-                                <input type="text" class="form-control" name="mentroingName" value="신청한 멘토링명" readonly/>
+                                <input type="text" class="form-control" name="mentroingName" th:value="${noticeTitle}" readonly/>
                             </div>
                             <!-- form-group// -->
 							<div class="mb-4">
@@ -24,7 +24,7 @@
 								    <span class="star" data-value="4">★</span>
 								    <span class="star" data-value="5">★</span>
 								</div>
-								<p id="rating">Rating: 0</p>
+								<p id="rating">평점 : 0</p>
                                 
                             </div>
                             <!-- form-group// -->
@@ -41,7 +41,7 @@
     </th:block>
     <th:block layout:fragment="customJs">
     	<script>
-	    	// 모든 별(span)을 선택
+	    	
 	    	const stars = document.querySelectorAll('.star');
 	    	const ratingDisplay = document.getElementById('rating');
 	
@@ -53,15 +53,15 @@
 	    	    });
 	    	});
 	
-	    	// 점수 업데이트
+	    	
 	    	function updateRating(rating) {
 	    	    ratingDisplay.textContent = `Rating: ${rating}`;
 	    	}
 	
-	    	// 별을 강조(하이라이트)하는 함수
+	    	
 	    	function highlightStars(rating) {
 	    	    stars.forEach(star => {
-	    	        // 별의 data-value가 현재 선택한 rating보다 작거나 같으면 채운 별로 강조
+	    	        
 	    	        if (star.getAttribute('data-value') <= rating) {
 	    	            star.style.color = 'gold';
 	    	        } else {

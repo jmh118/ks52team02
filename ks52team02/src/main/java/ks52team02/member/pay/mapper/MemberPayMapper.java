@@ -8,7 +8,12 @@ import ks52team02.member.pay.dto.MemberPay;
 
 @Mapper
 public interface MemberPayMapper {
+	
+	// 진행
 
+	// 결제한 멘토링명 조회
+	String getMentoringTitleByPayCode(String payCode);
+	
 	// 결제 내역
 	List<MemberPay> getMenteePaymentListById(String memberId);
 }
