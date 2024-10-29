@@ -7,72 +7,54 @@
 </head>
 <th:block layout:fragment="customJs">
 	<script>
-			
-		$('.reviewBtn').each(function() {
-	        const payCode = $(this).data('pay-code');
-	        const noticeTitle = $(this).data('notice-title');
-	        const formattedNoticeTitle = noticeTitle.split('mentee_settlement_mentor_calculation_code')[0].trim();
-	        const $button = $(this);  
-	        const mentoringStatus = $(this).closest('tr').find('.mentoringStatus').text(); 
-	       	const addReviewUri = `/review/form?payCode=${payCode}&noticeTitle=${formattedNoticeTitle}`;
-	       	const modifyReviewUri = '/review/modify?payCode=';
+		function filterByStatus(status) {
+	        let	isList = false;
+	        let message = "";  
 	
-	        $.ajax({
-	            type: 'GET',
-	            url: '/review/isCheck',
-	            data: { "payCode": payCode },
-	            dataType: 'json'
-	        })
-	        .done(function(data) {
-	            
-	            if (data) {
-	                $button.text('후기 수정');
-	                $button.attr('href', modifyReviewUri);  
+	        if (status === "진행 중") {
+	            message = "진행 중인 멘토링이 없습니다 <br><a href='/mentoring/notice'>멘토링 신청하러 가기</a>";
+	        } else if (status === "종료") {
+	            message = "진행 완료인 멘토링이 없습니다";
+	        } else if (status === "진행 전") {
+	            message = "진행 준비 중인 멘토링이 없습니다 <br><a href='/mentoring/notice'>멘토링 신청하러 가기</a>";
+	        }
+	
+	        $('tbody tr').each(function() {
+	            let statusText = $(this).find('td .badge').text();
+	            if (statusText === status) {
+	                $(this).show();
+	                hasResults = true; 
 	            } else {
-	                $button.text('후기 등록');
-	                $button.attr('href', addReviewUri + payCode);  
+	                $(this).hide();
 	            }
-	        })
-	        .fail(function(jqXHR, textStatus, error) {
-	            console.log(error);
 	        });
+	
+	        if (!isList) {
+	            $('tbody').append('<tr class="noResults"><td colspan="6">' + message + '</td></tr>');
+	        } else {
+	            $('tbody .noResults').remove();
+	        }
+	    }
+	
+	    $('.status #progress').click(function() {
+	        filterByStatus('진행 중');
 	    });
-			
-		$('.status #progress').click(function(){
-			$('tbody tr').each(function() {
-                let statusText = $(this).find('td .badge').text().trim(); // 멘토링 상태 텍스트 가져오기
-                if (statusText === '진행 중') {
-                    $(this).show();
-                } else {
-                    $(this).hide(); 
-                }
-            });
-		});
+	
+	    $('.status #completed').click(function() {
+	        filterByStatus('종료');
+	    });
+	
+	    $('.status #before').click(function() {
+	        filterByStatus('진행 전');
+	    });
 		
-		$('.status #completed').click(function(){
-			$('tbody tr').each(function() {
-                let statusText = $(this).find('td .badge').text().trim();
-                if (statusText === '종료') {
-                	
-                    $(this).show();
-                } else {
-                    $(this).hide(); 
-                }
-            });
-		});
-		
-		$('.status #before').click(function(){
-			$('tbody tr').each(function() {
-                let statusText = $(this).find('td .badge').text().trim();
-                if (statusText === '') {
-                    $(this).show();
-                } else {
-                    $(this).hide(); 
-                }
-            });
-		});
-		
-		
+	    $('.status .status-option').click(function() {
+            $('.status .status-option').removeClass('active');
+            $(this).addClass('active'); 
+        });
+
+        
+	    
 	</script>
 </th:block>
 <th:block layout:fragment="customContent">
@@ -98,7 +80,6 @@
                                                 <div class="col-lg-12">
 							                        <!-- 필터 -->
 							                        <th:block th:replace="~{member/pay/filter/filter :: filter}"></th:block>
-                                                    
                                                 </div>
                                             </div>
                                             <div class="row mt-4">
@@ -116,24 +97,21 @@
 																</tr>
 															</thead>
 															<tbody>
-																<!-- alert-warning 진행전 / alert-danger 진행중 / alert-success 진행완료 -->
-																<tr th:each="p : ${paymentList}">																
-																		
-																	<td th:text="${p.noticeTitle}" class="noticeTitle"></td>
+																<tr th:each="p, idx : ${paymentList}">																
+																	<td th:text="${p.notice.noticeTitle}"></td>
 																    <th:block>
-																        <input type="hidden" class="payCode" th:value="${p.payCode}" />
+																        <input type="hidden" th:value="${p.paySettlementCalCode}" />
 																    </th:block>
-																	<td th:text="${p.memberId}"></td>
-																	<td th:text="${p.payAmount}"></td>
-																	<td th:text="${p.paymentDate}"></td>
-																	<th:block th:switch="${p.mentoringStatus}">
+																	<td th:text="${p.notice.memberId}"></td>
+																	<td th:text="${p.totalAmount}"></td>
+																	<td th:text="${p.payDate}"></td>
+																	<th:block th:switch="${p.mentoringProcStatus}">
 																		<td th:case="''"><span th:text="${'진행 전'}" class="badge rounded-pill alert-secondary"></span></td>
-																		<td th:case="'진행 중'"><span th:text="${p.mentoringStatus}" class="badge rounded-pill alert-danger"></span></td>
-																		<td th:case="'종료'"><span th:text="${p.mentoringStatus}" class="badge rounded-pill alert-success"></span></td>
+																		<td th:case="'진행 중'"><span th:text="${p.mentoringProcStatus}" class="badge rounded-pill alert-danger"></span></td>
+																		<td th:case="'종료'"><span th:text="${p.mentoringProcStatus}" class="badge rounded-pill alert-success"></span></td>
 																	</th:block>
-																	<!-- /review/form -->
 																	<td>
-																		<a class="reviewBtn btn btn-md rounded font-sm" th:classappend="${p.mentoringStatus != '종료'}? 'disabled'" th:data-pay-code="${p.payCode}" th:data-notice-title="${p.noticeTitle}">후기 등록</a>
+																		<a th:href="@{/review/form(payCode=${p.paySettlementCalCode})}" class="btn btn-md rounded font-sm" th:classappend="${p.mentoringProcStatus != '종료' || reviewCheck[idx.index]} ? 'disabled' : ''">후기 등록</a>
 																	</td>
 																</tr>
 															</tbody>

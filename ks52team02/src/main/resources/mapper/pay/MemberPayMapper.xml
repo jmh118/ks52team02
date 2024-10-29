@@ -3,7 +3,31 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ks52team02.member.pay.mapper.MemberPayMapper">
-	
+	<resultMap type="Pay" id="paymentListMap">
+		<id column="mentee_settlement_mentor_calculation_code" 	property="paySettlementCalCode"/>
+		<result column="mentor_notice_code" 					property="noticeCode"/>	
+		<result column="mentee_coupon_holding_status_code" 		property="menteeCouponStatusCode"/>	
+		<result column="settlement_id" 							property="payId"/>	
+		<result column="settlement_amount_before_discount" 		property="payAmountBeforeDiscount"/>	
+		<result column="mentee_coupon" 							property="menteeCoupon"/>	
+		<result column="last_amount" 							property="totalAmount"/>	
+		<result column="settlement_day" 						property="payDate"/>	
+		<result column="settlement_method" 						property="payMethod"/>	
+		<result column="fee" 									property="payFee"/>	
+		<result column="mentor_calculation_amount" 				property="mentorCalAmount"/>	
+		<result column="last_flatform_calculation_amount" 		property="flatformCalAmount"/>	
+		<result column="situation_mentor_calculation" 			property="mentorCalSituation"/>	
+		<result column="mentor_calculation_completion_day" 		property="mentorCalCompletionDate"/>	
+		<result column="mentoring_progress_status" 				property="mentoringProcStatus"/>	
+
+		<association property="notice" javaType="Notice">
+			<id column="mentoring_notice_code" property="noticeCode"/>
+			<result column="topic_category_code" property="topicCode"/>
+			<result column="member_id" property="memberId"/>
+			<result column="mentoring_notice_title" property="noticeTitle"/>		
+		</association>
+	</resultMap>
+
 	<select id="getMentoringTitleByPayCode" parameterType="string" resultType="string">
 		/* 결제한 멘토링명 조회 */
 		SELECT
@@ -16,27 +40,21 @@
 	</select>
 	
 	
-	<select id="getMenteePaymentListById" parameterType="string" resultType="MemberPay">
+	<select id="getMenteePaymentListById" parameterType="string" resultMap="paymentListMap">
 		/* 결제 내역 조회 */
 		SELECT 
-			msmc.mentee_settlement_mentor_calculation_code AS payCode,
-			mn.mentoring_notice_title AS noticeTitle,
-			m.member_id AS memberId,
-		    msmc.last_amount AS payAmount,
-		    msmc.settlement_day AS paymentDate,
-			msmc.mentoring_progress_status AS mentoringStatus
+			msmc.mentee_settlement_mentor_calculation_code,
+			mn.mentoring_notice_code,
+			mn.topic_category_code,
+			mn.mentoring_notice_title,
+			mn.member_id,
+		    msmc.last_amount,
+		    msmc.settlement_day,
+			msmc.mentoring_progress_status
 		FROM 
 		    mentee_settlement_mentor_calculation msmc INNER JOIN mentoring_notice mn 
 		    ON msmc.mentor_notice_code = mn.mentoring_notice_code
-		    INNER JOIN `member` m
-		    ON mn.member_id = m.member_id
 		WHERE 
 		    msmc.settlement_id = #{memberId};
-			
 	</select>
-	
-	
-	
-	
-	
 </mapper>

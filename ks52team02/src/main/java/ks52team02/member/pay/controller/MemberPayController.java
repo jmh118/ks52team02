@@ -8,8 +8,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import jakarta.servlet.http.HttpSession;
-import ks52team02.member.pay.dto.MemberPay;
-import ks52team02.member.pay.mapper.MemberPayMapper;
+import ks52team02.member.pay.dto.Pay;
+import ks52team02.member.pay.service.MemberPayService;
+import ks52team02.member.review.service.MemberReviewService;
 import lombok.RequiredArgsConstructor;
 
 
@@ -18,17 +19,21 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/pay")
 public class MemberPayController {
 	
-	private final MemberPayMapper memberPayMapper;
+	private final MemberPayService memberPayService;
+	private final MemberReviewService memberReviewService;
 	
 	
 	@GetMapping("/list")
 	public String getPayList(HttpSession session, Model model) {
 		
 		String memberId = (String) session.getAttribute("SID");
-		List<MemberPay> paymentList = memberPayMapper.getMenteePaymentListById(memberId);
+		List<Pay> paymentList = memberPayService.getMenteePaymentListById(memberId);
+		List<Boolean> isCheck = memberReviewService.isCheckReview(paymentList);
+		System.out.println(isCheck);
 		
 		model.addAttribute("activeMenu", "payList");
 		model.addAttribute("paymentList", paymentList);
+		model.addAttribute("reviewCheck", isCheck);
 		
 		return "member/pay/payList.html";
 	}
