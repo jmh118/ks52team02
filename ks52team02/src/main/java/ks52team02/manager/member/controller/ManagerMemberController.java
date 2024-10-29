@@ -38,12 +38,6 @@ public class ManagerMemberController {
     	model.addAttribute("withdrawalmemberList", withdrawalmemberList);
     	return  "manager/memberInfo/withdrawalMembersList";
     }
-
-	@GetMapping("/dailyWithdrawalList")
-	public String dailyWithdrawalMembers(Model model) {
-		System.out.println("당일 탈퇴 회원 조회 페이지 이동");
-		return  "manager/memberInfo/dailyWithdrawalMembersList";
-	}
 	
 	@GetMapping("/dormantList")
     public String dormantMembers(Model model) {
