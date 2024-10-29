@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import ks52team02.member.pay.dto.MemberPay;
+import ks52team02.member.pay.dto.Pay;
 
 @Mapper
 public interface MemberPayMapper {
@@ -15,5 +15,5 @@ public interface MemberPayMapper {
 	String getMentoringTitleByPayCode(String payCode);
 	
 	// 결제 내역
-	List<MemberPay> getMenteePaymentListById(String memberId);
+	List<Pay> getMenteePaymentListById(String memberId);
 }

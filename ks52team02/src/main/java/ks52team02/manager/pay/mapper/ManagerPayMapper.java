@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import ks52team02.manager.pay.dto.Pay;
 import ks52team02.manager.pay.dto.PaymentSettlement;
+import ks52team02.member.pay.dto.Pay;
 
 @Mapper
 public interface ManagerPayMapper {
