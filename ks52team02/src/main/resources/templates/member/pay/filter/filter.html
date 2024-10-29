@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<div class="filter-container" th:fragment="filter">
+	    <div class="filter">
+	        <label for="year">FILTER</label>
+	        <select id="fl-mtc-btn-4">
+	            <option value="all">전체 년도</option>
+	            <option value="2024">2024</option>
+	            <option value="2023">2023</option>
+	            <!-- 다른 옵션 추가 가능 -->
+	        </select>
+	
+	        <select id="fl-mtc-btn-4">
+	            <option value="all">전체 월</option>
+	            <option value="1">1월</option>
+	            <option value="2">2월</option>
+	            <!-- 다른 옵션 추가 가능 -->
+	        </select>
+	        <input type="text" class="fl-mtc-btn-2" th:if="${session.SLEVEL == 'member_level_mentor'}" placeholder="멘티 아이디 검색" />
+	        <input type="text" class="fl-mtc-btn-2" th:if="${session.SLEVEL == 'member_level_mentee'}" placeholder="멘토 아이디 검색" />
+	        <div class="fl-mtc-btn-1">
+	            <a href="#" class="btn btn-md rounded font-sm">click</a>
+	        </div>
+	    </div>
+	    <div class="status">
+	        <span>STATUS</span>
+	        <span>• 진행전</span>
+	        <span>• 진행중</span>
+	        <span>• 진행완료</span>
+	    </div>
+	    <div class="sort">
+	        <span>SORT</span>
+	        <span>• 포트폴리오</span>
+	        <span>• 자격증</span>
+	        <span>• 공인어학</span>
+	        <span>• 면접</span>
+	        <span>• 자기소개서</span>
+	        <span>• 이직</span>
+	        <span>• 기타</span>
+	    </div>
+	</div>
+</html>

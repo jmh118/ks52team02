@@ -1,63 +1,95 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{member/layouts/layout}">
-    <!--/* 기존 class는 main pages...  pages 누락 시 문제 없음
-    	<main class="main pages"layout:fragment="content"> */-->
-    <th:block layout:fragment="customContent">
-        <div class="page-content pt-50">
-            <div class="container">
-            	<!-- 타이틀 후기 레이아웃 수정 필요~ -->
-                <h3 class="pb-30">정산 내역 조회</h3>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="table-responsive">
-							<table class="table table-hover text-center">
-								<thead>
-									<tr>
-										<th>멘토링 공고명</th>
-										<th>신청 멘티명</th>
-										<th>정산금액</th>
-										<th>멘토링 진행여부</th>
-										<th>정산신청일</th>
-										<th>정산완료일</th>
-										<th>정산신청</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td>나도 포트폴리오 마스터!!</td>
-										<td>홍길동</td>
-										<td>45100</td>
-										<td><span class="badge rounded-pill alert-warning">진행전</span></td>
-										<td>2024. 9. 7 오후 6:00:00</td>
-										<td>2024. 9. 7 오후 6:10:00</td>
-										<td><a href="#" class="btn btn-md rounded font-sm">정산신청</a></td>
-									</tr>
-									<tr>
-										<td>나도 포트폴리오 마스터!!</td>
-										<td>홍길동</td>
-										<td>45100</td>
-										<td><span class="badge rounded-pill alert-danger">진행중</span></td>
-										<td>2024. 9. 7 오후 6:00:00</td>
-										<td>2024. 9. 7 오후 6:10:00</td>
-										<td><a href="#" class="btn btn-md rounded font-sm">정산신청</a></td>
-									</tr>
-									<tr>
-										<td>나도 포트폴리오 마스터!!</td>
-										<td>홍길동</td>
-										<td>45100</td>
-										<td><span class="badge rounded-pill alert-success">진행완료</span></td>
-										<td>2024. 9. 7 오후 6:00:00</td>
-										<td>2024. 9. 7 오후 6:10:00</td>
-										<td><a href="#" class="btn btn-md rounded font-sm">정산신청</a></td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-						<h5>정산금액</h5>
+    layout:decorate="~{member/layouts/layout}">
+<head>
+    <!-- 필터 부분 css -->
+    <link rel="stylesheet" href="/member/css/filter.css">
+</head>
+<th:block layout:fragment="customContent">
+    <div class="page-content pt-150 pb-150">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-10 m-auto">
+                    <div class="row">
+                        <!-- 멘토링관리 사이드바 -->
+                        <th:block th:replace="~{member/pay/aside/asideMenu :: asideMenu}"></th:block>
+                        <div class="col-md-9">
+                            <div class="tab-content account dashboard-content pl-50">
+                                <div class="tab-pane fade active show">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h5>정산 내역</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <p>Already have an account? Log in instead!</p>
+
+                                            <!-- Row for filter and table -->
+                                            <div class="row">
+                                                <div class="col-lg-12">
+							                        <!-- 필터 -->
+							                        <th:block th:replace="~{member/pay/filter/filter :: filter}"></th:block>
+                                                    
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="row mt-4">
+                                                <div class="col-lg-12">
+                                                    <div class="table-responsive pl-20">
+                                                        <table class="table table-hover text-center">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>멘토링 공고명</th>
+                                                                    <th>신청 멘티명</th>
+                                                                    <th>정산금액</th>
+                                                                    <th>멘토링 진행여부</th>
+                                                                    <th>정산신청일</th>
+                                                                    <th>정산완료일</th>
+                                                                    <th>정산신청</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>나도 포트폴리오 마스터!!</td>
+                                                                    <td>홍길동</td>
+                                                                    <td>45100</td>
+                                                                    <td><span class="badge rounded-pill alert-warning">진행전</span></td>
+                                                                    <td>2024. 9. 7 오후 6:00:00</td>
+                                                                    <td>2024. 9. 7 오후 6:10:00</td>
+                                                                    <td><a href="#" class="btn btn-md rounded font-sm">정산신청</a></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>나도 포트폴리오 마스터!!</td>
+                                                                    <td>홍길동</td>
+                                                                    <td>45100</td>
+                                                                    <td><span class="badge rounded-pill alert-danger">진행중</span></td>
+                                                                    <td>2024. 9. 7 오후 6:00:00</td>
+                                                                    <td>2024. 9. 7 오후 6:10:00</td>
+                                                                    <td><a href="#" class="btn btn-md rounded font-sm">정산신청</a></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>나도 포트폴리오 마스터!!</td>
+                                                                    <td>홍길동</td>
+                                                                    <td>45100</td>
+                                                                    <td><span class="badge rounded-pill alert-success">진행완료</span></td>
+                                                                    <td>2024. 9. 7 오후 6:00:00</td>
+                                                                    <td>2024. 9. 7 오후 6:10:00</td>
+                                                                    <td><a href="#" class="btn btn-md rounded font-sm">정산신청</a></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </th:block>
+    </div>
+</th:block>
 </html>

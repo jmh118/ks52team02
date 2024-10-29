@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import ks52team02.member.mentoring.dto.MentoringApply;
 import ks52team02.member.mentoring.dto.Notice;
 import ks52team02.member.mentoring.dto.NoticeAnswer;
 import ks52team02.member.mentoring.dto.NoticeDetail;
@@ -51,6 +52,15 @@ public interface MentoringMapper {
 
 	// 공고 상세 멘토링 시간
 	List<NoticeDetail> getNoticeDetailTimeByCode(String noticeCode);
+
+	//멘토링 신청
+	int addMentoringApply(MentoringApply mentoringApply);
+
+	// 특정공고 조회
+	Notice getNoticeInfoByCode(String noticeCode);
+
+	// 공고 수정
+	int modifyNotice(Notice notice);
 
 
 
