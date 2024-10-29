@@ -16,6 +16,10 @@
 					<a class="nav-link" th:classappend="${activeMenu == 'settlementList' ? 'active' : ''}" id="paymentListBtn" href="/pay/settlementList">
 					<i class="fi-rs-shopping-bag mr-10"></i>정산 내역</a>
 				</li>
+				<li class="nav-item" th:if="${session.SLEVEL == 'member_level_mentor'}">
+					<a class="nav-link" th:classappend="${activeMenu == 'info' ? 'active' : ''}" id="paymentListBtn" href="/info">
+					<i class="fi-rs-shopping-bag mr-10"></i>신청 멘티 정보</a>
+				</li>
 			</ul>
 		</div>
 	</div>

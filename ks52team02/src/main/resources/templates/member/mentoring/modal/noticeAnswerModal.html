@@ -22,7 +22,7 @@
 		                            <form class="form-contact comment_form" th:action="@{/mentoring/noticeAnswer}" method="post" id="noticeAnswerForm">
 	                                    <div class="col-12">
 	                                        <div class="form-group">
-	                                        	<input type="text" name="questionCode" value="">
+	                                        	<input type="hidden" name="questionCode" value="">
 	                                        	<input type="hidden" id="mentorId" name="mentorId" th:value="${session.SID}">
 	                                            <textarea class="form-control w-100" name="answerContent" id="answerContent" cols="30" rows="9" placeholder="Write Comment"></textarea>
 	                                        </div>

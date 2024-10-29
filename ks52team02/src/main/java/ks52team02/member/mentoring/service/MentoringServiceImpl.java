@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ks52team02.common.mapper.CommonMapper;
+import ks52team02.manager.member.dto.Member;
 import ks52team02.member.mentoring.dto.MentoringApply;
 import ks52team02.member.mentoring.dto.Notice;
 import ks52team02.member.mentoring.dto.NoticeAnswer;
@@ -26,6 +27,20 @@ public class MentoringServiceImpl implements MentoringService{
 	private final CommonMapper commonMapper;
 	
 	@Override
+	public void modifyQuestion(NoticeQuestion noticeQuestion) {
+		mentoringMapper.modifyQuestion(noticeQuestion);
+		
+	}
+	
+	@Override
+	public boolean getApplyCheck(Member member) {
+		boolean isDuplicate = false;
+		isDuplicate = mentoringMapper.getApplyCheck(member);
+		return isDuplicate;
+	}
+	
+	
+	@Override
 	public void modifyNotice(Notice notice) {
 		mentoringMapper.modifyNotice(notice);
 		
@@ -42,8 +57,10 @@ public class MentoringServiceImpl implements MentoringService{
 	public void addMentoringApply(MentoringApply mentoringApply) {
 		String nextCode = commonMapper.getPrimaryKey("mentoring_apply", "mentoring_apply_code", "mentoring_apply_code_");
 		mentoringApply.setApplyCode(nextCode);
-		log.info("mentoringApply : {}",mentoringApply);
+		
 		mentoringMapper.addMentoringApply(mentoringApply);
+		String noticeDetailCode = mentoringApply.getNoticeDetailCode();
+		mentoringMapper.modifyNoticeDetailTime(noticeDetailCode);
 	}
 	
 	@Override

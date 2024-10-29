@@ -32,6 +32,39 @@
 		</association>
 	</resultMap>
 	
+	<update id="modifyQuestion" parameterType="NoticeQuestion">
+		UPDATE mentoring_notice_question
+		SET
+			<if test="questionContent != null and questionContent != ''">
+				question_content=#{questionContent},
+			</if>
+			question_writing_YMD=CURDATE()
+		WHERE mentoring_notice_question_code=#{questionCode};
+	</update>
+	
+	<update id="modifyNoticeDetailTime" parameterType="String">
+		/* 공고신청후 신청가능한 멘토링 시간 수정 */
+		UPDATE mentoring_notice_detail
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="noticeDetailCode != null and noticeDetailCode != ''">
+				mentoring_notice_detail_code=#{noticeDetailCode},
+				RSVT_status='예약 완료(결제 완료)',
+			</if>
+		</trim>
+		WHERE mentoring_notice_detail_code=#{noticeDetailCode};
+	</update>
+	
+	<select id="getApplyCheck" parameterType="ks52team02.manager.member.dto.Member" resultType="boolean">
+		SELECT
+			COUNT(member_id)
+		FROM
+			member
+		WHERE
+			member_name=#{memberName} AND 
+			member_phone_number =#{memberTelNo} AND 
+			member_email=#{memberEmail};
+	</select>
+	
 	<update id="modifyNotice" parameterType="Notice">
 		/* 공고 수정 */
 		UPDATE mentoring_notice
@@ -141,7 +174,7 @@
 		FROM
 			mentoring_notice_detail 
 		WHERE
-			mentoring_notice_code = 'mentoring_notice_code_01'
+			mentoring_notice_code = #{noticeCode}
 			and
 			RSVT_status = '예약 가능';
 	</select>
