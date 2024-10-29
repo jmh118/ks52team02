@@ -1,12 +1,8 @@
 ﻿<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{member/layouts/layout}">
+<html xmlns:th="http://www.thymeleaf.org">
 	
-	<th:block layout:fragment="customJs">
+	<th:block th:fragment="mentorMypageAccountJs">
 		<script>
-			
-		
-		
 			$('#modifyBtn').click(function(){
 				console.log('click');
 				const mentorPw = $('#mentorPw').val();
@@ -14,10 +10,15 @@
 				
 				
 				if(mentorPw != nPassword){
-					alert('비밀번호를 정확하게 입력해주세요');
-					$('#mentorPw').focus();
-					return ;
+					
+					if(mentorPw != null){
+						alert('비밀번호 확인을 정확하게 입력해주세요');
+						$('#mentorPw').focus();
+						return ;
+					}
+					
 				}
+				
 				alert('수정 완료');
 				$('#modifyAccountForm').submit();
 			})
@@ -26,59 +27,43 @@
 	
    <!--/* 기존 class는 main pages...  pages 누락 시 문제 없음
     	<main class="main pages"layout:fragment="content"> */-->	
-    <th:block layout:fragment="customContent">
-        <div class="page-content pt-150 pb-150">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-10 m-auto">
-                        <div class="row">
+    <div th:fragment="mentorMypageAccount">
                             <!--/* 멘토 마이페이지 사이드바 */-->
-							<th:block layout:fragment="mentorMypageAsideFragment" th:replace="~{member/fragments/mentorMypageAside :: mentorMypageAsideFragment}"></th:block>
-                            
-                            <div class="col-md-9">
-                                <div class="tab-content account dashboard-content pl-50">                                    
-                                    <div class="tab-pane fade active show">
-                                        <div class="card">
-                                            <div class="card-header">
-                                                <h5>계정 정보</h5>
-                                            </div>
-                                            <div class="card-body">
-                                                <p>Already have an account? <a href="page-login.html">Log in instead!</a></p>
-                                                <form th:action="@{/mypage/mentor/account}" id="modifyAccountForm" method="post" th:object="${mentorInfo}">
-	                                                <input required class="form-control" name="mentorId" type="hidden" th:value="*{mentorId}"/>
-	                                                <div class="form-group col-md-6">
-	                                                    <label>이름 <span class="required">*</span></label>
-	                                                    <input required class="form-control" id="mentorNm" name="mentorNm" type="text" th:value="*{mentorNm}"/>
-	                                                </div>
-	                                                <div class="form-group col-md-6">
-	                                                    <label>휴대전화 <span class="required">*</span></label>
-	                                                    <input required class="form-control" id="mentorTelNo" name="mentorTelNo" type="text" th:value="*{mentorTelNo}"/>
-	                                                </div>
-	                                                <div class="form-group col-md-6">
-	                                                    <label>이메일 <span class="required">*</span></label>
-	                                                    <input required class="form-control" id="mentorEmail" name="mentorEmail" type="email" th:value="*{mentorEmail}"/>
-	                                                </div>
-	                                                <div class="form-group col-md-6">
-	                                                    <label>비밀번호 <span class="required">*</span></label>
-	                                                    <input required class="form-control" id="mentorPw" name="mentorPw" type="password" th:value="*{mentorPw}"/>
-	                                                </div>
-	                                                <div class="form-group col-md-6">
-	                                                    <label>비밀번호 확인(비밀번호를 다시한번 입력해 주세요) <span class="required">*</span></label>
-	                                                    <input required class="form-control" id="nPassword" name="nPassword" type="password"/>
-	                                                </div>
-	                                                <div class="col-md-6">
-	                                                    <button type="button" class="btn btn-fill-out submit font-weight-bold" id="modifyBtn">계정정보 수정</button>
-	                                                </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </th:block>
+							<!-- <th:block layout:fragment="mentorMypageAsideFragment" th:replace="~{member/fragments/mentorMypageAside :: mentorMypageAsideFragment}"></th:block> -->            
+         
+          <div class="card">
+              <div class="card-header">
+                  <h5>계정 정보</h5>
+              </div>
+              <div class="card-body">
+                  <p>Already have an account? <a href="page-login.html">Log in instead!</a></p>
+                  <form th:action="@{/mypage/mentor/account}" id="modifyAccountForm" method="post" th:object="${mentorInfo}">
+                   <input required class="form-control" name="mentorId" type="hidden" th:value="*{mentorId}"/>
+                   <div class="form-group col-md-6">
+                       <label>이름 <span class="required">*</span></label>
+                       <input required class="form-control" id="mentorNm" name="mentorNm" type="text" th:value="*{mentorNm}"/>
+                   </div>
+                   <div class="form-group col-md-6">
+                       <label>휴대전화 <span class="required">*</span></label>
+                       <input required class="form-control" id="mentorTelNo" name="mentorTelNo" type="text" th:value="*{mentorTelNo}"/>
+                   </div>
+                   <div class="form-group col-md-6">
+                       <label>이메일 <span class="required">*</span></label>
+                       <input required class="form-control" id="mentorEmail" name="mentorEmail" type="email" th:value="*{mentorEmail}"/>
+                   </div>
+                   <div class="form-group col-md-6">
+                       <label>비밀번호 <span class="required">*</span></label>
+                       <input required class="form-control" id="mentorPw" name="mentorPw" type="password" th:value="*{mentorPw}"/>
+                   </div>
+                   <div class="form-group col-md-6">
+                       <label>비밀번호 확인(비밀번호를 다시한번 입력해 주세요) <span class="required">*</span></label>
+                       <input required class="form-control" id="nPassword" name="nPassword" type="password"/>
+                   </div>
+                   <div class="col-md-6">
+                       <button type="button" class="btn btn-fill-out submit font-weight-bold" id="modifyBtn">계정정보 수정</button>
+                   </div>
+                  </form>
+              </div>
+          </div>
+    </div>
 </html>

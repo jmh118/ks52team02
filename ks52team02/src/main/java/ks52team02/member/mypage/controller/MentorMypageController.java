@@ -48,7 +48,7 @@ public class MentorMypageController {
 		 
 		model.addAttribute("mentorInfo", mentorInfo);
 		 
-        return  "member/mypage/mentor/mentorMypageAccount";
+        return  "member/mypage/mentor/mentorMypage";
     }
 
     @GetMapping("/career")

@@ -1,21 +1,15 @@
 ﻿<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{member/layouts/layout}">
+<html xmlns:th="http://www.thymeleaf.org">
+
+	<th:block th:fragment="mentorMypageCareerJs">
+		<script>
+		
+		</script>
+	</th:block>
+
     <!--/* 기존 class는 main pages...  pages 누락 시 문제 없음
     	<main class="main pages"layout:fragment="content"> */-->	
-    <th:block layout:fragment="customContent">
-        <div class="page-content pt-150 pb-150">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-10 m-auto">
-                        <div class="row">
-                             <!--/* 멘토 마이페이지 사이드바 */-->
-							<th:block layout:fragment="mentorMypageAsideFragment" th:replace="~{member/fragments/mentorMypageAside :: mentorMypageAsideFragment}"></th:block>
-							
-                            
-                            <div class="col-md-9">
-                                <div class="tab-content account dashboard-content pl-50">
-                                    <div class="tab-pane active show">
+    <div th:fragment="mentorMypageCareer">
                                         <div class="card">
                                             <div class="card-header">
                                                 <h3 class="mb-0">근무 경력</h3>
@@ -189,12 +183,7 @@
 	                                    </div>
 	                                </div>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </th:block>
+                                
+
+
 </html>
