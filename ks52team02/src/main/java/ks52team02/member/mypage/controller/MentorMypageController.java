@@ -32,7 +32,7 @@ public class MentorMypageController {
 		 
 		 log.info("mentorInfo ;{}",mentorInfo);
 		 
-		 return "member/mypage/mentor/mentorMypageAccount";
+		 return "redirect:/mypage/mentor/account";
 	 }
 	
 	//계정정보 조회

@@ -2,9 +2,25 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{member/layouts/layout}">
 	
-	<th:block layout:fragment="customContent">
+	<th:block layout:fragment="customJs">
 		<script>
 			
+		
+		
+			$('#modifyBtn').click(function(){
+				console.log('click');
+				const mentorPw = $('#mentorPw').val();
+				const nPassword = $('#nPassword').val();
+				
+				
+				if(mentorPw != nPassword){
+					alert('비밀번호를 정확하게 입력해주세요');
+					$('#mentorPw').focus();
+					return ;
+				}
+				alert('수정 완료');
+				$('#modifyAccountForm').submit();
+			})
 		</script>
 	</th:block>
 	
@@ -28,30 +44,30 @@
                                             </div>
                                             <div class="card-body">
                                                 <p>Already have an account? <a href="page-login.html">Log in instead!</a></p>
-                                                <form th:action="@{/mypage/mentor/account}" method="post" th:object="${mentorInfo}">
+                                                <form th:action="@{/mypage/mentor/account}" id="modifyAccountForm" method="post" th:object="${mentorInfo}">
 	                                                <input required class="form-control" name="mentorId" type="hidden" th:value="*{mentorId}"/>
 	                                                <div class="form-group col-md-6">
 	                                                    <label>이름 <span class="required">*</span></label>
-	                                                    <input required class="form-control" name="mentorNm" type="text" th:value="*{mentorNm}"/>
+	                                                    <input required class="form-control" id="mentorNm" name="mentorNm" type="text" th:value="*{mentorNm}"/>
 	                                                </div>
 	                                                <div class="form-group col-md-6">
 	                                                    <label>휴대전화 <span class="required">*</span></label>
-	                                                    <input required class="form-control" name="mentorTelNo" type="text" th:value="*{mentorTelNo}"/>
+	                                                    <input required class="form-control" id="mentorTelNo" name="mentorTelNo" type="text" th:value="*{mentorTelNo}"/>
 	                                                </div>
 	                                                <div class="form-group col-md-6">
 	                                                    <label>이메일 <span class="required">*</span></label>
-	                                                    <input required class="form-control" name="mentorEmail" type="email" th:value="*{mentorEmail}"/>
+	                                                    <input required class="form-control" id="mentorEmail" name="mentorEmail" type="email" th:value="*{mentorEmail}"/>
 	                                                </div>
 	                                                <div class="form-group col-md-6">
 	                                                    <label>비밀번호 <span class="required">*</span></label>
-	                                                    <input required class="form-control" name="mentorPw" type="password" th:value="*{mentorPw}"/>
+	                                                    <input required class="form-control" id="mentorPw" name="mentorPw" type="password" th:value="*{mentorPw}"/>
 	                                                </div>
 	                                                <div class="form-group col-md-6">
 	                                                    <label>비밀번호 확인(비밀번호를 다시한번 입력해 주세요) <span class="required">*</span></label>
-	                                                    <input required class="form-control" name="npassword" type="password"/>
+	                                                    <input required class="form-control" id="nPassword" name="nPassword" type="password"/>
 	                                                </div>
 	                                                <div class="col-md-6">
-	                                                    <button type="submit" class="btn btn-fill-out submit font-weight-bold">계정정보 수정</button>
+	                                                    <button type="button" class="btn btn-fill-out submit font-weight-bold" id="modifyBtn">계정정보 수정</button>
 	                                                </div>
                                                 </form>
                                             </div>
