@@ -18,16 +18,16 @@
 							<div class="header-action-2">
 	
 								<div class="header-action-icon-2">
-									<a href="/member/login"><span class="lable ml-0" th:if="${session.SID == null}">로그인(이승현)</span></a>
+									<a href="/member/login"><span class="label ml-0" th:if="${session.SID == null}">로그인(이승현)</span></a>
 								</div>
 								<div class="header-action-icon-2">
-									<a href="/register/info"><span class="lable" th:if="${session.SID == null}">회원가입(이승현)</span></a>
+									<a href="/register/info"><span class="label" th:if="${session.SID == null}">회원가입(이승현)</span></a>
 								</div>
 								<div class="header-action-icon-2" th:unless="${session.SID == null}">
+                                    <span class="label ml-0" th:with="SID=${session.SID}" th:text="|${SID} 님 |"></span>
                                     <a>
                                         <img class="svgInject" alt="Nest" src="/member/imgs/theme/icons/icon-user.svg" />
                                     </a>
-                                    <span class="lable ml-0"></span>
                                     <div class="cart-dropdown-wrap cart-dropdown-hm2 account-dropdown">
                                         <ul>
                                         	<th:block th:switch="${session.SLEVEL}">
@@ -39,16 +39,13 @@
 	                                            </li>
                                         	</th:block>
                                             <li th:if="${session.SLEVEL == 'member_level_mentee'}">
-                                                <a th:href="@{/coupon/list}"><i class="fi fi-rs-label mr-10"></i>쿠폰</a>
-                                            </li>
-                                            <li th:if="${session.SLEVEL == 'member_level_mentee'}">
-                                                <a th:href="@{/goal/list}"><i class="fi fi-rs-label mr-10"></i>목표설정</a>
-                                            </li>
-                                            <li th:if="${session.SLEVEL == 'member_level_mentee'}">
-                                                <a th:href="@{/pay/list}"><i class="fi fi-rs-label mr-10"></i>결제내역</a>
+                                                <a th:href="@{/pay/list}"><i class="fi fi-rs-label mr-10"></i>멘토링 관리</a>
                                             </li>
                                             <li th:if="${session.SLEVEL == 'member_level_mentor'}">
-                                                <a th:href="@{/pay/settlementList}"><i class="fi fi-rs-label mr-10"></i>정산내역</a>
+                                                <a th:href="@{/pay/settlementList}"><i class="fi fi-rs-label mr-10"></i>멘토링 관리</a>
+                                            </li>
+                                            <li th:if="${session.SLEVEL == 'member_level_manager'}">
+                                                <a th:href="@{/manager}"><i class="fi fi-rs-label mr-10"></i>관리자 페이지</a>
                                             </li>
                                             <li>
                                                 <a th:href="@{/member/logout}"><i class="fi fi-rs-sign-out mr-10"></i>logout</a>

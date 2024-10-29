@@ -1,6 +1,7 @@
 package ks52team02.member.review.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -9,7 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class MemberReviewController {
 	
 	@GetMapping("/list")
-	public String getReviewListByMentee() {
+	public String getReviewListByMentee(Model model) {
+		
+		model.addAttribute("activeMenu", "reviewList");
+		
 		System.out.println("내가 쓴 후기 조회 화면");
 		return "member/review/reviewListByMentee";
 	}

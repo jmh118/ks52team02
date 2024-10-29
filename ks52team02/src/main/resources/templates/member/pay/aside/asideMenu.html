@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<!-- 멘티 사이트바 -->
+    <div class="col-md-3" th:fragment="asideMenu">
+		<div class="dashboard-menu">
+			<ul class="nav flex-column" role="tablist">
+				<li class="nav-item" th:if="${session.SLEVEL == 'member_level_mentee'}" >
+					<a class="nav-link" th:classappend="${activeMenu == 'payList' ? 'active' : ''}" id="payListBtn" href="/pay/list">
+					<i class="fi-rs-shopping-cart-check mr-10"></i>결제 내역</a>
+				</li>
+				<li class="nav-item" th:if="${session.SLEVEL == 'member_level_mentee'}">
+					<a class="nav-link" th:classappend="${activeMenu == 'reviewList' ? 'active' : ''}" id="reviewListBtn" href="/review/list">
+					<i class="fi-rs-shopping-bag mr-10"></i>작성한 후기 목록</a>
+				</li>
+				<li class="nav-item" th:if="${session.SLEVEL == 'member_level_mentor'}">
+					<a class="nav-link" th:classappend="${activeMenu == 'settlementList' ? 'active' : ''}" id="paymentListBtn" href="/pay/settlementList">
+					<i class="fi-rs-shopping-bag mr-10"></i>정산 내역</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</html>
