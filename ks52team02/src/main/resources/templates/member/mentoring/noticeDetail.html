@@ -10,7 +10,60 @@
 		        if (inputQuestionCode.length) {
 		            inputQuestionCode.val(questionCode);  // 모달의 숨겨진 필드에 설정
 		        }
-		    });			    
+		    });
+	    	$('#noticeQuestionModify').on('show.bs.modal', function (event) {
+		        var button = $(event.relatedTarget);  // 모달을 연 버튼
+		        var questionCode = button.data('question-code');  // questionCode 가져오기
+		        var questionContent = button.data('question-content');  
+		        var inputQuestionCode = $(this).find('input[name="questionCode"]');
+		        var inputQuestionContent = $(this).find('textarea[name="questionContent"]');
+
+		        inputQuestionCode.val(questionCode);  // 모달의 숨겨진 필드에 설정
+		        inputQuestionContent.val(questionContent);
+
+		    });
+	    	
+	    	$('#applyBtn').click(function(){
+	    		let isSubmit = true;
+	    		const memberName = $('#memberName').val();
+	    		const memberEmail = $('#memberEmail').val();
+	    		const memberTelNo = $('#memberTelNo').val();
+	    		
+	    		const request= $.ajax({
+	    			async: false,
+	    			url : "/mentoring/applyCheck",
+	    			method : 'POST',
+	    			data : {
+	    				'memberName' : memberName,
+	    				'memberEmail' : memberEmail,
+	    				'memberTelNo' : memberTelNo
+	    			},
+	    			dataType : 'json'
+	    		});
+	    		request.done(function(data){
+					if(!data){
+						alert('회원정보가 일치하지 않습니다.');
+						isSubmit = false;
+						$('#memberName').focus();
+						return false;
+					}
+				});
+				request.fail(function(jqXHR, textStatus, error){
+					console.log(error);
+				});	
+				
+				if(isSubmit) $('#mentoringApplyForm').submit();
+	    	});
+	    	$('#questionBtn').click(function(){
+	    		let isSubmit = true;
+	    		const memberGrade = $('#memberGrade').val();
+	    		if(memberGrade != 'member_level_mentee'){
+	    			alert('멘티만 등록할수 있습니다.');
+	    			isSubmit = false;
+	    			return ;
+	    		}
+	    		if(isSubmit) $('#noticeQuestionForm').submit();
+	    	});
 
 		</script>
    	</th:block>
@@ -52,7 +105,7 @@
                                         <a class="nav-link active" id="Description-tab" data-bs-toggle="tab" href="#Description">Description</a>
                                     </li>                                 
                                     <li class="nav-item">
-                                        <a class="nav-link" id="Reviews-tab" data-bs-toggle="tab" href="#QnA">QnA (3)</a>
+                                        <a class="nav-link" id="Reviews-tab" data-bs-toggle="tab" href="#QnA">QnA</a>
                                     </li>
                                 </ul>
                                 <div class="tab-content shop_info_tab entry-main-content">
@@ -65,7 +118,7 @@
 											<hr class="wp-block-separator is-style-wide" />
 											<h4 class="mt-30">멘토링 가능 일자</h4>
 											<ul class="product-more-infor mt-30">
-	                                            <li th:text=*{mentoringPeriod}>2024-11-01 ~ 2024-11-04</li>
+	                                            <li th:text=*{mentoringPeriod}></li>
 	                                        </ul>
                                             <hr class="wp-block-separator is-style-wide" />
                                             <h4 class="mt-30">멘토링 가능 시간</h4>
@@ -95,8 +148,7 @@
 	                                                                    </div>
 	                                                                    <p class="mb-10" th:text="${nqa.questionContent}"></p>
 		                                                                <a class="collapsed" data-bs-toggle="modal" data-bs-target="#NoticeAnswer" th:attr="data-question-code=${nqa.questionCode}" th:if="${noticeDetail.memberId == session.SID}">답변하기</a>
-		                                                                <a class="collapsed" data-bs-toggle="modal" data-bs-target="#noticeQuestionModify" >수정하기</a>
-		                                                                <!-- th:if="${nqa.memberId == session.SID}" -->
+		                                                                <a class="collapsed" data-bs-toggle="modal" data-bs-target="#noticeQuestionModify" th:attr="data-question-code=${nqa.questionCode}, data-question-content=${nqa.questionContent}" th:if="${nqa.memberId == session.SID}">수정하기</a>
 	                                                                </div>                                                             
 	                                                            </div>                                                           
 	                                                        </div>
