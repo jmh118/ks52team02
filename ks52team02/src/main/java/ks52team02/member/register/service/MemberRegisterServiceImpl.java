@@ -14,7 +14,6 @@ public class MemberRegisterServiceImpl implements MemberRegisterService {
 
 	private final MemberRegisterMapper memberMapper;
 	
-	// 멘티 회원가입
 	@Override
 	public void register(@RequestParam Member member) {
 		int res = memberMapper.register(member);
