@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import ks52team02.manager.member.dto.Member;
 import ks52team02.member.mentoring.dto.MentoringApply;
 import ks52team02.member.mentoring.dto.Notice;
 import ks52team02.member.mentoring.dto.NoticeAnswer;
@@ -61,6 +62,16 @@ public interface MentoringMapper {
 
 	// 공고 수정
 	int modifyNotice(Notice notice);
+
+	//회원정보확인
+	boolean getApplyCheck(Member member);
+
+	// 공고신청후 신청가능한 멘토링 시간 수정
+	int modifyNoticeDetailTime(String noticeDetailCode);
+
+	// 공고질문 수정
+	int modifyQuestion(NoticeQuestion noticeQuestion);
+
 
 
 
