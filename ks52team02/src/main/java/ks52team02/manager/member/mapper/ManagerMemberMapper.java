@@ -25,5 +25,8 @@ public interface ManagerMemberMapper {
 	// 관리자 - 로그인 로그 조회
 	List<LoginLog> getLoginLog();
 
+	// 관리자 - 한 달 내 가입한 멤버 조회
+	List<Member> getMonthMemberList();
+
 	
 }

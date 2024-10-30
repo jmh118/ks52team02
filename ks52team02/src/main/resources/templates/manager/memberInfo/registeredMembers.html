@@ -5,9 +5,9 @@
 	<th:block layout:fragment="customContent">
             <section class="content-main">
                 <div class="content-header">
-                    <h2 class="content-title">신규 가입 회원 조회</h2>
                     <div>
-                        <a href="#" class="btn btn-primary"><i class="material-icons md-plus"></i> Create new</a>
+	                    <h2 class="content-title">신규 가입 회원 조회</h2>
+						<p>한 달 내 가입한 회원의 정보를 조회합니다.</p>
                     </div>
                 </div>
                 <div class="card mb-4">
@@ -35,136 +35,27 @@
                     <!-- card-header end// -->
                     <div class="card-body">
                         <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4">
-                            <div class="col">
-                                <div class="card card-user">
-                                    <div class="card-header">
-                                        <img class="img-md img-avatar" src="/manager/imgs/people/user-avatar.png" alt="User pic" />
-                                    </div>
-                                    <div class="card-body">
-                                        <h5 class="card-title mt-50">Mary Sandra</h5>
-                                        <div class="card-text text-muted">
-                                            <p class="m-0">Seller ID: #409</p>
-                                            <p>mary90@example.com</p>
-                                            <a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15">View details</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                             <!-- col.// -->
-                            <div class="col">
+                            <div class="col"  th:each="mml:${monthMemberList}">
                                 <div class="card card-user">
                                     <div class="card-header">
                                         <img class="img-md img-avatar" src="/manager/imgs/people/user-avatar.png" alt="User pic" />
                                     </div>
                                     <div class="card-body">
-                                        <h5 class="card-title mt-50">Leslie Alexander</h5>
+											
+                                        <h5 class="card-title mt-50" th:text="${mml.memberId}"></h5>
                                         <div class="card-text text-muted">
-                                            <p class="m-0">Seller ID: #478</p>
-                                            <p>leslie@example.com</p>
-                                            <a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15">View details</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- col.// -->
-                            <div class="col">
-                                <div class="card card-user">
-                                    <div class="card-header">
-                                        <img class="img-md img-avatar" src="/manager/imgs/people/user-avatar.png" alt="User pic" />
-                                    </div>
-                                    <div class="card-body">
-                                        <h5 class="card-title mt-50">Leslie Alexander</h5>
-                                        <div class="card-text text-muted">
-                                            <p class="m-0">Seller ID: #478</p>
-                                            <p>leslie@example.com</p>
-                                            <a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15">View details</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- col.// -->
-                            <div class="col">
-                                <div class="card card-user">
-                                    <div class="card-header">
-                                        <img class="img-md img-avatar" src="/manager/imgs/people/user-avatar.png" alt="User pic" />
-                                    </div>
-                                    <div class="card-body">
-                                        <h5 class="card-title mt-50">Floyd Miles</h5>
-                                        <div class="card-text text-muted">
-                                            <p class="m-0">Seller ID: #171</p>
-                                            <p>fedor12@example.com</p>
-                                            <a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15">View details</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- col.// -->
-                            <div class="col">
-                                <div class="card card-user">
-                                    <div class="card-header">
-                                        <img class="img-md img-avatar" src="/manager/imgs/people/user-avatar.png" alt="User pic" />
-                                    </div>
-                                    <div class="card-body">
-                                        <h5 class="card-title mt-50">John Alexander</h5>
-                                        <div class="card-text text-muted">
-                                            <p class="m-0">Seller ID: #987</p>
-                                            <p>john@mymail.com</p>
-                                            <a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15">View details</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- col.// -->
-                            <div class="col">
-                                <div class="card card-user">
-                                    <div class="card-header">
-                                        <img class="img-md img-avatar" src="/manager/imgs/people/user-avatar.png" alt="User pic" />
-                                    </div>
-                                    <div class="card-body">
-                                        <h5 class="card-title mt-50">Albert Flores</h5>
-                                        <div class="card-text text-muted">
-                                            <p class="m-0">Seller ID: #478</p>
-                                            <p>leslie@example.com</p>
-                                            <a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15">View details</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- col.// -->
-                            <div class="col">
-                                <div class="card card-user">
-                                    <div class="card-header">
-                                        <img class="img-md img-avatar" src="/manager/imgs/people/user-avatar.png" alt="User pic" />
-                                    </div>
-                                    <div class="card-body">
-                                        <h5 class="card-title mt-50">Leslie Alexander</h5>
-                                        <div class="card-text text-muted">
-                                            <p class="m-0">Seller ID: #478</p>
-                                            <p>leslie@example.com</p>
-                                            <a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15">View details</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- col.// -->
-                            <div class="col">
-                                <div class="card card-user">
-                                    <div class="card-header">
-                                        <img class="img-md img-avatar" src="/manager/imgs/people/user-avatar.png" alt="User pic" />
-                                    </div>
-                                    <div class="card-body">
-                                        <h5 class="card-title mt-50">Marx Alberto</h5>
-                                        <div class="card-text text-muted">
-                                            <p class="m-0">Seller ID: #478</p>
-                                            <p>leslie@example.com</p>
-                                            <a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15">View details</a>
+                                            <p th:text="${mml.memberEmail}">이메일</p>
+                                            <p th:text="${mml.memberJoinYMD}">가입일자</p>
+											<p th:if="${mml.memberLevel == '멘티'}" class="m-0 badge rounded-pill alert-success">멘티</p>
+										    <p th:if="${mml.memberLevel == '멘토'}" class="m-0 badge rounded-pill alert-warning">멘토</p>
+										    <p th:if="${mml.memberLevel == '플랫폼 관리자'}" class="m-0 badge rounded-pill alert-danger">플랫폼 관리자</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <!-- col.// -->
                         </div>
-                        <!-- row.// -->
                     </div>
                     <!-- card-body end// -->
                 </div>

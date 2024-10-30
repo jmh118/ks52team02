@@ -62,8 +62,11 @@ public class ManagerMemberController {
     }
 	
 	@GetMapping("/registeredMembers")
-    public String managerNewmemberSearch() {
-    	System.out.println("신규회원 조회 페이지 이동");
+    public String managerNewmemberSearch(Model model) {
+    	System.out.println("한 달 내 신규회원 조회 페이지 이동");
+    	List<Member> monthMemberList = memberMapperService.getMonthMemberList();
+    	model.addAttribute("monthMemberList", monthMemberList);
+    	
         return  "manager/memberInfo/registeredMembers";
     }
 	

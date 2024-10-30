@@ -24,4 +24,7 @@ public interface ManagerMemberService {
 	// 관리자 - 멤버 로그인 로그 조회
 	List<LoginLog> getLoginLog();
 
+	// 관리자 - 한 달 내 가입 회원 조회
+	List<Member> getMonthMemberList();
+
 }

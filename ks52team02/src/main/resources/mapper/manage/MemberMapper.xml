@@ -129,6 +129,25 @@
 			
 		ORDER BY mll.member_login_YMD desc;
 	</select>
+	
+	<select id="getMonthMemberList" resultType="Member">
+		/* 관리자 - 한 달 내 가입한 회원 목록 조회 */
+		SELECT
+			m.member_id AS memberId,
+			ml.member_level_name AS memberLevel,
+			m.member_email AS memberEmail,
+			m.member_join_YMD AS memberJoinYMD
+		FROM
+			member m
+			LEFT JOIN
+			member_level ml
+			ON
+			m.member_level_code=ml.member_level_code
+		WHERE
+			DATEDIFF(NOW(), m.member_join_YMD)&lt;=31
+		ORDER BY
+			m.member_join_YMD DESC;
+	</select>
 
 
 </mapper>

@@ -54,4 +54,11 @@ public class ManagerMemberServiceImpl implements ManagerMemberService {
 		
 		return mentorList;
 	}
+
+	@Override
+	public List<Member> getMonthMemberList() {
+		List<Member> monthMemberList = managerMemberMapper.getMonthMemberList();
+
+		return monthMemberList;
+	}
 }
