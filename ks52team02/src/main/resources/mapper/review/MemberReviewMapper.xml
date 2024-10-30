@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ks52team02.member.review.mapper.MemberReviewMapper">
+
+	<resultMap type="Review" id="reviewMap">
+		<id column="mentoring_postscript_code" property="reviewCode" />
+		<result column="mentee_id" property="memberId" />
+		<result column="mentee_settlement_mentor_calculation" property="payCode" />
+		<result column="mentoring_postscript_content" property="reviewConetent" />
+		<result column="mentoring_postscript_score" property="reviewScore" />
+		<result column="mentoring_postscript_date" property="reviewRegDate" />
+	</resultMap>
+	
+	<insert id="">
+	
+	
+	</insert>
+	
+	
+	<update id="modifyReview" parameterType="map">
+		/* 후기 수정 */
+		UPDATE mentoring_postscript
+			SET
+	            mentoring_postscript_content = #{reviewConetent},
+	            mentoring_postscript_score = #{reviewScore}
+	        WHERE 
+	            mentoring_postscript_code = #{reviewCode};
+	</update>
+
+	<select id="getReviewById" parameterType="string" resultMap="reviewMap">
+		/* 작성한 후기 조회 */
+		SELECT
+			mentoring_postscript_code,
+			mentoring_postscript_score,
+			mentoring_postscript_content,
+			`mentee_settlement_mentor_calculation`
+		FROM 
+			mentoring_postscript
+		WHERE 
+			`mentee_settlement_mentor_calculation` = #{payCode} 
+			AND mentee_id = #{memberId};
+	</select>
+
+
+	<select id="getReviewCntByPayCode" parameterType="string" resultType="int">
+		/* 등록한 후기 있는지 조회 */
+		SELECT
+			COUNT(mentoring_postscript_code)
+		FROM 
+			mentoring_postscript
+		WHERE 
+			`mentee_settlement_mentor_calculation` = #{payCode};
+	
+	</select>
+	
+</mapper>

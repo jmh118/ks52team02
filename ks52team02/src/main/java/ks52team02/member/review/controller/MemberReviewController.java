@@ -1,13 +1,43 @@
 package ks52team02.member.review.controller;
 
+
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import jakarta.servlet.http.HttpSession;
+import ks52team02.member.pay.service.MemberPayService;
+import ks52team02.member.review.service.MemberReviewService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@RequiredArgsConstructor
 @Controller
 @RequestMapping("/review")
 public class MemberReviewController {
+	
+	private final MemberPayService memberPayService;
+	private final MemberReviewService memberReviewService;
+	
+	@PostMapping("/add")
+	public String addReview() {
+		
+		return "redirect:/review/list";
+	}
+	
+	
+	@PostMapping("/modify")
+	public String modifyReview() {
+		
+		
+		return "redirect:/review/list";
+	}
+	
 	
 	@GetMapping("/list")
 	public String getReviewListByMentee(Model model) {
@@ -19,14 +49,19 @@ public class MemberReviewController {
 	}
 	
 	@GetMapping("/form")
-	public String addMentoringReview() {
-		System.out.println("멘토링 후기 등록 화면");
+	public String addMentoringReview(@RequestParam(name="payCode") String payCode, Model model) {
+
+		String noticeTitle = memberPayService.getMentoringTitleByPayCode(payCode);
+		model.addAttribute("noticeTitle", noticeTitle);
+		
 		return "member/review/reviewForm";
 	}
 	
 	@GetMapping("/modify")
-	public String modifyMentoringReview() {
-		System.out.println("내가 쓴 후기 조회 | 멘토링 후기 수정 화면");
+	public String modifyMentoringReview(HttpSession session) {
+		
+	  	String memberId = (String) session.getAttribute("SID");
+	  	
 		return "member/review/reviewModifyForm";
 	}
 	

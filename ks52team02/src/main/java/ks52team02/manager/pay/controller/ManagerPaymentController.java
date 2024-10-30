@@ -7,9 +7,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import ks52team02.manager.pay.dto.Pay;
 import ks52team02.manager.pay.dto.PaymentSettlement;
 import ks52team02.manager.pay.mapper.ManagerPayMapper;
+import ks52team02.member.pay.dto.Pay;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 

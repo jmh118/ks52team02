@@ -5,6 +5,58 @@
     <!-- 필터 부분 css -->
     <link rel="stylesheet" href="/member/css/filter.css">
 </head>
+<th:block layout:fragment="customJs">
+	<script>
+		function filterByStatus(status) {
+	        let	isList = false;
+	        let message = "";  
+	
+	        if (status === "진행 중") {
+	            message = "진행 중인 멘토링이 없습니다 <br><a href='/mentoring/notice'>멘토링 신청하러 가기</a>";
+	        } else if (status === "종료") {
+	            message = "진행 완료인 멘토링이 없습니다";
+	        } else if (status === "진행 전") {
+	            message = "진행 준비 중인 멘토링이 없습니다 <br><a href='/mentoring/notice'>멘토링 신청하러 가기</a>";
+	        }
+	
+	        $('tbody tr').each(function() {
+	            let statusText = $(this).find('td .badge').text();
+	            if (statusText === status) {
+	                $(this).show();
+	                isList = true; 
+	            } else {
+	                $(this).hide();
+	            }
+	        });
+	
+	        if (!isList) {
+	            $('tbody').append('<tr class="noResults"><td colspan="6">' + message + '</td></tr>');
+	        } else {
+	            $('tbody .noResults').remove();
+	        }
+	    }
+	
+	    $('.status #progress').click(function() {
+	        filterByStatus('진행 중');
+	    });
+	
+	    $('.status #completed').click(function() {
+	        filterByStatus('종료');
+	    });
+	
+	    $('.status #before').click(function() {
+	        filterByStatus('진행 전');
+	    });
+		
+	    $('.status .status-option').click(function() {
+            $('.status .status-option').removeClass('active');
+            $(this).addClass('active'); 
+        });
+
+        
+	    
+	</script>
+</th:block>
 <th:block layout:fragment="customContent">
     <div class="page-content pt-150 pb-150">
         <div class="container">
@@ -21,14 +73,13 @@
                                             <h5>결제 내역</h5>
                                         </div>
                                         <div class="card-body">
-                                            <p>Already have an account? Log in instead!</p>
+                                            <p>멘토링 결제한 내역입니다</p>
 
                                             <!-- Row for filter and table -->
                                             <div class="row">
                                                 <div class="col-lg-12">
 							                        <!-- 필터 -->
 							                        <th:block th:replace="~{member/pay/filter/filter :: filter}"></th:block>
-                                                    
                                                 </div>
                                             </div>
                                             <div class="row mt-4">
@@ -42,22 +93,26 @@
 																	<th>결제금액</th>
 																	<th>결제일</th>
 																	<th>멘토링 진행 상태</th>
-																	<th>후기 등록</th>
+																	<th>후기</th>
 																</tr>
 															</thead>
 															<tbody>
-																<!-- alert-warning 진행전 / alert-danger 진행중 / alert-success 진행완료 -->
-																<tr th:each="p : ${paymentList}">
-																	<td th:text=${p.noticeTitle}>나도 포트폴리오 마스터!!</td>
-																	<td th:text="${p.memberId}">홍길동</td>
-																	<td th:text="${p.payAmount}">49000</td>
-																	<td th:text="${p.paymentDate}">2024. 9. 7 오후 6:00:00</td>
-																	<th:block th:switch="${p.mentoringStatus}">
-																		<td th:case="*"><span th:text="${'진행 전'}" class="badge rounded-pill alert-warning"></span></td>
-																		<td th:case="${'진행 중'}"><span th:text="${p.mentoringStatus}" class="badge rounded-pill alert-danger"></span></td>
-																		<td th:case="${'완료'}"><span th:text="${p.mentoringStatus}" class="badge rounded-pill alert-warning"></span></td>
+																<tr th:each="p, idx : ${paymentList}">																
+																	<td th:text="${p.notice.noticeTitle}"></td>
+																    <th:block>
+																        <input type="hidden" th:value="${p.paySettlementCalCode}" />
+																    </th:block>
+																	<td th:text="${p.notice.memberId}"></td>
+																	<td th:text="${p.totalAmount}"></td>
+																	<td th:text="${p.payDate}"></td>
+																	<th:block th:switch="${p.mentoringProcStatus}">
+																		<td th:case="''"><span th:text="${'진행 전'}" class="badge rounded-pill alert-secondary"></span></td>
+																		<td th:case="'진행 중'"><span th:text="${p.mentoringProcStatus}" class="badge rounded-pill alert-danger"></span></td>
+																		<td th:case="'종료'"><span th:text="${p.mentoringProcStatus}" class="badge rounded-pill alert-success"></span></td>
 																	</th:block>
-																	<td><a href="/review/form" class="btn btn-md rounded font-sm">후기 등록</a></td>
+																	<td>
+																		<a th:href="@{/review/form(payCode=${p.paySettlementCalCode})}" class="btn btn-md rounded font-sm" th:classappend="${p.mentoringProcStatus != '종료' || reviewCheck[idx.index]} ? 'disabled' : ''">후기 등록</a>
+																	</td>
 																</tr>
 															</tbody>
 														</table>

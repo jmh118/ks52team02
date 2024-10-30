@@ -1,5 +1,6 @@
 package ks52team02.manager.pay.dto;
 
+import ks52team02.member.pay.dto.Pay;
 import lombok.Data;
 
 @Data

@@ -60,9 +60,14 @@
 }
 
 .filter-container span:hover {
-    color: #007bff;
+    color: rgb(4, 187, 0);
 }
 
+/* active 클래스 추가 */
+.status .active, .sort .active {
+    color: rgb(4, 187, 0); 
+    font-weight: bold;
+}
 
 .fl-mtc-btn-1{
 	height: 50px;
