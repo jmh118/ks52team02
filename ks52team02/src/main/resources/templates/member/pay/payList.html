@@ -5,55 +5,6 @@
     <!-- 필터 부분 css -->
     <link rel="stylesheet" href="/member/css/filter.css">
 </head>
-<th:block layout:fragment="customJs">
-	<script>
-		function filterByStatus(status) {
-	        let	isList = false;
-	        let message = "";  
-	
-	        if (status === "진행 중") {
-	            message = "진행 중인 멘토링이 없습니다 <br><a href='/mentoring/notice'>멘토링 신청하러 가기</a>";
-	        } else if (status === "종료") {
-	            message = "진행 완료인 멘토링이 없습니다";
-	        } else if (status === "진행 전") {
-	            message = "진행 준비 중인 멘토링이 없습니다 <br><a href='/mentoring/notice'>멘토링 신청하러 가기</a>";
-	        }
-	
-	        $('tbody tr').each(function() {
-	            let statusText = $(this).find('td .badge').text();
-	            if (statusText === status) {
-	                $(this).show();
-	                isList = true; 
-	            } else {
-	                $(this).hide();
-	            }
-	        });
-	
-	        if (!isList) {
-	            $('tbody').append('<tr class="noResults"><td colspan="8">' + message + '</td></tr>');
-	        } else {
-	            $('tbody .noResults').remove();
-	        }
-	    }
-	
-	    $('.status #progress').click(function() {
-	        filterByStatus('진행 중');
-	    });
-	
-	    $('.status #completed').click(function() {
-	        filterByStatus('종료');
-	    });
-	
-	    $('.status #before').click(function() {
-	        filterByStatus('진행 전');
-	    });
-		
-	    $('.status .status-option').click(function() {
-            $('.status .status-option').removeClass('active');
-            $(this).addClass('active'); 
-        });	    
-	</script>
-</th:block>
 <th:block layout:fragment="customContent">
     <div class="page-content pt-150 pb-150">
         <div class="container">
@@ -133,5 +84,54 @@
             </div>
         </div>
     </div>
+</th:block>
+<th:block layout:fragment="customJs">
+	<script>
+		function filterByStatus(status) {
+	        let	isList = false;
+	        let message = "";  
+	
+	        if (status === "진행 중") {
+	            message = "진행 중인 멘토링이 없습니다 <br><a href='/mentoring/notice'>멘토링 신청하러 가기</a>";
+	        } else if (status === "종료") {
+	            message = "진행 완료인 멘토링이 없습니다";
+	        } else if (status === "진행 전") {
+	            message = "진행 준비 중인 멘토링이 없습니다 <br><a href='/mentoring/notice'>멘토링 신청하러 가기</a>";
+	        }
+	
+	        $('tbody tr').each(function() {
+	            let statusText = $(this).find('td .badge').text();
+	            if (statusText === status) {
+	                $(this).show();
+	                isList = true; 
+	            } else {
+	                $(this).hide();
+	            }
+	        });
+	
+	        if (!isList) {
+	            $('tbody').append('<tr class="noResults"><td colspan="8">' + message + '</td></tr>');
+	        } else {
+	            $('tbody .noResults').remove();
+	        }
+	    }
+	
+	    $('.status #progress').click(function() {
+	        filterByStatus('진행 중');
+	    });
+	
+	    $('.status #completed').click(function() {
+	        filterByStatus('종료');
+	    });
+	
+	    $('.status #before').click(function() {
+	        filterByStatus('진행 전');
+	    });
+		
+	    $('.status .status-option').click(function() {
+            $('.status .status-option').removeClass('active');
+            $(this).addClass('active'); 
+        });	    
+	</script>
 </th:block>
 </html>
