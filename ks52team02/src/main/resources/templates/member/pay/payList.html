@@ -30,7 +30,7 @@
 	        });
 	
 	        if (!isList) {
-	            $('tbody').append('<tr class="noResults"><td colspan="6">' + message + '</td></tr>');
+	            $('tbody').append('<tr class="noResults"><td colspan="8">' + message + '</td></tr>');
 	        } else {
 	            $('tbody .noResults').remove();
 	        }
@@ -73,6 +73,7 @@
                                             <p>멘토링 결제한 내역입니다. </p>
                                             <p>멘토링 진행 상태가 완료인 경우 후기 등록 버튼이 활성화되고, </p>
                                             <p>멘토링 진행 상태가 완료가 아닌 경우 또는 후기를 등록한 경우 버튼이 비활성화 됩니다.</p>
+                                            <p>멘토링 진행 일자에서 30일이 지난 경우 등록이 불가능</p>
                                             <p>작성한 후기 내역은 좌측 메뉴에서 확인 가능</p>
                                             <!-- Row for filter and table -->
                                             <div class="row">
@@ -93,7 +94,7 @@
 																	<th>멘토</th>
 																	<th>금액</th>
 																	<th>결제일</th>
-																	<th>멘토링 진행 상태</th>
+																	<th>진행</th>
 																	<th>후기</th>
 																</tr>
 															</thead>

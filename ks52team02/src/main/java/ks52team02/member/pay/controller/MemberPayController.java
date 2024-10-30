@@ -29,7 +29,6 @@ public class MemberPayController {
 		String memberId = (String) session.getAttribute("SID");
 		List<Pay> paymentList = memberPayService.getMenteePaymentListById(memberId);
 		List<Boolean> isCheck = memberReviewService.isCheckReview(paymentList);
-		System.out.println(isCheck);
 		
 		model.addAttribute("activeMenu", "payList");
 		model.addAttribute("paymentList", paymentList);

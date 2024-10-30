@@ -2,38 +2,40 @@ package ks52team02.member.review.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import ks52team02.common.util.DateFormatterUtil;
 import ks52team02.manager.review.dto.Review;
 import ks52team02.member.pay.dto.Pay;
 import ks52team02.member.review.mapper.MemberReviewMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RequiredArgsConstructor
 @Transactional
 @Service
-public class MemberRevicewServiceImpl implements MemberReviewService {
+public class MemberReviewServiceImpl implements MemberReviewService {
 
 	private final MemberReviewMapper memberReviewMapper;
-	
+	private final DateFormatterUtil dateFormatterUtil;
 	
 	@Override
-	public int modifyReview(Map<String,Object> reviewMap) {
+	public List<Review> getReviewListById(String memberId) {
 		
-		
-		return 0;
-	}
+		List<Review> reviewList = memberReviewMapper.getReviewListById(memberId);
+		  
+		  for (Review review : reviewList) {
+		        String formattedDate = dateFormatterUtil.formatDate(review.getNoticeDetail().getMentoringYmd());
+		        String formattedTime = dateFormatterUtil.formatTime(review.getNoticeDetail().getMentoringTime());
 
-	
-	@Override
-	public Review getReviewById(String payCode, String memberId) {
+		        review.getNoticeDetail().setMentoringYmd(formattedDate);
+		        review.getNoticeDetail().setMentoringTime(formattedTime);
+		    }	
 		
-		Review review = memberReviewMapper.getReviewById(payCode, memberId);
-		
-		return review;
+		return reviewList;
 	}
 	
 	@Override
@@ -48,7 +50,6 @@ public class MemberRevicewServiceImpl implements MemberReviewService {
 		
 		return isCheck;
 	}
-	
 	
 	
 	@Override
