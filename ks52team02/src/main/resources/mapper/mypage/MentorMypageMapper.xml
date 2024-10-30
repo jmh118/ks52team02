@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="ks52team02.member.mypage.mapper.MentorMypageMapper">
+  <!-- 계정 정보 관리 쿼리문 -->
+  	<resultMap type="MentorInfo" id="mentorInfoMap">
+  		<id column="member_id" property="mentorId"/>
+  		<result column="member_name" property="mentorNm"/>
+  		<result column="member_phone_number" property="mentorTelNo"/>
+  		<result column="member_email" property="mentorEmail"/>
+  		<result column="member_password" property="mentorPw"/>
+  	</resultMap>
+  	
+  
+  	<select id="getMentorInfoById" parameterType="string" resultMap="mentorInfoMap">
+  		/* 로그인 되어있는 회원의 계정 정보 조회 */
+	   	SELECT 
+			member_id, 
+			member_password, 
+			member_name, 
+			member_phone_number, 
+			member_email
+		FROM 
+			member
+		WHERE 
+			member_id = #{mentorId}; 
+  	</select>
+  
+  	<update id="modifyMentor" parameterType="MentorInfo">
+  		/* 로그인 되어있는 회원의 계정 정보 수정 */
+  		UPDATE 
+			member
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="mentorPw != null and mentorPw != ''">
+			member_password = #{mentorPw},
+			</if>
+			<if test="mentorNm != null and mentorNm != ''">
+			member_name = #{mentorNm},
+			</if>
+			<if test="mentorTelNo != null and mentorTelNo != ''">
+			member_phone_number = #{mentorTelNo},
+			</if>
+			<if test="mentorEmail != null and mentorEmail != ''">
+			member_email = #{mentorEmail},
+			</if>
+		</trim>
+		WHERE 
+			member_id = #{mentorId};
+  	</update>
+  	<!-- 계정 정보 관리 쿼리문/ -->
+  	
+  	
+  	
+  	
+  	<!-- 근무 경력 관리 쿼리문 -->
+  	
+  	<resultMap type="MentorWork" id="mentorWorkMap">
+  		<id column="mentor_work_career_details_code" property="mentorWorkCode"/>
+  		<result column="member_id" property="mentorId"/>
+  		<result column="mentor_POWK_NM" property="mentorPowkNm"/>
+  		<result column="mentor_TKCG_TASK" property="mentorTask"/>
+  		<result column="mentor_JNCMP_YMD" property="mentorJncmpYmp"/>
+  		<result column="mentor_RSGNTN_YMD" property="mentorRsgntnYmp"/>
+  		<result column="mentor_WRKDY_CNT" property="mentorCnt"/>
+  		<result column="mentor_employment_status" property="mentorStatus"/>
+  		<result column="upload_file_work_history_name" property="mentorFileNm"/>
+  	</resultMap>
+  	
+  	<select id="getMentorWorkById" parameterType="string" resultMap="mentorWorkMap">
+	  	/* 근무경력 조회 */
+	  	SELECT 
+			member_id, 
+			mentor_POWK_NM, 
+			mentor_TKCG_TASK, 
+			mentor_JNCMP_YMD, 
+			mentor_RSGNTN_YMD, 
+			mentor_WRKDY_CNT,
+			mentor_employment_status, 
+			upload_file_work_history_name
+		FROM
+			mentor_work_history_details
+		WHERE
+			member_id=#{mentorId};
+  	</select>
+  	
+  	
+  	
+  <!-- 근무 경력 관리 쿼리문/ -->
+  
+  
+  <!-- 프로젝트 경력 관리 쿼리문 -->
+  
+  <resultMap type="MentorProject" id="mentorProjectMap">
+  		<id column="mentor_TECH_career_detail_code" property="mentorProjectCode"/>
+  		<result column="mentor_id" property="mentorId"/>
+  		<result column="mentor_project_NM" property="mentorProjectNm"/>
+  		<result column="mentor_project_BGNG_YMD" property="mentorBgngYmd"/>
+  		<result column="mentor_project_CMPTN_YMD" property="mentorCmptnYmd"/>
+  		<result column="mentor_project_FLFMT_CNT" property="mentorCnt"/>
+  		<result column="mentor_project_TASK_CN" property="mentorCn"/>
+  		<result column="mentor_upload_career_file_name" property="mentorFileNm"/>
+  	</resultMap>
+  	
+  	<select id="getMentorProjectById" parameterType="string" resultMap="mentorProjectMap">
+	  	/* 프로젝트 경력 조회 */
+	  	SELECT 
+			mentor_TECH_career_detail_code, 
+			mentor_id, 
+			mentor_project_NM, 
+			mentor_project_BGNG_YMD, 
+			mentor_project_CMPTN_YMD, 
+			mentor_project_FLFMT_CNT, 
+			mentor_project_TASK_CN, 
+			mentor_upload_career_file_name
+		FROM 
+			mentor_tech_career_detail
+		WHERE
+			mentor_id=#{mentorId};
+  	</select>
+  
+  
+  <!-- 프로젝트 경력 관리 쿼리문/ -->
+  
+  <!-- 학력 관리 쿼리문 -->
+  
+  <resultMap type="MentorEducation" id="mentorEducationMap">
+  		<id column="mentor_ACBG_detail_code" property="mentorEducationCode"/>
+  		<result column="member_id" property="mentorId"/>
+  		<result column="last_ACBG_update" property="mentorAcbgUp"/>
+  		<result column="mentor_school_credits" property="mentorCredits"/>
+  		<result column="mentor_SCHL_NM" property="mentorSchoolNm"/>
+  		<result column="mentor_SCSBJT_NM" property="mentorScsbjtNm"/>
+  		<result column="mentor_graduation_Section" property="mentorSection"/>
+  		<result column="mentor_upload_ACBG_file_name" property="mentorFileNm"/>
+  		<result column="mentor_matriculation_date" property="mentorMtctYmd"/>
+  		<result column="mentor_graduation_date" property="mentorGdtYmd"/>
+  	</resultMap>
+  	
+  	<select id="getMentorEducationById" parameterType="string" resultMap="mentorEducationMap">
+	  	/* 학력 조회 */
+	  	SELECT 
+			mentor_ACBG_detail_code, 
+			member_id, 
+			last_ACBG_update, 
+			mentor_school_credits, 
+			mentor_SCHL_NM, 
+			mentor_SCSBJT_NM, 
+			mentor_graduation_Section, 
+			mentor_upload_ACBG_file_name, 
+			mentor_matriculation_date, 
+			mentor_graduation_date
+		FROM 
+			mentor_acbg_detail
+		WHERE
+			member_id=#{mentorId};
+  	</select>
+  
+  
+  
+  
+  
+  
+  <!-- 학력 관리 쿼리문/ -->
+  
+  
+  
+  
+  
+  </mapper>

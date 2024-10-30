@@ -3,17 +3,27 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ks52team02.manager.mentoring.mapper.ManagerMentoringMapper">
+
+	<select id="getNoticeListCount" resultType="int">
+		/* 공고목록 행의 갯수 */
+		SELECT
+			COUNT(*)
+		FROM
+			mentoring_notice; 
+	</select>
 	
-	<select id="getManagerNoticeList" resultType="ManagerMetoringNotice">
+	<select id="getManagerNoticeList" parameterType="ks52team02.page.Pageable" resultType="ManagerMetoringNotice">
 		/* 공고목록조회 */		
 		SELECT
-			mn.member_id AS memberId,
-			mn.mentoring_notice_code AS noticeCode,
-			mn.mentoring_notice_title AS noticeTitle,
-			mn.mentoring_mentor_PSBLTY_start_YMD AS noticeStartYmd,
-			mn.mentoring_mentor_PSBLTY_end_YMD AS noticeEndYmd,
-			mn.mentor_notice_REG_YMD AS noticeRegYmd
+			member_id AS memberId,
+			mentoring_notice_code AS noticeCode,
+			mentoring_notice_title AS noticeTitle,
+			mentoring_mentor_PSBLTY_start_YMD AS noticeStartYmd,
+			mentoring_mentor_PSBLTY_end_YMD AS noticeEndYmd,
+			mentor_notice_REG_YMD AS noticeRegYmd
 		FROM
-			mentoring_notice mn;
+			mentoring_notice
+		ORDER BY mentor_notice_REG_YMD DESC
+		LIMIT #{rowPerPage} OFFSET #{offset};
 	</select>
 </mapper>
