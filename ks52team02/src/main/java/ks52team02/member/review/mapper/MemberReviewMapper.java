@@ -11,6 +11,12 @@ import ks52team02.manager.review.dto.Review;
 @Mapper
 public interface MemberReviewMapper {
 	
+	// 후기 수정
+	int modifyReview(Review review);
+	
+	// 특정 후기 조회 (후기 수정을 위한...)
+	Review getReviewByReviewCode(String reviewCode, String memberId);
+	
 	// 등록한 후기 조회
 	List<Review> getReviewListById(String memberId);
 	

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import jakarta.servlet.http.HttpSession;
 import ks52team02.manager.review.dto.Review;
 import ks52team02.member.pay.service.MemberPayService;
+import ks52team02.member.review.mapper.MemberReviewMapper;
 import ks52team02.member.review.service.MemberReviewService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +27,7 @@ public class MemberReviewController {
 	
 	private final MemberPayService memberPayService;
 	private final MemberReviewService memberReviewService;
+	private final MemberReviewMapper memberReviewMapper;
 	
 	@PostMapping("/add")
 	public String addReview() {
@@ -34,25 +36,8 @@ public class MemberReviewController {
 	}
 	
 	
-	@PostMapping("/modify")
-	public String modifyReview() {
-		
-		
-		return "redirect:/review/list";
-	}
 	
 	
-	@GetMapping("/list")
-	public String getReviewListByMentee(Model model, HttpSession session) {
-		
-		String memberId = (String) session.getAttribute("SID");
-		List<Review> reviewList = memberReviewService.getReviewListById(memberId);
-	
-		model.addAttribute("activeMenu", "reviewList");
-		model.addAttribute("reviewList", reviewList);
-		
-		return "member/review/reviewListByMentee";
-	}
 	
 	@GetMapping("/form")
 	public String addMentoringReview(@RequestParam(name="payCode") String payCode, Model model) {
@@ -63,18 +48,41 @@ public class MemberReviewController {
 		return "member/review/reviewForm";
 	}
 	
-	@GetMapping("/modify")
-	public String modifyMentoringReview(HttpSession session) {
-		
-	  	String memberId = (String) session.getAttribute("SID");
-	  	
-		return "member/review/reviewModifyForm";
-	}
 	
 	@GetMapping("/mentorReviewList")
 	public String mentorReviewList() {
 		System.out.println("멘토 아이디별 후기내역 조회");
 		return "member/review/mentorReviewList";
 	}
+	
+	@PostMapping("/modify")
+	public String modifyReview(Review review) {
+		
+		memberReviewMapper.modifyReview(review);
+		
+		return "redirect:/review/list";
+	}
+	
+	@GetMapping("/modify")
+	public String modifyMentoringReview(@RequestParam(name="reviewCode") String reviewCode, HttpSession session, Model model) {
+		
+		String memberId = (String) session.getAttribute("SID");
+		Review review = memberReviewService.getReviewByReviewCode(reviewCode, memberId);
 
+		model.addAttribute("review", review);
+		
+		return "member/review/reviewModifyForm";
+	}
+
+	@GetMapping("/list")
+	public String getReviewListByMentee(Model model, HttpSession session) {
+		
+		String memberId = (String) session.getAttribute("SID");
+		List<Review> reviewList = memberReviewService.getReviewListById(memberId);
+		
+		model.addAttribute("activeMenu", "reviewList");
+		model.addAttribute("reviewList", reviewList);
+		
+		return "member/review/reviewListByMentee";
+	}
 }

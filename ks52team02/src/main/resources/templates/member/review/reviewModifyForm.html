@@ -9,27 +9,69 @@
 		       <div class="card-body container col-3 my-2">
                    <h3 class="mb-20 mt-40 text-brand d-flex justify-content-center">멘토링 후기 수정하기</h3>
                         <form class="container mt-40" action="/review/modify" method="post">
-                        	<input type="hidden" name="reviewCode" th:value="${review.reviewCode}"/>
+   							<input type="hidden" name="reviewCode" th:value="${review.reviewCode}"/>
                             <!-- form-group// -->
 							<div class="mb-4">
                                 <label class="form-label">신청한 멘토링명</label>
-                                <input type="text" class="form-control" name="mentroingName" th:value="${mentoringTitle}" readonly/>
+                                <input type="text" class="form-control" th:value="${review.notice.noticeTitle}" name="mentroingName" readonly/>
                             </div>
                             <!-- form-group// -->
 							<div class="mb-4">
-                                <label class="form-label">평점</label>
-                                <input type="text" class="form-control" name="mentroingRating" th:value="${review.reviewScore}"/>
+                                <label class="form-label">평점 : </label>
+                                <label class="form-label" th:text="${review.reviewScore}" id="rating"></label>
+                                <div id="star-rating">
+								    <span class="star" data-value="1">★</span>
+								    <span class="star" data-value="2">★</span>
+								    <span class="star" data-value="3">★</span>
+								    <span class="star" data-value="4">★</span>
+								    <span class="star" data-value="5">★</span>
+								</div>
+    							<input type="hidden" name="reviewScore" id="reviewScoreInput" th:value="${review.reviewScore}" />
                             </div>
                             <!-- form-group// -->
 							<div class="mb-4">
                                 <label class="form-label">내용</label>
-                                <textarea rows="500" cols="500" name="content" th:text="${review.reviewConetent}"></textarea>
+                                <textarea rows="500" cols="500" th:text="${review.reviewContent}" name="reviewContent"></textarea>
                             </div>
-                            <div class="mb-10 d-flex justify-content-center">
-                                <button type="submit" class="btn btn-primary w-80">후기 수정</button>
-                            </div>
+                            <div class="mb-10 d-flex justify-content-center gap-2">
+							    <button type="submit" id="updateBtn" class="btn btn-primary w-80">후기 수정</button>
+							    <a href="/review/list" class="btn btn-primary w-80">취소</a>
+							</div>
                         </form>
                 </div>
            </section>
+    </th:block>
+   	<th:block layout:fragment="customJs">
+    	<script th:inline="javascript">
+	    	
+	    	const initialRating = /*[[${review.reviewScore}]]*/ 0;
+	        let selectedRating = initialRating;
+	
+	        updateRating(initialRating);
+	        highlightStars(initialRating);
+	
+	        $('.star').on('click', function() {
+	            selectedRating = $(this).data('value');
+	            updateRating(selectedRating);
+	            highlightStars(selectedRating);
+	
+	            $('#reviewScoreInput').val(selectedRating);
+	        });
+	
+	        function updateRating(rating) {
+	            $('#rating').text(`${rating}`);
+	        }
+	
+	        function highlightStars(rating) {
+	            $('.star').each(function() {
+	                if ($(this).data('value') <= rating) {
+	                    $(this).css('color', 'gold');
+	                } else {
+	                    $(this).css('color', 'gray');
+	                }
+	            });
+	        }
+
+    	</script>
     </th:block>
 </html>

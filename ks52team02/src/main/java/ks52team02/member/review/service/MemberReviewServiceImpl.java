@@ -23,6 +23,14 @@ public class MemberReviewServiceImpl implements MemberReviewService {
 	private final DateFormatterUtil dateFormatterUtil;
 	
 	@Override
+	public Review getReviewByReviewCode(String reviewCode, String memberId) {
+		
+		Review review = memberReviewMapper.getReviewByReviewCode(reviewCode, memberId);
+		
+		return review;
+	}
+	
+	@Override
 	public List<Review> getReviewListById(String memberId) {
 		
 		List<Review> reviewList = memberReviewMapper.getReviewListById(memberId);

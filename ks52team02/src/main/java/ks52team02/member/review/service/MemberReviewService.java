@@ -7,6 +7,8 @@ import ks52team02.member.pay.dto.Pay;
 
 public interface MemberReviewService {
 	
+	// 수정을 위한 특정 후기 조회
+	Review getReviewByReviewCode(String reviewCode, String memberId);
 	
 	// 작성한 후기 목록 조회
 	List<Review> getReviewListById(String memberId);
