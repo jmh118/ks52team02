@@ -19,12 +19,16 @@
 		<result column="situation_mentor_calculation" 			property="mentorCalSituation"/>	
 		<result column="mentor_calculation_completion_day" 		property="mentorCalCompletionDate"/>	
 		<result column="mentoring_progress_status" 				property="mentoringProcStatus"/>	
-
 		<association property="notice" javaType="Notice">
 			<id column="mentoring_notice_code" property="noticeCode"/>
 			<result column="topic_category_code" property="topicCode"/>
 			<result column="member_id" property="memberId"/>
 			<result column="mentoring_notice_title" property="noticeTitle"/>		
+		</association>
+		<association property="noticeDetail" javaType="NoticeDetail">
+			<id column="mentoring_notice_detail_code" property="noticeDetail"/>
+			<result column="day_mentoring_YMD" property="mentoringYmd"/>
+			<result column="day_mentoring_time" property="mentoringTime"/>
 		</association>
 	</resultMap>
 
@@ -43,17 +47,24 @@
 	<select id="getMenteePaymentListById" parameterType="string" resultMap="paymentListMap">
 		/* 결제 내역 조회 */
 		SELECT 
-			msmc.mentee_settlement_mentor_calculation_code,
-			mn.mentoring_notice_code,
-			mn.topic_category_code,
-			mn.mentoring_notice_title,
-			mn.member_id,
+		    msmc.mentee_settlement_mentor_calculation_code,
+		    ma.mentoring_apply_code,
+		    mn.mentoring_notice_code,
+		    mn.topic_category_code,
+		    mn.mentoring_notice_title,
+		    mnd.day_mentoring_YMD,
+		    mnd.day_mentoring_time,
+		    mn.member_id,
 		    msmc.last_amount,
 		    msmc.settlement_day,
-			msmc.mentoring_progress_status
+		    msmc.mentoring_progress_status
 		FROM 
-		    mentee_settlement_mentor_calculation msmc INNER JOIN mentoring_notice mn 
-		    ON msmc.mentor_notice_code = mn.mentoring_notice_code
+		    mentee_settlement_mentor_calculation msmc INNER JOIN mentoring_apply ma 
+			 ON msmc.mentoring_apply_code = ma.mentoring_apply_code
+		    INNER join mentoring_notice mn 
+			 ON ma.mentoring_notice_code = mn.mentoring_notice_code
+		    INNER JOIN mentoring_notice_detail mnd 
+			 ON ma.mentoring_notice_detail_code = mnd.mentoring_notice_detail_code
 		WHERE 
 		    msmc.settlement_id = #{memberId};
 	</select>
