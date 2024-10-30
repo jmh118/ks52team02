@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{member/layouts/layout}">
+	
+   <th:block layout:fragment="customJs">
+   		<script>
+   		</script>
+   		<th:block th:insert="~{member/mypage/mentee/menteeMypageAccount :: menteeMypageAccountJs}"></th:block>
+   		<th:block th:insert="~{member/mypage/mentee/menteeMypageCareer :: menteeMypageCareerJs}"></th:block>
+   		<th:block th:insert="~{member/mypage/mentee/menteeMypageIntroduce :: menteeMypageIntroduceJs}"></th:block>
+   		
+   		
+   </th:block>
+   
+   
+<!-- 멘티 사이트바 -->
+   <th:block layout:fragment="customContent">
+   		<div class="page-content pt-150 pb-150">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-10 m-auto">
+                        <div class="row">
+					    	<div class="col-md-3">
+								<div class="dashboard-menu">
+									<ul class="nav flex-column" role="tablist">
+										<li class="nav-item">
+						                    <a class="nav-link active" id="dashboard-tab" data-bs-toggle="tab" href="#dashboard1" role="tab" aria-controls="dashboard1" aria-selected="false"><i class="fi-rs-settings-sliders mr-10"></i>계정 정보</a>
+						                </li>
+										<li class="nav-item">
+						                    <a class="nav-link" id="orders-tab1" data-bs-toggle="tab" href="#dashboard2" role="tab" aria-controls="dashboard2" aria-selected="false"><i class="fi-rs-settings-sliders mr-10"></i>소개글</a>
+						                </li>
+										<li class="nav-item">
+						                    <a class="nav-link" id="orders-tab2" data-bs-toggle="tab" href="#dashboard3" role="tab" aria-controls="dashboard3" aria-selected="false"><i class="fi-rs-settings-sliders mr-10"></i>경력 관리</a>
+						                </li>
+									</ul>
+								</div>
+							</div>
+							<div class="col-md-9">
+					             <div class="tab-content account dashboard-content pl-50">
+					             	<!-- insert -->
+					             	<div class="tab-pane fade active show" id="dashboard1" role="tabpanel">
+					                 	<th:block th:insert="~{member/mypage/mentee/menteeMypageAccount :: menteeMypageAccount}"></th:block>
+					             	</div>
+					                 <div class="tab-pane fade" id="dashboard2" role="tabpanel">
+					                 	<th:block th:insert="~{member/mypage/mentee/menteeMypageIntroduce :: menteeMypageIntroduce}"></th:block>
+					                 </div>
+					                 <div class="tab-pane fade" id="dashboard3" role="tabpanel">
+					                 	<th:block th:insert="~{member/mypage/mentee/menteeMypageCareer :: menteeMypageCareer}"></th:block>
+					                 </div>
+					             </div>
+					         </div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</th:block>
+</html>

@@ -1,23 +1,68 @@
 package ks52team02.member.mypage.controller;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+import ks52team02.member.mypage.dto.MentorEducation;
+import ks52team02.member.mypage.dto.MentorInfo;
+import ks52team02.member.mypage.dto.MentorProject;
+import ks52team02.member.mypage.dto.MentorWork;
+import ks52team02.member.mypage.mapper.MentorMypageMapper;
+import ks52team02.member.mypage.service.MentorMypageService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
+@RequiredArgsConstructor
 @RequestMapping("/mypage/mentor")
+@Slf4j
 public class MentorMypageController {
 
+	private final MentorMypageMapper mentorMypageMapper;
+	private final MentorMypageService mentorMypageService;
+	
+	//계정정보 수정
+	 @PostMapping("/account")
+	 public String MoveMypageAccount(MentorInfo mentorInfo) {
+		 
+		 mentorMypageService.modifyMentor(mentorInfo);
+		 
+		 log.info("mentorInfo ;{}",mentorInfo);
+		 
+		 return "redirect:/mypage/mentor/account";
+	 }
+	
+	//계정정보 조회
 	@GetMapping("/account")
-    public String MoveMypageAccount() {
+    public String MoveMypageAccount(HttpServletRequest request, Model model) {
+		
         System.out.println("mypage account 페이지 이동");
-        return  "member/mypage/mentor/mentorMypageAccount";
-    }
-
-    @GetMapping("/career")
-    public String MoveMypageCareer() {
-        System.out.println("mypage career 페이지 이동");
-        return  "member/mypage/mentor/mentorMypageCareer";
+        HttpSession session = request.getSession();
+        String sessionId = (String) session.getAttribute("SID");
+		//멘토 계정 정보 아이디로 조회
+		MentorInfo mentorInfo = mentorMypageMapper.getMentorInfoById(sessionId);
+		log.info("mentorInfo:{}", mentorInfo);
+		//멘토 근무 경력 아이디로 조회
+		List<MentorWork> mentorWorkInfo = mentorMypageMapper.getMentorWorkById(sessionId);
+		//프로젝트 경력 아이디로 조회
+		List<MentorProject> mentorProjectInfo = mentorMypageMapper.getMentorProjectById(sessionId);
+		//학력 아이디로 조회 
+		List<MentorEducation> mentorEducationInfo = mentorMypageMapper.getMentorEducationById(sessionId);
+		
+		model.addAttribute("mentorInfo", mentorInfo);
+		model.addAttribute("mentorWorkInfo", mentorWorkInfo);
+		model.addAttribute("mentorProjectInfo", mentorProjectInfo);
+		model.addAttribute("mentorEducationInfo", mentorEducationInfo);
+		 
+        return  "member/mypage/mentor/mentorMypage";
     }
     
     @GetMapping("/workAdd")
