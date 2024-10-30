@@ -45,8 +45,8 @@
 											
                                         <h5 class="card-title mt-50" th:text="${mml.memberId}"></h5>
                                         <div class="card-text text-muted">
-                                            <p th:text="${mml.memberEmail}">이메일</p>
-                                            <p th:text="${mml.memberJoinYMD}">가입일자</p>
+                                            E-mail<p th:text="${mml.memberEmail}"></p>
+                                            가입일자<p th:text="${mml.memberJoinYMD}"></p>
 											<p th:if="${mml.memberLevel == '멘티'}" class="m-0 badge rounded-pill alert-success">멘티</p>
 										    <p th:if="${mml.memberLevel == '멘토'}" class="m-0 badge rounded-pill alert-warning">멘토</p>
 										    <p th:if="${mml.memberLevel == '플랫폼 관리자'}" class="m-0 badge rounded-pill alert-danger">플랫폼 관리자</p>
