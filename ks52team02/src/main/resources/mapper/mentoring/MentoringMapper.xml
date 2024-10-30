@@ -32,6 +32,59 @@
 		</association>
 	</resultMap>
 	
+	<resultMap type="MenteeProfile" id="MenteeProfileMap">
+		<id column="mentee_profile_code" property="profileCode"/>
+		<result column="mentee_interest_field" property="interestField" />
+		<result column="mentee_interest_field_technology" property="fieldTechnology" />
+		<result column="mentee_interest_field_experience_level" property="experienceLevel" />
+		<result column="mentee_interest_field_experience_explanation" property="experienceExplanation" />
+		
+		<association property="member" javaType="Member">
+			<id column="member_id" property="memberId"/>
+			<result column="member_name" property="memberName" />
+		</association>
+		<association property="notice" javaType="Notice">
+			<id column="mentoring_notice_code" property="noticeCode" />
+			<result column="mentoring_notice_title"  property="noticeTitle" />
+		</association>
+	</resultMap>
+		
+	<select id="getCategoryCountList" resultType="Topic">
+		SELECT 
+			 tc.topic_category_code AS topicCode,
+		    tc.topic_name AS topicName,
+		    COUNT(mn.topic_category_code) AS noticeCount
+		FROM 
+		    topic_category AS tc
+		LEFT JOIN 
+		    mentoring_notice AS mn ON tc.topic_category_code = mn.topic_category_code
+		GROUP BY 
+		    tc.topic_name;
+	</select>
+		
+	<select id="getApplyMenteeProfileById" parameterType="String" resultMap="MenteeProfileMap">
+		/* 신청한 멘티 프로필조회 */
+		SELECT 
+			DISTINCT 
+			mn.mentoring_notice_title,
+			m.member_name, 
+			mp.mentee_interest_field, 
+			mp.mentee_interest_field_technology,
+			mp.mentee_interest_field_experience_level,
+			mp.mentee_interest_field_experience_explanation
+		FROM 
+			mentee_profile mp INNER JOIN member m
+			USING(member_id) 
+			INNER JOIN mentoring_apply ma
+			USING(member_id)
+			INNER JOIN mentoring_notice mn
+			ON ma.mentoring_notice_code = mn.mentoring_notice_code
+		WHERE
+			mp.mentee_profile_release_YN = 'Y'
+			AND 
+			mn.member_id=#{memberId};
+	</select>
+	
 	<update id="modifyQuestion" parameterType="NoticeQuestion">
 		UPDATE mentoring_notice_question
 		SET

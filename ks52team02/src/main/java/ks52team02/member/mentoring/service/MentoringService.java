@@ -2,7 +2,6 @@ package ks52team02.member.mentoring.service;
 
 import java.util.List;
 
-import jakarta.servlet.http.HttpSession;
 import ks52team02.manager.member.dto.Member;
 import ks52team02.member.mentoring.dto.MentoringApply;
 import ks52team02.member.mentoring.dto.Notice;
@@ -10,6 +9,7 @@ import ks52team02.member.mentoring.dto.NoticeAnswer;
 import ks52team02.member.mentoring.dto.NoticeDetail;
 import ks52team02.member.mentoring.dto.NoticeQuestion;
 import ks52team02.member.mentoring.dto.Topic;
+import ks52team02.member.mypage.dto.MenteeProfile;
 
 public interface MentoringService {
 	
@@ -51,6 +51,11 @@ public interface MentoringService {
 
 	// 공고질문 수정
 	void modifyQuestion(NoticeQuestion noticeQuestion);
+
+	List<MenteeProfile> getApplyMenteeProfileById(String memberId);
+
+	//카테고리 갯수
+	List<Topic> getCategoryCountList();
 
 
 

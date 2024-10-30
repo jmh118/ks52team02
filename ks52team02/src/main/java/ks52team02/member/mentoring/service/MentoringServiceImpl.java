@@ -14,6 +14,7 @@ import ks52team02.member.mentoring.dto.NoticeDetail;
 import ks52team02.member.mentoring.dto.NoticeQuestion;
 import ks52team02.member.mentoring.dto.Topic;
 import ks52team02.member.mentoring.mapper.MentoringMapper;
+import ks52team02.member.mypage.dto.MenteeProfile;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,6 +26,18 @@ public class MentoringServiceImpl implements MentoringService{
 	
 	private final MentoringMapper mentoringMapper;
 	private final CommonMapper commonMapper;
+	
+	@Override
+	public List<Topic> getCategoryCountList() {
+		List<Topic> categoryCount = mentoringMapper.getCategoryCountList();
+		return categoryCount;
+	}
+	
+	@Override
+	public List<MenteeProfile> getApplyMenteeProfileById(String memberId) {
+		List<MenteeProfile> menteeProfile = mentoringMapper.getApplyMenteeProfileById(memberId);
+		return menteeProfile;
+	}
 	
 	@Override
 	public void modifyQuestion(NoticeQuestion noticeQuestion) {
