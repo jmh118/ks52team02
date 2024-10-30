@@ -24,8 +24,7 @@ public interface MentorMypageMapper {
 	List<MentorEducation> getMentorEducationById(String mentorId);
 	//자격증 조회
 	List<MentorCertificate> getMentorCertificateById(String mentorId);
-	
-	// 등록
+	//근무경력 등록
 	int addWorkInfo(MentorWork mentorWork);
 	
 }
