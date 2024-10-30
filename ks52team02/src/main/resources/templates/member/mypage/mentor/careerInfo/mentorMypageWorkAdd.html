@@ -14,24 +14,26 @@
                 <div class="col-lg-7">
                     <div class="row">
                         <h3 class="mb-30">등록</h3>
-                        <form method="post">
+                        <form id="addWorkForm" method="post" th:action="@{/mypage/mentor/workAdd}">
+                        	<input class="form-control" name="mentorId" type="hidden" th:value="${session.SID}"/>
                                 <div class="form-group col-lg-6">
-                                    <input type="text" required name="fname" placeholder="회사명 *">
+                                    <input type="text" name="mentorPowkNm" placeholder="회사명 *">
                                 </div>
                                 <div class="form-group col-lg-6">
-                                    <input type="text" required name="lname" placeholder="담당 업무 *">
+                                    <input type="text" name="mentorTask" placeholder="담당 업무 *">
                                 </div>
-                                <div class="form-group col-lg-6">입사날짜
-                                    <input type="datetime-local" name="billing_address" required placeholder="입사날짜 *">
+                                <div class="form-group col-lg-6">
+                                <label for="mentorJncmpYmp">입사날짜</label>
+                                    <input class="form-control" id="mentorJncmpYmp" type="date" name="mentorJncmpYmp" >
                                 </div>
                                 <div class="form-group col-lg-6">퇴사날짜
-                                    <input type="datetime-local" name="billing_address2" required placeholder="퇴사날짜 *">
+                                    <input class="form-control" type="date" name="mentorRsgntnYmp">
                                 </div>
                                 <div class="form-group col-lg-6">
-                                    <input type="text" name="billing_address2" required placeholder="재직 여부 *">
+                                    <input type="text" name="mentorStatus" placeholder="재직 여부(재직 중,퇴사...) *">
                                 </div>
                                <div class="form-group col-lg-6">
-							  <input type="file" accept="image/png, image/jpeg">
+							  <input type="file" class="form-control" name="mentorFileNm" accept="image/png, image/jpeg">
 							  </div>
 							<button class="submit submit-auto-width" type="submit">추가</button>
                         </form>

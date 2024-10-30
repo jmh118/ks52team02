@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import ks52team02.member.mypage.dto.MentorCertificate;
 import ks52team02.member.mypage.dto.MentorEducation;
 import ks52team02.member.mypage.dto.MentorInfo;
 import ks52team02.member.mypage.dto.MentorProject;
@@ -56,15 +57,27 @@ public class MentorMypageController {
 		List<MentorProject> mentorProjectInfo = mentorMypageMapper.getMentorProjectById(sessionId);
 		//학력 아이디로 조회 
 		List<MentorEducation> mentorEducationInfo = mentorMypageMapper.getMentorEducationById(sessionId);
+		//자격증 아이디로 조회
+		List<MentorCertificate> mentorCertificateInfo = mentorMypageMapper.getMentorCertificateById(sessionId);
+		
 		
 		model.addAttribute("mentorInfo", mentorInfo);
 		model.addAttribute("mentorWorkInfo", mentorWorkInfo);
 		model.addAttribute("mentorProjectInfo", mentorProjectInfo);
 		model.addAttribute("mentorEducationInfo", mentorEducationInfo);
+		model.addAttribute("mentorCertificateInfo", mentorCertificateInfo);
 		 
         return  "member/mypage/mentor/mentorMypage";
     }
     
+	@PostMapping("/workAdd")
+	public String AddWorkInfo(MentorWork mentorWork) {
+		
+		mentorMypageService.addWorkInfo(mentorWork);
+		
+		return "redirect:/mypage/mentor/workAdd";
+	}
+	
     @GetMapping("/workAdd")
     public String MoveMypageWorkAdd() {
         System.out.println("mypage Work 추가 페이지 이동");

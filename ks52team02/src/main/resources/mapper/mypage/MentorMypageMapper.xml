@@ -85,6 +85,32 @@
   	</select>
   	
   	
+  	<insert id="">
+  	
+  		INSERT INTO mentor_work_history_details
+			(
+				mentor_work_career_details_code, 
+				member_id, 
+				mentor_POWK_NM, 
+				mentor_TKCG_TASK, 
+				mentor_JNCMP_YMD, 
+				mentor_RSGNTN_YMD, 
+				FRST_REG_DT, 
+				mentor_WRKDY_CNT, 
+				mentor_ACML_WRKDY_CNT, 
+				MDFCN_YMD, 
+				mentor_career_DATA_REG_upload_YN, 
+				mentor_career_apply_manager, 
+				mentor_employment_status, 
+				upload_file_work_history_name, 
+				upload_file_work_history_date
+			)
+			VALUES ('', '', '', '', NOW(), NOW(), NOW(), 0, 0, NOW(), 'N', 'N', '', '', NOW())
+		  	
+  	</insert>
+  	
+  	
+  	
   	
   <!-- 근무 경력 관리 쿼리문/ -->
   
@@ -157,13 +183,50 @@
   	</select>
   
   
-  
-  
-  
-  
   <!-- 학력 관리 쿼리문/ -->
   
   
+  <!-- 자격증 관리 쿼리문 -->
+  
+  <resultMap type="MentorCertificate" id="mentorCertificateMap">
+  		<id column="mentor_certificate_detail_code" property="mentorCertificateCode"/>
+  		<result column="member_id" property="mentorId"/>
+  		<result column="certificate_name_code" property="mentorCertificateNm"/>
+  		<result column="issue_institution_code" property="mentorInstitutionNm"/>
+  		<result column="mentor_certificate_ISSU_YMD" property="mentorIssuYmd"/>
+  		<result column="mentor_upload_certificate_file_name" property="mentorFileNm"/>
+  		<result column="mentor_certificate_grade" property="mentorGrade"/>
+  		
+  		<association property="certificateName" javaType="CertificateName">
+  			<id column="certificate_name_code" property="nameCode"/>
+  			<result column="issue_certificate_name" property="certificateNm"/>
+  			<result column="certificate_classification" property="certificateCf"/>
+  			<result column="issue_institution_name" property="institutionNm"/>
+  		</association>
+  		
+  	</resultMap>
+  	
+  	<select id="getMentorCertificateById" parameterType="string" resultMap="mentorCertificateMap">
+	  	/* 자격증 조회 */
+	  	SELECT 
+			mcd.mentor_certificate_detail_code, 
+			cn.issue_certificate_name,
+			cn.issue_institution_name, 
+			mcd.mentor_certificate_ISSU_YMD, 
+			mcd.mentor_upload_certificate_file_name, 
+			mcd.mentor_certificate_grade
+		FROM 
+			mentor_certificate_detail mcd
+			INNER join
+			certificate_name cn
+			on
+			mcd.certificate_name_code=cn.certificate_name_code
+		WHERE
+			member_id=#{mentorId};
+  	</select>
+  
+  
+  <!-- 자격증 관리 쿼리문/ -->
   
   
   
