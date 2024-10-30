@@ -1,21 +1,15 @@
 ﻿<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{member/layouts/layout}">
+<html xmlns:th="http://www.thymeleaf.org">
+
+	<th:block th:fragment="mentorMypageCareerJs">
+		<script>
+		
+		</script>
+	</th:block>
+
     <!--/* 기존 class는 main pages...  pages 누락 시 문제 없음
     	<main class="main pages"layout:fragment="content"> */-->	
-    <th:block layout:fragment="customContent">
-        <div class="page-content pt-150 pb-150">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-10 m-auto">
-                        <div class="row">
-                             <!--/* 멘토 마이페이지 사이드바 */-->
-							<th:block layout:fragment="mentorMypageAsideFragment" th:replace="~{member/fragments/mentorMypageAside :: mentorMypageAsideFragment}"></th:block>
-							
-                            
-                            <div class="col-md-9">
-                                <div class="tab-content account dashboard-content pl-50">
-                                    <div class="tab-pane active show">
+    <div th:fragment="mentorMypageCareer">
                                         <div class="card">
                                             <div class="card-header">
                                                 <h3 class="mb-0">근무 경력</h3>
@@ -32,26 +26,12 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            <tr>
-                                                                <td>S소프트웨어 개발 회사</td>
-                                                                <td>유지보수</td>
-                                                                <td>744</td>
-                                                                <td>재직중</td>
-                                                                <td><a href="/mypage/mentor/workModify" class="btn-small d-block">수정</a></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>#2468</td>
-                                                                <td>June 29, 2020</td>
-                                                                <td>Completed</td>
-                                                                <td>$364.00 for 5 item</td>
-                                                                <td><a href="#" class="btn-small d-block">수정</a></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>#2366</td>
-                                                                <td>August 02, 2020</td>
-                                                                <td>Completed</td>
-                                                                <td>$280.00 for 3 item</td>
-                                                                <td><a href="#" class="btn-small d-block">수정</a></td>
+                                                            <tr th:each="w : ${mentorWorkInfo}">
+                                                                <td th:text="${w.mentorPowkNm}"></td>
+                                                                <td th:text="${w.mentorTask}"></td>
+                                                                <td th:text="${w.mentorCnt}"></td>
+                                                                <td th:text="${w.mentorStatus}"></td>
+                                                                <td><a th:href="@{/mypage/mentor/workModify}" class="btn-small d-block">수정</a></td>
                                                             </tr>
                                                         </tbody>
                                                     </table>
@@ -68,33 +48,17 @@
                                                 <table class="table">
                                                     <thead>
                                                         <tr>
-                                                            <th>Order</th>
-                                                            <th>Date</th>
-                                                            <th>Status</th>
-                                                            <th>Total</th>
+                                                            <th>프로젝트명</th>
+                                                            <th>수행업무</th>
+                                                            <th>수행기간</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr>
-                                                            <td>#1357</td>
-                                                            <td>March 45, 2020</td>
-                                                            <td>Processing</td>
-                                                            <td>$125.00 for 2 item</td>
+                                                        <tr th:each="p : ${mentorProjectInfo}">
+                                                            <td th:text="${p.mentorProjectNm}"></td>
+                                                            <td th:text="${p.mentorCn}"></td>
+                                                            <td th:text="${p.mentorCnt}"></td>
                                                             <td><a href="/mypage/mentor/projectModify" class="btn-small d-block">수정</a></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>#2468</td>
-                                                            <td>June 29, 2020</td>
-                                                            <td>Completed</td>
-                                                            <td>$364.00 for 5 item</td>
-                                                            <td><a href="#" class="btn-small d-block">수정</a></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>#2366</td>
-                                                            <td>August 02, 2020</td>
-                                                            <td>Completed</td>
-                                                            <td>$280.00 for 3 item</td>
-                                                            <td><a href="#" class="btn-small d-block">수정</a></td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -111,33 +75,19 @@
                                                 <table class="table">
                                                     <thead>
                                                         <tr>
-                                                            <th>Order</th>
-                                                            <th>Date</th>
-                                                            <th>Status</th>
-                                                            <th>Total</th>
+                                                            <th>학교명</th>
+                                                            <th>학점</th>
+                                                            <th>학과(전공)</th>
+                                                            <th>졸업/수료</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr>
-                                                            <td>#1357</td>
-                                                            <td>March 45, 2020</td>
-                                                            <td>Processing</td>
-                                                            <td>$125.00 for 2 item</td>
+                                                        <tr th:each="e : ${mentorEducationInfo}">
+                                                            <td th:text="${e.mentorSchoolNm}"></td>
+                                                            <td th:text="${e.mentorCredits}"></td>
+                                                            <td th:text="${e.mentorScsbjtNm}"></td>
+                                                            <td th:text="${e.mentorSection}"></td>
                                                             <td><a href="/mypage/mentor/educationModify" class="btn-small d-block">수정</a></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>#2468</td>
-                                                            <td>June 29, 2020</td>
-                                                            <td>Completed</td>
-                                                            <td>$364.00 for 5 item</td>
-                                                            <td><a href="#" class="btn-small d-block">수정</a></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>#2366</td>
-                                                            <td>August 02, 2020</td>
-                                                            <td>Completed</td>
-                                                            <td>$280.00 for 3 item</td>
-                                                            <td><a href="#" class="btn-small d-block">수정</a></td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -168,20 +118,6 @@
 	                                                        <td>$125.00 for 2 item</td>
 	                                                        <td><a href="/mypage/mentor/certificateModify" class="btn-small d-block">수정</a></td>
 	                                                    </tr>
-	                                                    <tr>
-	                                                        <td>#2468</td>
-	                                                        <td>June 29, 2020</td>
-	                                                        <td>Completed</td>
-	                                                        <td>$364.00 for 5 item</td>
-	                                                        <td><a href="#" class="btn-small d-block">수정</a></td>
-	                                                    </tr>
-	                                                    <tr>
-	                                                        <td>#2366</td>
-	                                                        <td>August 02, 2020</td>
-	                                                        <td>Completed</td>
-	                                                        <td>$280.00 for 3 item</td>
-	                                                        <td><a href="#" class="btn-small d-block">수정</a></td>
-	                                                    </tr>
 	                                                </tbody>
 	                                            </table>
 	                                            <button class="submit submit-auto-width" onclick="location.href='/mypage/mentor/certificateAdd'">추가</button>
@@ -189,12 +125,7 @@
 	                                    </div>
 	                                </div>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </th:block>
+                                
+
+
 </html>

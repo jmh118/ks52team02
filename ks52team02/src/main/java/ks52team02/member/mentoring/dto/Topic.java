@@ -7,5 +7,6 @@ public class Topic {
 	
 	private String topicCode;
 	private String topicName;
+	private int noticeCount;
 
 }

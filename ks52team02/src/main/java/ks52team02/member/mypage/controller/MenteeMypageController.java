@@ -13,7 +13,7 @@ public class MenteeMypageController {
 	@GetMapping("/account")
     public String MoveMypageAccount() {
         System.out.println("mypage account 페이지 이동");
-        return  "member/mypage/mentee/menteeMypageAccount";
+        return  "member/mypage/mentee/menteeMypage";
         
     }
 	

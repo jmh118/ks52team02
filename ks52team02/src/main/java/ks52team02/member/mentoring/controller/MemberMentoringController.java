@@ -20,6 +20,7 @@ import ks52team02.member.mentoring.dto.NoticeQuestion;
 import ks52team02.member.mentoring.dto.Topic;
 import ks52team02.member.mentoring.mapper.MentoringMapper;
 import ks52team02.member.mentoring.service.MentoringService;
+import ks52team02.member.mypage.dto.MenteeProfile;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -37,6 +38,17 @@ public class MemberMentoringController {
 		mentoringService.modifyQuestion(noticeQuestion);
 		
 		return "redirect:/mentoring/notice";
+	}
+	
+	@GetMapping("/applyMenteeProfile")
+	public String getapplyMenteeProfile(HttpSession session, Model model) {
+		String memberID = (String) session.getAttribute("SID");
+		List<MenteeProfile> menteeProfile = mentoringService.getApplyMenteeProfileById(memberID);
+		
+		model.addAttribute("activeMenu", "info");
+		model.addAttribute("menteeProfile", menteeProfile);
+		
+		return "member/mentoring/applyMenteeProfile";
 	}
 	
 	
@@ -139,14 +151,17 @@ public class MemberMentoringController {
 	public String movenoticeList(@RequestParam(required = false) String category, Model model) {
 		
 		List<Notice> noticeList;
-
+		List<Topic> categoryCount = mentoringService.getCategoryCountList();
+		
 		if(category != null && !category.isEmpty()) {
 			noticeList = mentoringService.getNoticeByCategory(category);
 		}else {
 			noticeList = mentoringService.getNoticeList();
+			 
 		}
 		
 		model.addAttribute("noticeList", noticeList);
+		model.addAttribute("categoryCount", categoryCount);
 		
     	System.out.println("멘토링 | 멘토링 공고 조회 화면");
         return  "member/mentoring/noticeList";

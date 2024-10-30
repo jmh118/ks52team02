@@ -2,6 +2,44 @@
 <html xmlns:th="http://www.thymeleaf.org" 
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{manager/layouts/layout}">
+	<th:block layout:fragment="customJs">
+		<script>
+		    function checkPassword(memberPw) {
+		        return $.ajax({
+		            type: 'POST',
+		            url: '/member/checkPw',
+		            data: { 'memberPw': memberPw },
+		            dataType: 'json'
+		        });
+		    }
+
+		    $('.memberDelBtn').click(function(){
+		    	
+		        let memberPw = prompt("관리자 비밀번호를 입력하세요:");
+
+		        if (memberPw === null || memberPw === "") {
+		            alert("비밀번호를 입력해 주세요.");
+		            return;
+		        }
+
+		        checkPassword(memberPw).done(function(data) {
+		            if (data) {
+		                deleteReview(reviewCode).done(function() {
+		                    alert('회원 탈퇴 완료.');
+		                    location.reload(); 
+		                }).fail(function() {
+		                    alert('ERROR');
+		                });
+		            } else {
+		                alert("비밀번호가 잘못되었습니다.");
+		            }
+		        }).fail(function() {
+		            alert('검증 ERROR');
+		        });
+		    });
+		    	
+		</script>
+	</th:block>
 	<th:block layout:fragment="customContent">
             <section class="content-main">
                 <div class="content-header">
@@ -40,40 +78,28 @@
                                 <thead>
                                     <tr>
 										<th>탈퇴코드</th>
-	                                    <th>탈퇴사유</th>
-										<th>회원권한</th>
 	                                    <th>ID</th>
+										<th>회원권한</th>
+	                                    <th>탈퇴사유</th>
 	                                    <th>탈퇴요청일자</th>
                                         <th>상태</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
+                                    <tr th:each="wwl : ${waitingForWithDrawalList}">
+                                       	<td th:text="${wwl.withdrawalMemberCode}"></td>
+										<td th:text="${wwl.withdrawalMemberId}"></td>
+                                        <td>	
+											<span th:if="${wwl.withdrawalMemberLevel == '멘티'}" class="badge rounded-pill alert-success">멘티</span>
+											<span th:if="${wwl.withdrawalMemberLevel == '멘토'}" class="badge rounded-pill alert-warning">멘토</span>
+											<span th:if="${wwl.withdrawalMemberLevel == '플랫폼 관리자'}" class="badge rounded-pill alert-danger">플랫폼 관리자</span>
+										</td>
+                                        <td th:text="${wwl.withdrawalReason}"></td>
+                                        <td th:text="${wwl.withdrawalDemandYMD}"></td>
                                         <td>
-                                        	<h6>Eleanor Pena</h6>
-                                        </td>
-                                        <td>eleanor2020@example.com</td>
-										<td>권한</td>
-                                        <td>ID</td>
-                                        <td>요청일자</td>
-                                        <td>
-                                            <a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15">승인</a>
-                                            <a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15">거부</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                        	<h6>Eleanor Pena</h6>
-                                        </td>
-                                        <td>eleanor2020@example.com</td>
-										<td>권한</td>
-                                        <td>ID</td>
-                                        <td>요청일자</td>
-                                        <td>
-                                         탈퇴완료
+                                            <a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15 memberDelBtn">승인</a>
                                         </td>
                                     </tr>
-  
                                 </tbody>
                             </table>
                             <!-- table-responsive.// -->
