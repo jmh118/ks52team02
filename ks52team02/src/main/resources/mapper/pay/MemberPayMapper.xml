@@ -19,14 +19,78 @@
 		<result column="situation_mentor_calculation" 			property="mentorCalSituation"/>	
 		<result column="mentor_calculation_completion_day" 		property="mentorCalCompletionDate"/>	
 		<result column="mentoring_progress_status" 				property="mentoringProcStatus"/>	
-
 		<association property="notice" javaType="Notice">
 			<id column="mentoring_notice_code" property="noticeCode"/>
 			<result column="topic_category_code" property="topicCode"/>
 			<result column="member_id" property="memberId"/>
 			<result column="mentoring_notice_title" property="noticeTitle"/>		
 		</association>
+		<association property="noticeDetail" javaType="NoticeDetail">
+			<id column="mentoring_notice_detail_code" property="noticeDetail"/>
+			<result column="day_mentoring_YMD" property="mentoringYmd"/>
+			<result column="day_mentoring_time" property="mentoringTime"/>
+		</association>
 	</resultMap>
+	
+	<insert id="addSettlementApply" parameterType="map">
+		/* 정산 신청 */
+		INSERT INTO mentor_calculation_demand_completion
+			(mentor_calculation_demand_completion_code, 
+			 mentor_notice_code, 
+			 mentee_settlement_mentor_calculation_code, 
+			 mentor_id, 
+			 calculation_demand_date, 
+			 calculation_give_date, 
+			 calculation_status, 
+			 manager_id)
+		VALUES 
+			(#{key}, 
+			 #{noticeCode}, 
+			 #{payCode}, 
+			 #{memberId}, 
+			 NOW(), 
+			 NULL, 
+			 '멘토가 플랫폼에 정산 요청', 
+			 NULL)
+	</insert>
+	
+	
+	<select id="getSettlementCntByPayCode" parameterType="string" resultType="int">
+		/* 정산 신청을 했는가?? */
+		SELECT
+			COUNT(mentor_calculation_demand_completion_code)
+		FROM 
+			mentor_calculation_demand_completion 
+		WHERE 
+			mentee_settlement_mentor_calculation_code = #{payCode};
+	</select>
+	
+	<select id="getPaymentListByMentorId" parameterType="string" resultMap="paymentListMap">
+		/* (멘토) 신청받은 결제 내역 조회 */
+		
+		SELECT 
+		    msmc.mentee_settlement_mentor_calculation_code,
+		    mn.mentoring_notice_code,
+		    mn.topic_category_code,
+		    ma.mentoring_apply_code,
+		    mn.mentoring_notice_title,
+		    mnd.day_mentoring_YMD,
+		    mnd.day_mentoring_time,
+		    msmc.settlement_id,
+		    msmc.mentor_calculation_amount,
+		    msmc.mentoring_progress_status
+		FROM 
+		    mentee_settlement_mentor_calculation msmc INNER JOIN mentoring_apply ma 
+			ON msmc.mentoring_apply_code = ma.mentoring_apply_code
+		    INNER join mentoring_notice mn 
+			ON ma.mentoring_notice_code = mn.mentoring_notice_code
+		    INNER JOIN mentoring_notice_detail mnd 
+			ON ma.mentoring_notice_detail_code = mnd.mentoring_notice_detail_code
+		WHERE 
+		    mn.member_id = #{memberId};
+	
+	</select>
+	
 
 	<select id="getMentoringTitleByPayCode" parameterType="string" resultType="string">
 		/* 결제한 멘토링명 조회 */
@@ -41,19 +105,26 @@
 	
 	
 	<select id="getMenteePaymentListById" parameterType="string" resultMap="paymentListMap">
-		/* 결제 내역 조회 */
+		/* (멘티) 결제 내역 조회 */
 		SELECT 
-			msmc.mentee_settlement_mentor_calculation_code,
-			mn.mentoring_notice_code,
-			mn.topic_category_code,
-			mn.mentoring_notice_title,
-			mn.member_id,
+		    msmc.mentee_settlement_mentor_calculation_code,
+		    ma.mentoring_apply_code,
+		    mn.mentoring_notice_code,
+		    mn.topic_category_code,
+		    mn.mentoring_notice_title,
+		    mnd.day_mentoring_YMD,
+		    mnd.day_mentoring_time,
+		    mn.member_id,
 		    msmc.last_amount,
 		    msmc.settlement_day,
-			msmc.mentoring_progress_status
+		    msmc.mentoring_progress_status
 		FROM 
-		    mentee_settlement_mentor_calculation msmc INNER JOIN mentoring_notice mn 
-		    ON msmc.mentor_notice_code = mn.mentoring_notice_code
+		    mentee_settlement_mentor_calculation msmc INNER JOIN mentoring_apply ma 
+			 ON msmc.mentoring_apply_code = ma.mentoring_apply_code
+		    INNER join mentoring_notice mn 
+			 ON ma.mentoring_notice_code = mn.mentoring_notice_code
+		    INNER JOIN mentoring_notice_detail mnd 
+			 ON ma.mentoring_notice_detail_code = mnd.mentoring_notice_detail_code
 		WHERE 
 		    msmc.settlement_id = #{memberId};
 	</select>
