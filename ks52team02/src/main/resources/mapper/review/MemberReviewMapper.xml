@@ -24,6 +24,22 @@
 		</association>
 	</resultMap>
 	
+	<insert id="addReview" parameterType="Review">
+		/* 후기 등록 */
+		
+		INSERT INTO mentoring_postscript
+			(mentoring_postscript_code, 
+			 mentee_id, 
+			 `mentee_settlement_mentor_calculation`, 
+			 mentoring_postscript_content, 
+			 mentoring_postscript_score, 
+			 mentoring_postscript_date, 
+			 mentoring_postscript_update_date)
+		VALUES 
+			(#{reviewCode}, #{menteeId}, #{settlementCalCode}, #{reviewContent}, ${reviewScore}, NOW(), NULL);
+	
+	</insert>
+	
 	<update id="modifyReview" parameterType="Review">
 		/* 후기 수정 */
 		UPDATE mentoring_postscript
@@ -34,7 +50,7 @@
 			<if test="reviewScore != null and reviewScore != ''">
 			mentoring_postscript_score = #{reviewScore},
 			</if>
-			mentoring_postscript_update_date = CURDATE()
+			mentoring_postscript_update_date = NOW()
 		</trim>
 		WHERE 
 			mentoring_postscript_code = #{reviewCode};
@@ -81,7 +97,10 @@
 			INNER JOIN mentoring_notice_detail mnd
 			ON ma.mentoring_notice_detail_code = mnd.mentoring_notice_detail_code
 		WHERE 
-			mp.mentee_id = #{memberId};
+			mp.mentee_id = #{memberId}
+		ORDER BY
+			mp.mentoring_postscript_date DESC;
+			
 	</select>
 
 	<select id="getReviewCntByPayCode" parameterType="string" resultType="int">

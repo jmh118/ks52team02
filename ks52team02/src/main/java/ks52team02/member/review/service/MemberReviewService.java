@@ -7,6 +7,9 @@ import ks52team02.member.pay.dto.Pay;
 
 public interface MemberReviewService {
 	
+	// 후기 등록
+	void addReview(Review review);
+	
 	// 수정을 위한 특정 후기 조회
 	Review getReviewByReviewCode(String reviewCode, String memberId);
 	
@@ -18,5 +21,6 @@ public interface MemberReviewService {
 	
 	// 결제코드로 후기 작성했는지 조회
 	boolean isReviewCntPayCode(String payCode);
+
 
 }

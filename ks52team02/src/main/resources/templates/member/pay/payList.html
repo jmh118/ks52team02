@@ -115,7 +115,7 @@
 																		<td th:case="'종료'"><span th:text="${p.mentoringProcStatus}" class="badge rounded-pill alert-success"></span></td>
 																	</th:block>
 																	<td>
-																		<a th:href="@{/review/form(payCode=${p.paySettlementCalCode})}" class="btn btn-md rounded font-sm" th:classappend="${p.mentoringProcStatus != '종료' || reviewCheck[idx.index]} ? 'disabled' : ''">후기 등록</a>
+																		<a th:href="@{/review/form(payCode=${p.paySettlementCalCode})}" class="btn btn-md rounded font-sm" th:classappend="${p.mentoringProcStatus != '종료' || reviewCheck[idx.index]} ? 'disabled' : ''">등록</a>
 																	</td>
 																</tr>
 															</tbody>

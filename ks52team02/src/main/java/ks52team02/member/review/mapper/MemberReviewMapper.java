@@ -11,6 +11,9 @@ import ks52team02.manager.review.dto.Review;
 @Mapper
 public interface MemberReviewMapper {
 	
+	// 후기 등록
+	int addReview(Review review);
+	
 	// 후기 수정
 	int modifyReview(Review review);
 	

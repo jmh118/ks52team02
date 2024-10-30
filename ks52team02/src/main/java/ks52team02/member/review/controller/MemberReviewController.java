@@ -29,14 +29,24 @@ public class MemberReviewController {
 	private final MemberReviewService memberReviewService;
 	private final MemberReviewMapper memberReviewMapper;
 	
-	@PostMapping("/add")
-	public String addReview() {
-		
-		return "redirect:/review/list";
+	
+	@GetMapping("/mentorReviewList")
+	public String mentorReviewList() {
+		System.out.println("멘토 아이디별 후기내역 조회");
+		return "member/review/mentorReviewList";
 	}
 	
 	
-	
+	@PostMapping("/add")
+	public String addReview(Review review, HttpSession session) {
+		
+		String menteeId = (String) session.getAttribute("SID");		
+		review.setMenteeId(menteeId);
+		
+		memberReviewService.addReview(review);
+		
+		return "redirect:/review/list";
+	}
 	
 	
 	@GetMapping("/form")
@@ -44,16 +54,11 @@ public class MemberReviewController {
 
 		String noticeTitle = memberPayService.getMentoringTitleByPayCode(payCode);
 		model.addAttribute("noticeTitle", noticeTitle);
+		model.addAttribute("payCode", payCode);
 		
 		return "member/review/reviewForm";
 	}
 	
-	
-	@GetMapping("/mentorReviewList")
-	public String mentorReviewList() {
-		System.out.println("멘토 아이디별 후기내역 조회");
-		return "member/review/mentorReviewList";
-	}
 	
 	@PostMapping("/modify")
 	public String modifyReview(Review review) {
