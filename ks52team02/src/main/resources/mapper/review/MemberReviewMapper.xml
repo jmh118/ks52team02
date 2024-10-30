@@ -4,7 +4,7 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ks52team02.member.review.mapper.MemberReviewMapper">
 
-	<resultMap type="MemberReview" id="reviewMap">
+	<resultMap type="Review" id="reviewMap">
 		<id column="mentoring_postscript_code" property="reviewCode" />
 		<result column="mentee_id" property="memberId" />
 		<result column="mentee_settlement_mentor_calculation" property="payCode" />

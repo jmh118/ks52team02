@@ -1,11 +1,14 @@
 package ks52team02.member.review.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import ks52team02.member.review.dto.MemberReview;
+import ks52team02.manager.review.dto.Review;
+import ks52team02.member.pay.dto.Pay;
 import ks52team02.member.review.mapper.MemberReviewMapper;
 import lombok.RequiredArgsConstructor;
 
@@ -16,22 +19,36 @@ public class MemberRevicewServiceImpl implements MemberReviewService {
 
 	private final MemberReviewMapper memberReviewMapper;
 	
+	
 	@Override
 	public int modifyReview(Map<String,Object> reviewMap) {
 		
-		int result = memberReviewMapper.modifyReview(reviewMap);
-		System.out.println("결과" + result);
-		return result;
+		
+		return 0;
 	}
 
 	
 	@Override
-	public MemberReview getReviewById(String payCode, String memberId) {
+	public Review getReviewById(String payCode, String memberId) {
 		
-		MemberReview review = memberReviewMapper.getReviewById(payCode, memberId);
+		Review review = memberReviewMapper.getReviewById(payCode, memberId);
 		
 		return review;
 	}
+	
+	@Override
+	public List<Boolean> isCheckReview(List<Pay> paymentList) {
+		List<Boolean> isCheck = new ArrayList<>();
+		
+		for (Pay pay : paymentList) {
+            String payCode = pay.getPaySettlementCalCode();
+            boolean isReviewExist = isReviewCntPayCode(payCode);
+            isCheck.add(isReviewExist);
+        }
+		
+		return isCheck;
+	}
+	
 	
 	
 	@Override
