@@ -3,8 +3,9 @@ package ks52team02.member.mypage.dto;
 import lombok.Data;
 
 @Data
-public class Work {
+public class MentorWork {
 
+	private String mentorWorkCode;
 	private String mentorId;
 	private String mentorPowkNm; 	//회사명
 	private String mentorTask;		//담당업무

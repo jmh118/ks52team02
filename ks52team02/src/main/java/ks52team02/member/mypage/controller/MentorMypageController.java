@@ -1,5 +1,7 @@
 package ks52team02.member.mypage.controller;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,8 +11,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import ks52team02.member.mypage.dto.MentorEducation;
 import ks52team02.member.mypage.dto.MentorInfo;
-import ks52team02.member.mypage.dto.Work;
+import ks52team02.member.mypage.dto.MentorProject;
+import ks52team02.member.mypage.dto.MentorWork;
 import ks52team02.member.mypage.mapper.MentorMypageMapper;
 import ks52team02.member.mypage.service.MentorMypageService;
 import lombok.RequiredArgsConstructor;
@@ -43,27 +47,22 @@ public class MentorMypageController {
         System.out.println("mypage account 페이지 이동");
         HttpSession session = request.getSession();
         String sessionId = (String) session.getAttribute("SID");
-		
+		//멘토 계정 정보 아이디로 조회
 		MentorInfo mentorInfo = mentorMypageMapper.getMentorInfoById(sessionId);
 		log.info("mentorInfo:{}", mentorInfo);
-		 
+		//멘토 근무 경력 아이디로 조회
+		List<MentorWork> mentorWorkInfo = mentorMypageMapper.getMentorWorkById(sessionId);
+		//프로젝트 경력 아이디로 조회
+		List<MentorProject> mentorProjectInfo = mentorMypageMapper.getMentorProjectById(sessionId);
+		//학력 아이디로 조회 
+		List<MentorEducation> mentorEducationInfo = mentorMypageMapper.getMentorEducationById(sessionId);
+		
 		model.addAttribute("mentorInfo", mentorInfo);
+		model.addAttribute("mentorWorkInfo", mentorWorkInfo);
+		model.addAttribute("mentorProjectInfo", mentorProjectInfo);
+		model.addAttribute("mentorEducationInfo", mentorEducationInfo);
 		 
         return  "member/mypage/mentor/mentorMypage";
-    }
-
-	//경력정보 조회
-    @GetMapping("/career")
-    public String MoveMypageCareer(HttpServletRequest request, Model model) {
-    	
-        System.out.println("mypage career 페이지 이동");
-        HttpSession session= request.getSession();
-        String sessionId =(String) session.getAttribute("SID");
-        Work mentorInfo = mentorMypageMapper.getMentorWorkById(sessionId);
-		log.info("mentorInfo:{}", mentorInfo);
-        
-        
-        return  "member/mypage/mentor/mentorMypageCareer";
     }
     
     @GetMapping("/workAdd")
