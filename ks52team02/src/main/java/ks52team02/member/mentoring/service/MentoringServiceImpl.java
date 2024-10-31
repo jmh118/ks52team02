@@ -1,5 +1,6 @@
 package ks52team02.member.mentoring.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -112,7 +113,24 @@ public class MentoringServiceImpl implements MentoringService{
 		
 		return noticeCateList;
 	}
-
+	
+	@Override
+	public void addNoticeDetail(NoticeDetail noticeDetail) {
+		List<String> mentoringTimes = noticeDetail.getMentoringTimeList();
+	    List<String> mentoringYmds = noticeDetail.getMentoringYmdList();
+	    String lastNoticeCode = mentoringMapper.getLastNoticeCode();
+	    for (int i = 0; i < mentoringTimes.size(); i++) {
+	    	NoticeDetail detail = new NoticeDetail();
+	    	String nextCode = commonMapper.getPrimaryKey("mentoring_notice_detail", "mentoring_notice_detail_code", "mentoring_notice_detail_code_");
+	    	detail.setNoticeDetailCode(nextCode);
+	    	detail.setNoticeCode(lastNoticeCode);
+	    	detail.setMentoringYmd(mentoringYmds.get(i));
+	    	detail.setMentoringTime(mentoringTimes.get(i));
+	        
+	        mentoringMapper.addNoticeDetail(detail);
+	    }
+		
+	}
 	
 	@Override
 	public void addNotice(Notice notice) {

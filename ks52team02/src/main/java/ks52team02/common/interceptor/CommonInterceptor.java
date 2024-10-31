@@ -5,14 +5,21 @@ import java.util.StringJoiner;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.ModelAndView;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import ks52team02.member.pay.service.MemberPayService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+@RequiredArgsConstructor
 @Component
 @Slf4j
 public class CommonInterceptor implements HandlerInterceptor{
+	
+	private final MemberPayService memberPayService;
 	
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
@@ -20,6 +27,7 @@ public class CommonInterceptor implements HandlerInterceptor{
 		
 		
 		Set<String> paramMap = request.getParameterMap().keySet();
+		
 		
 		StringJoiner param = new StringJoiner(", ");
 		
@@ -39,5 +47,18 @@ public class CommonInterceptor implements HandlerInterceptor{
 		return HandlerInterceptor.super.preHandle(request, response, handler);
 	}
 	
-	
+	@Override
+	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
+			ModelAndView modelAndView) throws Exception {
+		
+		HttpSession session = request.getSession();
+		String sessionId = (String) session.getAttribute("SID");
+		
+		if(sessionId != null) {
+			int cnt = memberPayService.getBeforePayCnt(sessionId);
+			modelAndView.addObject("cnt", cnt);
+		}
+		
+		HandlerInterceptor.super.postHandle(request, response, handler, modelAndView);
+	}
 }

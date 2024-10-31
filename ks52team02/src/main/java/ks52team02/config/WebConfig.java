@@ -41,6 +41,7 @@ public class WebConfig implements WebMvcConfigurer {
 		excludePath.add("/member/sass/**");
 		excludePath.add("/error");
 		excludePath.add("/error/**");
+		
 
 		
 		registry.addInterceptor(commonInterceptor)
@@ -61,11 +62,11 @@ public class WebConfig implements WebMvcConfigurer {
 		
 		// 로그인 없이 접근 가능한 경로 추가
 		excludePath.add("/mentoring/notice");
-	    excludePath.add("/mentoring/noticeDetail");
-	    excludePath.add("/portfolio/**");
-	    excludePath.add("/honor/mentorList");
-	    excludePath.add("/mentor/list");
-	    excludePath.add("/review/mentorReviewList");
+		excludePath.add("/mentoring/noticeDetail");
+		excludePath.add("/portfolio/**");
+		excludePath.add("/honor/mentorList");
+		excludePath.add("/mentor/list");
+		excludePath.add("/review/mentorReviewList");
 	    
 		
 		registry.addInterceptor(memberloginInterceptor)

@@ -1,6 +1,7 @@
 package ks52team02.member.pay.dto;
 
 import ks52team02.member.mentoring.dto.Notice;
+import ks52team02.member.mentoring.dto.NoticeDetail;
 import lombok.Data;
 
 @Data
@@ -23,5 +24,6 @@ public class Pay {
 	private String mentoringProcStatus;
 	
 	private Notice notice;
+	private NoticeDetail noticeDetail;
 	
 }

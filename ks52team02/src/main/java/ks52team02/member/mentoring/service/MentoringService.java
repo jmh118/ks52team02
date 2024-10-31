@@ -57,6 +57,9 @@ public interface MentoringService {
 	//카테고리 갯수
 	List<Topic> getCategoryCountList();
 
+	// 공고상세 추가
+	void addNoticeDetail(NoticeDetail noticeDetail);
+
 
 
 }
