@@ -11,12 +11,13 @@
 	                <img src="/manager/imgs/people/user-avatar.png" alt="" />
 	            </div>
 	            <div class="vendor-content">
-	                <h3 class="mb-5 text-white"><a href="vendor-details-1.html" class="text-white">멘토 이름</a></h3>
+	                <h3 class="mb-5 text-white"><label class="text-white" th:text="${memberId}"></label></h3>
+	                <span class="font-small text-muted">총 누적 평점</span>
 	                <div class="product-rate-cover mb-15">
 	                    <div class="product-rate d-inline-block">
-	                        <div class="product-rating" style="width: 90%"></div>
+	                        <div class="product-rating" th:style="'width:' + (${reviewAvg} * 20) + '%'"></div>
 	                    </div>
-	                    <span class="font-small ml-5 text-muted">총 누적 평점</span>
+	                    <span class="font-small ml-5 text-muted" th:text="${reviewAvg}"></span>
 	                </div>
 	                <div class="row">
 	                    <div class="col-lg-4">
@@ -27,8 +28,8 @@
 	                    <div class="col-lg-3">
 	                        <div class="vendor-info text-white mb-15">
 	                            <ul class="font-sm">
-	                                <li><img class="mr-5" src="/member/imgs/theme/icons/icon-location.svg" alt="" /><strong>Address: </strong> <span>5171 W Campbell Ave undefined, Utah 53127 United States</span></li>
-	                                <li><img class="mr-5" src="/member/imgs/theme/icons/icon-contact.svg" alt="" /><strong>Call Us:</strong><span>(+91) - 540-025-124553</span></li>
+	                                <li class="mb-50"></li>
+	                                <li><img class="mr-5" src="/member/imgs/theme/icons/icon-contact.svg" alt="" /><strong>Call Us:</strong><span th:text="${memberEmail}">(+91) - 540-025-124553</span></li>
 	                            </ul>
 	                        </div>
 	                    </div>
@@ -51,19 +52,24 @@
 	        			</tr>
 	        		</thead>
 	        		<tbody>
-	        			<tr>
-	        				<td>1</td>
-	        				<td>2</td>
-	        				<td>3</td>
+	        			<tr th:if="${reviewList != null}" th:each="rl : ${reviewList}">
+	        				<td th:text="${rl.notice.noticeTitle}"></td>
+	        				<td th:text="${rl.noticeDetail.mentoringYmd}"></td>
+							<td th:text="${rl.noticeDetail.mentoringTime}"></td>
+							<td th:text="${rl.menteeId}"></td>
 	        				<td>
-	        					<div class="product-rate-cover">
-                                   <div class="product-rate d-inline-block">
-                                       <div class="product-rating" style="width: 90%"></div>
-                                   </div>
-                                   <span class="font-small ml-5 text-muted"> (4.0)</span>
-                               </div>
+							    <div class="product-rate-cover">
+							        <div class="product-rate d-inline-block">
+							            <div class="product-rating" th:style="'width:' + (${rl.reviewScore} * 20) + '%'"></div>
+							        </div>
+							        <span class="font-small ml-5 text-muted" th:text="${rl.reviewScore}"></span>
+							    </div>
 							</td>
-	        				<td>5</td>
+	        				<td th:text="${rl.reviewContent}">3</td>
+	        				<td th:text="${rl.reviewRegDate}"></td>
+	        			</tr>
+	        			<tr th:if="${reviewList == null || reviewList.isEmpty()}" class="text-center">
+	        				<td colspan="7">등록 후기가 없습니다.</td>
 	        			</tr>
 	        		</tbody>
 	        	</table>

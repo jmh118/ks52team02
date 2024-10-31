@@ -11,6 +11,9 @@ import ks52team02.manager.review.dto.Review;
 @Mapper
 public interface MemberReviewMapper {
 	
+	// 평점 평균 조회
+	double getMentorReviewAvg(String memberId);
+	
 	// 멘토별 후기 조회
 	List<Review> getReviewListByMentor(String memberId);
 	

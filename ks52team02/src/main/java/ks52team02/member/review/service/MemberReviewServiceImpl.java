@@ -8,6 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ks52team02.common.mapper.CommonMapper;
 import ks52team02.common.util.DateFormatterUtil;
+import ks52team02.manager.member.dto.Member;
+import ks52team02.manager.member.service.ManagerMemberService;
 import ks52team02.manager.review.dto.Review;
 import ks52team02.member.pay.dto.Pay;
 import ks52team02.member.review.mapper.MemberReviewMapper;
@@ -23,11 +25,40 @@ public class MemberReviewServiceImpl implements MemberReviewService {
 	private final MemberReviewMapper memberReviewMapper;
 	private final DateFormatterUtil dateFormatterUtil;
 	private final CommonMapper commonMapper;
+	private final ManagerMemberService managerMemberService;
+	
+	
+	@Override
+	public double getMentorReviewAvg(String memberId) {
+		
+		double reviewAvg = memberReviewMapper.getMentorReviewAvg(memberId);
+		
+		return reviewAvg;
+	}
+	
+	
+	@Override
+	public String getMentorEmailById(String memberId) {
+		
+		Member memberInfo = managerMemberService.getMemberInfoById(memberId);
+		String memberEmail = memberInfo.getMemberEmail();
+		
+		return memberEmail;
+	}
+	
 	
 	@Override
 	public List<Review> getReviewListByMentor(String memberId) {
 		
 		List<Review> reviewList = memberReviewMapper.getReviewListByMentor(memberId);
+		
+		for (Review review : reviewList) {
+	        String formattedDate = dateFormatterUtil.formatDate(review.getNoticeDetail().getMentoringYmd());
+	        String formattedTime = dateFormatterUtil.formatTime(review.getNoticeDetail().getMentoringTime());
+
+	        review.getNoticeDetail().setMentoringYmd(formattedDate);
+	        review.getNoticeDetail().setMentoringTime(formattedTime);
+	    }
 		
 		return reviewList;
 	}
