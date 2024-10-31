@@ -105,12 +105,13 @@ public class MemberMentoringController {
 	}
 	
 	@PostMapping("/noticeAdd")
-	public String addNotice(Notice notice) {
+	public String addNotice(Notice notice, NoticeDetail noticeDetail) {
 		
 		
 		log.info("notice: {}", notice);
 		mentoringService.addNotice(notice);
-		
+		log.info("noticeDetail {}",noticeDetail);
+		mentoringService.addNoticeDetail(noticeDetail);
 		return "redirect:/mentoring/notice";
 	}
 	

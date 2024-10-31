@@ -79,6 +79,12 @@ public interface MentoringMapper {
 	//카테고리 갯수
 	List<Topic> getCategoryCountList();
 
+	// 공고상세등록을위한 마지막 공고코드조회
+	String getLastNoticeCode();
+
+	// 공고상세등록
+	void addNoticeDetail(NoticeDetail detail);
+
 
 
 
