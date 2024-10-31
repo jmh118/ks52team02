@@ -6,10 +6,10 @@
 	<resultMap type="Pay" id="payMap">
 		<id column="mentee_settlement_mentor_calculation_code" 	property="paySettlementCalCode"/>
 		<result column="mentor_notice_code" 					property="noticeCode"/>	
-		<result column="mentee_coupon_holding_status_code" 		property="menteeCouponStatusCode"/>	
+		
 		<result column="settlement_id" 							property="payId"/>	
-		<result column="settlement_amount_before_discount" 		property="payAmountBeforeDiscount"/>	
-		<result column="mentee_coupon" 							property="menteeCoupon"/>	
+		
+		
 		<result column="last_amount" 							property="totalAmount"/>	
 		<result column="settlement_day" 						property="payDate"/>	
 		<result column="settlement_method" 						property="payMethod"/>	
@@ -84,8 +84,6 @@
 		/* 결제 내역 조회 */
 		SELECT
 			settlement_id,
-			settlement_amount_before_discount,
-			mentee_coupon,
 			last_amount,
 			settlement_day,
 			settlement_method
