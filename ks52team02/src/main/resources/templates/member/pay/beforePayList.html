@@ -47,6 +47,7 @@
                                     <td class="price" data-title="Price">
                                         <h4 class="text-brand">50000 </h4>
                                     </td>
+                                    <!-- 아래는 취소 -->
                                     <td class="action text-center" data-title="Remove"><a href="#" class="text-body"><i class="fi-rs-trash"></i></a></td>
                                 </tr>
                                 <tr th:if="${beforePayList == null || beforePayList.isEmpty()}" class="text-center">
@@ -66,40 +67,43 @@
                         <div class="table-responsive">
                             <table class="table no-border">
                                 <tbody>
+                                	
                                     <tr>
                                         <td class="cart_total_label">
-                                            <h6 class="text-muted">Subtotal</h6>
+                                            <h6 class="text-muted">신청명</h6>
                                         </td>
                                         <td class="cart_total_amount">
-                                            <h4 class="text-brand text-end">$12.31</h4>
+                                            <h6 class="text-heading text-end">제목~</h6>
                                         </td>
                                     </tr>
+                                     
                                     <tr>
+                                        <td scope="col" colspan="2">
+                                            <div class="divider-2 mt-10 mb-10"></div>
+                                        </td>
+                                    </tr>
+                                    
+                                    <tr>
+                                        <td class="cart_total_label">
+                                            <h6 class="text-muted">신청 날짜</h6>
+                                        </td>
+                                        <td class="cart_total_amount">
+                                            <h5 class="text-heading text-end">24년 10월 31일 (목)</h5></td> </tr> <tr>
+                                        <td class="cart_total_label">
+                                            <h6 class="text-muted">신청 시간</h6>
+                                        </td>
+                                        <td class="cart_total_amount">
+                                            <h5 class="text-heading text-end">18시 ~ 20시</h5></td> </tr> <tr>
                                         <td scope="col" colspan="2">
                                             <div class="divider-2 mt-10 mb-10"></div>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="cart_total_label">
-                                            <h6 class="text-muted">Shipping</h6>
+                                            <h6 class="text-muted">결제 금액</h6>
                                         </td>
                                         <td class="cart_total_amount">
-                                            <h5 class="text-heading text-end">Free</h5></td> </tr> <tr>
-                                        <td class="cart_total_label">
-                                            <h6 class="text-muted">Estimate for</h6>
-                                        </td>
-                                        <td class="cart_total_amount">
-                                            <h5 class="text-heading text-end">United Kingdom</h5></td> </tr> <tr>
-                                        <td scope="col" colspan="2">
-                                            <div class="divider-2 mt-10 mb-10"></div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="cart_total_label">
-                                            <h6 class="text-muted">Total</h6>
-                                        </td>
-                                        <td class="cart_total_amount">
-                                            <h4 class="text-brand text-end">$12.31</h4>
+                                            <h4 class="text-brand text-end">50000</h4>
                                         </td>
                                     </tr>
                                 </tbody>
