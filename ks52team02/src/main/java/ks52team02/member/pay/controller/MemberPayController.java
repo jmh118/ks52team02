@@ -81,7 +81,8 @@ public class MemberPayController {
 		return "member/pay/payList.html";
 	}
 	
-	@GetMapping("/success")
+	@PostMapping("/success")
+	@ResponseBody
 	public String paymentStatusIsSuccessView() {
 		System.out.println("결제 성공 시 화면");
 		return "member/pay/payStatusSuccess";
