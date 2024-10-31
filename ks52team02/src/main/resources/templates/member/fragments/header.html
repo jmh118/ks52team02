@@ -23,13 +23,6 @@
 								<div class="header-action-icon-2">
 									<a href="/register/info"><span class="label" th:if="${session.SID == null}">회원가입</span></a>
 								</div>
-								<div class="header-action-icon-2" th:if="${session.SID != null && session.SLEVEL == 'member_level_mentee'}">
-                                    <span class="label ml-0">신청목록</span>
-                                    <a href="/pay/beforeList">
-                                        <img class="svgInject" alt="beforePayList" src="/member/imgs/theme/icons/icon-heart.svg">
-                                        <span class="pro-count blue">6</span>
-                                    </a>
-                                </div>
 								<div class="header-action-icon-2" th:unless="${session.SID == null}">
                                     <span class="label ml-0" th:with="SID=${session.SID}" th:text="|${SID} 님 |"></span>
                                     <a>
@@ -60,6 +53,12 @@
                                         </ul>
                                     </div>
                                 </div>
+								<div class="header-action-icon-2" th:if="${session.SID != null && session.SLEVEL == 'member_level_mentee'}">
+                                    <a href="/pay/beforeList">
+                                        <img class="svgInject" alt="beforePayList" src="/member/imgs/theme/icons/icon-heart.svg">
+                                        <span class="pro-count blue" th:text="${cnt}"></span>
+                                    </a>
+                                </div>                                
 							</div>
 						</div>
 					</div>

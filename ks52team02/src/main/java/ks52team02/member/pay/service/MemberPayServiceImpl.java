@@ -10,10 +10,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ks52team02.common.mapper.CommonMapper;
 import ks52team02.common.util.DateFormatterUtil;
+import ks52team02.member.pay.dto.BeforePay;
 import ks52team02.member.pay.dto.Pay;
 import ks52team02.member.pay.mapper.MemberPayMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Transactional
 @RequiredArgsConstructor
 @Service
@@ -22,6 +25,32 @@ public class MemberPayServiceImpl implements MemberPayService {
 	private final DateFormatterUtil dateFormatterUtil;
 	private final MemberPayMapper memberPayMapper;
 	private final CommonMapper commonMapper;
+	
+	@Override
+	public int getBeforePayCnt(String memberId) {
+		
+		int beforePayCnt = memberPayMapper.getBeforePayCnt(memberId);
+		
+		return beforePayCnt;
+	}
+	
+	
+	@Override
+	public List<BeforePay> getBeforePayListById(String memberId) {
+		
+		List<BeforePay> beforePayList = memberPayMapper.getBeforePayListById(memberId);		
+		
+		for (BeforePay beforePay : beforePayList) {
+	        String formattedDate = dateFormatterUtil.formatDate(beforePay.getNoticeDetail().getMentoringYmd());
+	        String formattedTime = dateFormatterUtil.formatTime(beforePay.getNoticeDetail().getMentoringTime());
+
+	        beforePay.getNoticeDetail().setMentoringYmd(formattedDate);
+	        beforePay.getNoticeDetail().setMentoringTime(formattedTime);
+	    }	
+		
+		return beforePayList;
+	}
+	
 	
 	@Override
 	public boolean addSettlementApply(String payCode, String noticeCode, String memberId) {

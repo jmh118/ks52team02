@@ -5,10 +5,17 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import ks52team02.member.pay.dto.BeforePay;
 import ks52team02.member.pay.dto.Pay;
 
 @Mapper
 public interface MemberPayMapper {
+	
+	// 멘토링 미결제건 내역 조회
+	int getBeforePayCnt(String memberId);
+	
+	// 결제 전 멘토링 신청 목록 조회
+	List<BeforePay> getBeforePayListById(String memberId);
 	
 	// 정산 신청 
 	int addSettlementApply(Map<String, Object> params);

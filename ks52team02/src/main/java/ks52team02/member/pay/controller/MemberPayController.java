@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import jakarta.servlet.http.HttpSession;
+import ks52team02.member.pay.dto.BeforePay;
 import ks52team02.member.pay.dto.Pay;
+import ks52team02.member.pay.mapper.MemberPayMapper;
 import ks52team02.member.pay.service.MemberPayService;
 import ks52team02.member.review.service.MemberReviewService;
 import lombok.RequiredArgsConstructor;
@@ -26,9 +28,14 @@ public class MemberPayController {
 	private final MemberPayService memberPayService;
 	private final MemberReviewService memberReviewService;
 	
+	
 	@GetMapping("/beforeList")
 	public String getBeforePayList(Model model, HttpSession session) {
 		
+		String memberId = (String) session.getAttribute("SID");
+		List<BeforePay> beforePayList = memberPayService.getBeforePayListById(memberId);
+		
+		model.addAttribute("beforePayList", beforePayList);
 		
 		return "member/pay/beforePayList";
 	}

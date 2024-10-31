@@ -2,9 +2,16 @@ package ks52team02.member.pay.service;
 
 import java.util.List;
 
+import ks52team02.member.pay.dto.BeforePay;
 import ks52team02.member.pay.dto.Pay;
 
 public interface MemberPayService {
+	
+	// 멘토링 미결제건 개수 조회
+	int getBeforePayCnt(String memberId); 
+	
+	// 결제 전 멘토링 신청 목록 조회
+	List<BeforePay> getBeforePayListById(String memberId);
 	
 	// 정산 신청
 	boolean addSettlementApply(String payCode, String noticeCode, String memberId);
