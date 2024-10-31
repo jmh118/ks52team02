@@ -26,6 +26,13 @@ public class MemberPayController {
 	private final MemberPayService memberPayService;
 	private final MemberReviewService memberReviewService;
 	
+	@GetMapping("/beforeList")
+	public String getBeforePayList(Model model, HttpSession session) {
+		
+		
+		return "member/pay/beforePayList";
+	}
+	
 	@PostMapping("settlementApply")
 	@ResponseBody
 	public boolean settlementApply(@RequestParam("payCode") String payCode, @RequestParam("noticeCode") String noticeCode, HttpSession session) {

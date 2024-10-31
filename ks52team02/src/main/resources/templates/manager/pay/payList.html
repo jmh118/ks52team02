@@ -25,14 +25,11 @@
                                 </header>
                                 <!-- card-header end// -->
                                 <div class="table-responsive">
-                                    <table class="table table-hover text-center">
+                                    <table class="table table-hover text-center text-center">
                                         <thead>
                                             <tr>
                                                 <th>결제(멘티) ID</th>
                                                 <th>결제 금액</th>
-                                                <th>쿠폰 사용 유무</th>
-                                                <th>쿠폰 금액</th>
-                                                <th>최종 결제 금액</th>
                                                 <th>결제일</th>
                                                 <th>결제 방법</th>
                                             </tr>
@@ -40,14 +37,6 @@
                                         <tbody>
                                             <tr th:each="p : ${payList}">
                                                 <td th:text="${p.payId}"></td>
-                                                <td th:text="${p.payAmountBeforeDiscount}"></td>
-                                                <th:block th:if="${p.menteeCoupon != 0}">
-                                                	<td><span class="badge rounded-pill alert-success">사용</span></td>
-                                                </th:block>
-                                                <th:block th:unless="${p.menteeCoupon != 0}">
-                                                	<td><span class="badge rounded-pill alert-warning">미사용</span></td>
-                                                </th:block>
-                                                <td th:text="${p.menteeCoupon}"></td>
                                                 <td th:text="${p.totalAmount}"></td>
                                                 <td th:text="${p.payDate}"></td>
                                                 <td>

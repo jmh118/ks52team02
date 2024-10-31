@@ -33,10 +33,13 @@ public class MemberReviewController {
 	@GetMapping("/mentorReviewList")
 	public String mentorReviewList(@RequestParam(name="memberId") String memberId, Model model) {
 		
-		log.info("아이디!!!!!!!!!!!!!!!!!!! : {}", memberId);
-		
 		List<Review> reviewList = memberReviewService.getReviewListByMentor(memberId);
+		String memberEmail = memberReviewService.getMentorEmailById(memberId);
+		double reviewAvg = memberReviewService.getMentorReviewAvg(memberId);
 		
+		model.addAttribute("memberId", memberId);
+		model.addAttribute("memberEmail", memberEmail);
+		model.addAttribute("reviewAvg", reviewAvg);
 		model.addAttribute("reviewList", reviewList);
 		
 		return "member/review/mentorReviewList";

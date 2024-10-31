@@ -7,6 +7,12 @@ import ks52team02.member.pay.dto.Pay;
 
 public interface MemberReviewService {
 	
+	// 멘토의 평점 평균 조회
+	double getMentorReviewAvg(String memberId);
+	
+	// 멘토별 후기 조회 시 해당 멘토 이메일 조회 
+	String getMentorEmailById(String memberId);
+	
 	// 멘토별 후기 조회
 	List<Review> getReviewListByMentor(String memberId);
 	
