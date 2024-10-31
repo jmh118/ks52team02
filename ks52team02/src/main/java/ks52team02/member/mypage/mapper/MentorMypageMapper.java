@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import ks52team02.member.mypage.dto.CertificateName;
 import ks52team02.member.mypage.dto.MentorCertificate;
 import ks52team02.member.mypage.dto.MentorEducation;
 import ks52team02.member.mypage.dto.MentorInfo;
@@ -26,5 +27,14 @@ public interface MentorMypageMapper {
 	List<MentorCertificate> getMentorCertificateById(String mentorId);
 	//근무경력 등록
 	int addWorkInfo(MentorWork mentorWork);
+	//프로젝트 경력 등록
+	int addProjectInfo(MentorProject mentorProject);
+	//학력 등록
+	int addEducationInfo(MentorEducation mentorEducation);
+	//자격증 등록
+	int addCertificateInfo(MentorCertificate mentorCertificate);
+	//자격증의 이름,발급기관 체크박스
+	List<CertificateName> getCertificateInfoCode();
+	
 	
 }

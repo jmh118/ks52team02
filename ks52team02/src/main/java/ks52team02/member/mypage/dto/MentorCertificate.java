@@ -13,6 +13,8 @@ public class MentorCertificate {
 	private String mentorFileNm;			//파일명
 	private String mentorGrade;				//자격증 등급
 
+	
+	
 	private CertificateName certificateName;
 	
 }

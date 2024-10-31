@@ -123,7 +123,6 @@
   		<result column="mentor_project_NM" property="mentorProjectNm"/>
   		<result column="mentor_project_BGNG_YMD" property="mentorBgngYmd"/>
   		<result column="mentor_project_CMPTN_YMD" property="mentorCmptnYmd"/>
-  		<result column="mentor_project_FLFMT_CNT" property="mentorCnt"/>
   		<result column="mentor_project_TASK_CN" property="mentorCn"/>
   		<result column="mentor_upload_career_file_name" property="mentorFileNm"/>
   	</resultMap>
@@ -136,7 +135,6 @@
 			mentor_project_NM, 
 			mentor_project_BGNG_YMD, 
 			mentor_project_CMPTN_YMD, 
-			mentor_project_FLFMT_CNT, 
 			mentor_project_TASK_CN, 
 			mentor_upload_career_file_name
 		FROM 
@@ -144,6 +142,30 @@
 		WHERE
 			mentor_id=#{mentorId};
   	</select>
+  
+  	
+  	<insert id="addProjectInfo" parameterType="MentorProject">
+  		/* 프로젝트 경력 등록 */
+	  	INSERT INTO mentor_tech_career_detail
+		(
+		mentor_TECH_career_detail_code, 
+		mentor_work_career_details_code, 
+		mentor_id, 
+		mentor_project_NM, 
+		mentor_project_BGNG_YMD, 
+		mentor_project_CMPTN_YMD, 
+		mentor_project_FLFMT_CNT, 
+		mentor_project_TASK_CN, 
+		TECH_career_DATA_REG_upload_YN, 
+		TECH_career_DATA_REG_approval_manager, 
+		mentor_upload_career_file_name, 
+		mentor_upload_career_file_date
+		)
+		VALUES (#{mentorProjectCode}, #{mentorWorkCode}, #{mentorId}, #{mentorProjectNm}, #{mentorBgngYmd}, #{mentorCmptnYmd}, 0, #{mentorCn}, 'N', 'N', #{mentorFileNm}, NOW())
+  	
+  	</insert>
+  
+  
   
   
   <!-- 프로젝트 경력 관리 쿼리문/ -->
@@ -182,6 +204,32 @@
 			member_id=#{mentorId};
   	</select>
   
+  	<insert id="addEducationInfo" parameterType="MentorEducation">
+  		/* 학력 등록 */
+	  	
+	  	INSERT INTO mentor_acbg_detail
+			(
+			mentor_ACBG_detail_code, 
+			member_id, 
+			last_ACBG_update,
+			mentor_school_credits, 
+			mentor_SCHL_NM, 
+			mentor_SCSBJT_NM, 
+			mentor_graduation_CRTFCT_NM_upload_YN, 
+			mentor_grade_CRTFCT_NM_upload_YN, 
+			mentor_CRTFCT_NM_approval_manager, 
+			mentor_graduation_Section, 
+			mentor_upload_ACBG_file_name, 
+			mentor_ACBG_release_YN, 
+			mentor_upload_ACBG_file_date, 
+			mentor_matriculation_date, 
+			mentor_graduation_date
+			)
+		VALUES (#{mentorEducationCode}, #{mentorId}, 'N', #{mentorCredits}, #{mentorSchoolNm}, #{mentorScsbjtNm}, 'N', 'N', 'N', #{mentorSection}, #{mentorFileNm}, 'N', NOW(), #{mentorMtctYmd}, #{mentorGdtYmd})
+	  	
+  	</insert>
+  
+  
   
   <!-- 학력 관리 쿼리문/ -->
   
@@ -206,6 +254,20 @@
   		
   	</resultMap>
   	
+  	<select id="getCertificateInfoCode" resultType="CertificateName">
+  		/* 자격증 이름,발급기관 select박스 */
+  		
+  		SELECT 
+			certificate_name_code AS nameCode,
+			issue_certificate_name AS certificateNm, 
+			issue_institution_code AS institutionCode, 
+			issue_institution_name AS institutionNm
+		FROM 
+			certificate_name
+  		
+  	</select>
+  	
+  	
   	<select id="getMentorCertificateById" parameterType="string" resultMap="mentorCertificateMap">
 	  	/* 자격증 조회 */
 	  	SELECT 
@@ -225,6 +287,29 @@
 			member_id=#{mentorId};
   	</select>
   
+  	<insert id="addCertificateInfo" parameterType="MentorCertificate">
+  		/* 자격증 등록 */
+	  	
+	  	INSERT INTO mentor_certificate_detail
+			(
+			mentor_certificate_detail_code, 
+			member_id, 
+			certificate_name_code, 
+			issue_institution_code, 
+			mentor_certificate_ISSU_YMD, 
+			mentor_certificate_DATA_REG_upload_YN, 
+			mentor_upload_certificate_file_name, 
+			mentor_certificate_release_YN, 
+			mentor_certificate_grade, 
+			mentor_certificate_approval_manager, 
+			mentor_certificate_DATA_REG_upload_date
+			)
+		VALUES (#{mentorCertificateCode}, #{mentorId}, #{mentorCertificateNm},
+				 #{mentorInstitutionNm}, #{mentorIssuYmd}, 'N', #{mentorFileNm},
+				  'N', #{mentorGrade}, 'N', NOW())
+	  	
+  	</insert>
+  	
   
   <!-- 자격증 관리 쿼리문/ -->
   

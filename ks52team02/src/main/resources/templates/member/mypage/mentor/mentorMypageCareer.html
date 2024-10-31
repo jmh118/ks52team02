@@ -50,14 +50,12 @@
                                                         <tr>
                                                             <th>프로젝트 명</th>
                                                             <th>수행업무</th>
-                                                            <th>수행기간</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         <tr th:each="p : ${mentorProjectInfo}">
                                                             <td th:text="${p.mentorProjectNm}"></td>
                                                             <td th:text="${p.mentorCn}"></td>
-                                                            <td th:text="${p.mentorCnt}"></td>
                                                             <td><a href="/mypage/mentor/projectModify" class="btn-small d-block">수정</a></td>
                                                         </tr>
                                                     </tbody>

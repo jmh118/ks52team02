@@ -26,12 +26,17 @@
                                 <label for="mentorJncmpYmp">입사날짜</label>
                                     <input class="form-control" id="mentorJncmpYmp" type="date" name="mentorJncmpYmp" >
                                 </div>
-                                <div class="form-group col-lg-6">퇴사날짜
+                                <div class="form-group col-lg-6">
+                                <label for="mentorRsgntnYmp">퇴사날짜</label>
                                     <input class="form-control" type="date" name="mentorRsgntnYmp">
                                 </div>
                                 <div class="form-group col-lg-6">
-                                    <input type="text" name="mentorStatus" placeholder="재직 여부(재직 중,퇴사...) *">
-                                </div>
+                                	<label fo="mentorStatus">재직 여부 *</label>
+	                                <select class="form-select" name="mentorStatus">
+										<option> 재직 중 </option>
+										<option> 퇴사 </option>
+									</select>
+								</div>
                                <div class="form-group col-lg-6">
 							  <input type="file" class="form-control" name="mentorFileNm" accept="image/png, image/jpeg">
 							  </div>

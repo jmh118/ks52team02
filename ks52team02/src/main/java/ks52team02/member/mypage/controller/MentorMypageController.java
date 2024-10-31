@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import ks52team02.member.mypage.dto.CertificateName;
 import ks52team02.member.mypage.dto.MentorCertificate;
 import ks52team02.member.mypage.dto.MentorEducation;
 import ks52team02.member.mypage.dto.MentorInfo;
@@ -72,9 +73,7 @@ public class MentorMypageController {
     
 	@PostMapping("/workAdd")
 	public String AddWorkInfo(MentorWork mentorWork) {
-		
 		mentorMypageService.addWorkInfo(mentorWork);
-		
 		return "redirect:/mypage/mentor/workAdd";
 	}
 	
@@ -90,6 +89,12 @@ public class MentorMypageController {
         return  "member/mypage/mentor/careerInfo/mentorMypageWorkModify";
     }
     
+    @PostMapping("/projectAdd")
+    public String AddProjectInfo(MentorProject mentorProject) {
+    	mentorMypageService.addProjectInfo(mentorProject);
+    	return "redirect:/mypage/mentor/projectAdd";
+    }
+    
     @GetMapping("/projectAdd")
     public String MoveMypageProjectAdd() {
         System.out.println("mypage Project 추가 페이지 이동");
@@ -100,6 +105,12 @@ public class MentorMypageController {
     public String MoveMypageProjectModify() {
         System.out.println("mypage Project 수정 페이지 이동");
         return  "member/mypage/mentor/careerInfo/mentorMypageProjectModify";
+    }
+    
+    @PostMapping("/educationAdd")
+    public String AddEducationInfo(MentorEducation mentorEducation) {
+    	mentorMypageService.addEducationInfo(mentorEducation);
+    	return "redirect:/mypage/mentor/educationAdd";
     }
     
     @GetMapping("/educationAdd")
@@ -114,9 +125,18 @@ public class MentorMypageController {
         return  "member/mypage/mentor/careerInfo/mentorMypageEducationModify";
     }
     
+    @PostMapping("/certificateAdd")
+    public String AddCertificateInfo(MentorCertificate mentorCertificate) {
+    	mentorMypageService.addCertificateInfo(mentorCertificate);
+    	return "redirect:/mypage/mentor/certificateAdd";
+    }
+    
     @GetMapping("/certificateAdd")
-    public String MoveMypageCertificateAdd() {
+    public String MoveMypageCertificateAdd(Model model) {
         System.out.println("mypage Certificate 추가 페이지 이동");
+        List<CertificateName> certificateInfoCode = mentorMypageMapper.getCertificateInfoCode();
+        model.addAttribute("certificateInfoCode", certificateInfoCode);
+        
         return  "member/mypage/mentor/careerInfo/mentorMypageCertificateAdd";
     }
     
