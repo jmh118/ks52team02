@@ -24,6 +24,35 @@
 		</association>
 	</resultMap>
 	
+	
+	<select id="getReviewListByMentor" parameterType="string" resultMap="reviewMap">
+		/* 멘토별 후기 조회 */
+		SELECT 
+			mp.mentoring_postscript_code,
+			mn.mentoring_notice_title,
+			mnd.day_mentoring_YMD,
+			mnd.day_mentoring_time,
+			mp.mentee_id,
+			mp.mentoring_postscript_content,
+			mp.mentoring_postscript_score,
+			mp.mentoring_postscript_date
+		FROM
+			mentoring_postscript mp INNER JOIN mentee_settlement_mentor_calculation msmc
+			ON mp.`mentee_settlement_mentor_calculation` = msmc.mentee_settlement_mentor_calculation_code
+			INNER JOIN mentoring_apply ma
+			ON msmc.mentoring_apply_code = ma.mentoring_apply_code
+			INNER JOIN mentoring_notice mn 
+			ON ma.mentoring_notice_code = mn.mentoring_notice_code
+			INNER JOIN mentoring_notice_detail mnd
+			ON ma.mentoring_notice_detail_code = mnd.mentoring_notice_detail_code
+		WHERE 
+			mn.member_id = #{memberId}
+		ORDER BY
+			mp.mentoring_postscript_date DESC;
+	
+	</select>
+	
+	
 	<insert id="addReview" parameterType="Review">
 		/* 후기 등록 */
 		

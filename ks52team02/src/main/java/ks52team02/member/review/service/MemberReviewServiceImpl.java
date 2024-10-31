@@ -24,6 +24,14 @@ public class MemberReviewServiceImpl implements MemberReviewService {
 	private final DateFormatterUtil dateFormatterUtil;
 	private final CommonMapper commonMapper;
 	
+	@Override
+	public List<Review> getReviewListByMentor(String memberId) {
+		
+		List<Review> reviewList = memberReviewMapper.getReviewListByMentor(memberId);
+		
+		return reviewList;
+	}
+	
 	
 	@Override
 	public void addReview(Review review) {
