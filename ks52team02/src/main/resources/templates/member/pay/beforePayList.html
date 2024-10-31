@@ -8,8 +8,8 @@
                 <div class="col-lg-8 mb-40">
                     <h1 class="heading-2 mb-10">멘토링 신청 내역</h1>
                     <div class="d-flex justify-content-between">
-                        <h6 class="text-body">There are <span class="text-brand">3</span> products in your cart</h6>
-                        <h6 class="text-body"><a href="#" class="text-muted"><i class="fi-rs-trash mr-5"></i>Clear Cart</a></h6>
+                        <h6 class="text-body">멘토링 신청 내역이 <span class="text-brand" th:text="${cnt}"></span> 건 있습니다~</h6>
+                        <h6 class="text-body"><a href="#" class="text-muted"><i class="fi-rs-trash mr-5"></i>Clear List</a></h6>
                     </div>
                 </div>
             </div>
@@ -20,62 +20,49 @@
                             <thead>
                                 <tr class="main-heading">
                                     <th class="custome-checkbox start pl-30">
-                                        <input class="form-check-input" type="checkbox" name="checkbox" id="exampleCheckbox11" value="">
-                                        <label class="form-check-label" for="exampleCheckbox11"></label>
+                                        <input class="form-check-input" type="checkbox" id="selectAllCheckbox" />
+            							<label class="form-check-label" for="selectAllCheckbox"></label>
                                     </th>
-                                    <th scope="col" colspan="2">Product</th>
-                                    <th scope="col">Unit Price</th>
-                                    <th scope="col">Quantity</th>
-                                    <th scope="col">Subtotal</th>
-                                    <th scope="col" class="end">Remove</th>
+                                    <th scope="col" colspan="2">신청 멘토링</th>
+                                    <th scope="col">금액</th>
+                                    <th scope="col" class="end">취소</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr class="pt-30">
+                                <tr class="pt-30" th:if="${beforePayList != null}" th:each="bpl, iter : ${beforePayList}">
                                     <td class="custome-checkbox pl-30">
-                                        <input class="form-check-input" type="checkbox" name="checkbox" id="exampleCheckbox1" value="">
-                                        <label class="form-check-label" for="exampleCheckbox1"></label>
+                                        <input class="form-check-input checkPay" type="checkbox" th:id="'checkbox_' + ${iter.index}" />
+            							<label class="form-check-label" th:for="'checkbox_' + ${iter.index}" th:text="${bpl.applyCode}"></label>
+                                        
                                     </td>
-                                    <td class="image product-thumbnail pt-40"><img src="assets/imgs/shop/product-1-1.jpg" alt="#"></td>
+                                    <td class="image product-thumbnail pt-40"><img src="/manager/imgs/people/user-avatar.png" alt="mentor"></td>
                                     <td class="product-des product-name">
-                                        <h6 class="mb-5"><a class="product-name mb-10 text-heading" href="shop-product-right.html">Field Roast Chao Cheese Creamy Original</a></h6>
+                                        <h6 class="mb-5"><a class="product-name mb-10 text-heading" th:href="@{/mentoring/noticeDetail(noticeCode=${bpl.notice.noticeCode})}" th:text="${bpl.notice.noticeTitle}">신청명</a></h6>
                                         <div class="product-rate-cover">
-                                            <div class="product-rate d-inline-block">
-                                                <div class="product-rating" style="width:90%">
-                                                </div>
-                                            </div>
-                                            <span class="font-small ml-5 text-muted"> (4.0)</span>
+                                            <span class="font-small text-brand" th:text="${bpl.notice.memberId}">아이디</span><br>
+                                            <span class="font-small text-muted" th:text="${bpl.noticeDetail.mentoringYmd}">날짜</span><br>
+                                            <span class="font-small text-muted" th:text="${bpl.noticeDetail.mentoringTime}">시간</span>
                                         </div>
                                     </td>
                                     <td class="price" data-title="Price">
-                                        <h4 class="text-body">$2.51 </h4>
-                                    </td>
-                                    <td class="text-center detail-info" data-title="Stock">
-                                        <div class="detail-extralink mr-15">
-                                            <div class="detail-qty border radius">
-                                                <a href="#" class="qty-down"><i class="fi-rs-angle-small-down"></i></a>
-                                                <input type="text" name="quantity" class="qty-val" value="1" min="1">
-                                                <a href="#" class="qty-up"><i class="fi-rs-angle-small-up"></i></a>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="price" data-title="Price">
-                                        <h4 class="text-brand">$2.51 </h4>
+                                        <h4 class="text-brand">50000 </h4>
                                     </td>
                                     <td class="action text-center" data-title="Remove"><a href="#" class="text-body"><i class="fi-rs-trash"></i></a></td>
                                 </tr>
+                                <tr th:if="${beforePayList == null || beforePayList.isEmpty()}" class="text-center">
+			        				<td colspan="5">신청한 멘토링이 없습니다.</td>
+			        			</tr>
                                 
                             </tbody>
                         </table>
                     </div>
                     <div class="divider-2 mb-30"></div>
                     <div class="cart-action d-flex justify-content-between">
-                        <a class="btn "><i class="fi-rs-arrow-left mr-10"></i>Continue Shopping</a>
-                        <a class="btn  mr-10 mb-sm-15"><i class="fi-rs-refresh mr-10"></i>Update Cart</a>
+                        <a href="/mentoring/notice" class="btn "><i class="fi-rs-arrow-left mr-10"></i>Continue apply</a>
                     </div>
                 </div>
-                <div class="col-lg-4">
-                    <div class="border p-md-4 cart-totals ml-30">
+                <div class="col-lg-4 primary-sidebar sticky-sidebar">
+                    <div class="sidebar-widget border p-md-4 cart-totals ml-30">
                         <div class="table-responsive">
                             <table class="table no-border">
                                 <tbody>
@@ -120,13 +107,24 @@
                         </div>
                         <th:block th:replace="~{member/pay/modal/payModal :: payModal}"></th:block>
                         <a class="btn mb-20 w-100" data-bs-toggle="modal" data-bs-target="#Pay">결제하기<i class="fi-rs-sign-out ml-15"></i></a>
-                        <!-- <a class="button button-add-to-cart" data-bs-toggle="modal" data-bs-target="#Pay">결제하기<i class="fi-rs-sign-out ml-15"></i></a> -->
                     </div>
                 </div>
             </div>
         </div>
 	</th:block>
-	<th:block>
+	<th:block layout:fragment="customJs">
+		<script>
+			$('#selectAllCheckbox').change(function() {
+		        const isChecked = $(this).is(':checked');
+		        $('.checkPay').prop('checked', isChecked);
+		    });
+	
+		    $('.checkPay').change(function() {
+		        const totalCheckboxes = $('.checkPay').length;
+		        const checkedCheckboxes = $('.checkPay:checked').length;
+		        $('#selectAllCheckbox').prop('checked', totalCheckboxes === checkedCheckboxes);
+		    });
 		
+		</script>
 	</th:block>
 </html>
