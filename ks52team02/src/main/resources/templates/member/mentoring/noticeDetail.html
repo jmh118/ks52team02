@@ -81,8 +81,8 @@
                                     <h2 class="title-detail" th:text="*{noticeTitle}"></h2>
                                     <div class="product-detail-rating">
                                         <div class="text-end">
-                                                <span class="font-md ml-15" th:text="*{'ID : ' + memberId}"></span>
-                                            <span class="font-small ml-5 text-muted"><a href="/review/mentorReviewList">(32 reviews)</a></span>
+                                                <span class="font-md ml-15" th:text="*{'ID : ' + memberId}"></span><!-- (payCode=${p.paySettlementCalCode}) -->
+                                            <span class="font-small ml-5 text-muted"><a th:href="@{/review/mentorReviewList(memberId=*{memberId})}">review</a></span>
                                         </div>
                                     </div>
                                     <div class="short-desc mb-30">

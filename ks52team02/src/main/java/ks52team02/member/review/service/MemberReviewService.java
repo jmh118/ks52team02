@@ -7,6 +7,9 @@ import ks52team02.member.pay.dto.Pay;
 
 public interface MemberReviewService {
 	
+	// 멘토별 후기 조회
+	List<Review> getReviewListByMentor(String memberId);
+	
 	// 후기 등록
 	void addReview(Review review);
 	

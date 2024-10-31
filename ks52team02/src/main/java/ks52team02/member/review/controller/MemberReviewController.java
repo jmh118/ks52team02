@@ -31,8 +31,14 @@ public class MemberReviewController {
 	
 	
 	@GetMapping("/mentorReviewList")
-	public String mentorReviewList() {
-		System.out.println("멘토 아이디별 후기내역 조회");
+	public String mentorReviewList(@RequestParam(name="memberId") String memberId, Model model) {
+		
+		log.info("아이디!!!!!!!!!!!!!!!!!!! : {}", memberId);
+		
+		List<Review> reviewList = memberReviewService.getReviewListByMentor(memberId);
+		
+		model.addAttribute("reviewList", reviewList);
+		
 		return "member/review/mentorReviewList";
 	}
 	
