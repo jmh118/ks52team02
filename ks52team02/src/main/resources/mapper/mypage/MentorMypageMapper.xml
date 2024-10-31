@@ -70,6 +70,7 @@
   	<select id="getMentorWorkById" parameterType="string" resultMap="mentorWorkMap">
 	  	/* 근무경력 조회 */
 	  	SELECT 
+	  		mentor_work_career_details_code,
 			member_id, 
 			mentor_POWK_NM, 
 			mentor_TKCG_TASK, 
@@ -84,6 +85,26 @@
 			member_id=#{mentorId};
   	</select>
   	
+  	<select id="getMentorWorkByCode" parameterType="string" resultMap="mentorWorkMap">
+	  	/*코드로 근무경력 조회 */
+			
+			SELECT 
+	  		mentor_work_career_details_code,
+			member_id, 
+			mentor_POWK_NM, 
+			mentor_TKCG_TASK, 
+			mentor_JNCMP_YMD, 
+			mentor_RSGNTN_YMD, 
+			mentor_WRKDY_CNT,
+			mentor_employment_status, 
+			upload_file_work_history_name
+		FROM
+			mentor_work_history_details
+		WHERE
+			mentor_work_career_details_code = #{mentorWorkCode};
+			
+			
+  	</select>
   	
   	<insert id="addWorkInfo" parameterType="MentorWork">
   	

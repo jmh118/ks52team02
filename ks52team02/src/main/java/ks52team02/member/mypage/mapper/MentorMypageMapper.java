@@ -19,6 +19,8 @@ public interface MentorMypageMapper {
 	int modifyMentor(MentorInfo mentorInfo);
 	//근무경력 조회
 	List<MentorWork> getMentorWorkById(String mentorId);
+	//코드로 근무경력 조회
+	MentorWork getMentorWorkByCode(String mentorWorkCode);
 	//프로젝트경력 조회
 	List<MentorProject> getMentorProjectById(String mentorId);
 	//학력 조회

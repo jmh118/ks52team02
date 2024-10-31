@@ -84,8 +84,11 @@ public class MentorMypageController {
     }
     
     @GetMapping("/workModify")
-    public String MoveMypageWorkModify() {
+    public String MoveMypageWorkModify(@RequestParam(name="mentorWorkCode") String mentorWorkCode, Model model) {
         System.out.println("mypage Work 수정 페이지 이동");
+        MentorWork workInfo = mentorMypageMapper.getMentorWorkByCode(mentorWorkCode);
+        model.addAttribute("workInfo", workInfo);
+       
         return  "member/mypage/mentor/careerInfo/mentorMypageWorkModify";
     }
     

@@ -31,7 +31,7 @@
                                                                 <td th:text="${w.mentorTask}"></td>
                                                                 <td th:text="${w.mentorCnt}"></td>
                                                                 <td th:text="${w.mentorStatus}"></td>
-                                                                <td><a th:href="@{/mypage/mentor/workModify}" class="btn-small d-block">수정</a></td>
+                                                                <td><a th:href="@{/mypage/mentor/workModify(mentorWorkCode=${w.mentorWorkCode})}" class="btn-small d-block">수정</a></td>
                                                             </tr>
                                                         </tbody>
                                                     </table>
