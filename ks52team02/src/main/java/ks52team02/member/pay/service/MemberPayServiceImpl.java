@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ks52team02.common.mapper.CommonMapper;
 import ks52team02.common.util.DateFormatterUtil;
 import ks52team02.member.pay.dto.BeforePay;
+import ks52team02.member.pay.dto.MentoringData;
 import ks52team02.member.pay.dto.Pay;
 import ks52team02.member.pay.mapper.MemberPayMapper;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +26,36 @@ public class MemberPayServiceImpl implements MemberPayService {
 	private final DateFormatterUtil dateFormatterUtil;
 	private final MemberPayMapper memberPayMapper;
 	private final CommonMapper commonMapper;
+	
+	
+	@Override
+	public int addPay(List<MentoringData> mentoringDataList) {
+		
+		List<String> applyCodeList = new ArrayList<>();
+		
+		int result = 0;
+		log.info("impl mentoringData: {}", mentoringDataList);
+		for (MentoringData mentoringData : mentoringDataList) {
+			String newReviewCode = commonMapper.getPrimaryKey("mentee_settlement_mentor_calculation", "mentee_settlement_mentor_calculation_code", "mentee_settlement_mentor_calculation_code_");
+            mentoringData.setPayCode(newReviewCode);
+            applyCodeList.add(mentoringData.getApplyCode());
+			result = memberPayMapper.addPay(mentoringData);
+			result += result;
+			
+		}
+		if(result == 0) return result; 
+		
+		int upre = memberPayMapper.updateMentoringApplyStarus(applyCodeList);
+		log.info("신청 상태 업데이트 결과 : {}", upre);
+		
+		List<String> detailCodeList = memberPayMapper.getNoticeDetailCodeByApplyCode(applyCodeList);
+		int updre = memberPayMapper.updateMentroingDatailStatus(detailCodeList);
+		log.info("공고 상세 코드 목록 : {}", detailCodeList);
+		log.info("공고 상세 업데이트 결과 : {}", updre);
+		
+		
+		return result;
+	}
 	
 	@Override
 	public int getBeforePayCnt(String memberId) {

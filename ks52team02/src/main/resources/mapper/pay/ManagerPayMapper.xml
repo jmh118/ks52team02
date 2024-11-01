@@ -22,7 +22,8 @@
 	</resultMap>
 	
 	<resultMap id="PaymentSettlementtMap" type="PaymentSettlement">
-	    <id 	column="pay_settlement_cal_code" 	property="paymentSettlementCode"/>
+	    <id 	column="pay_settlement_cal_code" 	property="paySettlementCalCode"/>
+	    <id 	column="mentor_calculation_demand_completion_code" 	property="paymentSettlementCode"/>
 	    <result column="mentor_notice_code" 		property="noticeCode"/>
 	    <result column="mentor_id" 					property="mentorId"/>
 	    <result column="mentee_id" 					property="menteeId"/>
@@ -50,6 +51,14 @@
 	    </association>
 	</resultMap>
 	
+	<update id="managerPayApproveById" parameterType="string">
+		UPDATE mentor_calculation_demand_completion
+		SET
+			calculation_give_date = NOW(),
+			calculation_status='플랫폼이 멘토에게 정산 완료'
+		WHERE mentor_calculation_demand_completion_code = #{settlementCode};
+	
+	</update>
 	
 	<select id="getPaymentSettlementHistoryList" resultMap="PaymentSettlementtMap">
 		/* 정산 신청 내역 조회 */
@@ -68,6 +77,7 @@
 	<select id="getPaymentSettlementList" resultMap="PaymentSettlementtMap">
 		/* 정산 신청 내역 조회 */
 		SELECT
+			mcdc.mentor_calculation_demand_completion_code,
 			mcdc.mentor_id,
 			mcdc.mentor_notice_code,
 			msmc.last_amount,
@@ -80,7 +90,15 @@
 			mcdc.calculation_status = '멘토가 플랫폼에 정산 요청';
 	</select>
 	
-	<select id="getPayList" resultMap="payMap">
+	<select id="getPayListCount" resultType="int">
+		/* 결제내역 행의 갯수 */
+		SELECT
+			COUNT(*)
+		FROM
+			mentee_settlement_mentor_calculation; 
+	</select>
+	
+	<select id="getPayList" parameterType="ks52team02.page.Pageable" resultMap="payMap">
 		/* 결제 내역 조회 */
 		SELECT
 			settlement_id,
@@ -88,7 +106,8 @@
 			settlement_day,
 			settlement_method
 		FROM
-			mentee_settlement_mentor_calculation;
+			mentee_settlement_mentor_calculation
+		LIMIT #{rowPerPage} OFFSET #{offset};
 	</select>
 	
 	

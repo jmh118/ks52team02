@@ -2,18 +2,25 @@ package ks52team02.member.pay.controller;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.siot.IamportRestClient.IamportClient;
+import com.siot.IamportRestClient.response.IamportResponse;
+import com.siot.IamportRestClient.response.Payment;
+
 import jakarta.servlet.http.HttpSession;
 import ks52team02.member.pay.dto.BeforePay;
 import ks52team02.member.pay.dto.Pay;
-import ks52team02.member.pay.mapper.MemberPayMapper;
+import ks52team02.member.pay.dto.PaymentRequest;
 import ks52team02.member.pay.service.MemberPayService;
 import ks52team02.member.review.service.MemberReviewService;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +34,9 @@ public class MemberPayController {
 	
 	private final MemberPayService memberPayService;
 	private final MemberReviewService memberReviewService;
+	private final IamportClient iamportClient = new IamportClient("2328516881331875", 
+								"l3OOEUYVupHQ01RXV85v2JjWjy1t0XBbqRuZ3tptIixCZKrXJ1JhLWhxoXAkn0PD1j9vRm0oy8fGpILt");
+	
 	
 	
 	@GetMapping("/beforeList")
@@ -81,10 +91,39 @@ public class MemberPayController {
 		return "member/pay/payList.html";
 	}
 	
-	@GetMapping("/success")
-	public String paymentStatusIsSuccessView() {
-		System.out.println("결제 성공 시 화면");
-		return "member/pay/payStatusSuccess";
+	@PostMapping("/success")
+	public ResponseEntity<String> handlePaymentSuccess(@RequestBody PaymentRequest paymentRequest, HttpSession session) {
+		
+		log.info("Received impUid: {}", paymentRequest.getImpUid());
+	    log.info("Received totalAmount: {}", paymentRequest.getTotalAmount());
+	    log.info("Received mentoringData: {}", paymentRequest.getMentoringData());
+		
+	    if (paymentRequest.getImpUid() == null || paymentRequest.getImpUid().isEmpty()) {
+	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("imp_uid가 누락되었습니다.");
+	    }
+
+	    try {
+	        IamportResponse<Payment> paymentResponse = iamportClient.paymentByImpUid(paymentRequest.getImpUid());
+
+	        if (paymentResponse != null && paymentResponse.getResponse() != null) {
+	            Payment paymentData = paymentResponse.getResponse();
+	            if (paymentData.getAmount().intValue() == paymentRequest.getTotalAmount()) {
+	                int result = memberPayService.addPay(paymentRequest.getMentoringData());
+	                log.info("디비 등록 결과 : {}", result);
+	                return ResponseEntity.ok("결제 완료 및 데이터 저장 완료");
+	            } else {
+	                log.error("결제 금액 불일치: 요청 금액 {} != 실제 결제 금액 {}", paymentRequest.getTotalAmount(), paymentData.getAmount());
+	                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("결제 금액 불일치");
+	            }
+	        } else {
+	            log.error("유효하지 않은 결제 데이터");
+	            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("유효하지 않은 결제 데이터");
+	        }
+
+	    } catch (Exception e) {
+	        log.error("결제 검증 실패", e);
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("결제 검증 실패");
+	    }
 	}
 	
 	@GetMapping("/fail")
