@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{member/layouts/layout}">
 <head>
-    <script src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
+    <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
 </head>
 <th:block layout:fragment="customContent">
     <div class="container mb-80 mt-50">
@@ -73,7 +73,7 @@
                                         <h6 class="text-muted">결제 금액</h6>
                                     </td>
                                     <td class="cart_total_amount">
-                                        <h4 class="text-brand text-end">0</h4>
+                                        <h4 class="text-brand text-end" id="totalAmountDisplay">0</h4>
                                     </td>
                                 </tr>
                             </tbody>
@@ -86,123 +86,131 @@
         </div>
     </div>
 </th:block>
+
 <th:block layout:fragment="customJs">
     <script>
-        const IMP = window.IMP;
-        IMP.init("imp66828367");
+        $(document).ready(function() {
+        	
+            const IMP = window.IMP;
+            IMP.init("imp66828367"); 
 
-        let totalAmount = 0;
+            let totalAmount = 0;
 
-        function updateSelectedInfo() {
-            totalAmount = 0;
-            let selectedInfoHTML = '';
+            function updateSelectedInfo() {
+                totalAmount = 0;
+                let selectedInfoHTML = '';
 
-            $('.checkPay:checked').each(function() {
-                const row = $(this).closest('tr');
-                const title = row.find('.product-name a').text();
-                const date = row.find('.product-rate-cover .text-muted').eq(0).text();
-                const time = row.find('.product-rate-cover .text-muted').eq(1).text();
-                const amount = parseInt(row.find('.price h4').text().replace(/[^0-9]/g, ''));
+                $('.checkPay:checked').each(function() {
+                    const row = $(this).closest('tr');
+                    const title = row.find('.product-name a').text();
+                    const date = row.find('.product-rate-cover .text-muted').eq(0).text();
+                    const time = row.find('.product-rate-cover .text-muted').eq(1).text();
+                    const amount = parseInt(row.find('.price h4').text().replace(/[^0-9]/g, ''));
 
-                totalAmount += amount;
+                    totalAmount += amount;
 
-                selectedInfoHTML += `
-                    <tr>
-                        <td class="cart_total_label"><h6 class="text-muted">신청명</h6></td>
-                        <td class="cart_total_amount"><h6 class="text-heading text-end">${title}</h6></td>
-                    </tr>
-                    <tr>
-                        <td class="cart_total_label"><h6 class="text-muted">신청 날짜</h6></td>
-                        <td class="cart_total_amount"><h5 class="text-heading text-end">${date}</h5></td>
-                    </tr>
-                    <tr>
-                        <td class="cart_total_label"><h6 class="text-muted">신청 시간</h6></td>
-                        <td class="cart_total_amount"><h5 class="text-heading text-end">${time}</h5></td>
-                    </tr>
-                    <tr>
-                        <td scope="col" colspan="2">
-                            <div class="divider-2 mt-10 mb-10"></div>
-                        </td>
-                    </tr>
-                `;
-            });
-
-            $('.sidebar-widget .table.no-border tbody').html(selectedInfoHTML).append(`
-                <tr>
-                    <td class="cart_total_label"><h6 class="text-muted">결제 금액</h6></td>
-                    <td class="cart_total_amount"><h4 class="text-brand text-end">${totalAmount}</h4></td>
-                </tr>
-            `);
-        }
-
-        function processPayment() {
-            const memberId = $('#memberId').val();
-            let selectedMentoringData = [];
-            
-            if (totalAmount === 0) {
-                alert("결제할 멘토링을 선택해야 합니다.");
-                return;
-            }
-            
-            $('.checkPay:checked').each(function() {
-                const row = $(this).closest('tr');
-                const applyCode = row.find('.applyCode').val(); 
-                const noticeCode = row.find('.noticeCode').val(); 
-                const amount = parseInt(row.find('.price h4').text().replace(/[^0-9]/g, '')); 
-                
-                selectedMentoringData.push({
-                    "applyCode": applyCode,
-                    "noticeCode": noticeCode,
-                    "amount": amount
+                    selectedInfoHTML += `
+                        <tr>
+                            <td class="cart_total_label"><h6 class="text-muted">신청명</h6></td>
+                            <td class="cart_total_amount"><h6 class="text-heading text-end">${title}</h6></td>
+                        </tr>
+                        <tr>
+                            <td class="cart_total_label"><h6 class="text-muted">신청 날짜</h6></td>
+                            <td class="cart_total_amount"><h5 class="text-heading text-end">${date}</h5></td>
+                        </tr>
+                        <tr>
+                            <td class="cart_total_label"><h6 class="text-muted">신청 시간</h6></td>
+                            <td class="cart_total_amount"><h5 class="text-heading text-end">${time}</h5></td>
+                        </tr>
+                        <tr>
+                            <td scope="col" colspan="2">
+                                <div class="divider-2 mt-10 mb-10"></div>
+                            </td>
+                        </tr>
+                    `;
                 });
-            });
-            
-            IMP.request_pay({
-                pg: "kakaopay",
-                pay_method: "card",
-                merchant_uid: "merchant_" + new Date().getTime(),
-                name: "멘토링 결제",
-                amount: totalAmount
-            }, function (rsp) {
-                if (rsp.success) {
-                    alert("결제가 성공적으로 완료되었습니다.");
 
-                    const request = $.ajax({
-                        url: "/pay/success",
-                        type: "POST",
-                        contentType: "application/json",
-                        data: JSON.stringify({
-                            "mentoringData": selectedMentoringData
-                        }),
-                        dataType: "json"
-                    });
-                    request.done(function(response) {
-                            console.log("서버 응답 데이터:", response);
-                            alert("결제 기록이 서버에 저장되었습니다.");
-                    });
-                    request.fail(function(xhr, status, error) {
-                            alert("서버와의 통신에 실패했습니다.");
-                            console.log(error);
-                            
-                    });
-                } else {
-                    alert("결제에 실패했습니다: " + rsp.error_msg);
+                $('#totalAmountDisplay').text(totalAmount);
+                $('.sidebar-widget .table.no-border tbody').html(selectedInfoHTML).append(`
+                    <tr>
+                        <td class="cart_total_label"><h6 class="text-muted">결제 금액</h6></td>
+                        <td class="cart_total_amount"><h4 class="text-brand text-end">${totalAmount}</h4></td>
+                    </tr>
+                `);
+            }
+
+            function processPayment() {
+                if (totalAmount === 0) {
+                    alert("결제할 멘토링을 선택해야 합니다.");
+                    return;
                 }
+
+                const memberId = $('#memberId').val();
+                let selectedMentoringData = [];
+
+                $('.checkPay:checked').each(function() {
+                    const row = $(this).closest('tr');
+                    const memberId = $('#memberId').val();
+                    const applyCode = row.find('.applyCode').val();
+                    const noticeCode = row.find('.noticeCode').val();
+                    const amount = parseInt(row.find('.price h4').text().replace(/[^0-9]/g, ''));
+
+                    selectedMentoringData.push({
+                    	"memberId" : memberId,
+                        "applyCode": applyCode,
+                        "noticeCode": noticeCode,
+                        "amount": amount
+                    });
+                });
+
+                IMP.request_pay({
+                    pg: "kakaopay",
+                    pay_method: "card",
+                    merchant_uid: "merchant_" + new Date().getTime(),
+                    name: "멘토링 결제",
+                    amount: totalAmount
+				}, function (rsp) {
+                    if (rsp.success) {
+                        alert("결제가 성공적으로 완료되었습니다.");
+
+                        $.ajax({
+                            url: "/pay/success",
+                            type: "POST",
+                            contentType: "application/json",
+                            data: JSON.stringify({
+                            	impUid: rsp.imp_uid,
+                                mentoringData: selectedMentoringData,
+                                totalAmount: totalAmount
+                            }),
+                            dataType: "text",
+                            success: function(response) {
+                                console.log("서버 응답 데이터:", response);
+                                alert("결제 기록이 서버에 저장되었습니다.");
+                            },
+                            error: function(xhr, status, error) {
+                                alert("서버와의 통신에 실패했습니다.");
+                                console.log(error);
+                            }
+                        });
+                    } else {
+                        alert("결제에 실패했습니다: " + rsp.error_msg);
+                    }
+                });
+            }
+
+            $('#selectAllCheckbox').change(function() {
+                const isChecked = $(this).is(':checked');
+                $('.checkPay').prop('checked', isChecked);
+                updateSelectedInfo();
             });
-        }
 
-        $('#selectAllCheckbox').change(function() {
-            const isChecked = $(this).is(':checked');
-            $('.checkPay').prop('checked', isChecked);
-            updateSelectedInfo();
-        });
+            $('.checkPay').change(function() {
+                updateSelectedInfo();
+            });
 
-        $('.checkPay').change(function() {
-            updateSelectedInfo();
-        });
-
-        $("#payBtn").click(function() {
-            processPayment();
+            $("#payBtn").click(function() {
+                processPayment();
+            });
         });
     </script>
 </th:block>
