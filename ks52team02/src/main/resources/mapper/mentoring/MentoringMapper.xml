@@ -154,12 +154,6 @@
 			<if test="noticeContent != null and noticeContent != ''">
 				mentoring_notice_content = #{noticeContent},
 			</if>
-			<if test="noticeStartTime != null and noticeStartTime != ''">
-				mentoring_PSBLTY_start_T = #{noticeStartTime},
-			</if>
-			<if test="noticeEndTime != null and noticeEndTime != ''">
-				mentoring_PSBLTY_end_T = #{noticeEndTime},
-			</if>
 			<if test="noticeStartYmd != null and noticeStartYmd != ''">
 				mentoring_mentor_PSBLTY_start_YMD = #{noticeStartYmd},
 			</if>
@@ -182,8 +176,6 @@
 			member_id,
 			mentoring_notice_title, 
 			mentoring_notice_content, 
-			mentoring_PSBLTY_start_T, 
-			mentoring_PSBLTY_end_T, 
 			mentoring_mentor_PSBLTY_start_YMD,
 			mentoring_mentor_PSBLTY_end_YMD, 
 			last_UNTPRC

@@ -5,6 +5,39 @@
     <!-- 필터 부분 css -->
     <link rel="stylesheet" href="/member/css/filter.css">
 </head>
+<th:block layout:fragment="customJs">
+	<script th:inline="javascript">
+		$('.detail-btn').click(function(e){
+			e.preventDefault();
+			const idx = $(this).data('idx');
+			const menteeProfileList =  [[${menteeProfile}]];
+			const menteeProfile = menteeProfileList[idx];
+			const param = {}
+			for(key in menteeProfile){
+				const value = menteeProfile[key];
+				if(value){
+					if(typeof value == 'object'){
+						const obj = value;
+						for(key in obj){
+							const value = obj[key];
+							if(value) param[key] = value;
+						}
+						continue;
+					}
+					param[key] = value;
+				}
+			}
+			console.log(menteeProfile);
+			console.log(param);
+			for(const key in param){
+				$(`#m${key}`).text(param[key]);
+			}
+			
+			$('#profileModal').modal('show');
+			
+		});
+	</script>
+</th:block>
 <th:block layout:fragment="customContent">
     <div class="page-content pt-150 pb-150">
         <div class="container">
@@ -43,13 +76,13 @@
 																</tr>
 															</thead>
 															<tbody>
-																<tr th:each="m : ${menteeProfile}">																
-																	<td th:text="${m.notice.noticeTitle}">1</td>
-																	<td th:text="${m.member.memberName}">2</td>
-																	<td th:text="${m.interestField}">3</td>
-																	<td th:text="${m.experienceLevel}">4</td>
+																<tr th:each="m, status : ${menteeProfile}">																
+																	<td th:text="${m.notice.noticeTitle}"></td>
+																	<td th:text="${m.member.memberName}"></td>
+																	<td th:text="${m.interestField}"></td>
+																	<td th:text="${m.experienceLevel}"></td>
 																	<td>
-																		<a class="btn btn-md rounded font-sm" data-bs-toggle="modal" data-bs-target="#profileModal">상세</a>
+																		<a class="btn btn-md rounded font-sm detail-btn" th:data-idx="${status.index}">상세보기</a>
 																	</td>
 																</tr>
 															</tbody>
