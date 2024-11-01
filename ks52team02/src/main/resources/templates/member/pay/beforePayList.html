@@ -35,8 +35,8 @@
                                 <td class="custome-checkbox pl-30">
                                     <input class="form-check-input checkPay" type="checkbox" th:id="'checkbox_' + ${iter.index}" />
                                     <label class="form-check-label" th:for="'checkbox_' + ${iter.index}"></label>
-                                    <input type="text" class="applyCode" th:value="${bpl.applyCode}"/>
-                                    <input type="text" class="noticeCode" th:value="${bpl.notice.noticeCode}"/>
+                                    <input type="hidden" class="applyCode" th:value="${bpl.applyCode}"/>
+                                    <input type="hidden" class="noticeCode" th:value="${bpl.notice.noticeCode}"/>
                                 </td>
                                 <td class="image product-thumbnail pt-40"><img src="/manager/imgs/people/user-avatar.png" alt="mentor"></td>
                                 <td class="product-des product-name">
@@ -171,7 +171,7 @@
                     amount: totalAmount
 				}, function (rsp) {
                     if (rsp.success) {
-                        alert("결제가 성공적으로 완료되었습니다.");
+                        alert("결제 완료되었습니다~~~!~");
 
                         $.ajax({
                             url: "/pay/success",
@@ -184,11 +184,12 @@
                             }),
                             dataType: "text",
                             success: function(response) {
-                                console.log("서버 응답 데이터:", response);
-                                alert("결제 기록이 서버에 저장되었습니다.");
+                                //console.log("서버 응답 데이터:", response);
+                                alert("디비 결제 추가 완료~~~");
+                                location.reload();
                             },
                             error: function(xhr, status, error) {
-                                alert("서버와의 통신에 실패했습니다.");
+                                alert("서버와의 통신에 실패!!~!~");
                                 console.log(error);
                             }
                         });
