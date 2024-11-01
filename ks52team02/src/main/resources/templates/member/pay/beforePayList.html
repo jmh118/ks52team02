@@ -171,7 +171,6 @@
                     amount: totalAmount
 				}, function (rsp) {
                     if (rsp.success) {
-                        alert("결제 완료되었습니다~~~!~");
 
                         $.ajax({
                             url: "/pay/success",
@@ -185,7 +184,7 @@
                             dataType: "text",
                             success: function(response) {
                                 //console.log("서버 응답 데이터:", response);
-                                alert("디비 결제 추가 완료~~~");
+                                alert("결제 완료되었습니다~~~!~");
                                 location.reload();
                             },
                             error: function(xhr, status, error) {
