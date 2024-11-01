@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -75,8 +74,11 @@ public class ManagerMemberController {
 // 조회 only ▲ ---------------------------------------------------------------------------
 	
 	@GetMapping("/waitingForApproval")
-	public String waitingForApproval() {
-		System.out.println("멘토 회원가입 승인 대기 내역 페이지 이동");
+	public String waitingForApproval(Model model) {
+		System.out.println("멘토 회원가입 승인 대기 내역 조회 페이지 이동");
+		List<Member> waitingForApprovalMentorList = memberMapperService.getWaitingForApprovalMentorList();
+		model.addAttribute("waitingForApprovalMentorList", waitingForApprovalMentorList);
+		
 		return  "manager/memberInfo/waitingForApprovalList";
 	}
 	

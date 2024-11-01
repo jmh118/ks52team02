@@ -37,5 +37,8 @@ public interface ManagerMemberService {
 
 	// 회원 정보 수정
 	void updateMemberInfoById(Member member);
+	
+	// 승인 요청 멘토 조회
+	List<Member> getWaitingForApprovalMentorList();
 
 }
