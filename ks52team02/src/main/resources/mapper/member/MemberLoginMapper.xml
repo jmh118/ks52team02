@@ -33,4 +33,13 @@
 			member_id = #{inputId};
 	</select>
 	
+	<select id="findMemberPwById" parameterType="String" resultType="String">
+		SELECT
+			m.member_password AS memberPw
+		FROM
+			member m
+		WHERE
+			m.member_id = #{inputId};
+	</select>
+	
 </mapper>
