@@ -16,3 +16,8 @@ public class MentorEducation {
 	private String mentorMtctYmd;		//입학 날짜
 	private String mentorGdtYmd;		//졸업 날짜
 }
+
+
+
+
+

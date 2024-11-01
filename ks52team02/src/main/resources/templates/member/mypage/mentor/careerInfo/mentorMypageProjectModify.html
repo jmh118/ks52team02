@@ -14,21 +14,22 @@
                 <div class="col-lg-7">
                     <div class="row">
                         <h3 class="mb-30">수정&삭제</h3>
-                        <form method="post">
+                        <form id="modifyProjectInfo" method="post" th:action="@{/mypage/mentor/projectModify}" th:object="${projectInfo}">
+                        		<input class="form-control" name="mentorProjectCode" type="hidden" th:value="*{mentorProjectCode}"/>
                                 <div class="form-group col-lg-6">
-                                    <input type="text" required="" name="fname" placeholder="참여프로젝트명 *" value="소프트웨어 유지보수">
+                                    <input type="text" required name="mentorProjectNm" placeholder="참여프로젝트명 *" th:value="*{mentorProjectNm}">
                                 </div>
                                 <div class="form-group col-lg-6">
-                                    <input type="text" required="" name="lname" placeholder="프로젝트 담당 업무 *" value="소프트웨어 기획 및 개발">
+                                    <input type="text" required name="mentorCn" placeholder="프로젝트 담당 업무 *" th:value="*{mentorCn}">
                                 </div>
                                 <div class="form-group col-lg-6">프로젝트 시작 날짜
-                                    <input type="datetime-local" name="billing_address" required="" placeholder="프로젝트 시작 날짜 *">
+                                    <input type="date" name="mentorBgngYmd" required placeholder="프로젝트 시작 날짜 *" th:value="*{mentorBgngYmd}">
                                 </div>
                                 <div class="form-group col-lg-6">프로젝트 완료 날짜
-                                    <input type="datetime-local" name="billing_address2" required="" placeholder="프로젝트 완료 날짜 *">
+                                    <input type="date" name="mentorCmptnYmd" required placeholder="프로젝트 완료 날짜 *" th:value="*{mentorCmptnYmd}">
                                 </div>
                                <div class="form-group col-lg-6">
-							  <input type="file" accept="image/png, image/jpeg">
+							  <input type="file" name="mentorFileNm" accept="image/png, image/jpeg" th:value="*{mentorFileNm}">
 							  </div>
 							<button class="submit submit-auto-width" type="submit">수정</button>
 							<button class="submit submit-auto-width" type="submit">삭제</button>

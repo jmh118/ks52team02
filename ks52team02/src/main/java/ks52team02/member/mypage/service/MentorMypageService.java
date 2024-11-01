@@ -12,9 +12,21 @@ public interface MentorMypageService {
 
 	void addWorkInfo(MentorWork mentorWork);
 	
+	void modifyWorkInfo(MentorWork mentorWork);
+	
 	void addProjectInfo(MentorProject mentorProject);
+	
+	void modifyProjectInfo(MentorProject mentorProject);
 	
 	void addEducationInfo(MentorEducation mentorEducation);
 	
+	void modifyEducationInfo(MentorEducation mentorEducation);
+	
 	void addCertificateInfo(MentorCertificate mentorCertificate);
+
+	void modifyCertificateInfo(MentorCertificate mentorCertificate);
+
+	
+	
+	
 }

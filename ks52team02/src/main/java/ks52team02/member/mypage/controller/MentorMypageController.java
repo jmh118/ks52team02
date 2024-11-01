@@ -74,13 +74,19 @@ public class MentorMypageController {
 	@PostMapping("/workAdd")
 	public String AddWorkInfo(MentorWork mentorWork) {
 		mentorMypageService.addWorkInfo(mentorWork);
-		return "redirect:/mypage/mentor/workAdd";
+		return "redirect:/mypage/mentor/account";
 	}
 	
     @GetMapping("/workAdd")
     public String MoveMypageWorkAdd() {
         System.out.println("mypage Work 추가 페이지 이동");
         return  "member/mypage/mentor/careerInfo/mentorMypageWorkAdd";
+    }
+    
+    @PostMapping("/workModify")
+    public String ModifyWorkInfo(MentorWork mentorWork) {
+    	mentorMypageService.modifyWorkInfo(mentorWork);
+    	return "redirect:/mypage/mentor/account";
     }
     
     @GetMapping("/workModify")
@@ -95,7 +101,7 @@ public class MentorMypageController {
     @PostMapping("/projectAdd")
     public String AddProjectInfo(MentorProject mentorProject) {
     	mentorMypageService.addProjectInfo(mentorProject);
-    	return "redirect:/mypage/mentor/projectAdd";
+    	return "redirect:/mypage/mentor/account";
     }
     
     @GetMapping("/projectAdd")
@@ -104,16 +110,24 @@ public class MentorMypageController {
         return  "member/mypage/mentor/careerInfo/mentorMypageProjectAdd";
     }
     
+    @PostMapping("/projectModify")
+    public String ModifyProjectInfo(MentorProject mentorProject) {
+    	mentorMypageService.modifyProjectInfo(mentorProject);
+    	return "redirect:/mypage/mentor/account";
+    }
+    
     @GetMapping("/projectModify")
-    public String MoveMypageProjectModify() {
+    public String MoveMypageProjectModify(@RequestParam(name="mentorProjectCode") String mentorProjectCode, Model model) {
         System.out.println("mypage Project 수정 페이지 이동");
+        MentorProject projectInfo = mentorMypageMapper.getMentorProjectByCode(mentorProjectCode);
+        model.addAttribute("projectInfo",projectInfo);
         return  "member/mypage/mentor/careerInfo/mentorMypageProjectModify";
     }
     
     @PostMapping("/educationAdd")
     public String AddEducationInfo(MentorEducation mentorEducation) {
     	mentorMypageService.addEducationInfo(mentorEducation);
-    	return "redirect:/mypage/mentor/educationAdd";
+    	return "redirect:/mypage/mentor/account";
     }
     
     @GetMapping("/educationAdd")
@@ -122,16 +136,25 @@ public class MentorMypageController {
         return  "member/mypage/mentor/careerInfo/mentorMypageEducationAdd";
     }
     
+    @PostMapping("/educationModify")
+    public String ModifyEducationInfo(MentorEducation mentorEducation) {
+    	mentorMypageService.modifyEducationInfo(mentorEducation);
+    	
+    	return "redirect:/mypage/mentor/account";
+    }
+    
     @GetMapping("/educationModify")
-    public String MoveMypageEducationModify() {
+    public String MoveMypageEducationModify(@RequestParam(name="mentorEducationCode") String mentorEducationCode, Model model) {
         System.out.println("mypage Education 수정 페이지 이동");
+        MentorEducation educationInfo= mentorMypageMapper.getMentorEducationByCode(mentorEducationCode);
+        model.addAttribute("educationInfo", educationInfo);
         return  "member/mypage/mentor/careerInfo/mentorMypageEducationModify";
     }
     
     @PostMapping("/certificateAdd")
     public String AddCertificateInfo(MentorCertificate mentorCertificate) {
     	mentorMypageService.addCertificateInfo(mentorCertificate);
-    	return "redirect:/mypage/mentor/certificateAdd";
+    	return "redirect:/mypage/mentor/account";
     }
     
     @GetMapping("/certificateAdd")
@@ -143,9 +166,22 @@ public class MentorMypageController {
         return  "member/mypage/mentor/careerInfo/mentorMypageCertificateAdd";
     }
     
+    @PostMapping("/certificateModify")
+    public String ModifyCertificateInfo(MentorCertificate mentorCertificate) {
+    	mentorMypageService.modifyCertificateInfo(mentorCertificate);
+    	
+    	return "redirect:/mypage/mentor/account";
+    }
+    
     @GetMapping("/certificateModify")
-    public String MoveMypageCertificateModify() {
+    public String MoveMypageCertificateModify(@RequestParam(name="mentorCertificateCode")String mentorCertificateCode, Model model) {
         System.out.println("mypage Certificate 수정 페이지 이동");
+        List<CertificateName> certificateInfoNmCode = mentorMypageMapper.getCertificateInfoCode();
+        MentorCertificate certificateInfoCode = mentorMypageMapper.getMentorCertificateByCode(mentorCertificateCode);
+        
+        model.addAttribute("certificateInfoNmCode", certificateInfoNmCode);
+        model.addAttribute("certificateInfoCode", certificateInfoCode);
+        
         return  "member/mypage/mentor/careerInfo/mentorMypageCertificateModify";
     }
 }

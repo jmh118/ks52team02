@@ -24,6 +24,8 @@ public class MentorMypageServiceImpl implements MentorMypageService{
 	private final CommonMapper commonMapper;
 	
 	
+	
+	
 	@Override
 	public void modifyMentor(MentorInfo mentorInfo) {
 		mentorMypageMapper.modifyMentor(mentorInfo);
@@ -37,6 +39,12 @@ public class MentorMypageServiceImpl implements MentorMypageService{
 		mentorMypageMapper.addWorkInfo(mentorWork);
 	}
 	
+	@Override
+	public void modifyWorkInfo(MentorWork mentorWork) {
+		mentorMypageMapper.modifyWorkInfo(mentorWork);
+	}
+	
+	
 	
 	@Override
 	public void addProjectInfo(MentorProject mentorProject) {
@@ -47,6 +55,11 @@ public class MentorMypageServiceImpl implements MentorMypageService{
 		mentorMypageMapper.addProjectInfo(mentorProject);
 	}
 	
+	@Override
+	public void modifyProjectInfo(MentorProject mentorProject) {
+		mentorMypageMapper.modifyProjectInfo(mentorProject);
+	}
+	
 	
 	@Override
 	public void addEducationInfo(MentorEducation mentorEducation) {
@@ -55,12 +68,23 @@ public class MentorMypageServiceImpl implements MentorMypageService{
 		mentorMypageMapper.addEducationInfo(mentorEducation);
 	}
 	
+	@Override
+	public void modifyEducationInfo(MentorEducation mentorEducation) {
+		mentorMypageMapper.modifyEducationInfo(mentorEducation);
+	}
+	
 	
 	@Override
 	public void addCertificateInfo(MentorCertificate mentorCertificate) {
 		String nextCode = commonMapper.getPrimaryKey("mentor_certificate_detail", "mentor_certificate_detail_code", "mentor_certificate_detail_code_");
 		mentorCertificate.setMentorCertificateCode(nextCode);
 		mentorMypageMapper.addCertificateInfo(mentorCertificate);
+	}
+	
+	@Override
+	public void modifyCertificateInfo(MentorCertificate mentorCertificate) {
+		mentorMypageMapper.modifyCertificateInfo(mentorCertificate);
+		
 	}
 	
 }

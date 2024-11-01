@@ -21,12 +21,26 @@ public interface MentorMypageMapper {
 	List<MentorWork> getMentorWorkById(String mentorId);
 	//코드로 근무경력 조회
 	MentorWork getMentorWorkByCode(String mentorWorkCode);
+	//코드로 근무경력 수정
+	int modifyWorkInfo(MentorWork mentorWork);
 	//프로젝트경력 조회
 	List<MentorProject> getMentorProjectById(String mentorId);
+	//코드로 프로젝트경력 조회
+	MentorProject getMentorProjectByCode(String mentorProjectCode);
+	//코드로 프로젝트경력 수정
+	int modifyProjectInfo(MentorProject mentorProject);
 	//학력 조회
 	List<MentorEducation> getMentorEducationById(String mentorId);
+	//코드로 학력 조회
+	MentorEducation getMentorEducationByCode(String mentorEducationCode);
+	//코드로 학력 수정
+	int modifyEducationInfo(MentorEducation mentorEducation);
 	//자격증 조회
 	List<MentorCertificate> getMentorCertificateById(String mentorId);
+	//코드로 자격증 조회
+	MentorCertificate getMentorCertificateByCode(String mentorCertificateCode);
+	//코드로 자격증 수정
+	int modifyCertificateInfo(MentorCertificate mentorCertificate);
 	//근무경력 등록
 	int addWorkInfo(MentorWork mentorWork);
 	//프로젝트 경력 등록
@@ -37,6 +51,8 @@ public interface MentorMypageMapper {
 	int addCertificateInfo(MentorCertificate mentorCertificate);
 	//자격증의 이름,발급기관 체크박스
 	List<CertificateName> getCertificateInfoCode();
+	
+	
 	
 	
 }

@@ -56,7 +56,7 @@
                                                         <tr th:each="p : ${mentorProjectInfo}">
                                                             <td th:text="${p.mentorProjectNm}"></td>
                                                             <td th:text="${p.mentorCn}"></td>
-                                                            <td><a href="/mypage/mentor/projectModify" class="btn-small d-block">수정</a></td>
+                                                            <td><a th:href="@{/mypage/mentor/projectModify(mentorProjectCode=${p.mentorProjectCode})}" class="btn-small d-block">수정</a></td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -85,7 +85,7 @@
                                                             <td th:text="${e.mentorCredits}"></td>
                                                             <td th:text="${e.mentorScsbjtNm}"></td>
                                                             <td th:text="${e.mentorSection}"></td>
-                                                            <td><a href="/mypage/mentor/educationModify" class="btn-small d-block">수정</a></td>
+                                                            <td><a th:href="@{/mypage/mentor/educationModify(mentorEducationCode=${e.mentorEducationCode})}" class="btn-small d-block">수정</a></td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -114,7 +114,7 @@
 	                                                        <td th:text="${c.certificateName.institutionNm}"></td>
 	                                                        <td th:text="${c.mentorGrade}"></td>
 	                                                        <td th:text="${c.mentorIssuYmd}"></td>
-	                                                        <td><a href="/mypage/mentor/certificateModify" class="btn-small d-block">수정</a></td>
+	                                                        <td><a th:href="@{/mypage/mentor/certificateModify(mentorCertificateCode=${c.mentorCertificateCode})}" class="btn-small d-block">수정</a></td>
 	                                                    </tr>
 	                                                </tbody>
 	                                            </table>
