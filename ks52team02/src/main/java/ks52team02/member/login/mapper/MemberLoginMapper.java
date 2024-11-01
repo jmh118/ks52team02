@@ -13,4 +13,7 @@ public interface MemberLoginMapper {
 	// 회원 여부 확인
 	Member getMemberInfoById(String inputId);
 
+	// 아이디로 비밀번호 찾기
+	String findMemberPwById(String inputId);
+
 }

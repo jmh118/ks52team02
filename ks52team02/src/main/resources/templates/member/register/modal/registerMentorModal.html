@@ -2,11 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 	<th:block th:fragment="modalJs">		
 	 	<script>	
-			// 모달 여닫기
-			$('#careerSubmitBtn').on('click', function(){
-				const careerInputVal = $('#careerInputVal').val();
-				$('#registerMentorModal').modal('hide');
-			});
+		
 		</script>
 	</th:block>
 	<div class="modal fade custom-modal" data-bs-backdrop="static" id="registerMentorModal" tabindex="0" aria-labelledby="registerMentorModal" aria-hidden="true" 
@@ -20,20 +16,20 @@
 							<h3 class="mb-20 text-brand text-center">멘토 근무 경력 등록</h3>
 								<form class="container mt-40">
 		                            <div class="mb-4">
-		                                <label for="careerInputVal" class="form-label">근무 회사명</label>
-		                                <input id="careerInputVal" class="form-control" placeholder="Corporate name" type="text"/>
+		                                <label for="careerCorporateName" class="form-label">근무 회사명</label>
+		                                <input id="careerCorporateName" class="form-control" placeholder="Corporate name" type="text"/>
 		                            </div>
 		                            <!-- form-group// -->
 									<div class="mb-4">
-		                               <label for="careerDetailInputVal" class="form-label">담당업무</label>
+		                               <label for="careerWork" class="form-label">담당업무</label>
 										<div class="mb-4">
-											<select id="careerDetailInputVal" class="mb-10 form-control" name="careerDetailInputVal" onchange="$careerDetailInputVal()">
+											<select id="careerWork" class="mb-10 form-control" name="careerDetailInputVal" >
 												<option name="careerDetailInputVal" value="" selected="selected"></option>
 												<option name="careerDetailInputVal" value="기타">기타</option>
 												<option name="careerDetailInputVal" value="유지보수">유지보수</option>
 												<option name="careerDetailInputVal" value="기획 및 개발">기획 및 개발</option>
 											</select>
-			                                <input id="careerDetailContentVal" class="form-control" placeholder="Comment" type="" />
+			                                <input id="careerWorkDetail" class="form-control" placeholder="Comment" type="" />
 			                            </div>
 		                            <!-- form-group// -->
 										<div class="mb-4">

@@ -2,6 +2,7 @@ package ks52team02.member.login.controller;
 
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,7 +31,7 @@ public class MemberLoginController {
 	@ResponseBody
 	public boolean checkPw(HttpSession session, @RequestParam(value="memberPw") String memberPw) {
 
-		log.info("아이디 뭐임?? : {}", session.getAttribute("SID"));
+		log.info("아이디 확인 : {}", session.getAttribute("SID"));
 		String memberId = (String) session.getAttribute("SID");
 		boolean isCheckPw = memberLoginService.isCheckMemberPw(memberId, memberPw);
 		
@@ -52,6 +53,25 @@ public class MemberLoginController {
 	}
 	
 	
+	@GetMapping("/findPassword")
+	public String findPasswordView() {
+		System.out.println("로그인 | 비밀번호 찾기 화면");
+		
+		return  "member/login/findPassword";
+	}
+	
+	@PostMapping("/findPassword")
+	@ResponseBody
+	public String findPasswordView(@RequestParam("inputId") String inputId) {
+		System.out.println("비밀번호 찾기");
+		String foundPw = memberLoginMapper.findMemberPwById(inputId);
+		System.out.println(foundPw);
+
+
+	    return foundPw;
+	}
+	
+	
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
 		
@@ -63,7 +83,6 @@ public class MemberLoginController {
 		session.invalidate();
 		return viewName;
 	}
-	
 	
 	
 	@PostMapping("/loginProc")
@@ -112,11 +131,6 @@ public class MemberLoginController {
 		System.out.println("로그인 화면");
 		return  "member/login/login";
 	}
-	
-	@GetMapping("/findPassword")
-	public String findPasswordView() {
-		System.out.println("로그인 | 비밀번호 찾기 화면");
-		return  "member/login/findPassword";
-	}
+
 
 }

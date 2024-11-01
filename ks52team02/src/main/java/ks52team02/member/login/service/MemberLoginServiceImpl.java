@@ -49,7 +49,6 @@ public class MemberLoginServiceImpl implements MemberLoginService {
 			if(checkPw.equals(memberPw)) {
 				isCheck = true;
 				resultMap.put("memberInfo", memberInfo);
-				
 			}
 		}
 		
@@ -57,6 +56,13 @@ public class MemberLoginServiceImpl implements MemberLoginService {
 		
 		return resultMap;
 		
+	}
+
+	@Override
+	public String findMemberPwById(String inputId) {
+		String foundPw = memberLoginMapper.findMemberPwById(inputId);
+
+		return foundPw;
 	}
 
 
