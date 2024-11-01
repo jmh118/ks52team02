@@ -82,4 +82,15 @@ public class ManagerMemberServiceImpl implements ManagerMemberService {
 		return memberInfo;
 	}
 
+	@Override
+	public List<Member> getWaitingForApprovalMentorList() {
+		List<Member> waitingForApprovalMentorList = managerMemberMapper.getWaitingForApprovalMentorList();
+		
+		return waitingForApprovalMentorList;
+	}
+	
+	
+	
+
 }
+

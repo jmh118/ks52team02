@@ -4,15 +4,6 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ks52team02.manager.member.mapper.ManagerMemberMapper">
 
-	<resultMap type="Member" id="NewMemberMap">
-		<id column="member_id" property="memberId" />
-		<result column="member_password" property="newMemberPw" />
-		<result column="search_member_password_answer" property="newMemberPwAnswer" />
-		<result column="member_name" property="newMemberName" />
-		<result column="member_phone_number" property="newMemberTelNo" />
-		<result column="member_email" property="newMemberEmail" />
-	</resultMap>
-	
 	<select id="getMentorList" resultType="Member">
 		/* 탈퇴하지 않은 멘토 권한 멤버 조회 */
 		SELECT
@@ -221,5 +212,26 @@
 		WHERE
 			member_id = #{memberId};
 	</update>
-
+	
+	<select id="getWaitingForApprovalMentorList" >
+		/* 승인 요청 멘토 리스트 조회 */
+		SELECT
+			m.member_id AS memberID,
+			m.member_name AS memberName,
+			m.member_email AS memberEmail,
+			m.member_phone_number AS memberTelNo,
+			m.member_join_YMD AS memberJoinYMD,
+			maa.mentor_join_approval_YN AS mentorApprovalStatus,
+			maa.mentor_approval_or_reject_reason AS mentorApprovalReason
+		FROM
+			mentor_authority_approval maa
+			LEFT JOIN
+			member m
+			ON
+			maa.member_id=m.member_id
+		WHERE
+			maa.mentor_join_approval_YN &lt;>'승인' AND
+			m.member_withdrawal_YN = 'N';
+	
+	</select>
 </mapper>
