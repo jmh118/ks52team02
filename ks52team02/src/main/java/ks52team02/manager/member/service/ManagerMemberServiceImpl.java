@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 
 import ks52team02.manager.member.dto.LoginLog;
 import ks52team02.manager.member.dto.Member;
@@ -54,4 +55,42 @@ public class ManagerMemberServiceImpl implements ManagerMemberService {
 		
 		return mentorList;
 	}
+
+	@Override
+	public List<Member> getMonthMemberList() {
+		List<Member> monthMemberList = managerMemberMapper.getMonthMemberList();
+
+		return monthMemberList;
+	}
+
+	@Override
+	public List<WithdrawalMember> getWaitingForWithDrawalList() {
+		List<WithdrawalMember> waitingForWithDrawalList = managerMemberMapper.getWaitingForWithDrawalList();
+		
+		return waitingForWithDrawalList;
+	}
+
+	@Override
+	public void updateMemberInfoById(Member member) {
+		managerMemberMapper.updateMemberInfoById(member);
+	}
+
+	@Override
+	public Member getMemberInfoById(String memberId) {
+		Member memberInfo = managerMemberMapper.getMemberInfoById(memberId);
+
+		return memberInfo;
+	}
+
+	@Override
+	public List<Member> getWaitingForApprovalMentorList() {
+		List<Member> waitingForApprovalMentorList = managerMemberMapper.getWaitingForApprovalMentorList();
+		
+		return waitingForApprovalMentorList;
+	}
+	
+	
+	
+
 }
+

@@ -18,15 +18,15 @@
 							<div class="header-action-2">
 	
 								<div class="header-action-icon-2">
-									<a href="/member/login"><span class="label ml-0" th:if="${session.SID == null}">로그인(이승현)</span></a>
+									<a href="/member/login"><span class="label ml-0" th:if="${session.SID == null}">로그인</span></a>
 								</div>
 								<div class="header-action-icon-2">
-									<a href="/register/info"><span class="label" th:if="${session.SID == null}">회원가입(이승현)</span></a>
+									<a href="/register/info"><span class="label" th:if="${session.SID == null}">회원가입</span></a>
 								</div>
 								<div class="header-action-icon-2" th:unless="${session.SID == null}">
                                     <span class="label ml-0" th:with="SID=${session.SID}" th:text="|${SID} 님 |"></span>
                                     <a>
-                                        <img class="svgInject" alt="Nest" src="/member/imgs/theme/icons/icon-user.svg" />
+                                        <img class="svgInject" alt="user" src="/member/imgs/theme/icons/icon-user.svg" />
                                     </a>
                                     <div class="cart-dropdown-wrap cart-dropdown-hm2 account-dropdown">
                                         <ul>
@@ -53,6 +53,12 @@
                                         </ul>
                                     </div>
                                 </div>
+								<div class="header-action-icon-2" th:if="${session.SID != null && session.SLEVEL == 'member_level_mentee'}">
+                                    <a href="/pay/beforeList">
+                                        <img class="svgInject" alt="beforePayList" src="/member/imgs/theme/icons/icon-heart.svg">
+                                        <span class="pro-count blue" th:text="${cnt}"></span>
+                                    </a>
+                                </div>                                
 							</div>
 						</div>
 					</div>
@@ -73,17 +79,17 @@
 										<a class="active" href="/">Home</a>
 									</li>
 									<li>
-										<a href="/mentoring/notice">멘토링(정용우)</a>
+										<a href="/mentoring/notice">멘토링</a>
 									</li>
 									<li>
-										<a href="#">멘토 찾기(이승현)<i class="fi-rs-angle-down"></i></a>
+										<a href="#">멘토 찾기<i class="fi-rs-angle-down"></i></a>
 										<ul class="sub-menu">
-											<li><a href="/honor/mentorList">명예멘토(이승현)</a></li>
-											<li><a href="/mentor/list">멘토(이승현)</a></li>
+											<li><a href="/honor/mentorList">명예멘토</a></li>
+											<li><a href="/mentor/list">멘토</a></li>
 										</ul>
 									</li>
 									<li>
-										<a href="/portfolio/list">포트폴리오(김광민)</a>
+										<a href="/portfolio/list">포트폴리오</a>
 									</li>
 								</ul>
 							</nav>

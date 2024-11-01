@@ -1,5 +1,6 @@
 package ks52team02.member.mentoring.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -14,6 +15,7 @@ import ks52team02.member.mentoring.dto.NoticeDetail;
 import ks52team02.member.mentoring.dto.NoticeQuestion;
 import ks52team02.member.mentoring.dto.Topic;
 import ks52team02.member.mentoring.mapper.MentoringMapper;
+import ks52team02.member.mypage.dto.MenteeProfile;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,6 +27,18 @@ public class MentoringServiceImpl implements MentoringService{
 	
 	private final MentoringMapper mentoringMapper;
 	private final CommonMapper commonMapper;
+	
+	@Override
+	public List<Topic> getCategoryCountList() {
+		List<Topic> categoryCount = mentoringMapper.getCategoryCountList();
+		return categoryCount;
+	}
+	
+	@Override
+	public List<MenteeProfile> getApplyMenteeProfileById(String memberId) {
+		List<MenteeProfile> menteeProfile = mentoringMapper.getApplyMenteeProfileById(memberId);
+		return menteeProfile;
+	}
 	
 	@Override
 	public void modifyQuestion(NoticeQuestion noticeQuestion) {
@@ -99,7 +113,24 @@ public class MentoringServiceImpl implements MentoringService{
 		
 		return noticeCateList;
 	}
-
+	
+	@Override
+	public void addNoticeDetail(NoticeDetail noticeDetail) {
+		List<String> mentoringTimes = noticeDetail.getMentoringTimeList();
+	    List<String> mentoringYmds = noticeDetail.getMentoringYmdList();
+	    String lastNoticeCode = mentoringMapper.getLastNoticeCode();
+	    for (int i = 0; i < mentoringTimes.size(); i++) {
+	    	NoticeDetail detail = new NoticeDetail();
+	    	String nextCode = commonMapper.getPrimaryKey("mentoring_notice_detail", "mentoring_notice_detail_code", "mentoring_notice_detail_code_");
+	    	detail.setNoticeDetailCode(nextCode);
+	    	detail.setNoticeCode(lastNoticeCode);
+	    	detail.setMentoringYmd(mentoringYmds.get(i));
+	    	detail.setMentoringTime(mentoringTimes.get(i));
+	        
+	        mentoringMapper.addNoticeDetail(detail);
+	    }
+		
+	}
 	
 	@Override
 	public void addNotice(Notice notice) {

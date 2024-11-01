@@ -52,7 +52,8 @@
                                                 <td th:text="${ll.loginLogCode}"></td>
                                                 <td th:text="${ll.loginMemberId}"></td>
                                                 <td><span th:if="${ll.loginMemberLevel == 'member_level_mentee'}" class="badge rounded-pill alert-success">멘티</span>
-                                                	<span th:if="${ll.loginMemberLevel == 'member_level_mentor'}" class="badge rounded-pill alert-warning">멘토</span></td>
+                                                	<span th:if="${ll.loginMemberLevel == 'member_level_mentor'}" class="badge rounded-pill alert-warning">멘토</span>
+                                                	<span th:if="${ll.loginMemberLevel == 'member_level_manager'}" class="badge rounded-pill alert-danger">플랫폼 관리자</span></td>
                                                 <td th:text="${ll.loginLog}"></td>
                                             </tr>
                                         </tbody>

@@ -11,6 +11,7 @@ import ks52team02.member.mentoring.dto.NoticeAnswer;
 import ks52team02.member.mentoring.dto.NoticeDetail;
 import ks52team02.member.mentoring.dto.NoticeQuestion;
 import ks52team02.member.mentoring.dto.Topic;
+import ks52team02.member.mypage.dto.MenteeProfile;
 
 @Mapper
 public interface MentoringMapper {
@@ -71,6 +72,18 @@ public interface MentoringMapper {
 
 	// 공고질문 수정
 	int modifyQuestion(NoticeQuestion noticeQuestion);
+
+	// 신청한 멘티 프로필조회
+	List<MenteeProfile> getApplyMenteeProfileById(String memberId);
+
+	//카테고리 갯수
+	List<Topic> getCategoryCountList();
+
+	// 공고상세등록을위한 마지막 공고코드조회
+	String getLastNoticeCode();
+
+	// 공고상세등록
+	void addNoticeDetail(NoticeDetail detail);
 
 
 
