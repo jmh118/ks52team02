@@ -54,16 +54,18 @@
 				
 				if(isSubmit) $('#mentoringApplyForm').submit();
 	    	});
-	    	$('#questionBtn').click(function(){
+	    	
+	    	$('.question-btn').click(function(e){
 	    		let isSubmit = true;
-	    		const memberGrade = $('#memberGrade').val();
-	    		if(memberGrade != 'member_level_mentee'){
+	    		e.preventDefault();
+	    		const grade = $(this).data('grade');
+	    		if(grade != 'member_level_mentee'){
 	    			alert('멘티만 등록할수 있습니다.');
 	    			isSubmit = false;
 	    			return ;
 	    		}
-	    		if(isSubmit) $('#noticeQuestionForm').submit();
-	    	});
+	    		if(isSubmit) $('#NoticeQuestion').modal('show');
+	    	})
 
 		</script>
    	</th:block>
@@ -173,8 +175,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <!-- <button type="button" class="btn btn-block mt-30" data-bs-toggle="modal" data-bs-target="#NoticeQuestion">등록하기</button> -->
-                                        <a class="btn btn-block mt-30"data-bs-toggle="modal" data-bs-target="#NoticeQuestion">등록하기</a>
+                                        <a class="btn btn-block mt-30 question-btn" th:data-grade="${session.SLEVEL}">등록하기</a>
                                         <div th:insert="~{member/mentoring/modal/noticeQuestionModal :: NoticeQuestion}"></div>
                                         <div th:insert="~{member/mentoring/modal/noticeQuestionModifyModal :: noticeQuestionModify}"></div>
                                         <div th:insert="~{member/mentoring/modal/noticeAnswerModal :: NoticeAnswer}"></div>

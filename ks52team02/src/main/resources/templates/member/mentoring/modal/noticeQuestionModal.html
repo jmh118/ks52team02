@@ -20,16 +20,15 @@
 		                	</ul>
 		                    <div class="comment-form">
 		                        <div class="col-lg-8 col-md-12">
-		                            <form class="form-contact comment_form" th:action="@{/mentoring/noticeQuestion}" method="post" id="noticeQuestionForm">
+		                            <form class="form-contact comment_form" th:action="@{/mentoring/noticeQuestion}" method="post">
 	                                    <div class="col-12">
 	                                        <div class="form-group">
 	                                        	<input type="hidden" id="noticeCode" name="noticeCode" th:value="*{noticeCode}">
 	                                        	<input type="hidden" id="memberId" name="memberId" th:value="${session.SID}">
-	                                        	<input type="hidden" id="memberGrade" name="memberGrade" th:value="${session.SLEVEL}">
 	                                            <textarea class="form-control w-100" name="questionContent" id="questionContent" cols="30" rows="9" placeholder="Write Comment"></textarea>
 	                                        </div>
 	                                    </div>
-		                                <button type="button" id="questionBtn" class="button button-contactForm">작성 하기<i class="fi-rs-arrow-right"></i></button>
+		                                <button type="submit" class="button button-contactForm">작성 하기<i class="fi-rs-arrow-right"></i></button>
 		                            </form>
 		                        </div>	
 		                    </div>
