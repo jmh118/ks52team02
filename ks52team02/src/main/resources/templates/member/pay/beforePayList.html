@@ -1,130 +1,217 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{member/layouts/layout}">
-
-	<th:block layout:fragment="customContent">
-        <div class="container mb-80 mt-50">
-            <div class="row">
-                <div class="col-lg-8 mb-40">
-                    <h1 class="heading-2 mb-10">멘토링 신청 내역</h1>
-                    <div class="d-flex justify-content-between">
-                        <h6 class="text-body">멘토링 신청 내역이 <span class="text-brand" th:text="${cnt}"></span> 건 있습니다~</h6>
-                        <h6 class="text-body"><a href="#" class="text-muted"><i class="fi-rs-trash mr-5"></i>Clear List</a></h6>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-8">
-                    <div class="table-responsive shopping-summery">
-                        <table class="table table-wishlist">
-                            <thead>
-                                <tr class="main-heading">
-                                    <th class="custome-checkbox start pl-30">
-                                        <input class="form-check-input" type="checkbox" id="selectAllCheckbox" />
-            							<label class="form-check-label" for="selectAllCheckbox"></label>
-                                    </th>
-                                    <th scope="col" colspan="2">신청 멘토링</th>
-                                    <th scope="col">금액</th>
-                                    <th scope="col" class="end">취소</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr class="pt-30" th:if="${beforePayList != null}" th:each="bpl, iter : ${beforePayList}">
-                                    <td class="custome-checkbox pl-30">
-                                        <input class="form-check-input checkPay" type="checkbox" th:id="'checkbox_' + ${iter.index}" />
-            							<label class="form-check-label" th:for="'checkbox_' + ${iter.index}" th:text="${bpl.applyCode}"></label>
-                                        
-                                    </td>
-                                    <td class="image product-thumbnail pt-40"><img src="/manager/imgs/people/user-avatar.png" alt="mentor"></td>
-                                    <td class="product-des product-name">
-                                        <h6 class="mb-5"><a class="product-name mb-10 text-heading" th:href="@{/mentoring/noticeDetail(noticeCode=${bpl.notice.noticeCode})}" th:text="${bpl.notice.noticeTitle}">신청명</a></h6>
-                                        <div class="product-rate-cover">
-                                            <span class="font-small text-brand" th:text="${bpl.notice.memberId}">아이디</span><br>
-                                            <span class="font-small text-muted" th:text="${bpl.noticeDetail.mentoringYmd}">날짜</span><br>
-                                            <span class="font-small text-muted" th:text="${bpl.noticeDetail.mentoringTime}">시간</span>
-                                        </div>
-                                    </td>
-                                    <td class="price" data-title="Price">
-                                        <h4 class="text-brand">50000 </h4>
-                                    </td>
-                                    <td class="action text-center" data-title="Remove"><a href="#" class="text-body"><i class="fi-rs-trash"></i></a></td>
-                                </tr>
-                                <tr th:if="${beforePayList == null || beforePayList.isEmpty()}" class="text-center">
-			        				<td colspan="5">신청한 멘토링이 없습니다.</td>
-			        			</tr>
-                                
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="divider-2 mb-30"></div>
-                    <div class="cart-action d-flex justify-content-between">
-                        <a href="/mentoring/notice" class="btn "><i class="fi-rs-arrow-left mr-10"></i>Continue apply</a>
-                    </div>
-                </div>
-                <div class="col-lg-4 primary-sidebar sticky-sidebar">
-                    <div class="sidebar-widget border p-md-4 cart-totals ml-30">
-                        <div class="table-responsive">
-                            <table class="table no-border">
-                                <tbody>
-                                    <tr>
-                                        <td class="cart_total_label">
-                                            <h6 class="text-muted">Subtotal</h6>
-                                        </td>
-                                        <td class="cart_total_amount">
-                                            <h4 class="text-brand text-end">$12.31</h4>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td scope="col" colspan="2">
-                                            <div class="divider-2 mt-10 mb-10"></div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="cart_total_label">
-                                            <h6 class="text-muted">Shipping</h6>
-                                        </td>
-                                        <td class="cart_total_amount">
-                                            <h5 class="text-heading text-end">Free</h5></td> </tr> <tr>
-                                        <td class="cart_total_label">
-                                            <h6 class="text-muted">Estimate for</h6>
-                                        </td>
-                                        <td class="cart_total_amount">
-                                            <h5 class="text-heading text-end">United Kingdom</h5></td> </tr> <tr>
-                                        <td scope="col" colspan="2">
-                                            <div class="divider-2 mt-10 mb-10"></div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="cart_total_label">
-                                            <h6 class="text-muted">Total</h6>
-                                        </td>
-                                        <td class="cart_total_amount">
-                                            <h4 class="text-brand text-end">$12.31</h4>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <th:block th:replace="~{member/pay/modal/payModal :: payModal}"></th:block>
-                        <a class="btn mb-20 w-100" data-bs-toggle="modal" data-bs-target="#Pay">결제하기<i class="fi-rs-sign-out ml-15"></i></a>
-                    </div>
+      layout:decorate="~{member/layouts/layout}">
+<head>
+    <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+</head>
+<th:block layout:fragment="customContent">
+    <div class="container mb-80 mt-50">
+        <div class="row">
+            <div class="col-lg-8 mb-40">
+                <h1 class="heading-2 mb-10">멘토링 신청 내역</h1>
+                <div class="d-flex justify-content-between">
+                    <h6 class="text-body">멘토링 신청 내역이 <span class="text-brand" th:text="${cnt}"></span> 건 있습니다~</h6>
+                    <h6 class="text-body"><a href="#" class="text-muted"><i class="fi-rs-trash mr-5"></i>Clear List</a></h6>
                 </div>
             </div>
         </div>
-	</th:block>
-	<th:block layout:fragment="customJs">
-		<script>
-			$('#selectAllCheckbox').change(function() {
-		        const isChecked = $(this).is(':checked');
-		        $('.checkPay').prop('checked', isChecked);
-		    });
-	
-		    $('.checkPay').change(function() {
-		        const totalCheckboxes = $('.checkPay').length;
-		        const checkedCheckboxes = $('.checkPay:checked').length;
-		        $('#selectAllCheckbox').prop('checked', totalCheckboxes === checkedCheckboxes);
-		    });
-		
-		</script>
-	</th:block>
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="table-responsive shopping-summery">
+                    <table class="table table-wishlist">
+                        <thead>
+                            <tr class="main-heading">
+                                <th class="custome-checkbox start pl-30">
+                                    <input class="form-check-input" type="checkbox" id="selectAllCheckbox" />
+                                    <label class="form-check-label" for="selectAllCheckbox"></label>
+                                </th>
+                                <th scope="col" colspan="2">신청 멘토링</th>
+                                <th scope="col">금액</th>
+                                <th scope="col" class="end">취소</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="pt-30" th:if="${beforePayList != null}" th:each="bpl, iter : ${beforePayList}">
+                                <td class="custome-checkbox pl-30">
+                                    <input class="form-check-input checkPay" type="checkbox" th:id="'checkbox_' + ${iter.index}" />
+                                    <label class="form-check-label" th:for="'checkbox_' + ${iter.index}"></label>
+                                    <input type="hidden" class="applyCode" th:value="${bpl.applyCode}"/>
+                                    <input type="hidden" class="noticeCode" th:value="${bpl.notice.noticeCode}"/>
+                                </td>
+                                <td class="image product-thumbnail pt-40"><img src="/manager/imgs/people/user-avatar.png" alt="mentor"></td>
+                                <td class="product-des product-name">
+                                    <h6 class="mb-5"><a class="product-name mb-10 text-heading" th:href="@{/mentoring/noticeDetail(noticeCode=${bpl.notice.noticeCode})}" th:text="${bpl.notice.noticeTitle}">신청명</a></h6>
+                                    <div class="product-rate-cover">
+                                        <span class="font-small text-brand" th:text="${bpl.notice.memberId}">아이디</span><br>
+                                        <span class="font-small text-muted" th:text="${bpl.noticeDetail.mentoringYmd}">날짜</span><br>
+                                        <span class="font-small text-muted" th:text="${bpl.noticeDetail.mentoringTime}">시간</span>
+                                    </div>
+                                </td>
+                                <td class="price" data-title="Price">
+                                    <h4 class="text-brand" th:text="${bpl.notice.noticeUntprc}"></h4>
+                                </td>
+                                <td class="action text-center" data-title="Remove"><a href="#" class="text-body"><i class="fi-rs-trash"></i></a></td>
+                            </tr>
+                            <tr th:if="${beforePayList == null || beforePayList.isEmpty()}" class="text-center">
+                                <td colspan="5">신청한 멘토링이 없습니다.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="divider-2 mb-30"></div>
+                <div class="cart-action d-flex justify-content-between">
+                    <a href="/mentoring/notice" class="btn"><i class="fi-rs-arrow-left mr-10"></i>Continue apply</a>
+                </div>
+            </div>
+            <div class="col-lg-4 primary-sidebar sticky-sidebar">
+                <div class="sidebar-widget border p-md-4 cart-totals ml-30">
+                    <div class="table-responsive">
+                        <table class="table no-border">
+                            <tbody>
+                                <tr>
+                                    <td class="cart_total_label">
+                                        <h6 class="text-muted">결제 금액</h6>
+                                    </td>
+                                    <td class="cart_total_amount">
+                                        <h4 class="text-brand text-end" id="totalAmountDisplay">0</h4>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <input type="hidden" id="memberId" th:value="${session.SID}" />
+                    <button class="btn mb-20 w-100" id="payBtn">결제하기<i class="fi-rs-sign-out ml-15"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+
+<th:block layout:fragment="customJs">
+    <script>
+        $(document).ready(function() {
+        	
+            const IMP = window.IMP;
+            IMP.init("imp66828367"); 
+
+            let totalAmount = 0;
+
+            function updateSelectedInfo() {
+                totalAmount = 0;
+                let selectedInfoHTML = '';
+
+                $('.checkPay:checked').each(function() {
+                    const row = $(this).closest('tr');
+                    const title = row.find('.product-name a').text();
+                    const date = row.find('.product-rate-cover .text-muted').eq(0).text();
+                    const time = row.find('.product-rate-cover .text-muted').eq(1).text();
+                    const amount = parseInt(row.find('.price h4').text().replace(/[^0-9]/g, ''));
+
+                    totalAmount += amount;
+
+                    selectedInfoHTML += `
+                        <tr>
+                            <td class="cart_total_label"><h6 class="text-muted">신청명</h6></td>
+                            <td class="cart_total_amount"><h6 class="text-heading text-end">${title}</h6></td>
+                        </tr>
+                        <tr>
+                            <td class="cart_total_label"><h6 class="text-muted">신청 날짜</h6></td>
+                            <td class="cart_total_amount"><h5 class="text-heading text-end">${date}</h5></td>
+                        </tr>
+                        <tr>
+                            <td class="cart_total_label"><h6 class="text-muted">신청 시간</h6></td>
+                            <td class="cart_total_amount"><h5 class="text-heading text-end">${time}</h5></td>
+                        </tr>
+                        <tr>
+                            <td scope="col" colspan="2">
+                                <div class="divider-2 mt-10 mb-10"></div>
+                            </td>
+                        </tr>
+                    `;
+                });
+
+                $('#totalAmountDisplay').text(totalAmount);
+                $('.sidebar-widget .table.no-border tbody').html(selectedInfoHTML).append(`
+                    <tr>
+                        <td class="cart_total_label"><h6 class="text-muted">결제 금액</h6></td>
+                        <td class="cart_total_amount"><h4 class="text-brand text-end">${totalAmount}</h4></td>
+                    </tr>
+                `);
+            }
+
+            function processPayment() {
+                if (totalAmount === 0) {
+                    alert("결제할 멘토링을 선택해야 합니다.");
+                    return;
+                }
+
+                const memberId = $('#memberId').val();
+                let selectedMentoringData = [];
+
+                $('.checkPay:checked').each(function() {
+                    const row = $(this).closest('tr');
+                    const memberId = $('#memberId').val();
+                    const applyCode = row.find('.applyCode').val();
+                    const noticeCode = row.find('.noticeCode').val();
+                    const amount = parseInt(row.find('.price h4').text().replace(/[^0-9]/g, ''));
+
+                    selectedMentoringData.push({
+                    	"memberId" : memberId,
+                        "applyCode": applyCode,
+                        "noticeCode": noticeCode,
+                        "amount": amount
+                    });
+                });
+
+                IMP.request_pay({
+                    pg: "kakaopay",
+                    pay_method: "card",
+                    merchant_uid: "merchant_" + new Date().getTime(),
+                    name: "멘토링 결제",
+                    amount: totalAmount
+				}, function (rsp) {
+                    if (rsp.success) {
+
+                        $.ajax({
+                            url: "/pay/success",
+                            type: "POST",
+                            contentType: "application/json",
+                            data: JSON.stringify({
+                            	impUid: rsp.imp_uid,
+                                mentoringData: selectedMentoringData,
+                                totalAmount: totalAmount
+                            }),
+                            dataType: "text",
+                            success: function(response) {
+                                //console.log("서버 응답 데이터:", response);
+                                alert("결제 완료되었습니다~~~!~");
+                                location.reload();
+                            },
+                            error: function(xhr, status, error) {
+                                alert("서버와의 통신에 실패!!~!~");
+                                console.log(error);
+                            }
+                        });
+                    } else {
+                        alert("결제에 실패했습니다: " + rsp.error_msg);
+                    }
+                });
+            }
+
+            $('#selectAllCheckbox').change(function() {
+                const isChecked = $(this).is(':checked');
+                $('.checkPay').prop('checked', isChecked);
+                updateSelectedInfo();
+            });
+
+            $('.checkPay').change(function() {
+                updateSelectedInfo();
+            });
+
+            $("#payBtn").click(function() {
+                processPayment();
+            });
+        });
+    </script>
+</th:block>
 </html>

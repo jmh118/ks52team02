@@ -25,13 +25,16 @@
                                         </thead>
                                         <tbody>
                                             <tr th:each="psl : ${paymentSettlementList}">
+                                            	<th:block>
+                                            		<input type="hidden" th:value=${psl.paymentSettlementCode} />
+                                            	</th:block>
                                                 <td th:text="${psl.mentorId}"></td>
                                                 <td th:text="${psl.noticeCode}"></td>
                                                 <td th:text="${psl.pay.totalAmount}"></td>
                                                 <td th:text="${psl.pay.mentorCalAmount}"></td>
                                                 <td th:text="${psl.paymentSettlementDemandDate}"></td>
                                                 <td>
-		                                            <a href="#" class="btn btn-md rounded font-sm">정산</a>
+		                                            <a th:href="@{/manager/pay/approve(settlementCode=${psl.paymentSettlementCode})}" class="btn btn-md rounded font-sm">정산</a>
 		                                        </td>
 		                                    </tr>
                                         </tbody>

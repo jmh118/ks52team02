@@ -56,7 +56,7 @@ public class CommonInterceptor implements HandlerInterceptor{
 		HttpSession session = request.getSession();
 		String sessionId = (String) session.getAttribute("SID");
 		
-		if(sessionId != null) {
+		if(sessionId != null && modelAndView != null && !"application/json".equals(request.getHeader("Accept"))) {
 			int cnt = memberPayService.getBeforePayCnt(sessionId);
 			modelAndView.addObject("cnt", cnt);
 		}
