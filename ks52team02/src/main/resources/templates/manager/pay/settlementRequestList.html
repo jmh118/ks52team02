@@ -24,7 +24,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr th:each="psl : ${paymentSettlementList}">
+                                            <tr th:each="psl : ${paymentSettlementList.contents}">
                                             	<th:block>
                                             		<input type="hidden" th:value=${psl.paymentSettlementCode} />
                                             	</th:block>
@@ -49,20 +49,24 @@
                     <!-- card-body // -->
                 </div>
                 <!-- card end// -->
-                <div class="pagination-area mt-30 mb-50">
-                    <nav aria-label="Page navigation example">
-                        <ul class="pagination justify-content-start">
-                            <li class="page-item active"><a class="page-link" href="#">01</a></li>
-                            <li class="page-item"><a class="page-link" href="#">02</a></li>
-                            <li class="page-item"><a class="page-link" href="#">03</a></li>
-                            <li class="page-item"><a class="page-link dot" href="#">...</a></li>
-                            <li class="page-item"><a class="page-link" href="#">16</a></li>
-                            <li class="page-item">
-                                <a class="page-link" href="#"><i class="material-icons md-chevron_right"></i></a>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
+ 				<div class="pagination-area mt-30 mb-50">
+					<nav aria-label="Page navigation example">
+					    <ul class="pagination justify-content-start">
+					    	<li class="page-item" th:classappend="${paymentSettlementList.currentPage < 2}? 'disabled'">
+								<a class="page-link d-flex justify-content-center align-items-center" th:href="@{/manager/pay/settlementList(currentPage=${paymentSettlementList.currentPage - 1})}"><i class="material-icons md-chevron_left"></i></a>
+							</li>
+					        <th:block th:each="num : ${#numbers.sequence(paymentSettlementList.startPageNum, paymentSettlementList.endPageNum)}">
+					            <li class="page-item"
+					                th:classappend="${paymentSettlementList.currentPage == num} ? 'active'">
+					                <a class="page-link" th:href="@{/manager/pay/settlementList(currentPage=${num})}">[[${num}]]</a>
+					            </li>
+					        </th:block>
+					        <li class="page-item" th:classappend="${paymentSettlementList.currentPage >= paymentSettlementList.lastPage} ? 'disabled'">
+					            <a class="page-link d-flex justify-content-center align-items-center" th:href="@{/manager/pay/settlementList(currentPage=${paymentSettlementList.currentPage + 1})}"><i class="material-icons md-chevron_right"></i></a>
+					        </li>
+					    </ul>
+					</nav>
+				</div>
             </section>
       </th:block>
 </html>

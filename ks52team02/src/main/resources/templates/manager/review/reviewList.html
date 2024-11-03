@@ -2,6 +2,81 @@
 <html xmlns:th="http://www.thymeleaf.org" 
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  layout:decorate="~{manager/layouts/layout}">
+	<th:block layout:fragment="customContent">  
+	    <section class="content-main">
+	        <div class="content-header">
+	            <div>
+                    <h2 class="content-title card-title" th:text="${title}"></h2>
+                    <p th:text="${content}"></p>
+                </div>
+	        </div>
+	        <div class="card mb-4">
+	            <!-- card-header end// -->
+	            <div class="card-body">
+	                <div class="table-responsive">
+	                    <table class="table table-hover text-center">
+	                        <thead>
+	                            <tr>
+	                                <th>후기 코드</th>
+	                                <th>멘토 아이디</th>
+	                                <th>평점</th>
+	                                <th>평점</th>
+	                                <th>후기 내용</th>
+	                                <th>후기 등록일자</th>
+	                                <th>후기삭제</th>
+	                            </tr>
+	                        </thead>
+	                        <tbody>
+	                            <tr th:unless="${#lists.isEmpty(reviewList)}" th:each="rl : ${reviewList.contents}">
+	                                <td th:text="${rl.reviewCode}"></td>
+	                                <td th:text="${rl.menteeId}"></td>
+	                                <td>
+								        <ul class="rating-stars">
+								            <li th:style="'width:' + (${rl.reviewScore} / 5.0) * 100 + '%'" class="stars-active">
+								                <img src="/manager/imgs/icons/stars-active.svg" alt="stars" />
+								            </li>
+								            <li>
+								                <img src="/manager/imgs/icons/starts-disable.svg" alt="stars" />
+								            </li>
+								        </ul>
+								    </td>
+	                                <td th:text="${rl.reviewScore}"></td>
+	                                <td th:text="${rl.reviewContent}"></td>
+	                                <td th:text="${rl.reviewRegDate}"></td>
+	                                <td>
+	                                	<button type="button" class="btn btn-sm font-sm btn-light rounded reviewDelBtn" th:data-review-code="${rl.reviewCode}"><i class="material-icons md-delete_forever"></i>삭제</button>
+	                                </td>
+	                            </tr>
+	                            <tr th:if="${#lists.isEmpty(reviewList)}">
+									<td class="text-center" colspan="7">등록된 멘토링 후기가 없습니다.</td>
+								</tr>
+	                        </tbody>
+	                    </table>
+	                </div>
+	                <!-- table-responsive//end -->
+	            </div>
+	            <!-- card-body end// -->
+	        </div>
+        	<div class="pagination-area mt-30 mb-50">
+                  <nav aria-label="Page navigation example">
+				    <ul class="pagination justify-content-start">
+				    	<li class="page-item" th:classappend="${reviewList.currentPage < 2}? 'disabled'">
+							<a class="page-link d-flex justify-content-center align-items-center" th:href="@{/manager/review/list(currentPage=${reviewList.currentPage - 1})}"><i class="material-icons md-chevron_left"></i></a>
+						</li>
+				        <th:block th:each="num : ${#numbers.sequence(reviewList.startPageNum, reviewList.endPageNum)}">
+				            <li class="page-item"
+				                th:classappend="${reviewList.currentPage == num} ? 'active'">
+				                <a class="page-link" th:href="@{/manager/review/list(currentPage=${num})}">[[${num}]]</a>
+				            </li>
+				        </th:block>
+				        <li class="page-item" th:classappend="${reviewList.currentPage >= reviewList.lastPage} ? 'disabled'">
+				            <a class="page-link d-flex justify-content-center align-items-center" th:href="@{/manager/review/list(currentPage=${reviewList.currentPage + 1})}"><i class="material-icons md-chevron_right"></i></a>
+				        </li>
+				    </ul>
+				</nav>
+            </div>
+	    </section>
+	</th:block>
 	<th:block layout:fragment="customJs">
 		<script>
 		
@@ -55,79 +130,5 @@
 		
     	</script>
 		
-	</th:block>
-	<th:block layout:fragment="customContent">  
-	    <section class="content-main">
-	        <div class="content-header">
-	            <div>
-                    <h2 class="content-title card-title" th:text="${title}"></h2>
-                    <p th:text="${content}"></p>
-                </div>
-	            <div>
-	                <input type="text" placeholder="Search by name" class="form-control bg-white" />
-	            </div>
-	        </div>
-	        <div class="card mb-4">
-	            <!-- card-header end// -->
-	            <div class="card-body">
-	                <div class="table-responsive">
-	                    <table class="table table-hover text-center">
-	                        <thead>
-	                            <tr>
-	                                <th>후기 코드</th>
-	                                <th>멘토 아이디</th>
-	                                <th>평점</th>
-	                                <th>평점</th>
-	                                <th>후기 내용</th>
-	                                <th>후기 등록일자</th>
-	                                <th>후기삭제</th>
-	                            </tr>
-	                        </thead>
-	                        <tbody>
-	                            <tr th:unless="${#lists.isEmpty(reviewList)}" th:each="rl : ${reviewList}">
-	                                <td th:text="${rl.reviewCode}"></td>
-	                                <td th:text="${rl.menteeId}"></td>
-	                                <td>
-								        <ul class="rating-stars">
-								            <li th:style="'width:' + (${rl.reviewScore} / 5.0) * 100 + '%'" class="stars-active">
-								                <img src="/manager/imgs/icons/stars-active.svg" alt="stars" />
-								            </li>
-								            <li>
-								                <img src="/manager/imgs/icons/starts-disable.svg" alt="stars" />
-								            </li>
-								        </ul>
-								    </td>
-	                                <td th:text="${rl.reviewScore}"></td>
-	                                <td th:text="${rl.reviewContent}"></td>
-	                                <td th:text="${rl.reviewRegDate}"></td>
-	                                <td>
-	                                	<button type="button" class="btn btn-sm font-sm btn-light rounded reviewDelBtn" th:data-review-code="${rl.reviewCode}"><i class="material-icons md-delete_forever"></i>삭제</button>
-	                                </td>
-	                            </tr>
-	                            <tr th:if="${#lists.isEmpty(memberList)}">
-									<td class="text-center" colspan="7">등록된 멘토링 후기가 없습니다.</td>
-								</tr>
-	                        </tbody>
-	                    </table>
-	                </div>
-	                <!-- table-responsive//end -->
-	            </div>
-	            <!-- card-body end// -->
-	        </div>
-	        <div class="pagination-area mt-30 mb-50">
-	            <nav aria-label="Page navigation example">
-	                <ul class="pagination justify-content-start">
-	                    <li class="page-item active"><a class="page-link" href="#">01</a></li>
-	                    <li class="page-item"><a class="page-link" href="#">02</a></li>
-	                    <li class="page-item"><a class="page-link" href="#">03</a></li>
-	                    <li class="page-item"><a class="page-link dot" href="#">...</a></li>
-	                    <li class="page-item"><a class="page-link" href="#">16</a></li>
-	                    <li class="page-item">
-	                        <a class="page-link" href="#"><i class="material-icons md-chevron_right"></i></a>
-	                    </li>
-	                </ul>
-	            </nav>
-	        </div>
-	    </section>
 	</th:block>
 </html>

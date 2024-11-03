@@ -46,20 +46,19 @@ public class ManagerPaymentController {
     }
 	
 	@GetMapping("/settlementList")
-	public String managerSettlementRequestList(Model model) {
+	public String managerSettlementRequestList(Pageable pageable, Model model) {
 		
-		List<PaymentSettlement> paymentSettlementList = managerPayMapper.getPaymentSettlementList(); 
+		PageInfo<PaymentSettlement> paymentSettlementList = managerPayService.getPaymentSettlementList(pageable);
 		
 		model.addAttribute("paymentSettlementList", paymentSettlementList);
-		model.addAttribute("title", "멘토링 정산 신청 내역 조회");
 		
 		return  "manager/pay/settlementRequestList";
 	}
 	
 	@GetMapping("/settlementHistoryList")
-	public String managerSettlementHistoryList(Model model) {
+	public String managerSettlementHistoryList(Pageable pageable, Model model) {
 		
-		List<PaymentSettlement> paymentSettlementHistoryList = managerPayMapper.getPaymentSettlementHistoryList();
+		PageInfo<PaymentSettlement> paymentSettlementHistoryList = managerPayService.getPaymentSettlementHistoryList(pageable);
 		
 		model.addAttribute("paymentSettlementHistoryList", paymentSettlementHistoryList);
 		model.addAttribute("title", "멘토링 정산 내역 조회");

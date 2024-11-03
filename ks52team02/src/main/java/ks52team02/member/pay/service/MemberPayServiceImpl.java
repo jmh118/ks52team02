@@ -27,6 +27,15 @@ public class MemberPayServiceImpl implements MemberPayService {
 	private final MemberPayMapper memberPayMapper;
 	private final CommonMapper commonMapper;
 	
+	@Override
+	public void removeMentoringApplyByCode(String applyCode, String detailCode) {
+		
+		int removeResult = memberPayMapper.removeMentoringApplyByCode(applyCode);
+		if (removeResult > 0) {
+			memberPayMapper.updateMentoringDetailStatusByCode(detailCode);
+		}
+		
+	}
 	
 	@Override
 	public int addPay(List<MentoringData> mentoringDataList) {

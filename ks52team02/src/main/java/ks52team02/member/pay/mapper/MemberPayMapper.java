@@ -12,6 +12,12 @@ import ks52team02.member.pay.dto.Pay;
 @Mapper
 public interface MemberPayMapper {
 	
+	// 멘토링 신청 삭제 이후 공고 상태 수정
+	int updateMentoringDetailStatusByCode(String detailCode);
+	
+	// 멘토링 신청 삭제 
+	int removeMentoringApplyByCode(String applyCode);
+	
 	// 멘토링 모집 공고 상세 상태 변경
 	int updateMentroingDatailStatus(List<String> detailCode);
 	
