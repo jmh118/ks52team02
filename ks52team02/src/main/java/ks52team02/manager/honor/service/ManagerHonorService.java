@@ -7,12 +7,12 @@ import ks52team02.page.Pageable;
 
 public interface ManagerHonorService {
 	
+	
 	// 명예멘토 취소 
 	int honorMentorCancel(String memeberId);
 	
 	// 명예멘토 승인
 	int honorMentorApprove(String memeberId);
-	
 	
 	// 후기 개수, 평점 멘토 목록 조회
 	PageInfo<MentorReviewData> getMentorReviewsDataList(Pageable pageable);
