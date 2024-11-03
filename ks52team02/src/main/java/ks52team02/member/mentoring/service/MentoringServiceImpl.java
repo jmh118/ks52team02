@@ -29,6 +29,11 @@ public class MentoringServiceImpl implements MentoringService{
 	private final CommonMapper commonMapper;
 	
 	@Override
+	public void modifyAnswer(NoticeAnswer noticeAnswer) {
+		mentoringMapper.modifyAnswer(noticeAnswer);	
+	}
+	
+	@Override
 	public List<Topic> getCategoryCountList() {
 		List<Topic> categoryCount = mentoringMapper.getCategoryCountList();
 		return categoryCount;

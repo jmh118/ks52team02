@@ -51,7 +51,8 @@ public interface MentoringService {
 
 	// 공고질문 수정
 	void modifyQuestion(NoticeQuestion noticeQuestion);
-
+	
+	// 멘티프로필 조회
 	List<MenteeProfile> getApplyMenteeProfileById(String memberId);
 
 	//카테고리 갯수
@@ -59,6 +60,9 @@ public interface MentoringService {
 
 	// 공고상세 추가
 	void addNoticeDetail(NoticeDetail noticeDetail);
+
+	// 공고답변 수정
+	void modifyAnswer(NoticeAnswer noticeAnswer);
 
 
 

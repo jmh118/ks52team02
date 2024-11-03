@@ -83,7 +83,10 @@ public interface MentoringMapper {
 	String getLastNoticeCode();
 
 	// 공고상세등록
-	void addNoticeDetail(NoticeDetail detail);
+	int addNoticeDetail(NoticeDetail detail);
+
+	// 공고 질문에대한답변 수정
+	int modifyAnswer(NoticeAnswer noticeAnswer);
 
 
 
