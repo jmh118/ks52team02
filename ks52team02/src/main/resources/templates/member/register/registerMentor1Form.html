@@ -7,22 +7,18 @@
 			
 			/*커리어 항목 추가*/
 			let rowCount = 1;
-			$('#addBtn').click(function(){
+			$(document).on('click', '.add-btn', function(){
 				if(rowCount <= 10 && rowCount>=1){
 					rowCount ++;
 					
-					const $row = $('div[id^="row"]').last().clone(true); // 이벤트 복제 O
+					const $copyCareerRow = $('.careerRows').last().clone(true);
+					$copyCareerRow.find('input').val('');
+					const idx = Number($copyCareerRow[0].dataset.idx);
+					$copyCareerRow[0].dataset.idx = idx + 1; 
 					
-					$row.find('input').val('');
-
-					$('input[id="careerInputVal"]').val('');
-					$('select[id="careerDetailInputVal"]').val('');
-					$('input[id="careerDetailContentVal"]').val('');
-					$('input[id="joinCareer"]').val('');
-					$('input[id="quiteCareer"]').val('');
-					
-					$row.attr('id', 'row' + rowCount);
-					$row.hide().insertAfter('.careerRows:last').fadeIn(300);
+					$copyCareerRow.hide();
+					$('.careerRows').last().after($copyCareerRow);
+					$copyCareerRow.fadeIn(300);
 				
 				}else{
 					alert("항목은 10개까지 등록할 수 있습니다.");
@@ -32,63 +28,63 @@
 
 			
 			/*커리어 삭제*/
-			$('#delBtn').click(function(){
+			$(document).on('click', '.del-btn', function(){
 				if(rowCount <= 1){
 					alert("첫 항목은 삭제할 수 없습니다.");
 					return ;
 				}else{
 					rowCount --;
-					$(this).closest('.careerRows').remove();
-				}
-			});			
-			
-			/*모달 창에서 커리어 내용 불러오기*/
-			document.getElementById('careerSubmitBtn').addEventListener('click', function(){
-				
-				// 부모 요소(carrerRows) id 가져오기.........
-				// const parentId = this.closest('.careerRows').id;
-			
-				// 회사명
-				const $careerInputVal = document.getElementById('careerInputVal').value;
-				document.getElementById('careerInput').value = $careerInputVal;
-				
-				// 업무명
-				const $careerDetailInputVal = function(){
-					const selectVal = document.getElementById('careerDetailInputVal').value;
-					return selectVal;
-				}
-				document.getElementById('careerDetailInput').value = $careerDetailInputVal();
-				
-				// 시간
-				const getTotalDates = function(){
-					const $joinCareer = new Date(document.getElementById('joinCareer').value);
-					const $quiteCareer = new Date(document.getElementById('quiteCareer').value);
-					const totalDates = ($quiteCareer.getTime() - $joinCareer.getTime())/(1000 * 60 * 60 * 24);
-					const nowDates = function(){
-					    var dt = new Date();
-					 
-					    var recentYear = dt.getFullYear();
-					    var recentMonth = dt.getMonth() + 1;
-					    var recentDay = dt.getDate();
-					 
-					    if(recentMonth < 10) recentMonth = "0" + recentMonth;
-					    if(recentDay < 10) recentDay = "0" + recentDay;
-					 
-					    return recentYear + "-" + recentMonth + "-" + recentDay;
+					$(this).closest('.careerRows').fadeOut(200, function(){
+						$(this).remove();
+						});
 					}
-					
-					console.log(nowDates());
-					console.log($quiteCareer);
-					console.log($quiteCareer-totalDates);
-					
-					if(totalDates>=0) return totalDates;
-					if(totalDates<0) alert('입사일자 및 퇴사일자가 잘못되었습니다.'); return '';
-				}
-				document.getElementById('careerTimeInput').value = getTotalDates();
+				});			
+			
+			/* 모달값 가져오기 */
+			$(document).on('click', '.modal-btn', function(){
+				$('#registerMentorModal')[0].dataset.targetIdx = this.closest('.careerRows').dataset.idx;
+				$('#registerMentorModal').modal('show');
+			});
+			
+			$('#careerSubmitBtn').on('click', function(){
+				
+				const idx = Number($('#registerMentorModal')[0].dataset.targetIdx);
+				const careerInputVal = $('#careerInputVal').val();
+				const careerCorporateName = $('#careerCorporateName').val();				
+				const careerWork = $('#careerWork').val();
+				
+				const joinCareer = $('#joinCareer').val();			
+				const quiteCareer = $('#quiteCareer').val();			
+				
+				const carrerTime = $('#carrerTime').val();
+				
+					const getCareerDays = function(joinCareer, quiteCareer){
+						let startDate = new Date(joinCareer);
+						let endDate = new Date(quiteCareer);
+						
+						let diffTime = endDate.getTime() - startDate.getTime();
+						    
+					    // 밀리초 일 단위로 변환
+					    let diffDays = diffTime / (1000 * 60 * 60 * 24);
+					    
+					    // 일수 차이 반환
+					    return diffDays;
+					}
+						
+				const calculatedCareerDays = getCareerDays(joinCareer, quiteCareer);
+				// console.log(calculatedCareerDays);
+				
+				$('.careerRows').eq(idx).find('input[name="careerCorporateName"]').val(careerCorporateName);
+				$('.careerRows').eq(idx).find('input[name="careerWork"]').val(careerWork);
+				$('.careerRows').eq(idx).find('input[name="carrerTime"]').val(getCareerDays(joinCareer, quiteCareer));
+				
+				$('#registerMentorModal').find('input, select').val('');
+				$('#registerMentorModal').modal('hide');
 
 			});
-				
+			
 			/*누적 근무경력 일수 합계 계산*/
+			/*
 			const $careerTimeInput = document.getElementById('careerTimeInput');
 			
 				$careerTimeInput.addEventListener('input', function(){
@@ -96,8 +92,7 @@
 					document.getElementById('totalCareerDays').textContent = Number($careerTimeInput.value).toLocaleString('ko-KR');
 				
 				});
-				
-				
+				*/
 				
 			/*근무 경력 730일 이상 검증*/
 			const totalCareerDays = Number(document.getElementById('totalCareerDays').textContent.replace(/,/g, ''));
@@ -114,7 +109,6 @@
 			       		
 					 }
 					
-			
 		</script>
 		<th:block th:insert="~{member/register/modal/registerMentorModal :: modalJs}"></th:block>
 	</th:block>
@@ -126,19 +120,19 @@
 				    <p class="text-center mb-2">이미 계정을 가지고 있으신가요? <a href="/member/login"> &nbsp; 로그인하러 가기</a></p>
 				</div>
 				     <h5 class="mb-20 mt-50">Step 1. 근무 경력을 등록해 주세요</h5>
-						 <div id="row" class="careerRows d-flex justify-content-center align-items-center mt-20">
-							<input id="careerInput" type="text" class="ml-10" disabled/>
-							<input id="careerDetailInput" type="text" class="ml-10" disabled/>
-							<input id="careerTimeInput" type="text" class="ml-10" disabled/>
-								<button id="modiBtn"type="button" class="btn btn-block w-90 ml-20 modiBtn" data-bs-toggle="modal" th:attr="data-target=${registerMentorModal}" data-bs-target="#registerMentorModal" style="background-color: #3BB77E;">enter</button>
-								<button id="delBtn" type="button" class="btn btn-block w-90 ml-10 delBtn" style="background-color: #cc7171;">delete</button>
-				                <button id="addBtn" type="button" class="btn ml-10 addBtn" style="background-color: darkgray;">+</button>
+						 <div class="careerRows d-flex justify-content-center align-items-center mt-20" data-idx="0">
+							<input name="careerCorporateName" type="text" class="ml-10 career-corporate-name" readonly/>
+							<input name="careerWork" type="text" class="ml-10 career-work" readonly/>
+							<input name="carrerTime" type="text" class="ml-10 carrer-time" readonly/>
+								<button type="button" class="btn btn-block w-90 ml-20 modal-btn" style="background-color: #3BB77E;">enter</button>
+								<button type="button" class="btn btn-block w-90 ml-10 del-btn" style="background-color: #cc7171;">delete</button>
+				                <button type="button" class="btn ml-10 add-btn" style="background-color: darkgray;">+</button>
 						 </div>
-						 	<div class="d-flex justify-content-center align-items-center p-40">
-								<span>총 근무 경력 : </span>
-								<h4 id="totalCareerDays" class="text-brand mb-5 d-inline mb-0 ml-10">0</h4>
-								<span>days</span>
-							</div>
+					 	<div class="d-flex justify-content-center align-items-center p-40">
+							<span>총 근무 경력 : </span>
+							<h4 id="careerDays" class="text-brand mb-5 d-inline mb-0 ml-10"></h4>
+							<span>days</span>
+						</div>
                	<div id="continue" class="mb-10 d-flex justify-content-center">
 					<div>
     	              	<button id="continueBtn" type="button" class="btn btn-block w-80" th:onclick="|location.href='@{/register/mentor2}'|" disabled>회원가입 계속하기</button>

@@ -34,13 +34,15 @@ public class CommonInterceptor implements HandlerInterceptor{
 		for(String paramKey : paramMap) {
 			param.add(paramKey + " : " + request.getParameter(paramKey));
 		}
-
+		
+		String ip = request.getHeader("X-Real-Ip") == null ? request.getRemoteAddr() : request.getHeader("X-Real-Ip"); 
+		
 		log.info("ACCESS INFO START============================================");
 		log.info("PORT :::::::: {}", request.getLocalPort());
 		log.info("SERVERNAME :::::::: {}", request.getServerName());
 		log.info("HTTP METHOD :::::::: {}", request.getMethod());
 		log.info("URL :::::::: {}", request.getRequestURI());
-		log.info("CLIENT IP :::::::: {}", request.getRemoteAddr());
+		log.info("CLIENT IP :::::::: {}", ip);
 		log.info("PARAMETER :::::::: {}", param);
 		log.info("ACCESS INFO END============================================");
 		

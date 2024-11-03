@@ -8,12 +8,26 @@
 	</head>
 	<th:block layout:fragment="customJs">
 		<script type="text/javascript">
+			
 	        const $noticeStartYmd = $('#noticeStartYmd').flatpickr();
 	        const $noticeEndYmd = $('#noticeEndYmd').flatpickr();
-	        const $datePicker = $('.datePicker').flatpickr();
-	        $noticeStartYmd.config.onChange.push(function(selectedDates, dateStr, instance) {
+	        const $datePicker = $('.datePicker').flatpickr({
+					                enable : [
+					                    function(date){
+					                        if(startDate && endDate) return date >= startDate && date <= endDate;
+					                    }
+					                ]
+					            });
+
+	        $('.datePicker').prop('disabled', true);
+	        
+	        
+	        $noticeStartYmd.config.onChange.push(function(selectedDates, dateStr, instance){
+	        	console.log(selectedDates, dateStr,instance);
 	        	const startDate = selectedDates[0];
 	            const endDate = $noticeEndYmd?.selectedDates[0];
+	            
+	            const $datePicker = $('.datePicker');
 	            if(endDate && (startDate > endDate)){
 	                Swal.fire({
 	                    icon: "error",
@@ -21,10 +35,12 @@
 	                    text: `${endDate.toLocaleDateString()} 이전 날짜를 선택해주세요`
 	                });
 	   				instance.clear();
-	   			
+	   				$datePicker.prop('disabled', true);
 	                return;
 	            }
-	            const $datePicker = $('.datePicker');
+	            
+	            if(startDate && endDate) $datePicker.prop('disabled', false);
+	            
 	            $($datePicker).each((idx, item)=>{
 	            	const datePicker = flatpickr(item, {});
 	            	datePicker.config.enable = [function(date){
@@ -32,14 +48,19 @@
 	                    return date >= startDate;
 	                }];
 	            	datePicker.redraw();
+	            	const startDate1 = new Date($('#noticeStartYmd').val());
+	                const targetDate = new Date($(item).val());
+	                if(startDate1 > targetDate) datePicker.clear();
 	            });
-	            
+	            instance.close();
 	        });
-	
-	        
+        
 	        $noticeEndYmd.config.onChange.push(function(selectedDates, dateStr, instance) {
+	        	console.log(selectedDates, dateStr,instance);
 	        	const startDate = $noticeStartYmd?.selectedDates[0];
 	            const endDate = selectedDates[0];
+	            
+	            const $datePicker = $('.datePicker');
 	            if(startDate && (startDate > endDate)){
 	                Swal.fire({
 	                    icon: "error",
@@ -47,18 +68,24 @@
 	                    text: `${startDate.toLocaleDateString()} 이후 날짜를 선택해주세요`
 	                });
 	                instance.clear();
-	                
+	                $datePicker.prop('disabled', true);
 	                return;
 	            }
-	            const $datePicker = $('.datePicker').flatpickr();
-	            $($datePicker).each((idx, item)=>{
-	                item.config.enable = [function(date){
-	                    if(startDate) return date >= startDate && date <= endDate;
-	                    return date <= endDate;
-	                }];
-	                item.redraw();
-	            });
 	            
+	            if(startDate && endDate) $datePicker.prop('disabled', false);
+	            
+	            $($datePicker).each((idx, item)=>{
+	            	const datePicker = flatpickr(item, {});
+	            	datePicker.config.enable = [function(date){
+	                    if(startDate) return date >= startDate && date <= endDate;
+	                    return date >= startDate;
+	                }];
+	            	datePicker.redraw();
+	            	const endDate1 = new Date($('#noticeEndYmd').val());
+	                const targetDate = new Date($(item).val());
+	                if(endDate1 > targetDate) datePicker.clear();
+	            });
+	            instance.close();
 	        });
 
 	
@@ -87,7 +114,18 @@
 	        $(document).on('click', '.copy-btn', function(){
 	        	const $row = $(this).closest('.mb-3.row').clone(true);
 	        	$row.find('input').val('');
-	        	$row.find('input.datePicker').flatpickr();
+	        	$row.find('input.datePicker').each((idx,item)=>{
+	                const startDate = $noticeStartYmd?.selectedDates[0];
+	                const endDate = $noticeEndYmd?.selectedDates[0];
+	                const datePicker = item.flatpickr({
+	                    enable : [
+	                        function(date){
+	                            if(startDate && endDate) return date >= startDate && date <= endDate;
+	                        }
+	                    ]
+	                });
+
+	            });
 	        	$row.find('input.dateTimePicker').flatpickr({
                     enableTime: true,
                     noCalendar: true,
@@ -101,6 +139,7 @@
 	        	
 	        	$('#timeContainer').append($row);
 	        });
+	        
 	        $(document).on('click', '.del-btn', function() { 
 	            if ($('#timeContainer .mb-3.row').length > 1) {
 	                $(this).closest('.mb-3.row').remove();
@@ -197,7 +236,7 @@
 						        <div class="mb-3 row">
 						            <div class="form-group col-lg-3">
 						                <label for="datePicker" class="form-label">날짜</label>
-						                <input type="text" name="mentoringYmdList" class="form-control datePicker" value="">
+						                <input type="text" name="mentoringYmdList" class="form-control input-date datePicker" value="">
 						            </div>
 						            <div class="form-group col-lg-3">
 						                <label for="dateTimePicker" class="form-label">멘토링시간</label>
