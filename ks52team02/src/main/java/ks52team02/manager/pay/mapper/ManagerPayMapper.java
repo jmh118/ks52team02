@@ -14,11 +14,17 @@ public interface ManagerPayMapper {
 	// 멘토 정산 승인
 	int managerPayApproveById(String settlementCode);
 	
+	// 정산 정산 내역 행 개수 조회
+	int getPaymentSettlementHistoryCnt();
+	
 	// 멘토 정산 내역 조회
-	List<PaymentSettlement> getPaymentSettlementHistoryList();
+	List<PaymentSettlement> getPaymentSettlementHistoryList(Pageable pageable);
+	
+	// 정산 신청 내역 행 개수 조회
+	int getPaymentSettlementCnt();
 	
 	// 멘토 정산 신청 내역 조회
-	List<PaymentSettlement> getPaymentSettlementList();
+	List<PaymentSettlement> getPaymentSettlementList(Pageable pageable);
 	
 	// 결제 내역 행 개수 조회
 	int getPayListCount();
