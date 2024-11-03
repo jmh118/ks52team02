@@ -11,7 +11,6 @@
                 <h1 class="heading-2 mb-10">멘토링 신청 내역</h1>
                 <div class="d-flex justify-content-between">
                     <h6 class="text-body">멘토링 신청 내역이 <span class="text-brand" th:text="${cnt}"></span> 건 있습니다~</h6>
-                    <h6 class="text-body"><a href="#" class="text-muted"><i class="fi-rs-trash mr-5"></i>Clear List</a></h6>
                 </div>
             </div>
         </div>
@@ -37,6 +36,7 @@
                                     <label class="form-check-label" th:for="'checkbox_' + ${iter.index}"></label>
                                     <input type="hidden" class="applyCode" th:value="${bpl.applyCode}"/>
                                     <input type="hidden" class="noticeCode" th:value="${bpl.notice.noticeCode}"/>
+                                    <input type="hidden" class="noticeDetailCode" th:value="${bpl.noticeDetail.noticeDetailCode}"/>
                                 </td>
                                 <td class="image product-thumbnail pt-40"><img src="/manager/imgs/people/user-avatar.png" alt="mentor"></td>
                                 <td class="product-des product-name">
@@ -50,7 +50,7 @@
                                 <td class="price" data-title="Price">
                                     <h4 class="text-brand" th:text="${bpl.notice.noticeUntprc}"></h4>
                                 </td>
-                                <td class="action text-center" data-title="Remove"><a href="#" class="text-body"><i class="fi-rs-trash"></i></a></td>
+                                <td class="action text-center" data-title="Remove"><a th:href="@{/pay/remove(applyCode=${bpl.applyCode}, detailCode=${bpl.noticeDetail.noticeDetailCode})}" class="text-body"><i class="fi-rs-trash"></i></a></td>
                             </tr>
                             <tr th:if="${beforePayList == null || beforePayList.isEmpty()}" class="text-center">
                                 <td colspan="5">신청한 멘토링이 없습니다.</td>
