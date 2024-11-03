@@ -15,26 +15,36 @@
 		</div>
 		<div class="card-body">
 			<p>자기 자신을 소개해 주세요!<br> 작성한 내용들은 멘토링시 멘토에게 제공되며 멘토링에 도움이 될수 있습니다</p>
-			<form method="post" name="enq">
+			<form th:action="@{/mypage/mentee/introduce}" method="post" name="menteeProfile" th:object="${menteeProfile}">
+				<input class="form-control" name="memberId" type="hidden" th:value="*{memberId}"/>
 				<div class="row">
 					<div class="form-group col-md-6">
-						<label>당신의 관심분야<span class="required">*</span></label>
-						<input required="" class="form-control" name="name" type="text"
-							value="" />
+						<label>당신의 관심분야* </label>
+						<span class="required">
+						<input required class="form-control" name="interestField" type="text" th:value="*{interestField}" />
+						</span>
+						
 					</div>
 					<div class="form-group col-md-12">
-						<label>관심있는 분야&기술 <span class="required">*</span></label>
-						<input required="" class="form-control" name="dname" type="text"
-							value="" />
+						<label>관심있는 분야&기술*</label> 
+						<span class="required">
+						<input required class="form-control" name="fieldTechnology" type="text" th:value="*{fieldTechnology}" />
+						</span>
+						
 					</div>
 					<div class="form-group col-md-12">
-						<label>관심 분야에서의 본인 수준 <span class="required">*</span></label>
-						<input required="" class="form-control" name="email"
-							value="" />
+						<label>관심 분야에서의 본인 수준*</label> 
+						<span class="required">
+						<input required class="form-control" name="experienceLevel" th:value="*{experienceLevel}" />
+						</span>
+						
 					</div>
 					<div class="form-group col-md-12">
-						<label>관심 분야에서 했던 자신의 경험 <span class="required">*</span></label>
-						<textarea></textarea>
+						<label>관심 분야에서 했던 자신의 경험* </label>
+						<span class="required">
+						<textarea name="experienceExplanation" th:text="*{experienceExplanation}"></textarea>
+						</span>
+						
 					</div>
 					<div class="col-md-12">
 						<button type="submit"
