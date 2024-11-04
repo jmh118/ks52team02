@@ -52,7 +52,7 @@
 	        			</tr>
 	        		</thead>
 	        		<tbody>
-	        			<tr th:if="${reviewList != null}" th:each="rl : ${reviewList}">
+	        			<tr th:unless="${#lists.isEmpty(reviewList)}" th:each="rl : ${reviewList}">
 	        				<td th:text="${rl.notice.noticeTitle}"></td>
 	        				<td th:text="${rl.noticeDetail.mentoringYmd}"></td>
 							<td th:text="${rl.noticeDetail.mentoringTime}"></td>
@@ -68,7 +68,7 @@
 	        				<td th:text="${rl.reviewContent}">3</td>
 	        				<td th:text="${rl.reviewRegDate}"></td>
 	        			</tr>
-	        			<tr th:if="${reviewList == null || reviewList.isEmpty()}" class="text-center">
+	        			<tr th:if="${#lists.isEmpty(reviewList)}" class="text-center">
 	        				<td colspan="7">등록 후기가 없습니다.</td>
 	        			</tr>
 	        		</tbody>
