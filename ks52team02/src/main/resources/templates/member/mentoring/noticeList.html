@@ -2,27 +2,13 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{member/layouts/layout}">
 	<th:block layout:fragment="customContent">
-        <div class="page-header mt-30 mb-50">
-            <div class="container">
-                <div class="archive-header">
-                    <div class="row align-items-center">
-                        <div class="col-xl-3">
-                            <h2 class="mb-15">멘토링 공고</h2>
-                            <div class="breadcrumb">
-                                <a href="index.html" rel="nofollow"><i class="fi-rs-home mr-5"></i>Home</a>
-                                <span></span> 멘토링 <span></span> 멘토링공고
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <div class="page-header mt-30 mb-50"></div>
         <div class="container mb-30">
             <div class="row flex-row-reverse">
                 <div class="col-lg-4-5">
                     <div class="shop-product-fillter">
                         <div class="totall-product">
-                            <p>멘토링 공고</p>
+                            <h3 class="mb-15">멘토링 공고</h3>
                         </div>
                         <div class="sort-by-product-area">
 							<div class="sort-by-cover mr-10">
@@ -31,7 +17,7 @@
                         </div>
                     </div>
                     <div class="row product-grid">
-                        <div class="col-lg-3 col-md-4 col-12 col-sm-6" th:each="nl : ${noticeList}">
+                        <div class="col-lg-3 col-md-4 col-12 col-sm-6" th:each="nl : ${noticeList.contents}">
                             <div class="product-cart-wrap mb-30"  style="height: 200px; display: flex; flex-direction: column; justify-content: space-between;">
                                 <div class="product-img-action-wrap">
                                     <div class="product-badges product-badges-position product-badges-mrg">
@@ -40,9 +26,8 @@
                                     </div>
                                 </div>
                                 <div class="product-content-wrap">
-                                    <div class="product-category">
-                                    </div>
-                                    <h2 th:text="${nl.noticeTitle}"></h2>
+                                    <div class="product-category"><h2 th:text="${nl.noticeTitle}"></h2></div>
+                                    
                                     <div>
 										<div class="font-small text-muted" th:text="${'분야 : ' + nl.topicName}"></div>
 										<div class="font-small text-muted" th:text="${'직무 : ' + nl.mentorPowkName}"></div>
@@ -57,24 +42,22 @@
                             </div>
                         </div>
                         <!--end product card-->
-                        
-                        
                     </div>
                     <!--product grid-->
                     <div class="pagination-area mt-20 mb-20">
                         <nav aria-label="Page navigation example">
                             <ul class="pagination justify-content-start">
-                                <li class="page-item">
-                                    <a class="page-link" href="#"><i class="fi-rs-arrow-small-left"></i></a>
+                                
+                                <th:block th:each="num : ${#numbers.sequence(noticeList.startPageNum, noticeList.endPageNum)}">
+						            <li class="page-item"
+						                th:classappend="${noticeList.currentPage == num} ? 'active'">
+						                <a class="page-link" th:href="@{/mentoring/notice(currentPage=${num})}">[[${num}]]</a>
+						            </li>
+					       		</th:block>
+                                <li class="page-item" th:classappend="${noticeList.currentPage >= noticeList.lastPage} ? 'disabled'">
+                                    <a class="page-link" th:href="@{/mentoring/notice(currentPage=${noticeList.currentPage + 1})}"><i class="fi-rs-arrow-small-right"></i></a>
                                 </li>
-                                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item active"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item"><a class="page-link dot" href="#">...</a></li>
-                                <li class="page-item"><a class="page-link" href="#">6</a></li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#"><i class="fi-rs-arrow-small-right"></i></a>
-                                </li>
+                                
                             </ul>
                         </nav>
                     </div>
@@ -84,7 +67,7 @@
                         <h5 class="section-title style-1 mb-30">Category</h5>
                         <ul>
                         	<li th:each="cc : ${categoryCount}">
-                                <a th:href="@{/mentoring/notice(category=${cc.topicName})}" th:text="${cc.topicName}"></a><span class="count" th:text="${cc.noticeCount}"></span>
+                                <a th:href="@{/mentoring/notice(category=${cc.topicCode})}" th:text="${cc.topicName}"></a><span class="count" th:text="${cc.noticeCount}"></span>
                             </li>
                         </ul>
                     </div>
