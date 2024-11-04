@@ -4,8 +4,9 @@
 	<!--<th:block layout:fragment="registerMentorModalFragment" th:replace="~{member/fragments/registerMentorModal :: registerMentorModalFragment}"></th:block>-->
 	<th:block layout:fragment="customJs">
 		<script>
+			let totalCareerDays = 0;
 			
-			/*커리어 항목 추가*/
+			/* 커리어 항목 추가 --------------------------------------------------------------------------------- */
 			let rowCount = 1;
 			$(document).on('click', '.add-btn', function(){
 				if(rowCount <= 10 && rowCount>=1){
@@ -27,20 +28,30 @@
 			});
 
 			
-			/*커리어 삭제*/
+			/* 커리어 삭제 --------------------------------------------------------------------------------- */
 			$(document).on('click', '.del-btn', function(){
 				if(rowCount <= 1){
 					alert("첫 항목은 삭제할 수 없습니다.");
 					return ;
 				}else{
 					rowCount --;
+					
+					// 삭제할 항목의 일수 빼기
+					const daysToRemove = Number($(this).closest('.careerRows').find('input[name="carrerTime"]').val());
+					totalCareerDays -= daysToRemove;
+
+					// 총 일수 표시 업데이트
+					updateTotalCareerDaysDisplay();
+					
+					// 사라짐 효과
 					$(this).closest('.careerRows').fadeOut(200, function(){
-						$(this).remove();
-						});
+					$(this).remove();
+					});
 					}
 				});			
+				
 			
-			/* 모달값 가져오기 */
+			/* 모달값 가져오기 ---------------------------------------------------------------------------------  */
 			$(document).on('click', '.modal-btn', function(){
 				$('#registerMentorModal')[0].dataset.targetIdx = this.closest('.careerRows').dataset.idx;
 				$('#registerMentorModal').modal('show');
@@ -49,31 +60,60 @@
 			$('#careerSubmitBtn').on('click', function(){
 				
 				const idx = Number($('#registerMentorModal')[0].dataset.targetIdx);
-				const careerInputVal = $('#careerInputVal').val();
 				const careerCorporateName = $('#careerCorporateName').val();				
 				const careerWork = $('#careerWork').val();
-				
 				const joinCareer = $('#joinCareer').val();			
 				const quiteCareer = $('#quiteCareer').val();			
 				
-				const carrerTime = $('#carrerTime').val();
-				
-					const getCareerDays = function(joinCareer, quiteCareer){
-						let startDate = new Date(joinCareer);
-						let endDate = new Date(quiteCareer);
-						
-						let diffTime = endDate.getTime() - startDate.getTime();
-						    
-					    // 밀리초 일 단위로 변환
-					    let diffDays = diffTime / (1000 * 60 * 60 * 24);
+				const getCareerDays = function(joinCareer, quiteCareer){
+					let startDate = new Date(joinCareer);
+					let endDate = new Date(quiteCareer);
+					let diffTime = endDate.getTime() - startDate.getTime();
 					    
-					    // 일수 차이 반환
-					    return diffDays;
-					}
-						
-				const calculatedCareerDays = getCareerDays(joinCareer, quiteCareer);
-				// console.log(calculatedCareerDays);
+				    // 밀리초 일 단위로 변환
+				    let diffDays = diffTime / (1000 * 60 * 60 * 24);
+				    
+				    // 일수 차이 반환
+				    return diffDays;
+				};
 				
+				// 기존 일수 제거
+				const existingDays = Number($('.careerRows').eq(idx).find('input[name="carrerTime"]').val());
+				totalCareerDays -= existingDays;
+				
+				
+				// 근무일수 계산		
+				const calculatedCareerDays = getCareerDays(joinCareer, quiteCareer);
+
+				// 누적 일수에 추가
+				totalCareerDays += calculatedCareerDays;
+				
+				// 누적일수 업데이트
+				updateTotalCareerDaysDisplay();
+				
+				// 누적 일수를 Number로 변경
+				const numCareerDays = Number(totalCareerDays);
+				console.log(numCareerDays);
+				
+
+				/*근무 경력 730일 이상 검증*/
+				const $continueBtn = document.getElementById('continueBtn');
+
+					if (numCareerDays >= 730) {
+						// console.log("730 이상");
+						$('#continueBtn').text('회원가입 계속하기');
+				    	$continueBtn.disabled = false;
+						$('#continueBtn').css('background-color', '#3BB77E');
+						
+					} else if (numCareerDays <730) {
+						// console.log("730 미만");
+						$('#continueBtn').text('경력이 충분하지 않습니다.');
+					    $continueBtn.disabled = true;
+						$('#continueBtn').css('background-color', 'gray');
+					}
+				
+				 
+				// 각자의 빈칸에 값 할당
 				$('.careerRows').eq(idx).find('input[name="careerCorporateName"]').val(careerCorporateName);
 				$('.careerRows').eq(idx).find('input[name="careerWork"]').val(careerWork);
 				$('.careerRows').eq(idx).find('input[name="carrerTime"]').val(getCareerDays(joinCareer, quiteCareer));
@@ -83,31 +123,11 @@
 
 			});
 			
-			/*누적 근무경력 일수 합계 계산*/
-			/*
-			const $careerTimeInput = document.getElementById('careerTimeInput');
-			
-				$careerTimeInput.addEventListener('input', function(){
-					const $totalCareerDays = document.getElementById('totalCareerDays');
-					document.getElementById('totalCareerDays').textContent = Number($careerTimeInput.value).toLocaleString('ko-KR');
-				
-				});
-				*/
-				
-			/*근무 경력 730일 이상 검증*/
-			const totalCareerDays = Number(document.getElementById('totalCareerDays').textContent.replace(/,/g, ''));
-			const $continueBtn = document.getElementById('continueBtn');
-			console.log(totalCareerDays);
-			
-			if (totalCareerDays >= 730) {
-						// console.log("730 이상");
-			            $continueBtn.disabled = false;
-			 	} else if (totalCareerDays <730) {
-						// console.log("730 미만");
-			            $continueBtn.disabled = true;
-			            $continueBtn.style.backgroundColor = 'gray';
-			       		
-					 }
+			/*누적 근무경력 일수 합계 계산 --------------------------------------------------------------------------------- */
+			function updateTotalCareerDaysDisplay() {
+			    return $('#careerDays').text(totalCareerDays);
+			}
+
 					
 		</script>
 		<th:block th:insert="~{member/register/modal/registerMentorModal :: modalJs}"></th:block>
