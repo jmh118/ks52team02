@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ks52team02.member.honor.mapper.MemberHonorMapper">
+
+	<select id="getHonorMentorList" parameterType="string" resultType="hornorMentor">
+		SELECT
+			m.member_id AS mentorId,
+			m.member_name AS mentorName,
+			m.member_email AS mentorEmail,
+			mpsa.average_postscript_point AS mentorReviewDate
+		FROM 
+			mentor_postscript_score_average mpsa INNER JOIN `member` m
+			ON mpsa.mentor_id = m.member_id
+		WHERE 
+			mpsa.mentor_id IN 
+			<foreach item="mentorId" index="index" open="(" separator="," close=")" collection="list">
+				#{mentorId}
+			</foreach>
+	
+	</select>
+
+</mapper>
