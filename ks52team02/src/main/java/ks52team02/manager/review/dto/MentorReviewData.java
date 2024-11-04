@@ -1,9 +1,10 @@
 package ks52team02.manager.review.dto;
 
+import ks52team02.manager.member.dto.Member;
 import lombok.Data;
 
 @Data
-public class MentorReviews {
+public class MentorReviewData {
 	
 	private String mentorReviewAvgCntCode;
 	private String mentorId;
@@ -12,5 +13,8 @@ public class MentorReviews {
 	private String firstRegDate;
 	private String lastUpDate;
 	private char isHonorMentor;
+	private boolean isapprove;
+	private boolean isCancel;
+	
 
 }

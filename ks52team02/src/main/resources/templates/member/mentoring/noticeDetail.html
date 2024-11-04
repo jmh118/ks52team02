@@ -3,7 +3,7 @@
 	layout:decorate="~{member/layouts/layout}">
 	<th:block layout:fragment="customJs">
 		<script type="text/javascript">
-	    	$('#NoticeAnswer').on('show.bs.modal', function (event) {
+	    	$('#noticeAnswer').on('show.bs.modal', function (event) {
 		        var button = $(event.relatedTarget);  // 모달을 연 버튼
 		        var questionCode = button.data('question-code');  // questionCode 가져오기
 		        var inputQuestionCode = $(this).find('input[name="questionCode"]');
@@ -20,8 +20,18 @@
 
 		        inputQuestionCode.val(questionCode);  // 모달의 숨겨진 필드에 설정
 		        inputQuestionContent.val(questionContent);
-
 		    });
+	    	$('#noticeAnswerModify').on('show.bs.modal', function(event){
+	    		var button = $(event.relatedTarget); 
+	    		var answerCode = button.data('answer-code');
+	    		var answerContent = button.data('answer-content');
+	    		var inputAnswerCode = $(this).find('input[name="answerCode"]');
+	    		var inputAnswerContent = $(this).find('textarea[name="answerContent"]');
+	    		
+	    		inputAnswerCode.val(answerCode);
+	    		inputAnswerContent.val(answerContent);
+	    	});
+	    	
 	    	
 	    	$('#applyBtn').click(function(){
 	    		let isSubmit = true;
@@ -54,15 +64,29 @@
 				
 				if(isSubmit) $('#mentoringApplyForm').submit();
 	    	});
-	    	$('#questionBtn').click(function(){
+	    	
+	    	$('.question-btn').click(function(e){
 	    		let isSubmit = true;
-	    		const memberGrade = $('#memberGrade').val();
-	    		if(memberGrade != 'member_level_mentee'){
-	    			alert('멘티만 등록할수 있습니다.');
+	    		e.preventDefault();
+	    		const grade = $(this).data('grade');
+	    		if(grade != 'member_level_mentee'){
+	    			alert('멘티만 등록할 수 있습니다.');
 	    			isSubmit = false;
 	    			return ;
 	    		}
-	    		if(isSubmit) $('#noticeQuestionForm').submit();
+	    		if(isSubmit) $('#noticeQuestion').modal('show');
+	    	});
+	    	
+	    	$('.apply-btn').click(function(e){
+	    		let isSubmit = true;
+	    		e.preventDefault();
+	    		const grade = $(this).data('grade');
+	    		if(grade != 'member_level_mentee'){
+	    			alert('멘티만 신청할 수 있습니다.');
+	    			isSubmit = false;
+	    			return ;
+	    		}
+	    		if(isSubmit) $('#mentoringApply').modal('show');
 	    	});
 
 		</script>
@@ -81,7 +105,7 @@
                                     <h2 class="title-detail" th:text="*{noticeTitle}"></h2>
                                     <div class="product-detail-rating">
                                         <div class="text-end">
-                                                <span class="font-md ml-15" th:text="*{'ID : ' + memberId}"></span><!-- (payCode=${p.paySettlementCalCode}) -->
+                                                <span class="font-md ml-15" th:text="*{'닉네임 : ' + memberName}"></span><!-- (payCode=${p.paySettlementCalCode}) -->
                                             <span class="font-small ml-5 text-muted"><a th:href="@{/review/mentorReviewList(memberId=*{memberId})}">review</a></span>
                                         </div>
                                     </div>
@@ -91,13 +115,12 @@
 	                                   	<p class="font-md ml-15" th:text="*{'현직 : ' + mentorPowkName}"></p>
                                     </div>
                                     <div class="detail-extralink mb-50">
-                                   		<a class="button button-add-to-cart" data-bs-toggle="modal" data-bs-target="#MentoringApply">신청하기</a>
-	                                   	                                  
+                                   		<a class="button button-add-to-cart apply-btn" th:data-grade="${session.SLEVEL}">신청하기</a>                          
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div th:insert="~{member/mentoring/modal/mentoringApplyModal :: MentoringApply}"></div>
+                        <div th:insert="~{member/mentoring/modal/mentoringApplyModal :: mentoringApply}"></div>
                         <div class="product-info">
                             <div class="tab-style3">
                                 <ul class="nav nav-tabs text-uppercase">
@@ -116,12 +139,12 @@
                                                 <li th:text=*{noticeContent}></li>
                                             </ul>
 											<hr class="wp-block-separator is-style-wide" />
-											<h4 class="mt-30">멘토링 가능 일자</h4>
+											<h4 class="mt-30">멘토링 가능 기간</h4>
 											<ul class="product-more-infor mt-30">
 	                                            <li th:text=*{mentoringPeriod}></li>
 	                                        </ul>
                                             <hr class="wp-block-separator is-style-wide" />
-                                            <h4 class="mt-30">멘토링 가능 시간</h4>
+                                            <h4 class="mt-30">멘토링 가능 스케줄</h4>
                                             <ul class="product-more-infor mt-30" th:each="m : ${mentoringTime}">   
                                                 <li th:text="${m.mentoringTime}"></li>
                                             </ul>                                                                                       
@@ -147,7 +170,7 @@
 	                                                                        </div>
 	                                                                    </div>
 	                                                                    <p class="mb-10" th:text="${nqa.questionContent}"></p>
-		                                                                <a class="collapsed" data-bs-toggle="modal" data-bs-target="#NoticeAnswer" th:attr="data-question-code=${nqa.questionCode}" th:if="${noticeDetail.memberId == session.SID}">답변하기</a>
+		                                                                <a class="collapsed" data-bs-toggle="modal" data-bs-target="#noticeAnswer" th:attr="data-question-code=${nqa.questionCode}" th:if="${noticeDetail.memberId == session.SID}">답변하기</a>
 		                                                                <a class="collapsed" data-bs-toggle="modal" data-bs-target="#noticeQuestionModify" th:attr="data-question-code=${nqa.questionCode}, data-question-content=${nqa.questionContent}" th:if="${nqa.memberId == session.SID}">수정하기</a>
 	                                                                </div>                                                             
 	                                                            </div>                                                           
@@ -163,8 +186,8 @@
 	                                                                            <span class="font-xs text-muted" th:text="${nqa.noticeAnswer.answerYmd}"></span>
 	                                                                        </div>
 	                                                                    </div>
-	                                                                    <p class="mb-10" th:text="${nqa.noticeAnswer.answerContent}">
-	                                                                    </p>
+	                                                                    <p class="mb-10" th:text="${nqa.noticeAnswer.answerContent}"></p>
+	                                                                    <a class="collapsed" data-bs-toggle="modal" data-bs-target="#noticeAnswerModify" th:attr="data-answer-code=${nqa.noticeAnswer.answerCode}, data-answer-content=${nqa.noticeAnswer.answerContent}" th:if="${nqa.noticeAnswer.mentorId == session.SID}">수정하기</a>
 	                                                                </div>
 	                                                            </div>
 	                                                        </div>
@@ -173,16 +196,16 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <!-- <button type="button" class="btn btn-block mt-30" data-bs-toggle="modal" data-bs-target="#NoticeQuestion">등록하기</button> -->
-                                        <a class="btn btn-block mt-30"data-bs-toggle="modal" data-bs-target="#NoticeQuestion">등록하기</a>
-                                        <div th:insert="~{member/mentoring/modal/noticeQuestionModal :: NoticeQuestion}"></div>
+                                        <a class="btn btn-block mt-30 question-btn" th:data-grade="${session.SLEVEL}">등록하기</a>
+                                        <div th:insert="~{member/mentoring/modal/noticeQuestionModal :: noticeQuestion}"></div>
                                         <div th:insert="~{member/mentoring/modal/noticeQuestionModifyModal :: noticeQuestionModify}"></div>
-                                        <div th:insert="~{member/mentoring/modal/noticeAnswerModal :: NoticeAnswer}"></div>
+                                        <div th:insert="~{member/mentoring/modal/noticeAnswerModal :: noticeAnswer}"></div>
+                                        <div th:insert="~{member/mentoring/modal/noticeAnswerModifyModal :: noticeAnswerModify}"></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <a class="btn btn-fill-out btn-block mt-30" th:href="@{/mentoring/modifyNotice(noticeCode=${noticeDetail.noticeCode})}">수정하기</a>
+                        <a class="btn btn-fill-out btn-block mt-30" th:href="@{/mentoring/modifyNotice(noticeCode=${noticeDetail.noticeCode})}" th:if="${noticeDetail.memberId == session.SID}">수정하기</a>
                     </div>
                 </div>
             </div>

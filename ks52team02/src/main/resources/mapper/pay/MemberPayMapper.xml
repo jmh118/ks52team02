@@ -48,11 +48,91 @@
 			<result column="last_UNTPRC" 							property="noticeUntprc"/>
 		</association>
 		<association property="noticeDetail" javaType="NoticeDetail">
-			<id 	column="mentoring_notice_detail_code" 			property="noticeDetail"/>
+			<id 	column="mentoring_notice_detail_code" 			property="noticeDetailCode"/>
 			<result column="day_mentoring_YMD" 						property="mentoringYmd"/>
 			<result column="day_mentoring_time" 					property="mentoringTime"/>
 		</association>
 	</resultMap>
+	
+	<update id="updateMentoringDetailStatusByCode" parameterType="string">
+		UPDATE mentoring_notice_detail
+		SET
+			RSVT_status='예약 가능'
+		WHERE mentoring_notice_detail_code = #{detailCode};
+	
+	</update>
+	
+	<delete id="removeMentoringApplyByCode" parameterType="string">
+		DELETE 
+		FROM mentoring_apply 
+		WHERE mentoring_apply_code = #{applyCode};
+	</delete>
+	
+	<update id="updateMentroingDatailStatus" parameterType="list">
+		UPDATE mentoring_notice_detail
+		SET
+			RSVT_status='예약 완료(결제완료)'
+		WHERE mentoring_notice_detail_code IN
+		    <foreach item="detailCode" collection="list" open="(" separator="," close=")">
+		        #{detailCode}
+		    </foreach>
+	
+	</update>
+	
+	<select id="getNoticeDetailCodeByApplyCode" parameterType="list" resultType="string">
+		/* 공고 상세 상태 변경을 위한 공고 코드 조회 */
+		SELECT 
+			mnd.mentoring_notice_detail_code
+		FROM
+			mentoring_apply ma INNER JOIN mentoring_notice_detail mnd
+			ON ma.mentoring_notice_detail_code = mnd.mentoring_notice_detail_code
+		WHERE 
+			ma.mentoring_apply_code IN
+		    <foreach item="applyCode" collection="list" open="(" separator="," close=")">
+		        #{applyCode}
+		    </foreach>
+	</select>
+	
+	<update id="updateMentoringApplyStarus" parameterType="list">
+		/* 결제 이후 신청 상태 변경 */ 
+		UPDATE mentoring_apply
+		SET
+			amount_status='결제 후',
+			update_YMD=NOW()
+		WHERE mentoring_apply_code IN
+	    <foreach item="applyCode" collection="list" open="(" separator="," close=")">
+	        #{applyCode}
+	    </foreach>
+	
+	</update>
+	
+	<insert id="addPay" parameterType="MentoringData">
+		/* 결제 추가 */
+		INSERT INTO mentee_settlement_mentor_calculation
+			(mentee_settlement_mentor_calculation_code, 
+			 mentoring_apply_code, 
+			 mentor_notice_code, 
+			 settlement_id, 
+			 last_amount, 
+			 settlement_day, 
+			 settlement_method, 
+			 fee, 
+			 mentor_calculation_amount, 
+			 last_flatform_calculation_amount, 
+			 mentoring_progress_status)
+		VALUES (#{payCode}, 
+				#{applyCode}, 
+				#{noticeCode}, 
+				#{memberId}, 
+				${amount}, 
+				NOW(), 
+				'카드', 					 
+				10, 
+				${amount} - (${amount}/10), 
+				${amount}/10,
+				'');
+		
+	</insert>
 	
 	<select id="getBeforePayCnt" parameterType="string" resultType="int">
 		/* 멘토링 미결제건 개수 조회 */
@@ -71,6 +151,7 @@
 		SELECT
 			ma.mentoring_apply_code,
 			mn.mentoring_notice_code,
+			mnd.mentoring_notice_detail_code,
 			mn.mentoring_notice_title,
 			mn.member_id,
 			mn.last_UNTPRC,
@@ -183,6 +264,7 @@
 		    INNER JOIN mentoring_notice_detail mnd 
 			 ON ma.mentoring_notice_detail_code = mnd.mentoring_notice_detail_code
 		WHERE 
-		    msmc.settlement_id = #{memberId};
+		    msmc.settlement_id = #{memberId}
+		ORDER BY msmc.settlement_day DESC;
 	</select>
 </mapper>

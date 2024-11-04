@@ -6,10 +6,29 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import ks52team02.member.pay.dto.BeforePay;
+import ks52team02.member.pay.dto.MentoringData;
 import ks52team02.member.pay.dto.Pay;
 
 @Mapper
 public interface MemberPayMapper {
+	
+	// 멘토링 신청 삭제 이후 공고 상태 수정
+	int updateMentoringDetailStatusByCode(String detailCode);
+	
+	// 멘토링 신청 삭제 
+	int removeMentoringApplyByCode(String applyCode);
+	
+	// 멘토링 모집 공고 상세 상태 변경
+	int updateMentroingDatailStatus(List<String> detailCode);
+	
+	// 멘토링 신청 엡데이트 이후 공고 상세 상태 변경을 위한 공고 상세 코드 조회
+	List<String> getNoticeDetailCodeByApplyCode(List<String> applyCode);
+	
+	// 결제 추가 성공 이후 멘토링 신청 상태 업데이트 
+	int updateMentoringApplyStarus(List<String> applyCode);
+	
+	// 결제 추가 
+	int addPay(MentoringData mentoringData);
 	
 	// 멘토링 미결제건 내역 조회
 	int getBeforePayCnt(String memberId);

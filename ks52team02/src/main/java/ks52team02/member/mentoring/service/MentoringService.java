@@ -10,6 +10,8 @@ import ks52team02.member.mentoring.dto.NoticeDetail;
 import ks52team02.member.mentoring.dto.NoticeQuestion;
 import ks52team02.member.mentoring.dto.Topic;
 import ks52team02.member.mypage.dto.MenteeProfile;
+import ks52team02.page.PageInfo;
+import ks52team02.page.Pageable;
 
 public interface MentoringService {
 	
@@ -23,13 +25,10 @@ public interface MentoringService {
 	void addNotice(Notice notice);
 	
 	// 공고목록조회
-	List<Notice> getNoticeList();
+	PageInfo<Notice> getNoticeList(String category, Pageable pageable);
 	
 	// 공고카테고리조회
 	List<Topic> getTopicList();
-
-	// 공고목록 카테고리별조회
-	List<Notice> getNoticeByCategory(String category);
 
 	// 공고 상세 멘토링 시간
 	List<NoticeDetail> getNoticeDetailTimeByCode(String noticeCode);
@@ -51,14 +50,21 @@ public interface MentoringService {
 
 	// 공고질문 수정
 	void modifyQuestion(NoticeQuestion noticeQuestion);
-
+	
+	// 멘티프로필 조회
 	List<MenteeProfile> getApplyMenteeProfileById(String memberId);
 
-	//카테고리 갯수
+	//카테고리 개수
 	List<Topic> getCategoryCountList();
 
 	// 공고상세 추가
 	void addNoticeDetail(NoticeDetail noticeDetail);
+
+	// 공고답변 수정
+	void modifyAnswer(NoticeAnswer noticeAnswer);
+
+	// 메인화면 공고 조회
+	List<Notice> getNoticeMainList();
 
 
 

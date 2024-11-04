@@ -11,7 +11,6 @@ public class BeforePay {
 	private String noticeCode;
 	private String noticeDetailCode;
 	private String memberId;
-	private int noticeUntprc;
 	private String amountStatus;
 	private String updateYmd;
 	

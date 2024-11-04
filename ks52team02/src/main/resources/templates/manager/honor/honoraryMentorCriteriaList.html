@@ -2,12 +2,13 @@
 <html xmlns:th="http://www.thymeleaf.org" 
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  layout:decorate="~{manager/layouts/layout}">
-	  <th:block layout:fragment="customContent">
+	  
+	  	<th:block layout:fragment="customContent">
             <section class="content-main">
                 <div class="content-header">
                     <div>
                         <h2 class="content-title card-title" th:text="${title}"></h2>
-                        <p th:text="${content}"></p>
+                        <p>멘티의 명예멘토 기준 (평점 평균과 평점 개수, 플랫폼 내 기준) 충족 시 승인 버튼 활성화 후 명예멘토로 승인</p>
                     </div>
                 </div>
                 <div class="card mb-4">
@@ -27,20 +28,25 @@
                                    </tr>
                                </thead>
                                <tbody>
-									<tr th:each="mrd : ${mentorReviewsDataList}">
-										<td th:text="${mrd.mentorId}"></td>
+									<tr th:each="mrd : ${mentorReviewsDataList.contents}">
+										<td class="memberId" th:text="${mrd.mentorId}"></td>
+										
 										<th:block th:switch="${mrd.isHonorMentor}">
 											<td th:case="${'Y'}"><span th:text="${'명예멘토'}" class="badge rounded-pill" th:classappend="${'alert-primary'}"></span></td>
                                         	<td th:case="${'N'}"><span th:text="${'일반멘토'}" class="badge rounded-pill" th:classappend="${'alert-secondary'}"></span></td>
 										</th:block>
+										
 										<td th:text="${mrd.mentorReviewCnt}"></td>
 										<td th:text="${mrd.mentorReviewAvg}">5</td>
-										<td><span class="badge rounded-pill alert-success">충족</span></td>
+										<th:block th:switch="${mrd.isapprove}">
+											<td th:case="${true}"><span class="badge rounded-pill alert-success">충족</span></td>
+											<td th:case="${false}"><span class="badge rounded-pill alert-danger">미달</span></td>
+										</th:block>
 										<td>
-											<a href="#" class="btn btn-md rounded font-sm">승인</a>
+											<a th:href="@{/manager/honor/approve(memberId=${mrd.mentorId})}" class="approveBtn btn btn-md rounded font-sm" th:classappend="${mrd.isCancel == true ? 'disabled' : ''}">승인</a>
 										</td>
 										<td>
-											<a href="#" class="btn btn-md rounded font-sm">취소</a>
+											<a th:href="@{/manager/honor/cancel(memberId=${mrd.mentorId})}" class="cancelBtn btn btn-md rounded font-sm" th:classappend="${mrd.isapprove == true ? 'disabled' : ''}">취소</a>
 										</td>
 									</tr>
                                </tbody>
@@ -51,20 +57,29 @@
                     <!-- card-body end// -->
                 </div>
                 <div class="pagination-area mt-30 mb-50">
-                    <nav aria-label="Page navigation example">
-                        <ul class="pagination justify-content-start">
-                            <li class="page-item active"><a class="page-link" href="#">01</a></li>
-                            <li class="page-item"><a class="page-link" href="#">02</a></li>
-                            <li class="page-item"><a class="page-link" href="#">03</a></li>
-                            <li class="page-item"><a class="page-link dot" href="#">...</a></li>
-                            <li class="page-item"><a class="page-link" href="#">16</a></li>
-                            <li class="page-item">
-                                <a class="page-link" href="#"><i class="material-icons md-chevron_right"></i></a>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
+                  <nav aria-label="Page navigation example">
+				    <ul class="pagination justify-content-start">
+				    	<li class="page-item" th:classappend="${mentorReviewsDataList.currentPage < 2}? 'disabled'">
+							<a class="page-link d-flex justify-content-center align-items-center" th:href="@{/manager/honor/criteriaList(currentPage=${mentorReviewsDataList.currentPage - 1})}"><i class="material-icons md-chevron_left"></i></a>
+						</li>
+				        <th:block th:each="num : ${#numbers.sequence(mentorReviewsDataList.startPageNum, mentorReviewsDataList.endPageNum)}">
+				            <li class="page-item"
+				                th:classappend="${mentorReviewsDataList.currentPage == num} ? 'active'">
+				                <a class="page-link" th:href="@{/manager/honor/criteriaList(currentPage=${num})}">[[${num}]]</a>
+				            </li>
+				        </th:block>
+				        <li class="page-item" th:classappend="${mentorReviewsDataList.currentPage >= mentorReviewsDataList.lastPage} ? 'disabled'">
+				            <a class="page-link d-flex justify-content-center align-items-center" th:href="@{/manager/honor/criteriaList(currentPage=${mentorReviewsDataList.currentPage + 1})}"><i class="material-icons md-chevron_right"></i></a>
+				        </li>
+				    </ul>
+				</nav>
+            </div>
 		</section>
       <!-- content-main end// -->
-      </th:block>
+      	</th:block>
+      	<th:block layout:fragment="customJs">
+      		<script>
+      			
+      		</script>
+      	</th:block>
 </html>

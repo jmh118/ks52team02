@@ -2049,7 +2049,7 @@ input.qty-val {
 
 .slider-arrow .slider-btn.slider-prev {
   left: 20px;
-  bottom: -100px;
+  /* bottom: -100px; */
 }
 
 .slider-arrow .slider-btn.slider-prev i {
@@ -2058,7 +2058,7 @@ input.qty-val {
 
 .slider-arrow .slider-btn.slider-next {
   right: 20px;
-  bottom: -100px;
+  /* bottom: -100px; */
   
 }
 
@@ -2288,9 +2288,9 @@ input.qty-val {
 /*COMPONENTS -> CARD*/
 .card-1 {
   position: relative;
-  background: #F4F6FA;
+  background: rgb(255, 255, 255);
   text-align: center;
-  border: 1px solid #F4F6FA;
+  /* border: 1px solid #F4F6FA; */
   border-radius: 10px;
   padding: 40px 30px 28px 30px;
   margin-bottom: 20px;
@@ -2301,9 +2301,9 @@ input.qty-val {
 
 .card-1:hover {
   background: #fff;
-  border: 1px solid #BCE3C9;
-  -webkit-box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.05);
-          box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.05);
+  /* border: 1px solid #BCE3C9; */
+  /* -webkit-box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.05);
+          box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.05); */
   -webkit-transition: 0.2s;
   transition: 0.2s;
 }
@@ -3488,8 +3488,8 @@ table .product-thumbnail img {
 .banner-img.style-2 {
   border-radius: 15px;
   overflow: hidden;
-  height: 295px;
-  background: url(../imgs/banner/banner-4.png) no-repeat center bottom;
+  height: auto;
+  background: url(/member/imgs/test.jpg) no-repeat center bottom;
   background-size: cover;
   width: 100%;
 }

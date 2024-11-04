@@ -3,9 +3,15 @@ package ks52team02.member.pay.service;
 import java.util.List;
 
 import ks52team02.member.pay.dto.BeforePay;
+import ks52team02.member.pay.dto.MentoringData;
 import ks52team02.member.pay.dto.Pay;
 
 public interface MemberPayService {
+	
+	void removeMentoringApplyByCode(String applyCode, String detailCode);
+	
+	// 결제 추가 
+	int addPay(List<MentoringData> mentoringDataList);
 	
 	// 멘토링 미결제건 개수 조회
 	int getBeforePayCnt(String memberId); 

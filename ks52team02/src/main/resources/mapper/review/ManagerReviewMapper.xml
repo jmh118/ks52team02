@@ -3,6 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ks52team02.manager.review.mapper.ManagerReviewMapper">
+
 	<resultMap type="Review" id="mentoringAllReivewMap">
 		<id column="mentoring_postscript_code" 					property="reviewCode"/>
 		<result column="mentee_id" 								property="menteeId"/>	
@@ -12,6 +13,19 @@
 		<result column="mentoring_postscript_date" 				property="reviewRegDate"/>	
 	</resultMap>
 	
+	<resultMap type="MentorReviewData" id="MentorReviewDataMap">
+		<id column="mentor_postscript_and_score_average_code" property="mentorReviewAvgCntCode"/>
+		<result column="mentor_id" property="mentorId"/>
+		<result column="count_postscript" property="mentorReviewCnt"/>
+		<result column="average_postscript_point" property="mentorReviewAvg"/>
+		<result column="first_postscript_register_time" property="firstRegDate"/>
+		<result column="first_postscript_register_time" property="lastUpDate"/>
+		<result column="honor_mentor_YN" property="isHonorMentor"/>
+		<result column="honor_mentor_isapprove" property="isapprove"/>
+		<result column="honor_mentor_isCancel" property="isCancel"/>
+	</resultMap>
+	
+	
 	<delete id="removeReview">
 		/* 후기 삭제 */
 		DELETE 
@@ -19,26 +33,47 @@
 			mentoring_postscript 
 		WHERE mentoring_postscript_code = #{reviewCode};
 	
-	
 	</delete>
 	
-	<select id="getMentorReviewsDataList" resultType="MentorReviews">
-		/* 관리자 전체 멘토의 후기 관련 통계 조회 */
+	<select id="getMentorReviewsDataListCnt" resultType="int">
+		/* 관리자 전체 멘토의 후기 관련 데이터 행 개수 조회 */
 		SELECT 
-			mpsa.mentor_postscript_and_score_average_code AS mentorReviewAvgCntCode, 
-			mpsa.mentor_id AS mentorId, 
-			mpsa.count_postscript AS mentorReviewCnt, 
-			mpsa.average_postscript_point AS mentorReviewAvg, 
-			mpsa.first_postscript_register_time AS firstRegDate,  
-			mpsa.last_postscript_update_time AS lastUpDate,
-			map.honor_mentor_YN AS isHonorMentor
+			COUNT(*)
 		FROM
 			mentor_postscript_score_average mpsa INNER JOIN mentor_authority_approval map
 			ON mpsa.mentor_id = map.member_id;
+	
 	</select>
 	
 	
-	<select id="getAllMentoringReviewList" resultMap="mentoringAllReivewMap">
+	<select id="getMentorReviewsDataList" parameterType="ks52team02.page.Pageable" resultMap="MentorReviewDataMap">
+		/* 관리자 전체 멘토의 후기 관련 데이터 조회 */
+		SELECT 
+			mpsa.mentor_postscript_and_score_average_code, 
+			mpsa.mentor_id, 
+			mpsa.count_postscript, 
+			mpsa.average_postscript_point, 
+			mpsa.first_postscript_register_time,  
+			mpsa.last_postscript_update_time,
+			map.honor_mentor_YN,
+			mpsa.honor_mentor_isapprove,
+			mpsa.honor_mentor_isCancel
+		FROM
+			mentor_postscript_score_average mpsa INNER JOIN mentor_authority_approval map
+			ON mpsa.mentor_id = map.member_id
+		LIMIT #{rowPerPage} OFFSET #{offset};
+	</select>
+	
+	<select id="getReviewListCount" resultType="int">
+		/* 후기 목록 행의 갯수 */
+		SELECT
+			COUNT(*)
+		FROM
+			mentoring_postscript; 
+	</select>
+	
+	
+	<select id="getAllMentoringReviewList" parameterType="ks52team02.page.Pageable" resultMap="mentoringAllReivewMap">
 		/* 전체 후기 조회 */
 		SELECT 
 			mentoring_postscript_code, 
@@ -48,6 +83,6 @@
 			mentoring_postscript_date
 		FROM 
 			mentoring_postscript
-	
+		LIMIT #{rowPerPage} OFFSET #{offset};
 	</select>
 </mapper>

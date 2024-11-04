@@ -34,13 +34,15 @@ public class CommonInterceptor implements HandlerInterceptor{
 		for(String paramKey : paramMap) {
 			param.add(paramKey + " : " + request.getParameter(paramKey));
 		}
-
+		
+		String ip = request.getHeader("X-Real-Ip") == null ? request.getRemoteAddr() : request.getHeader("X-Real-Ip"); 
+		
 		log.info("ACCESS INFO START============================================");
 		log.info("PORT :::::::: {}", request.getLocalPort());
 		log.info("SERVERNAME :::::::: {}", request.getServerName());
 		log.info("HTTP METHOD :::::::: {}", request.getMethod());
 		log.info("URL :::::::: {}", request.getRequestURI());
-		log.info("CLIENT IP :::::::: {}", request.getRemoteAddr());
+		log.info("CLIENT IP :::::::: {}", ip);
 		log.info("PARAMETER :::::::: {}", param);
 		log.info("ACCESS INFO END============================================");
 		
@@ -53,8 +55,9 @@ public class CommonInterceptor implements HandlerInterceptor{
 		
 		HttpSession session = request.getSession();
 		String sessionId = (String) session.getAttribute("SID");
+		String sessionLevel = (String) session.getAttribute("SLEVEL");
 		
-		if(sessionId != null) {
+		if(sessionId != null && sessionLevel.equals("member_level_mentee") && modelAndView != null && !"application/json".equals(request.getHeader("Accept"))) {
 			int cnt = memberPayService.getBeforePayCnt(sessionId);
 			modelAndView.addObject("cnt", cnt);
 		}

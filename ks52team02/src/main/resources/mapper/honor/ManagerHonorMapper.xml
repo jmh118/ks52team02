@@ -3,8 +3,49 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ks52team02.manager.honor.mapper.ManagerHonorMapper">
+
+
+
+	<update id="honorMentorCancel" parameterType="string">
+		/* 명예멘토 승인 */
+		UPDATE mentor_authority_approval
+		SET
+			honor_mentor_YN='N'
+		WHERE member_id = #{memberId};
+	</update>
 	
-	<select id="getHornorMentorList" resultType="Member">
+	<update id="honorMentorApprove" parameterType="string">
+		/* 명예멘토 승인 */
+		UPDATE mentor_authority_approval
+		SET
+			honor_mentor_YN='Y'
+		WHERE member_id = #{memberId};
+	</update>
+
+	<select id="getCriteriaHonorMentor" resultType="CriteriaHonorMentor">
+		/* 기준 조회 */
+		SELECT
+			postscript_count AS reveiwCntCriteria,
+			postscript_average_point AS reviewAvgCriteria
+		FROM
+			criteria_honor_mentor 
+	</select>
+	
+	<select id="getHornorMentorListCnt" resultType="int">
+		/* 명예멘토 리스트 행의 갯수 */
+		SELECT
+			COUNT(*)
+		FROM 
+			`member`
+		WHERE 
+			member_id IN 
+			<foreach item="honorMenotrId" index="index" open="(" separator="," close=")" collection="list">
+				#{honorMenotrId}
+			</foreach>
+	</select>
+	
+	<select id="getHornorMentorList" parameterType="map" resultType="Member">
+		/* 명예멘토 리스트 조회 */
 		SELECT 
 			member_id AS memberId, 
 			member_email AS memberEmail, 
@@ -15,14 +56,14 @@
 			`member`
 		WHERE 
 			member_id IN 
-			<foreach item="honorMenotrId" index="index" open="(" separator="," close=")" collection="list">
+			<foreach item="honorMenotrId" index="index" open="(" separator="," close=")" collection="honorMenotrId">
 				#{honorMenotrId}
 			</foreach>
+		LIMIT #{rowPerPage} OFFSET #{offset};
 	</select>
 	
-	
 	<select id="getHonorMentorIdList" resultType="string">
-		/* 명예멘토 */
+		/* 명예멘토인 멘토 아이디 리스트로 조회 */
 		SELECT
 			member_id
 		FROM
