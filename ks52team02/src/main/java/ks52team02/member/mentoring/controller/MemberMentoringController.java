@@ -94,7 +94,7 @@ public class MemberMentoringController {
 		
 		mentoringService.addMentoringApply(mentoringApply);
 		
-		return "redirect:/mentoring/notice";
+		return "redirect:/pay/beforeList";
 	}
 	
 	@PostMapping("/noticeAnswer")
