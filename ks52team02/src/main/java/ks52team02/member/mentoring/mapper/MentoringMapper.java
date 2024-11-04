@@ -91,5 +91,8 @@ public interface MentoringMapper {
 	// 공고 개수 조회
 	int getNoticeListCount(String category);
 
+	// 메인화면 공고 조회
+	List<Notice> getNoticeMainList();
+
 
 }

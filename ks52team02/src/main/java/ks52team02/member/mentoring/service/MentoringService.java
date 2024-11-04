@@ -63,6 +63,9 @@ public interface MentoringService {
 	// 공고답변 수정
 	void modifyAnswer(NoticeAnswer noticeAnswer);
 
+	// 메인화면 공고 조회
+	List<Notice> getNoticeMainList();
+
 
 
 }

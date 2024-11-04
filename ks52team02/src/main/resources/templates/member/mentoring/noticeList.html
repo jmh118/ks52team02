@@ -18,7 +18,7 @@
                     </div>
                     <div class="row product-grid">
                         <div class="col-lg-3 col-md-4 col-12 col-sm-6" th:each="nl : ${noticeList.contents}">
-                            <div class="product-cart-wrap mb-30"  style="height: 200px; display: flex; flex-direction: column; justify-content: space-between;">
+                            <div class="product-cart-wrap mb-30" style="height: 200px; display: flex; flex-direction: column; justify-content: space-between;">
                                 <div class="product-img-action-wrap">
                                     <div class="product-badges product-badges-position product-badges-mrg">
                                         <span class="hot" th:if="${nl.honorMentor == 'Y'}">명예멘토</span>
@@ -27,7 +27,6 @@
                                 </div>
                                 <div class="product-content-wrap">
                                     <div class="product-category"><h2 th:text="${nl.noticeTitle}"></h2></div>
-                                    
                                     <div>
 										<div class="font-small text-muted" th:text="${'분야 : ' + nl.topicName}"></div>
 										<div class="font-small text-muted" th:text="${'직무 : ' + nl.mentorPowkName}"></div>

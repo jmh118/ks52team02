@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ks52team02.common.mapper.CommonMapper;
 import ks52team02.manager.member.dto.Member;
-import ks52team02.manager.mentoring.mapper.ManagerMentoringMapper;
 import ks52team02.member.mentoring.dto.MentoringApply;
 import ks52team02.member.mentoring.dto.Notice;
 import ks52team02.member.mentoring.dto.NoticeAnswer;
@@ -32,7 +31,12 @@ public class MentoringServiceImpl implements MentoringService{
 	
 	private final MentoringMapper mentoringMapper;
 	private final CommonMapper commonMapper;
-	private final ManagerMentoringMapper managerMentoringMapper;
+	
+	@Override
+	public List<Notice> getNoticeMainList() {
+		List<Notice> noticeList = mentoringMapper.getNoticeMainList();
+		return noticeList;
+	}
 	
 	@Override
 	public void modifyAnswer(NoticeAnswer noticeAnswer) {
