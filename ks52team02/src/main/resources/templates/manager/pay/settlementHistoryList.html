@@ -37,22 +37,14 @@
                             <aside class="col-lg-3">
                                 <div class="box bg-light" style="min-height: 80%">
                                     <h6 class="mt-15">정산 관련 통계</h6>
+                                    
+                                    <p>총 정산 금액</p>
+                                    <p class="h4" th:text="|${#numbers.formatInteger(totalSettlementAmount, 0, 'COMMA')}원|"></p>
                                     <hr />
-                                    <h6 class="mb-0">통계1:</h6>
-                                    <p>통계내용</p>
-                                    <br />
-                                    <h6 class="mb-0">통계2:</h6>
-                                    <p>통계내용</p>
-                                    <br />
-                                    <h6 class="mb-0">통계3:</h6>
-                                    <p>통계내용</p>
-                                    <br />
-                                    <h6 class="mb-0">통계4:</h6>
-                                    <p>통계내용</p>
-                                    <br />
-                                    <p>총 플랫폼 수익</p>
-                                    <p class="h4">1000000000000000000000000000원</p>
+                                    <p>총 수익</p>
+                                    <p class="h4" th:text="|${#numbers.formatInteger(totalFlatformCalAmount, 0, 'COMMA')}원|"></p>
                                     <hr />
+                                    
                                 </div>
                             </aside>
                             <!-- col end// -->
