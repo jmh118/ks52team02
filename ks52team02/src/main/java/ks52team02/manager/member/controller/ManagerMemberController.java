@@ -92,6 +92,15 @@ public class ManagerMemberController {
         return  "manager/memberInfo/waitingForWithdrawalList";
 	}
 	
+	@GetMapping("/withdrawalApprove")
+	public String withdrawalApprove(@RequestParam(name="withdrawalMemberId") String withdrawalMemberId) {
+		System.out.println("회원탈퇴 승인");
+		memberMapperService.withdrawalApply(withdrawalMemberId);
+		
+		return "redirect:/manager/memberInfo/waitingForWithdrawal";
+	}
+	
+	
 	@PostMapping("/infoModify")
     public String membersInfoModify(Member member) {
 		System.out.println("회원 정보 수정");

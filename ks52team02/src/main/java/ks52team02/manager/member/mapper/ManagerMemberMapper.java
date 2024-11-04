@@ -22,6 +22,9 @@ public interface ManagerMemberMapper {
 
 	// 관리자 - 탈퇴 회원 조회	
 	List<WithdrawalMember> getWithdrawalMemberList();
+
+	// 관리자 - 회원탈퇴 승인
+	int withdrawalApply(String withdrawalMemberId);
 	
 	// 관리자 - 로그인 로그 조회
 	List<LoginLog> getLoginLog();
@@ -40,5 +43,6 @@ public interface ManagerMemberMapper {
 	
 	// 승인 요청 멘토 조회
 	List<Member> getWaitingForApprovalMentorList();
+
 	
 }
