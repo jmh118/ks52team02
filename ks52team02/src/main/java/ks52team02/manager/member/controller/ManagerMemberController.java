@@ -13,6 +13,8 @@ import ks52team02.manager.member.dto.LoginLog;
 import ks52team02.manager.member.dto.Member;
 import ks52team02.manager.member.dto.WithdrawalMember;
 import ks52team02.manager.member.service.ManagerMemberService;
+import ks52team02.page.PageInfo;
+import ks52team02.page.Pageable;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -28,34 +30,34 @@ public class ManagerMemberController {
 // 조회 only ▼ ---------------------------------------------------------------------------
 	
 	@GetMapping("/list")
-    public String allMembers(Model model) {
+    public String allMembers(Pageable pageable, Model model) {
     	System.out.println("전체 회원 조회 페이지 이동");
-    	List<Member> memberList = memberMapperService.getMemberList();
+    	PageInfo<Member> memberList = memberMapperService.getMemberList(pageable);
     	model.addAttribute("memberList", memberList);
     	
     	return  "manager/memberInfo/membersInfoList";
 	}
 	
 	@GetMapping("/withdrawalList")
-    public String withdrawalMembers(Model model) {
+    public String withdrawalMembers(Pageable pageable, Model model) {
     	System.out.println("탈퇴 회원 조회 페이지 이동");
-    	List<WithdrawalMember> withdrawalmemberList = memberMapperService.getWithdrawalMemberList();
+    	PageInfo<WithdrawalMember> withdrawalmemberList = memberMapperService.getWithdrawalMemberList(pageable);
     	model.addAttribute("withdrawalmemberList", withdrawalmemberList);
     	return  "manager/memberInfo/withdrawalMembersList";
     }
 	
 	@GetMapping("/dormantList")
-    public String dormantMembers(Model model) {
+    public String dormantMembers(Pageable pageable, Model model) {
     	System.out.println("휴면 회원 조회 페이지 이동");
-    	List<Member> dormantMemberList = memberMapperService.getDormantMemberList();
+    	PageInfo<Member> dormantMemberList = memberMapperService.getDormantMemberList(pageable);
     	model.addAttribute("dormantMemberList", dormantMemberList);
         return  "manager/memberInfo/dormantMembersList";
     }
 	
 	@GetMapping("/loginLog")
-    public String loginLog(Model model) {
+    public String loginLog(Pageable pageable,Model model) {
     	System.out.println("멤버 로그인 로그 조회 페이지 이동");
-    	List<LoginLog> loginLogList = memberMapperService.getLoginLog();
+    	PageInfo<LoginLog> loginLogList = memberMapperService.getLoginLog(pageable);
     	model.addAttribute("loginLogList", loginLogList);
         return  "manager/memberInfo/memberLoginLogList";
     }
@@ -111,9 +113,9 @@ public class ManagerMemberController {
 	
 	@GetMapping("/infoModify")
 	public String membersInfoModify(@RequestParam(name="memberId", required=false) String memberId,
-									Model model){
+									Pageable pageable, Model model){
 		System.out.println("전체 회원 정보 수정 페이지 이동");
-		List<Member> memberList = memberMapperService.getMemberList();
+		PageInfo<Member> memberList = memberMapperService.getMemberList(pageable);
 		model.addAttribute("memberList", memberList);
 	
 		if(memberId != null) {
