@@ -261,8 +261,7 @@
 	<select id="getNoticeDetailTimeByCode" parameterType="String" resultType="NoticeDetail">
 		/* 공고 상세 멘토링 시간 */
 		SELECT
-			DISTINCT 
-			day_mentoring_time AS mentoringTime
+			CONCAT(day_mentoring_YMD, ' , ', day_mentoring_time) AS mentoringTime
 		FROM
 			mentoring_notice_detail
 		WHERE
