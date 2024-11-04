@@ -1,6 +1,27 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{member/layouts/layout}">
+	<th:block layout:fragment="customJs">		
+		<script>	
+			$('#withdrawalBtn').click(function(){
+				let isSubmit = true;
+				const $formControl = $('#registerMenteeForm input, #registerMenteeForm select');
+				const $withdrawalCheckBox = $('#withdrawalCheckBox').prop('checked');
+	
+				if(!$withdrawalCheckBox) {
+					alert('탈퇴 동의 항목은 필수입니다. 탈퇴 약관을 읽고 체크해 주세요.');
+					isSubmit = false;
+					return false;
+				}
+				if(isSubmit) {
+					$('#withdrawalForm').submit();
+					alert('탈퇴 요청 완료. 관리자 승인 시 탈퇴 처리 완료되며, 시간이 소요될 수 있습니다.');
+				}
+			});
+			
+		</script>
+	</th:block>
+	
     <th:block layout:fragment="customContent">
         <div class="page-content pt-50">
             <div class="container">
@@ -47,26 +68,26 @@
                                         		</ol>
                                     </div>
                                     <div>
-			                            <form class="container mt-100 col-5 justify-content-center">
+			                            <form class="container mt-100 col-5 justify-content-center" id="withdrawalForm" name="withdrawalForm" th:action="@{/withdrawal/form}" method="post">
 		                                    <h5 class="text-center">탈퇴 사유를 입력해 주세요</h5>
 											<select class="col-6 mt-10 mb-10 form-control text-center" name="withdrawalReason">
-												<option value="withdrawalReason1">플랫폼 이용 기록 삭제</option>
-												<option value="withdrawalReason2">플랫폼 사용이 불편하고 장애가 많음</option>
-												<option value="withdrawalReason3">적당하지 않은 가격 책정</option>
-												<option value="withdrawalReason4">타 플랫폼 이용</option>
-												<option value="withdrawalReason5">사용 빈도가 낮음</option>
-												<option value="withdrawalReason6">기타</option>
+												<option value="플랫폼 이용 기록 삭제">플랫폼 이용 기록 삭제</option>
+												<option value="플랫폼 사용이 불편하고 장애가 많음">플랫폼 사용이 불편하고 장애가 많음</option>
+												<option value="적당하지 않은 가격 책정">적당하지 않은 가격 책정</option>
+												<option value="타 플랫폼 이용">타 플랫폼 이용</option>
+												<option value="사용 빈도가 낮음">사용 빈도가 낮음</option>
+												<option value="기타">기타</option>
 											</select>
 
 					                            
 												<div class="chek-form ">
 													<div class="custome-checkbox text-center">
-														<input class="form-check-input" type="checkbox" name="checkbox" id="exampleCheckbox13" value="" />
-														<label class="form-check-label mt-10" for="exampleCheckbox13"><span>회원탈퇴 관련 사항을 모두 숙지하였으며, 탈퇴에 동의합니다.</span></label>
+														<input class="form-check-input" type="checkbox" name="checkbox" id="withdrawalCheckBox" value="" />
+														<label class="form-check-label mt-10" for="withdrawalCheckBox"><span>회원탈퇴 관련 사항을 모두 숙지하였으며, 탈퇴에 동의합니다.</span></label>
 													</div>
 				                                </div>
 			                            	<div class="mt-40 d-flex justify-content-center">
-				                                <button type="submit" class="btn btn-primary w-80">탈퇴하기</button>
+				                                <button type="button" id="withdrawalBtn" class="btn btn-primary w-80">탈퇴하기</button>
 				                            </div>
 			                            </form>
                                     </div>
