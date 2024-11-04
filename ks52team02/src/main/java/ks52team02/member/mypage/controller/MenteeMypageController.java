@@ -7,9 +7,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import ks52team02.member.mypage.dto.CertificateName;
 import ks52team02.member.mypage.dto.MenteeCertificate;
 import ks52team02.member.mypage.dto.MenteeEducation;
 import ks52team02.member.mypage.dto.MenteeInfo;
@@ -83,33 +85,75 @@ public class MenteeMypageController {
         return  "member/mypage/mentee/careerInfo/menteeMypageEducationAdd";
     }
 
+	@PostMapping("/educationModify")
+	public String modifyEducationInfo(MenteeEducation menteeEducation) {
+		menteeMypageService.modifyEducationInfo(menteeEducation);
+		return "redirect:/mypage/mentee/account";
+	}
+	
     @GetMapping("/educationModify")
-    public String MoveMypageEducationModify() {
+    public String MoveMypageEducationModify(@RequestParam(name="menteeAcbgCode")String menteeAcbgCode, Model model) {
         System.out.println("mypage Education 수정 페이지 이동");
+        MenteeEducation educationInfo= menteeMypageMapper.getEducationByCode(menteeAcbgCode);
+        model.addAttribute("educationInfo", educationInfo);
         return  "member/mypage/mentee/careerInfo/menteeMypageEducationModify";
     }
 	
+    @PostMapping("/certificateAdd")
+    public String addCertificateInfo(MenteeCertificate menteeCertificate) {
+		menteeMypageService.addCertificateInfo(menteeCertificate);
+    	return "redirect:/mypage/mentee/account";
+    }
+    
     @GetMapping("/certificateAdd")
-    public String MoveMypageCertificateAdd() {
+    public String MoveMypageCertificateAdd(Model model) {
         System.out.println("mypage Certificate 추가 페이지 이동");
+       List<CertificateName> certificateNameCode= menteeMypageMapper.getCertificateInfoCode();
+       model.addAttribute("certificateNameCode", certificateNameCode);
         return  "member/mypage/mentee/careerInfo/menteeMypageCertificateAdd";
     }
 
+    @PostMapping("/certificateModify")
+    public String modifyCertificateInfo(MenteeCertificate menteeCertificate) {
+    	menteeMypageService.modifyCertificateInfo(menteeCertificate);
+    	return "redirect:/mypage/mentee/account";
+    }
+    
     @GetMapping("/certificateModify")
-    public String MoveMypageCertificateModify() {
+    public String MoveMypageCertificateModify(@RequestParam(name="menteeCtfcCode")String menteeCtfcCode, Model model) {
         System.out.println("mypage Certificate 수정 페이지 이동");
+        MenteeCertificate certificateInfo = menteeMypageMapper.getCertificateCode(menteeCtfcCode);
+        List<CertificateName> certificateNm = menteeMypageMapper.getCertificateInfoCode();
+        
+        model.addAttribute("certificateInfo", certificateInfo);
+        model.addAttribute("certificateNm", certificateNm);
+        
         return  "member/mypage/mentee/careerInfo/menteeMypageCertificateModify";
     }
 	
+    @PostMapping("/portfolioAdd")
+    public String addPortfolioInfo(MenteePortfolio menteePortfolio) {
+    	menteeMypageService.addPortfolioInfo(menteePortfolio);
+    	return "redirect:/mypage/mentee/account";
+    }
+    
     @GetMapping("/portfolioAdd")
     public String MoveMypagePortfolioAdd() {
         System.out.println("mypage Portfolio 추가 페이지 이동");
         return  "member/mypage/mentee/careerInfo/menteeMypagePortfolioAdd";
     }
 
+    @PostMapping("/portfolioModify")
+    public String modifyPortfolioInfo(MenteePortfolio menteePortfolio) {
+    	menteeMypageService.modifyPortfolioInfo(menteePortfolio);
+    	return "redirect:/mypage/mentee/account";
+    }
+    
     @GetMapping("/portfolioModify")
-    public String MoveMypagePortfolioModify() {
+    public String MoveMypagePortfolioModify(@RequestParam(name="menteePtflCode")String menteePtflCode, Model model) {
         System.out.println("mypage Portfolio 수정 페이지 이동");
+        MenteePortfolio portfolioInfo = menteeMypageMapper.getPortfolioCode(menteePtflCode);
+        model.addAttribute("portfolioInfo", portfolioInfo);
         return  "member/mypage/mentee/careerInfo/menteeMypagePortfolioModify";
     }
     

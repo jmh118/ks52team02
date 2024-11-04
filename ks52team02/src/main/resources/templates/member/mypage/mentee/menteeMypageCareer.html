@@ -29,7 +29,7 @@
 								<td th:text="${e.menteeSchoolNm}"></td>
 								<td th:text="${e.menteeMajorNm}"></td>
 								<td th:text="${e.menteeSchoolCd}"></td>
-								<td><a TH:href="@{/mypage/mentee/educationModify}" class="btn-small d-block">수정</a></td>
+								<td><a th:href="@{/mypage/mentee/educationModify(menteeAcbgCode = ${e.menteeAcbgCode})}" class="btn-small d-block">수정</a></td>
 							</tr>
 						</tbody>
 					</table>
@@ -58,7 +58,7 @@
 								<td th:text="${c.certificateName.institutionNm}"></td>
 								<td th:text="${c.menteeCtfcGrade}"></td>
 								<td th:text="${c.menteeCtfcDate}"></td>
-								<td><a th:href="@{/mypage/mentee/certificateModify}" class="btn-small d-block">수정</a></td>
+								<td><a th:href="@{/mypage/mentee/certificateModify(menteeCtfcCode = ${c.menteeCtfcCode})}" class="btn-small d-block">수정</a></td>
 							</tr>
 						</tbody>
 					</table>
@@ -85,7 +85,7 @@
 								<td th:text="${p.menteePtflTitle}"></td>
 								<td th:text="${p.menteePtflCtnt}"></td>
 								<td th:text="${p.menteePtflRgstDate}"></td>
-								<td><a th:href="@{/mypage/mentee/portfolioModify}" class="btn-small d-block">수정</a></td>
+								<td><a th:href="@{/mypage/mentee/portfolioModify(menteePtflCode = ${p.menteePtflCode})}" class="btn-small d-block">수정</a></td>
 							</tr>
 						</tbody>
 					</table>
