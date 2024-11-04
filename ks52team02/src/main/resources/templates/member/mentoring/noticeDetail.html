@@ -139,12 +139,12 @@
                                                 <li th:text=*{noticeContent}></li>
                                             </ul>
 											<hr class="wp-block-separator is-style-wide" />
-											<h4 class="mt-30">멘토링 가능 일자</h4>
+											<h4 class="mt-30">멘토링 가능 기간</h4>
 											<ul class="product-more-infor mt-30">
 	                                            <li th:text=*{mentoringPeriod}></li>
 	                                        </ul>
                                             <hr class="wp-block-separator is-style-wide" />
-                                            <h4 class="mt-30">멘토링 가능 시간</h4>
+                                            <h4 class="mt-30">멘토링 가능 스케줄</h4>
                                             <ul class="product-more-infor mt-30" th:each="m : ${mentoringTime}">   
                                                 <li th:text="${m.mentoringTime}"></li>
                                             </ul>                                                                                       

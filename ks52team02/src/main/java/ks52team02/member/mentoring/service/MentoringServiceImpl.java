@@ -1,7 +1,9 @@
 package ks52team02.member.mentoring.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +18,8 @@ import ks52team02.member.mentoring.dto.NoticeQuestion;
 import ks52team02.member.mentoring.dto.Topic;
 import ks52team02.member.mentoring.mapper.MentoringMapper;
 import ks52team02.member.mypage.dto.MenteeProfile;
+import ks52team02.page.PageInfo;
+import ks52team02.page.Pageable;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -27,6 +31,12 @@ public class MentoringServiceImpl implements MentoringService{
 	
 	private final MentoringMapper mentoringMapper;
 	private final CommonMapper commonMapper;
+	
+	@Override
+	public List<Notice> getNoticeMainList() {
+		List<Notice> noticeList = mentoringMapper.getNoticeMainList();
+		return noticeList;
+	}
 	
 	@Override
 	public void modifyAnswer(NoticeAnswer noticeAnswer) {
@@ -109,15 +119,6 @@ public class MentoringServiceImpl implements MentoringService{
 		List<NoticeDetail> mentoringTime = mentoringMapper.getNoticeDetailTimeByCode(noticeCode);
 		return mentoringTime;
 	}
-
-	
-	@Override
-	public List<Notice> getNoticeByCategory(String category) {
-
-		List<Notice> noticeCateList = mentoringMapper.getNoticeByCategory(category);
-		
-		return noticeCateList;
-	}
 	
 	@Override
 	public void addNoticeDetail(NoticeDetail noticeDetail) {
@@ -150,13 +151,17 @@ public class MentoringServiceImpl implements MentoringService{
 		
 		return mentoringMapper.getTopicList();
 	}
-	
+
 	@Override
-		public List<Notice> getNoticeList() {
-			
-			List<Notice> noticeList = mentoringMapper.getNoticeList();
-			
-			return noticeList;
-		}
+	public PageInfo<Notice> getNoticeList(String category, Pageable pageable) {
+		int rowCnt = mentoringMapper.getNoticeListCount(category);
+		pageable.setRowPerPage(20);
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("rowPerPage", pageable.getRowPerPage());
+		paramMap.put("offset", pageable.getOffset());
+		paramMap.put("category",category);
+		List<Notice> contents = mentoringMapper.getNoticeList(paramMap);
+		return new PageInfo<>(contents, pageable, rowCnt);
+	}
 
 }
