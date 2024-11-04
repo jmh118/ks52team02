@@ -264,6 +264,7 @@
 		    INNER JOIN mentoring_notice_detail mnd 
 			 ON ma.mentoring_notice_detail_code = mnd.mentoring_notice_detail_code
 		WHERE 
-		    msmc.settlement_id = #{memberId};
+		    msmc.settlement_id = #{memberId}
+		ORDER BY msmc.settlement_day DESC;
 	</select>
 </mapper>
