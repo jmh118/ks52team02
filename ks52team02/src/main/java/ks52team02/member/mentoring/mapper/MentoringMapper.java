@@ -1,6 +1,7 @@
 package ks52team02.member.mentoring.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -12,6 +13,7 @@ import ks52team02.member.mentoring.dto.NoticeDetail;
 import ks52team02.member.mentoring.dto.NoticeQuestion;
 import ks52team02.member.mentoring.dto.Topic;
 import ks52team02.member.mypage.dto.MenteeProfile;
+import ks52team02.page.Pageable;
 
 @Mapper
 public interface MentoringMapper {
@@ -41,13 +43,11 @@ public interface MentoringMapper {
 	int addNotice(Notice notice);
 	
 	//공고조회
-	List<Notice> getNoticeList();
+	/* List<Notice> getNoticeList(Pageable pageable); */ 
+	List<Notice> getNoticeList(Map<String, Object> paramMap);
 	
 	// 공고카테고리조회
 	List<Topic> getTopicList();
-
-	// 공고목록 카테고리별조회
-	List<Notice> getNoticeByCategory(String category);
 
 	// 공고상세조회
 	Notice getNoticeDetailByCode(String noticeCode);
@@ -76,7 +76,7 @@ public interface MentoringMapper {
 	// 신청한 멘티 프로필조회
 	List<MenteeProfile> getApplyMenteeProfileById(String memberId);
 
-	//카테고리 갯수
+	//카테고리 조회
 	List<Topic> getCategoryCountList();
 
 	// 공고상세등록을위한 마지막 공고코드조회
@@ -88,8 +88,8 @@ public interface MentoringMapper {
 	// 공고 질문에대한답변 수정
 	int modifyAnswer(NoticeAnswer noticeAnswer);
 
-
-
+	// 공고 개수 조회
+	int getNoticeListCount(String category);
 
 
 }

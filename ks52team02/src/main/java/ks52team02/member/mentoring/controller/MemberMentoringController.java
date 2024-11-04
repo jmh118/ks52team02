@@ -21,6 +21,8 @@ import ks52team02.member.mentoring.dto.Topic;
 import ks52team02.member.mentoring.mapper.MentoringMapper;
 import ks52team02.member.mentoring.service.MentoringService;
 import ks52team02.member.mypage.dto.MenteeProfile;
+import ks52team02.page.PageInfo;
+import ks52team02.page.Pageable;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -149,26 +151,18 @@ public class MemberMentoringController {
     	
     	List<NoticeDetail> noticeDetailYmd = mentoringMapper.getNoticeApplyYmdByCode(noticeCode);
     	model.addAttribute("noticeDetailYmd", noticeDetailYmd);
-		
-    	
 
         return  "member/mentoring/noticeDetail";
     }
 	
 	@GetMapping("/notice")
-	public String movenoticeList(@RequestParam(required = false) String category, Model model) {
-		
-		List<Notice> noticeList;
+	public String movenoticeList(@RequestParam(required = false) String category, Model model,Pageable pageable) {
+	
 		List<Topic> categoryCount = mentoringService.getCategoryCountList();
-		
-		if(category != null && !category.isEmpty()) {
-			noticeList = mentoringService.getNoticeByCategory(category);
-		}else {
-			noticeList = mentoringService.getNoticeList();
-			 
-		}
+		PageInfo<Notice> noticeList = mentoringService.getNoticeList(category, pageable);
 		
 		model.addAttribute("noticeList", noticeList);
+		log.info("noticeList :{}",noticeList);
 		model.addAttribute("categoryCount", categoryCount);
 		
     	System.out.println("멘토링 | 멘토링 공고 조회 화면");
