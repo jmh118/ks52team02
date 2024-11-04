@@ -322,7 +322,7 @@
 	</select>
 
 
-	<select id="getNoticeList" parameterType="ks52team02.page.Pageable" resultType="Notice">
+	<select id="getNoticeList" parameterType="map" resultType="Notice">
 		/* 공고목록조회 */		
 		SELECT
 			mn.mentoring_notice_code AS noticeCode,

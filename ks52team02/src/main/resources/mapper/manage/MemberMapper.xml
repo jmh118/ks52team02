@@ -30,8 +30,17 @@
 			ml.member_level_code = 'member_level_mentor';
 	</select>
 	
+	<select id="getMemberListCount" resultType="int">
+		/* 관리자 - 전체 회원 수 조회 */
+		SELECT
+			COUNT(*)
+		FROM
+			member
+		WHERE
+			member_withdrawal_YN = 'N';
+	</select>
 	
-	<select id="getMemberList" resultType="Member">
+	<select id="getMemberList" parameterType="map" resultType="Member">
 		/* 관리자 - 전체 가입 회원 조회 */
 		SELECT
 			member_id AS memberId, 
@@ -50,12 +59,21 @@
 			ON
 			m.member_level_code=ml.member_level_code
 		WHERE
-			member_withdrawal_YN = 'N';
-		
-		
+			member_withdrawal_YN = 'N'
+		LIMIT #{rowPerPage} OFFSET #{offset};
 	</select>
 	
-	<select id="getWithdrawalMemberList" resultType="WithdrawalMember">
+	<select id="getWithdrawalMemberListCount" resultType="int">
+		/* 관리자 - 탈퇴 회원 수 조회 */
+		SELECT
+			COUNT(*)
+		FROM
+			member
+		WHERE
+			member_withdrawal_YN = 'Y'
+	</select>
+	
+	<select id="getWithdrawalMemberList" parameterType="map" resultType="WithdrawalMember">
 		/* 관리자 - 탈퇴 회원 조회 */
 		SELECT
 			mwa.withdrawal_apply_member_code AS withdrawalMemberCode,
@@ -79,10 +97,24 @@
 		WHERE
 			member_withdrawal_YN = 'Y'
 		ORDER BY
-			mwa.withdrawal_approval_YMD desc;
+			mwa.withdrawal_approval_YMD desc
+		LIMIT #{rowPerPage} OFFSET #{offset};
 	</select>
 	
-	<select id="getDormantMemberList" resultType="Member">
+	<select id="getDormantMemberListCount" resultType="int">
+		SELECT
+		    COUNT(DISTINCT m.member_id) 
+		FROM
+		    member_login_log mll LEFT JOIN member m 
+			 ON mll.member_id = m.member_id
+		    LEFT JOIN member_level ml 
+			 ON ml.member_level_code = m.member_level_code
+		WHERE
+		    DATEDIFF(NOW(), mll.member_login_YMD) >= 183
+		    AND m.member_withdrawal_YN = 'N';
+	</select>
+	
+	<select id="getDormantMemberList" parameterType="map" resultType="Member">
 		/* 관리자 - 휴면 회원 조회(6개월 이상 접속 기록이 없을 시) */
 		SELECT
 			m.member_id AS memberId, 
@@ -110,10 +142,19 @@
 			DATEDIFF(NOW(), mll.member_login_YMD)>=183 AND
 			m.member_withdrawal_YN = 'N'
 		GROUP BY memberId
-		ORDER BY mll.member_login_YMD desc;
+		ORDER BY mll.member_login_YMD desc
+		LIMIT #{rowPerPage} OFFSET #{offset};
 	</select>
 	
-	<select id="getLoginLog" resultType="LoginLog">
+	<select id="getLoginLogCount" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			member_login_log mll INNER JOIN member m
+			ON mll.member_id=m.member_id
+	</select>
+	
+	<select id="getLoginLog" parameterType="map" resultType="LoginLog">
 		/* 관리자 - 로그인 로그 조회 */
 		SELECT
 			mll.login_log_code AS loginLogCode,
@@ -127,7 +168,8 @@
 			ON
 			mll.member_id=m.member_id
 			
-		ORDER BY mll.member_login_YMD desc;
+		ORDER BY mll.member_login_YMD desc
+		LIMIT #{rowPerPage} OFFSET #{offset};
 	</select>
 	
 	<select id="getMonthMemberList" resultType="Member">

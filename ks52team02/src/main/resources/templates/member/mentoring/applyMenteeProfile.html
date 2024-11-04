@@ -7,6 +7,44 @@
 </head>
 <th:block layout:fragment="customJs">
 	<script th:inline="javascript">
+		function filterByStatus(status) {
+	        let	isList = false;
+	        let message = "진행 중인 멘토링이 없습니다";  
+	
+	        $('#contentTbody tr').each(function() {
+	            let statusText = $(this).find('td .badge').text();
+	            if (statusText === status) {
+	                $(this).show();
+	                isList = true; 
+	            } else {
+	                $(this).hide();
+	            }
+	        });
+	
+	        if (!isList) {
+	            $('tbody').append('<tr class="noResults"><td colspan="6">' + message + '</td></tr>');
+	        } else {
+	            $('tbody .noResults').remove();
+	        }
+	    }
+	
+	 	$('.sort #elementary').click(function() {
+	        filterByStatus('초급');
+	    });
+	
+	    $('.sort #middle').click(function() {
+	        filterByStatus('중급');
+	    });
+	
+	    $('.sort #high').click(function() {
+	        filterByStatus('고급');
+	    });
+		
+	    $('.sort .status-option').click(function() {
+	        $('.sort .status-option').removeClass('active');
+	        $(this).addClass('active'); 
+	    });
+
 		$('.detail-btn').click(function(e){
 			e.preventDefault();
 			const idx = $(this).data('idx');
@@ -36,53 +74,8 @@
 			$('#profileModal').modal('show');
 			
 		});
-		
-		function filterByStatus(status) {
-	        let	isList = false;
-	        let message = "";  
-	
-	        if (status === "초급") {
-	            message = "진행 중인 멘토링이 없습니다";
-	        } else if (status === "중급") {
-	            message = "진행 중인 멘토링이 없습니다";
-	        } else if (status === "고급") {
-	            message = "진행 중인 멘토링이 없습니다";
-	        }
-	
-	        $('tbody tr').each(function() {
-	            let statusText = $(this).find('td .badge').text();
-	            if (statusText === status) {
-	                $(this).show();
-	                isList = true; 
-	            } else {
-	                $(this).hide();
-	            }
-	        });
-	
-	        if (!isList) {
-	            $('tbody').append('<tr class="noResults"><td colspan="8">' + message + '</td></tr>');
-	        } else {
-	            $('tbody .noResults').remove();
-	        }
-	    }
-		
-		 	$('.sort #elementary').click(function() {
-		        filterByStatus('초급');
-		    });
-		
-		    $('.sort #middle').click(function() {
-		        filterByStatus('중급');
-		    });
-		
-		    $('.sort #high').click(function() {
-		        filterByStatus('고급');
-		    });
-			
-		    $('.sort .status-option').click(function() {
-	            $('.sort .status-option').removeClass('active');
-	            $(this).addClass('active'); 
-	        });
-		
+	    
+	    
 	</script>
 </th:block>
 <th:block layout:fragment="customContent">
@@ -122,12 +115,11 @@
 																	<th>상세보기</th>
 																</tr>
 															</thead>
-															<tbody>
+															<tbody id="contentTbody">
 																<tr th:each="m, status : ${menteeProfile}">																
 																	<td th:text="${m.notice.noticeTitle}"></td>
 																	<td th:text="${m.member.memberName}"></td>
 																	<td th:text="${m.interestField}"></td>
-																	<td th:text="${m.experienceLevel}"></td>
 																	<th:block th:switch="${m.experienceLevel}">
 																		<td th:case="'초급'"><span th:text="${m.experienceLevel}" class="badge rounded-pill alert-secondary"></span></td>
 																		<td th:case="'중급'"><span th:text="${m.experienceLevel}" class="badge rounded-pill alert-danger"></span></td>
