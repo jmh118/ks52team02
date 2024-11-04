@@ -88,6 +88,12 @@ public class ManagerMemberServiceImpl implements ManagerMemberService {
 		
 		return waitingForApprovalMentorList;
 	}
+
+	@Override
+	public int withdrawalApply(String withdrawalMemberId) {
+		
+		return managerMemberMapper.withdrawalApply(withdrawalMemberId);
+	}
 	
 	
 	
