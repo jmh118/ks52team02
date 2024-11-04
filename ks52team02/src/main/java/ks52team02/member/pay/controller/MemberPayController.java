@@ -99,7 +99,7 @@ public class MemberPayController {
 		return "member/pay/payList.html";
 	}
 	
-	@PostMapping("/success")
+	@PostMapping("/process")
 	public ResponseEntity<String> handlePaymentSuccess(@RequestBody PaymentRequest paymentRequest, HttpSession session) {
 		
 		log.info("Received impUid: {}", paymentRequest.getImpUid());
@@ -134,10 +134,13 @@ public class MemberPayController {
 	    }
 	}
 	
-	@GetMapping("/fail")
-	public String paymentStatusIsFailView() {
-		System.out.println("결제 실패 시 화면");
-		return "member/pay/payStatusFail";
+	@GetMapping("/success")
+	public String paymentStatusIsSuccessView() {
+		
+		
+		return "member/pay/payStatusSuccess";
 	}
+	
+	
 
 }

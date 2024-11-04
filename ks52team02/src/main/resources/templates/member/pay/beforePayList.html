@@ -173,7 +173,7 @@
                     if (rsp.success) {
 
                         $.ajax({
-                            url: "/pay/success",
+                            url: "/pay/process",
                             type: "POST",
                             contentType: "application/json",
                             data: JSON.stringify({
@@ -185,7 +185,7 @@
                             success: function(response) {
                                 //console.log("서버 응답 데이터:", response);
                                 alert("결제 완료되었습니다~~~!~");
-                                location.reload();
+                                location.href = "/pay/list";
                             },
                             error: function(xhr, status, error) {
                                 alert("서버와의 통신에 실패!!~!~");
