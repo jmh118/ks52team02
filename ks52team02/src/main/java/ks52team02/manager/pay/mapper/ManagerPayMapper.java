@@ -11,6 +11,15 @@ import ks52team02.page.Pageable;
 @Mapper
 public interface ManagerPayMapper {
 	
+	// 총 수익 조회
+	int getFlatformCalAmount();
+	
+	// 총 정산된 금액 조회
+	int getPaymentSettlementAmount();
+	
+	// 총 결제 금액 조회
+	int getTotalPayAmount();
+	
 	// 멘토 정산 승인
 	int managerPayApproveById(String settlementCode);
 	
