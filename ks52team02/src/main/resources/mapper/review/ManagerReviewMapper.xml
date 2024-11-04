@@ -35,7 +35,18 @@
 	
 	</delete>
 	
-	<select id="getMentorReviewsDataList" resultMap="MentorReviewDataMap">
+	<select id="getMentorReviewsDataListCnt" resultType="int">
+		/* 관리자 전체 멘토의 후기 관련 데이터 행 개수 조회 */
+		SELECT 
+			COUNT(*)
+		FROM
+			mentor_postscript_score_average mpsa INNER JOIN mentor_authority_approval map
+			ON mpsa.mentor_id = map.member_id;
+	
+	</select>
+	
+	
+	<select id="getMentorReviewsDataList" parameterType="ks52team02.page.Pageable" resultMap="MentorReviewDataMap">
 		/* 관리자 전체 멘토의 후기 관련 데이터 조회 */
 		SELECT 
 			mpsa.mentor_postscript_and_score_average_code, 
@@ -49,11 +60,20 @@
 			mpsa.honor_mentor_isCancel
 		FROM
 			mentor_postscript_score_average mpsa INNER JOIN mentor_authority_approval map
-			ON mpsa.mentor_id = map.member_id;
+			ON mpsa.mentor_id = map.member_id
+		LIMIT #{rowPerPage} OFFSET #{offset};
+	</select>
+	
+	<select id="getReviewListCount" resultType="int">
+		/* 후기 목록 행의 갯수 */
+		SELECT
+			COUNT(*)
+		FROM
+			mentoring_postscript; 
 	</select>
 	
 	
-	<select id="getAllMentoringReviewList" resultMap="mentoringAllReivewMap">
+	<select id="getAllMentoringReviewList" parameterType="ks52team02.page.Pageable" resultMap="mentoringAllReivewMap">
 		/* 전체 후기 조회 */
 		SELECT 
 			mentoring_postscript_code, 
@@ -63,6 +83,6 @@
 			mentoring_postscript_date
 		FROM 
 			mentoring_postscript
-	
+		LIMIT #{rowPerPage} OFFSET #{offset};
 	</select>
 </mapper>

@@ -29,7 +29,20 @@
 			criteria_honor_mentor 
 	</select>
 	
-	<select id="getHornorMentorList" resultType="Member">
+	<select id="getHornorMentorListCnt" resultType="int">
+		/* 명예멘토 리스트 행의 갯수 */
+		SELECT
+			COUNT(*)
+		FROM 
+			`member`
+		WHERE 
+			member_id IN 
+			<foreach item="honorMenotrId" index="index" open="(" separator="," close=")" collection="list">
+				#{honorMenotrId}
+			</foreach>
+	</select>
+	
+	<select id="getHornorMentorList" parameterType="map" resultType="Member">
 		/* 명예멘토 리스트 조회 */
 		SELECT 
 			member_id AS memberId, 
@@ -41,9 +54,10 @@
 			`member`
 		WHERE 
 			member_id IN 
-			<foreach item="honorMenotrId" index="index" open="(" separator="," close=")" collection="list">
+			<foreach item="honorMenotrId" index="index" open="(" separator="," close=")" collection="honorMenotrId">
 				#{honorMenotrId}
 			</foreach>
+		LIMIT #{rowPerPage} OFFSET #{offset};
 	</select>
 	
 	<select id="getHonorMentorIdList" resultType="string">

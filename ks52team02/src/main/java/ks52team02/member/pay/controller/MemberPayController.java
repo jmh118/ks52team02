@@ -21,6 +21,7 @@ import jakarta.servlet.http.HttpSession;
 import ks52team02.member.pay.dto.BeforePay;
 import ks52team02.member.pay.dto.Pay;
 import ks52team02.member.pay.dto.PaymentRequest;
+import ks52team02.member.pay.mapper.MemberPayMapper;
 import ks52team02.member.pay.service.MemberPayService;
 import ks52team02.member.review.service.MemberReviewService;
 import lombok.RequiredArgsConstructor;
@@ -38,6 +39,13 @@ public class MemberPayController {
 								"l3OOEUYVupHQ01RXV85v2JjWjy1t0XBbqRuZ3tptIixCZKrXJ1JhLWhxoXAkn0PD1j9vRm0oy8fGpILt");
 	
 	
+	@GetMapping("remove")
+	public String removeApply(@RequestParam(name="applyCode") String applyCode, @RequestParam(name="detailCode") String detailCode) {
+		
+		memberPayService.removeMentoringApplyByCode(applyCode, detailCode);
+		
+		return "redirect:/pay/beforeList";
+	}
 	
 	@GetMapping("/beforeList")
 	public String getBeforePayList(Model model, HttpSession session) {

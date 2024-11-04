@@ -1,7 +1,5 @@
 package ks52team02.manager.review.controller;
 
-import java.util.List;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ks52team02.manager.review.dto.Review;
 import ks52team02.manager.review.mapper.ManagerReviewMapper;
 import ks52team02.manager.review.service.ManagerReviewService;
+import ks52team02.page.PageInfo;
+import ks52team02.page.Pageable;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -38,9 +38,9 @@ public class ManagerReviewController {
 	
 	
 	@GetMapping("/list")
-    public String getAllReviews(Model model) {
+    public String getAllReviews(Pageable pageable, Model model) {
 		
-		List<Review> reviewList = managerReviewMapper.getAllMentoringReviewList();
+		PageInfo<Review> reviewList = managerReviewService.getAllMentoringReviewList(pageable);
 		
 		model.addAttribute("reviewList", reviewList);
 		model.addAttribute("title", "멘토링 후기 관리");

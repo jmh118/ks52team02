@@ -8,6 +8,8 @@ import ks52team02.member.pay.dto.Pay;
 
 public interface MemberPayService {
 	
+	void removeMentoringApplyByCode(String applyCode, String detailCode);
+	
 	// 결제 추가 
 	int addPay(List<MentoringData> mentoringDataList);
 	

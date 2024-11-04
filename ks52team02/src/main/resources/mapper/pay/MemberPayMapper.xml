@@ -48,11 +48,25 @@
 			<result column="last_UNTPRC" 							property="noticeUntprc"/>
 		</association>
 		<association property="noticeDetail" javaType="NoticeDetail">
-			<id 	column="mentoring_notice_detail_code" 			property="noticeDetail"/>
+			<id 	column="mentoring_notice_detail_code" 			property="noticeDetailCode"/>
 			<result column="day_mentoring_YMD" 						property="mentoringYmd"/>
 			<result column="day_mentoring_time" 					property="mentoringTime"/>
 		</association>
 	</resultMap>
+	
+	<update id="updateMentoringDetailStatusByCode" parameterType="string">
+		UPDATE mentoring_notice_detail
+		SET
+			RSVT_status='예약 가능'
+		WHERE mentoring_notice_detail_code = #{detailCode};
+	
+	</update>
+	
+	<delete id="removeMentoringApplyByCode" parameterType="string">
+		DELETE 
+		FROM mentoring_apply 
+		WHERE mentoring_apply_code = #{applyCode};
+	</delete>
 	
 	<update id="updateMentroingDatailStatus" parameterType="list">
 		UPDATE mentoring_notice_detail
@@ -137,6 +151,7 @@
 		SELECT
 			ma.mentoring_apply_code,
 			mn.mentoring_notice_code,
+			mnd.mentoring_notice_detail_code,
 			mn.mentoring_notice_title,
 			mn.member_id,
 			mn.last_UNTPRC,

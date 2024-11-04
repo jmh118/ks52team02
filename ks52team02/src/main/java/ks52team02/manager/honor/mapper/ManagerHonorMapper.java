@@ -1,6 +1,7 @@
 package ks52team02.manager.honor.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -20,8 +21,11 @@ public interface ManagerHonorMapper {
 	// 명예멘토 기준 조회
 	CriteriaHonorMentor getCriteriaHonorMentor();
 	
+	// 명예멘토 리스트 행 개수 조회
+	int getHornorMentorListCnt(List<String> mentorId);
+	
 	// 명예멘토 리스트 조회
-	List<Member> getHornorMentorList(List<String> mentorId);
+	List<Member> getHornorMentorList(Map<String, Object> params);
 	
 	// 명예멘토인 멘토 아이디 리스트 조회
 	List<String> getHonorMentorIdList();

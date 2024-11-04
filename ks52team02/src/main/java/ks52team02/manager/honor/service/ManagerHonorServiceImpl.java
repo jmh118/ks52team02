@@ -1,6 +1,8 @@
 package ks52team02.manager.honor.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,6 +12,8 @@ import ks52team02.manager.honor.mapper.ManagerHonorMapper;
 import ks52team02.manager.member.dto.Member;
 import ks52team02.manager.review.dto.MentorReviewData;
 import ks52team02.manager.review.mapper.ManagerReviewMapper;
+import ks52team02.page.PageInfo;
+import ks52team02.page.Pageable;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -38,16 +42,17 @@ public class ManagerHonorServiceImpl implements ManagerHonorService {
 
 	
 	@Override
-	public List<MentorReviewData> getMentorReviewsDataList() {
+	public PageInfo<MentorReviewData> getMentorReviewsDataList(Pageable pageable) {
 
 		CriteriaHonorMentor criteria = managerHonorMapper.getCriteriaHonorMentor();
 		
 		int reveiwCntCriteria = criteria.getReveiwCntCriteria();
 		double reviewAvgCriteria = criteria.getReviewAvgCriteria();
 		
-		List<MentorReviewData> mentorReviewsDataList = managerReviewMapper.getMentorReviewsDataList();
+		int rowCnt = managerReviewMapper.getMentorReviewsDataListCnt();
+		List<MentorReviewData> contents = managerReviewMapper.getMentorReviewsDataList(pageable);
 		
-		for(MentorReviewData data : mentorReviewsDataList) {
+		for(MentorReviewData data : contents) {
 			if(data.getMentorReviewAvg() >= reviewAvgCriteria && data.getMentorReviewCnt() >= reveiwCntCriteria) {
 				data.setIsapprove(true);
 				data.setCancel(false);
@@ -57,17 +62,25 @@ public class ManagerHonorServiceImpl implements ManagerHonorService {
 			}
 		}
 		
-		log.info("확인 : {}", mentorReviewsDataList);
+		log.info("확인 : {}", contents);
 		
-		return mentorReviewsDataList;
+		return new PageInfo<>(contents, pageable, rowCnt);
 	}
 	
 	@Override
-	public List<Member> getHornorMentorList() {
+	public PageInfo<Member> getHornorMentorList(Pageable pageable) {
 		
 		List<String> honorMentorIdList = managerHonorMapper.getHonorMentorIdList();
-		List<Member> honorMentorList = managerHonorMapper.getHornorMentorList(honorMentorIdList);
+		int rowCnt = managerHonorMapper.getHornorMentorListCnt(honorMentorIdList);
 		
-		return honorMentorList;
+		Map<String, Object> params = new HashMap<>();
+	    params.put("honorMenotrId", honorMentorIdList);
+	    params.put("rowPerPage", pageable.getRowPerPage());  
+	    params.put("offset", pageable.getOffset());
+	    
+	    
+	    List<Member> contents = managerHonorMapper.getHornorMentorList(params);
+		
+		return new PageInfo<>(contents, pageable, rowCnt);
 	}
 }

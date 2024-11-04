@@ -60,8 +60,19 @@
 	
 	</update>
 	
-	<select id="getPaymentSettlementHistoryList" resultMap="PaymentSettlementtMap">
-		/* 정산 신청 내역 조회 */
+	<select id="getPaymentSettlementHistoryCnt" resultType="int">
+		/* 정산 내역 행의 갯수 */
+		SELECT
+			COUNT(*)
+		FROM
+			mentor_calculation_demand_completion mcdc INNER JOIN mentee_settlement_mentor_calculation msmc
+			ON mcdc.mentee_settlement_mentor_calculation_code = msmc.mentee_settlement_mentor_calculation_code
+		WHERE
+			mcdc.calculation_status = '플랫폼이 멘토에게 정산 완료';
+	</select>
+	
+	<select id="getPaymentSettlementHistoryList" parameterType="ks52team02.page.Pageable" resultMap="PaymentSettlementtMap">
+		/* 정산 내역 조회 */
 		SELECT
 			mcdc.mentor_id,
 			msmc.mentor_notice_code,
@@ -71,10 +82,22 @@
 			mentor_calculation_demand_completion mcdc INNER JOIN mentee_settlement_mentor_calculation msmc
 			ON mcdc.mentee_settlement_mentor_calculation_code = msmc.mentee_settlement_mentor_calculation_code
 		WHERE
-			mcdc.calculation_status = '플랫폼이 멘토에게 정산 완료';
+			mcdc.calculation_status = '플랫폼이 멘토에게 정산 완료'
+		LIMIT #{rowPerPage} OFFSET #{offset};
 	</select>
 	
-	<select id="getPaymentSettlementList" resultMap="PaymentSettlementtMap">
+	<select id="getPaymentSettlementCnt" resultType="int">
+		/* 정산 신청 내역 행의 갯수 */
+		SELECT
+			COUNT(*)
+		FROM
+			mentor_calculation_demand_completion mcdc INNER JOIN mentee_settlement_mentor_calculation msmc
+			ON mcdc.mentee_settlement_mentor_calculation_code = msmc.mentee_settlement_mentor_calculation_code
+		WHERE
+			mcdc.calculation_status = '멘토가 플랫폼에 정산 요청';
+	</select>
+	
+	<select id="getPaymentSettlementList" parameterType="ks52team02.page.Pageable" resultMap="PaymentSettlementtMap">
 		/* 정산 신청 내역 조회 */
 		SELECT
 			mcdc.mentor_calculation_demand_completion_code,
@@ -87,7 +110,8 @@
 			mentor_calculation_demand_completion mcdc INNER JOIN mentee_settlement_mentor_calculation msmc
 			ON mcdc.mentee_settlement_mentor_calculation_code = msmc.mentee_settlement_mentor_calculation_code
 		WHERE
-			mcdc.calculation_status = '멘토가 플랫폼에 정산 요청';
+			mcdc.calculation_status = '멘토가 플랫폼에 정산 요청'
+		LIMIT #{rowPerPage} OFFSET #{offset};
 	</select>
 	
 	<select id="getPayListCount" resultType="int">
