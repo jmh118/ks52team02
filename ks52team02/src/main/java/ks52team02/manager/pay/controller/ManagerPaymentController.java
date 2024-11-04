@@ -38,8 +38,10 @@ public class ManagerPaymentController {
     public String managerPaymentList(Pageable pageable, Model model) {
 		
 		PageInfo<Pay> payList = managerPayService.getMenteePayList(pageable);
+		int totalPayAmount = managerPayMapper.getTotalPayAmount();
 		
 		model.addAttribute("payList", payList);
+		model.addAttribute("totalPayAmount", totalPayAmount);
 		model.addAttribute("title", "멘토링 결제 내역 조회");	
 		
         return  "manager/pay/payList";
@@ -51,6 +53,7 @@ public class ManagerPaymentController {
 		PageInfo<PaymentSettlement> paymentSettlementList = managerPayService.getPaymentSettlementList(pageable);
 		
 		model.addAttribute("paymentSettlementList", paymentSettlementList);
+		model.addAttribute("title", "멘토링 신청 내역 조회");
 		
 		return  "manager/pay/settlementRequestList";
 	}
@@ -59,8 +62,12 @@ public class ManagerPaymentController {
 	public String managerSettlementHistoryList(Pageable pageable, Model model) {
 		
 		PageInfo<PaymentSettlement> paymentSettlementHistoryList = managerPayService.getPaymentSettlementHistoryList(pageable);
+		int totalSettlementAmount = managerPayMapper.getPaymentSettlementAmount();
+		int totalFlatformCalAmount = managerPayMapper.getFlatformCalAmount();
 		
 		model.addAttribute("paymentSettlementHistoryList", paymentSettlementHistoryList);
+		model.addAttribute("totalSettlementAmount", totalSettlementAmount);
+		model.addAttribute("totalFlatformCalAmount", totalFlatformCalAmount);
 		model.addAttribute("title", "멘토링 정산 내역 조회");
 		
 		return  "manager/pay/settlementHistoryList";
