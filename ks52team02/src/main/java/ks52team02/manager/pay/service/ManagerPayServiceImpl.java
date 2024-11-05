@@ -22,9 +22,9 @@ public class ManagerPayServiceImpl implements ManagerPayService {
 	
 	
 	@Override
-	public int managerPayApproveById(String settlementCode) {
+	public int managerPayApproveById(String settlementCode, String managerId) {
 		
-		return managerPayMapper.managerPayApproveById(settlementCode);
+		return managerPayMapper.managerPayApproveById(settlementCode, managerId);
 	}
 	
 	

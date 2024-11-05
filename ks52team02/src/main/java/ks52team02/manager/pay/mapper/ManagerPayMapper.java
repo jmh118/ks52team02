@@ -21,7 +21,7 @@ public interface ManagerPayMapper {
 	int getTotalPayAmount();
 	
 	// 멘토 정산 승인
-	int managerPayApproveById(String settlementCode);
+	int managerPayApproveById(String settlementCode, String managerId);
 	
 	// 정산 정산 내역 행 개수 조회
 	int getPaymentSettlementHistoryCnt();
