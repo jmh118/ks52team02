@@ -13,6 +13,7 @@ import ks52team02.common.util.DateFormatterUtil;
 import ks52team02.member.pay.dto.BeforePay;
 import ks52team02.member.pay.dto.MentoringData;
 import ks52team02.member.pay.dto.Pay;
+import ks52team02.member.pay.dto.SearchFilter;
 import ks52team02.member.pay.mapper.MemberPayMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +27,33 @@ public class MemberPayServiceImpl implements MemberPayService {
 	private final DateFormatterUtil dateFormatterUtil;
 	private final MemberPayMapper memberPayMapper;
 	private final CommonMapper commonMapper;
+	
+	
+	@Override
+	public List<Pay> getFilterMenteePaymentListById(String memberId, SearchFilter searchFilter) {
+		
+		Map<String, Object> filterParams = new HashMap<>();
+		
+		filterParams.put("memberId", memberId);
+		
+		if (searchFilter != null) {
+	        filterParams.put("selectedYear", searchFilter.getSelectedYear());
+	        filterParams.put("selectedMonth", searchFilter.getSelectedMonth());
+	    }
+		
+		List<Pay> payList = memberPayMapper.getFilterMenteePaymentListById(filterParams);
+		
+		for (Pay pay : payList) {
+	        String formattedDate = dateFormatterUtil.formatDate(pay.getNoticeDetail().getMentoringYmd());
+	        String formattedTime = dateFormatterUtil.formatTime(pay.getNoticeDetail().getMentoringTime());
+
+	        pay.getNoticeDetail().setMentoringYmd(formattedDate);
+	        pay.getNoticeDetail().setMentoringTime(formattedTime);
+	    }	
+		
+		return payList;
+	}
+	
 	
 	@Override
 	public void removeMentoringApplyByCode(String applyCode, String detailCode) {

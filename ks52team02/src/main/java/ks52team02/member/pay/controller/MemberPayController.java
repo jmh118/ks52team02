@@ -21,6 +21,7 @@ import jakarta.servlet.http.HttpSession;
 import ks52team02.member.pay.dto.BeforePay;
 import ks52team02.member.pay.dto.Pay;
 import ks52team02.member.pay.dto.PaymentRequest;
+import ks52team02.member.pay.dto.SearchFilter;
 import ks52team02.member.pay.mapper.MemberPayMapper;
 import ks52team02.member.pay.service.MemberPayService;
 import ks52team02.member.review.service.MemberReviewService;
@@ -38,6 +39,16 @@ public class MemberPayController {
 	private final IamportClient iamportClient = new IamportClient("2328516881331875", 
 								"l3OOEUYVupHQ01RXV85v2JjWjy1t0XBbqRuZ3tptIixCZKrXJ1JhLWhxoXAkn0PD1j9vRm0oy8fGpILt");
 	
+	@PostMapping("/searchList")
+	@ResponseBody
+	public List<Pay> searchPayList(SearchFilter searchFilter, HttpSession session){
+		
+		String memberId = (String) session.getAttribute("SID");
+		List<Pay> payList = memberPayService.getFilterMenteePaymentListById(memberId, searchFilter);
+		
+		
+		return payList;
+	}
 	
 	@GetMapping("remove")
 	public String removeApply(@RequestParam(name="applyCode") String applyCode, @RequestParam(name="detailCode") String detailCode) {

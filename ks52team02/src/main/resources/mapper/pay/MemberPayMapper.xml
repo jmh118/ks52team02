@@ -54,6 +54,40 @@
 		</association>
 	</resultMap>
 	
+	<select id="getFilterMenteePaymentListById" parameterType="map" resultMap="paymentListMap">
+		/* 연도와 월로 결제 내역 검색 */
+		SELECT 
+		    msmc.mentee_settlement_mentor_calculation_code,
+		    ma.mentoring_apply_code,
+		    mn.mentoring_notice_code,
+		    mn.topic_category_code,
+		    mn.mentoring_notice_title,
+		    mnd.day_mentoring_YMD,
+		    mnd.day_mentoring_time,
+		    mn.member_id,
+		    msmc.last_amount,
+		    msmc.settlement_day,
+		    msmc.mentoring_progress_status
+		FROM 
+		    mentee_settlement_mentor_calculation msmc 
+		    INNER JOIN mentoring_apply ma 
+		        ON msmc.mentoring_apply_code = ma.mentoring_apply_code
+		    INNER JOIN mentoring_notice mn 
+		        ON ma.mentoring_notice_code = mn.mentoring_notice_code
+		    INNER JOIN mentoring_notice_detail mnd 
+		        ON ma.mentoring_notice_detail_code = mnd.mentoring_notice_detail_code
+		WHERE 
+		    msmc.settlement_id = #{memberId}
+		    <if test="selectedYear != 'all'">
+            AND YEAR(msmc.settlement_day) = #{selectedYear}
+	        </if>
+	        <if test="selectedMonth != 'all'">
+	            AND MONTH(msmc.settlement_day) = #{selectedMonth}
+	        </if>
+		ORDER BY 
+		    msmc.settlement_day DESC;
+	</select>
+	
 	<update id="updateMentoringDetailStatusByCode" parameterType="string">
 		UPDATE mentoring_notice_detail
 		SET

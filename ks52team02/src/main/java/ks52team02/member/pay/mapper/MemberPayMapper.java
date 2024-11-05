@@ -12,6 +12,10 @@ import ks52team02.member.pay.dto.Pay;
 @Mapper
 public interface MemberPayMapper {
 	
+
+	// 연도,월 검색 결제 내역 조회
+	List<Pay> getFilterMenteePaymentListById(Map<String, Object> filterParams);
+	
 	// 멘토링 신청 삭제 이후 공고 상태 수정
 	int updateMentoringDetailStatusByCode(String detailCode);
 	

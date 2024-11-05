@@ -151,6 +151,73 @@
             $('.status .status-option').removeClass('active');
             $(this).addClass('active'); 
         });	    
+	    $('#searchBtn').click(function(){
+	    	let selectedYear = $("#yearSelect").val();
+	        let selectedMonth = $("#monthSelect").val();
+	        
+	        console.log(selectedYear);
+	        console.log(selectedMonth);
+	        
+	        const request = $.ajax({
+				url : '/pay/searchList',
+				method : 'post',
+				data : { 
+						'selectedYear': selectedYear,
+						'selectedMonth': selectedMonth
+				},
+				dataType: 'json'
+			});
+			request.done(function(data){
+		        console.log(data);
+				
+		        let tbody = $('table tbody');
+		        tbody.empty();
+		        
+		        if (data.length === 0) {
+		            tbody.append('<tr><td colspan="8">결과가 없습니다.</td></tr>');
+		            return;
+		        }
+		        
+		        data.forEach(function(item, idx) {
+		            let statusBadge = '';
+		            switch (item.mentoringProcStatus) {
+		                case '':
+		                    statusBadge = '<span class="badge rounded-pill alert-secondary">진행 전</span>';
+		                    break;
+		                case '진행 중':
+		                    statusBadge = '<span class="badge rounded-pill alert-danger">진행 중</span>';
+		                    break;
+		                case '종료':
+		                    statusBadge = '<span class="badge rounded-pill alert-success">종료</span>';
+		                    break;
+		            }
+
+		            let reviewButtonClass = (item.mentoringProcStatus !== '종료') ? 'disabled' : '';
+		            let reviewButton = `<a href="/review/form?payCode=${item.paySettlementCalCode}" class="btn btn-md rounded font-sm ${reviewButtonClass}">등록</a>`;
+
+		            let row = `
+		                <tr>
+		                    <td>${item.notice.noticeTitle || ''}</td>
+		                    <td>${item.noticeDetail.mentoringYmd || ''}</td>
+		                    <td>${item.noticeDetail.mentoringTime || ''}</td>
+		                    <td>${item.notice.memberId || ''}</td>
+		                    <td>${item.totalAmount || 0}</td>
+		                    <td>${item.payDate || ''}</td>
+		                    <td>${statusBadge}</td>
+		                    <td>${reviewButton}</td>
+		                </tr>
+		            `;
+		            tbody.append(row);
+		        });
+				
+				
+			});
+			request.fail(function(jqXHR, textStatus, error){
+				console.log(error);
+			});
+	        
+	        
+	    });
 	</script>
 </th:block>
 </html>
