@@ -73,6 +73,25 @@
 														</table>
                                                     </div>
                                                 </div>
+                                                <!-- 
+                                                <div class="pagination-area mt-20 mb-20">
+							                        <nav aria-label="Page navigation example">
+							                            <ul class="pagination justify-content-start">
+							                                
+							                                <th:block th:each="num : ${#numbers.sequence(noticeList.startPageNum, noticeList.endPageNum)}">
+													            <li class="page-item"
+													                th:classappend="${noticeList.currentPage == num} ? 'active'">
+													                <a class="page-link" th:href="@{/mentoring/notice(currentPage=${num})}" th:if ="${num} != 0">[[${num}]]</a>
+													            </li>
+												       		</th:block>
+							                                <li class="page-item" th:classappend="${noticeList.currentPage >= noticeList.lastPage} ? 'disabled'">
+							                                    <a class="page-link" th:href="@{/mentoring/notice(currentPage=${noticeList.currentPage + 1})}"><i class="fi-rs-arrow-small-right"></i></a>
+							                                </li>
+							                                
+							                            </ul>
+							                        </nav>
+							                    </div>
+							                     -->
                                             </div>
                                         </div>
                                     </div>
