@@ -4,7 +4,11 @@
 	<head>
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.css">
    	 	<link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/material_blue.css">
-   	 	
+   	 	<style>
+	        input.inputDate{
+	            background: url("/member/imgs/theme/calendar.png") no-repeat right 20px center / 20px auto;
+	        }
+    	</style>
 	</head>
 	<th:block layout:fragment="customJs">
 		<script type="text/javascript">
@@ -223,20 +227,18 @@
                             	<p>멘토링 가능 날짜</p>                        	
                                 <div class="form-group col-lg-6">	                               									
 									<label for="noticeStartYmd">Start Date</label>
-            						<input type="text" id="noticeStartYmd" name="noticeStartYmd" class="form-control" value="">
+            						<input type="text" id="noticeStartYmd" name="noticeStartYmd" class="form-control inputDate" value="">
             					</div>
             					<div class="form-group col-lg-6">
             						<label for="noticeEndYmd">End Date</label>
-            						<input type="text" id="noticeEndYmd" name="noticeEndYmd" class="form-control" value="">
+            						<input type="text" id="noticeEndYmd" name="noticeEndYmd" class="form-control inputDate" value="">
                                 </div>
                             </div>
-                            
-                            
                              <div id="timeContainer">
 						        <div class="mb-3 row">
 						            <div class="form-group col-lg-3">
 						                <label for="datePicker" class="form-label">날짜</label>
-						                <input type="text" name="mentoringYmdList" class="form-control input-date datePicker" value="">
+						                <input type="text" name="mentoringYmdList" class="form-control input-date datePicker inputDate" value="">
 						            </div>
 						            <div class="form-group col-lg-3">
 						                <label for="dateTimePicker" class="form-label">멘토링시간</label>
@@ -247,10 +249,8 @@
 						                <button type="button" class="btn btn-fill-out btn-block mt-30 del-btn">제거</button>
 						            </div>
 						        </div>
-						    </div>	
-		                    		                          
-                            <button type="button" id="addBtn" class="btn btn-fill-out btn-block mt-30 ">등록하기<i class="fi-rs-sign-out ml-15"></i></button>
-                        	
+						    </div>                          
+                            <button type="button" id="addBtn" class="btn btn-fill-out btn-block mt-30 ">등록하기<i class="fi-rs-sign-out ml-15"></i></button> 	
                         </form>
                     </div>
                 </div>
