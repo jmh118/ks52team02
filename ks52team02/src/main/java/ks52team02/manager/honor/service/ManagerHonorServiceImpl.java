@@ -62,8 +62,6 @@ public class ManagerHonorServiceImpl implements ManagerHonorService {
 			}
 		}
 		
-		log.info("확인 : {}", contents);
-		
 		return new PageInfo<>(contents, pageable, rowCnt);
 	}
 	

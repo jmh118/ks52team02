@@ -28,9 +28,8 @@
                                    </tr>
                                </thead>
                                <tbody>
-									<tr th:each="mrd : ${mentorReviewsDataList.contents}">
+									<tr th:each="mrd : ${mentorReviewsDataList.contents}">									
 										<td class="memberId" th:text="${mrd.mentorId}"></td>
-										
 										<th:block th:switch="${mrd.isHonorMentor}">
 											<td th:case="${'Y'}"><span th:text="${'명예멘토'}" class="badge rounded-pill" th:classappend="${'alert-primary'}"></span></td>
                                         	<td th:case="${'N'}"><span th:text="${'일반멘토'}" class="badge rounded-pill" th:classappend="${'alert-secondary'}"></span></td>
@@ -76,10 +75,11 @@
             </div>
 		</section>
       <!-- content-main end// -->
-      	</th:block>
-      	<th:block layout:fragment="customJs">
-      		<script>
-      			
-      		</script>
-      	</th:block>
+	</th:block>
+	<th:block layout:fragment="customJs">
+		<script>
+			
+		
+		</script>
+	</th:block>
 </html>
