@@ -43,7 +43,6 @@ public interface MentoringMapper {
 	int addNotice(Notice notice);
 	
 	//공고조회
-	/* List<Notice> getNoticeList(Pageable pageable); */ 
 	List<Notice> getNoticeList(Map<String, Object> paramMap);
 	
 	// 공고카테고리조회

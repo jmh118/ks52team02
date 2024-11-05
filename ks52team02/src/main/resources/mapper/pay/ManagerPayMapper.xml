@@ -51,10 +51,44 @@
 	    </association>
 	</resultMap>
 	
+	<select id="getFlatformCalAmount" resultType="int">
+		/* 총 수익 금액 조회 */
+		SELECT
+			SUM(msmc.last_flatform_calculation_amount)
+		FROM 
+			mentee_settlement_mentor_calculation msmc INNER JOIN mentor_calculation_demand_completion mcdc
+			ON msmc.mentee_settlement_mentor_calculation_code = mcdc.mentee_settlement_mentor_calculation_code
+		WHERE 
+			mcdc.calculation_status = '플랫폼이 멘토에게 정산 완료';
+	</select>
+	
+	<select id="getPaymentSettlementAmount" resultType="int">
+	/* 총 정산 금액 */
+	SELECT
+		SUM(msmc.mentor_calculation_amount)
+	FROM 
+		mentee_settlement_mentor_calculation msmc INNER JOIN mentor_calculation_demand_completion mcdc
+		ON msmc.mentee_settlement_mentor_calculation_code = mcdc.mentee_settlement_mentor_calculation_code
+	WHERE 
+		mcdc.calculation_status = '플랫폼이 멘토에게 정산 완료';
+	
+	</select>
+	
+	<select id="getTotalPayAmount" resultType="int">
+		/* 총 결제 금액 조회 */
+		SELECT
+			SUM(msmc.last_amount)
+		FROM 
+			mentee_settlement_mentor_calculation msmc;
+	</select>
+	
+	
 	<update id="managerPayApproveById" parameterType="string">
+		/* 관리자가 정산 신청 승인 */
 		UPDATE mentor_calculation_demand_completion
 		SET
 			calculation_give_date = NOW(),
+			manager_id = #{managerId},
 			calculation_status='플랫폼이 멘토에게 정산 완료'
 		WHERE mentor_calculation_demand_completion_code = #{settlementCode};
 	

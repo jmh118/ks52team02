@@ -1,6 +1,8 @@
 package ks52team02.manager.member.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,6 +12,8 @@ import ks52team02.manager.member.dto.LoginLog;
 import ks52team02.manager.member.dto.Member;
 import ks52team02.manager.member.dto.WithdrawalMember;
 import ks52team02.manager.member.mapper.ManagerMemberMapper;
+import ks52team02.page.PageInfo;
+import ks52team02.page.Pageable;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -21,32 +25,49 @@ public class ManagerMemberServiceImpl implements ManagerMemberService {
 
 	private final ManagerMemberMapper managerMemberMapper;
 
+	 
 	@Override
-	public List<Member> getMemberList(){
-		List<Member> memberList = managerMemberMapper.getMemberList();
-		
-		return memberList;
+	public PageInfo<Member> getMemberList(Pageable pageable) {
+		int rowCnt = managerMemberMapper.getMemberListCount();
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("rowPerPage", pageable.getRowPerPage());
+		paramMap.put("offset", pageable.getOffset());
+		// paramMap.put("category",category); <- 검색기능 추가
+		List<Member> contents = managerMemberMapper.getMemberList(paramMap);
+		return new PageInfo<>(contents, pageable, rowCnt);
 	}
 
 	@Override
-	public List<WithdrawalMember> getWithdrawalMemberList() {
-		List<WithdrawalMember> withdrawalMemberList = managerMemberMapper.getWithdrawalMemberList();
+	public PageInfo<WithdrawalMember> getWithdrawalMemberList(Pageable pageable) {
+		int rowCnt = managerMemberMapper.getWithdrawalMemberListCount();
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("rowPerPage", pageable.getRowPerPage());
+		paramMap.put("offset", pageable.getOffset());
+		List<WithdrawalMember> contents = managerMemberMapper.getWithdrawalMemberList(paramMap);
 		
-		return withdrawalMemberList;
+		return new PageInfo<>(contents, pageable, rowCnt);
 	}
 
 	@Override
-	public List<Member> getDormantMemberList() {
-		List<Member> dormantMemberList = managerMemberMapper.getDormantMemberList();
+	public PageInfo<Member> getDormantMemberList(Pageable pageable) {
+		int rowCnt  = managerMemberMapper.getDormantMemberListCount();
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("rowPerPage", pageable.getRowPerPage());
+		paramMap.put("offset", pageable.getOffset());
+		List<Member> contents = managerMemberMapper.getDormantMemberList(paramMap);
 		
-		return dormantMemberList;
+		return new PageInfo<>(contents, pageable, rowCnt);
 	}
 	
 	@Override
-	public List<LoginLog> getLoginLog(){
-		List<LoginLog> loginLogList = managerMemberMapper.getLoginLog();
+	public PageInfo<LoginLog> getLoginLog(Pageable pageable){
+		int rowCnt = managerMemberMapper.getLoginLogCount();
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("rowPerPage", pageable.getRowPerPage());
+		paramMap.put("offset", pageable.getOffset());
+		List<LoginLog> contents = managerMemberMapper.getLoginLog(paramMap);
 		
-		return loginLogList;
+		return new PageInfo<>(contents, pageable, rowCnt);
 	}
 
 	@Override
@@ -87,6 +108,12 @@ public class ManagerMemberServiceImpl implements ManagerMemberService {
 		List<Member> waitingForApprovalMentorList = managerMemberMapper.getWaitingForApprovalMentorList();
 		
 		return waitingForApprovalMentorList;
+	}
+
+	@Override
+	public int withdrawalApply(String withdrawalMemberId) {
+		
+		return managerMemberMapper.withdrawalApply(withdrawalMemberId);
 	}
 	
 	
