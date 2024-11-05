@@ -36,17 +36,17 @@ public class MemberMentoringController {
 	private final MentoringMapper mentoringMapper;
 	
 	@PostMapping("/modifyAnswer")
-	public String getmodifyAnswer(NoticeAnswer noticeAnswer,@RequestParam(name="noticeCode")String noticeCode) {
+	public String getmodifyAnswer(NoticeAnswer noticeAnswer, @RequestParam(name="noticeCode")String noticeCode) {
 		mentoringService.modifyAnswer(noticeAnswer);
 		
 		return "redirect:/mentoring/noticeDetail?noticeCode=" + noticeCode;
 	}
 	
 	@PostMapping("/modifyQuestion")
-	public String getmodifyQuestion(NoticeQuestion noticeQuestion) {
+	public String getmodifyQuestion(NoticeQuestion noticeQuestion, @RequestParam(name="noticeCode")String noticeCode) {
 		mentoringService.modifyQuestion(noticeQuestion);
 		
-		return "redirect:/mentoring/notice";
+		return "redirect:/mentoring/noticeDetail?noticeCode=" + noticeCode;
 	}
 	
 	@GetMapping("/applyMenteeProfile")

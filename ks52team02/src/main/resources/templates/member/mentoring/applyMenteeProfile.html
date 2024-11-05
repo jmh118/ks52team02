@@ -7,6 +7,28 @@
 </head>
 <th:block layout:fragment="customJs">
 	<script th:inline="javascript">
+		function filterBySearchId(searchId) {
+	        let isList = false;
+	        let message = "해당 아이디를 가진 멘티가 없습니다";
+	
+	        $('#contentTbody tr').each(function() {
+	            let memberId = $(this).find('td.menteeId').text().trim();
+	            if (memberId.includes(searchId)) {
+	                $(this).show();
+	                isList = true;
+	            } else {
+	                $(this).hide();
+	            }
+	        });
+	
+	        if (!isList) {
+	            $('#contentTbody').append('<tr class="noResults"><td colspan="7">' + message + '</td></tr>');
+	        } else {
+	            $('#contentTbody .noResults').remove();
+	        }
+	    }
+	
+	
 		function filterByStatus(status) {
 	        let	isList = false;
 	        let message = "진행 중인 멘토링이 없습니다";  
@@ -22,7 +44,7 @@
 	        });
 	
 	        if (!isList) {
-	            $('tbody').append('<tr class="noResults"><td colspan="6">' + message + '</td></tr>');
+	            $('tbody').append('<tr class="noResults"><td colspan="7">' + message + '</td></tr>');
 	        } else {
 	            $('tbody .noResults').remove();
 	        }
@@ -75,6 +97,11 @@
 			
 		});
 	    
+		$('.search-btn').click(function(){
+			const searchId = $('#searchId').val().trim();
+			console.log(searchId);
+		    filterBySearchId(searchId);
+		});
 	    
 	</script>
 </th:block>
@@ -108,8 +135,9 @@
                                                         <table class="table table-hover text-center">
 															<thead>
 																<tr>
-																	<th>신청받은 멘토링</th>
-																	<th>신청한 멘티명</th>
+																	<th>멘토링 제목</th>
+																	<th>멘티 아이디</th>
+																	<th>멘티명</th>
 																	<th>멘티 관심분야 </th>
 																	<th>멘티 경험수준</th>
 																	<th>상세보기</th>
@@ -118,6 +146,7 @@
 															<tbody id="contentTbody">
 																<tr th:each="m, status : ${menteeProfile}">																
 																	<td th:text="${m.notice.noticeTitle}"></td>
+																	<td class="menteeId" th:text="${m.member.memberId}"></td>
 																	<td th:text="${m.member.memberName}"></td>
 																	<td th:text="${m.interestField}"></td>
 																	<th:block th:switch="${m.experienceLevel}">
