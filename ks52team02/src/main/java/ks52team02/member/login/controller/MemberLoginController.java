@@ -89,7 +89,6 @@ public class MemberLoginController {
 	public String loginProcess(String memberId, String memberPw,
 							   HttpSession session, RedirectAttributes reAttr) {
 		
-		log.info("id: {}, pw: {}", memberId, memberPw);
 		
 		String viewName = "redirect:/member/login";
 		String msg = "회원의 정보가 일치하지 않습니다. 다시 로그인해주세요~";
