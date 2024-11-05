@@ -60,7 +60,6 @@
 			ON msmc.mentee_settlement_mentor_calculation_code = mcdc.mentee_settlement_mentor_calculation_code
 		WHERE 
 			mcdc.calculation_status = '플랫폼이 멘토에게 정산 완료';
-		
 	</select>
 	
 	<select id="getPaymentSettlementAmount" resultType="int">
@@ -89,6 +88,7 @@
 		UPDATE mentor_calculation_demand_completion
 		SET
 			calculation_give_date = NOW(),
+			manager_id = #{managerId},
 			calculation_status='플랫폼이 멘토에게 정산 완료'
 		WHERE mentor_calculation_demand_completion_code = #{settlementCode};
 	

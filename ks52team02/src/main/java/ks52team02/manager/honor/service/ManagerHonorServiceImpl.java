@@ -25,7 +25,15 @@ import lombok.extern.slf4j.Slf4j;
 public class ManagerHonorServiceImpl implements ManagerHonorService {
 
 	private final ManagerHonorMapper managerHonorMapper;
-	private  final ManagerReviewMapper managerReviewMapper; 
+	private  final ManagerReviewMapper managerReviewMapper;
+	
+	
+	@Override
+	public String gethonorMentorCheck(String memberId) {
+		
+		return managerHonorMapper.gethonorMentorCheck(memberId);
+	}
+	
 	
 	@Override
 	public int honorMentorCancel(String memeberId) {
@@ -61,8 +69,6 @@ public class ManagerHonorServiceImpl implements ManagerHonorService {
 				data.setCancel(true);
 			}
 		}
-		
-		log.info("확인 : {}", contents);
 		
 		return new PageInfo<>(contents, pageable, rowCnt);
 	}
