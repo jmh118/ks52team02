@@ -4,6 +4,15 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ks52team02.manager.honor.mapper.ManagerHonorMapper">
 
+	<select id="gethonorMentorCheck" parameterType="string" resultType="string">
+		/* 명예멘토 여부 확인 */
+		SELECT
+			honor_mentor_YN
+		FROM 
+			mentor_authority_approval
+		WHERE 
+			member_id = #{memberId};
+	</select>
 
 
 	<update id="honorMentorCancel" parameterType="string">

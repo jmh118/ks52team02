@@ -28,25 +28,27 @@
                                    </tr>
                                </thead>
                                <tbody>
-									<tr th:each="mrd : ${mentorReviewsDataList.contents}">									
-										<td class="memberId" th:text="${mrd.mentorId}"></td>
-										<th:block th:switch="${mrd.isHonorMentor}">
-											<td th:case="${'Y'}"><span th:text="${'명예멘토'}" class="badge rounded-pill" th:classappend="${'alert-primary'}"></span></td>
-                                        	<td th:case="${'N'}"><span th:text="${'일반멘토'}" class="badge rounded-pill" th:classappend="${'alert-secondary'}"></span></td>
-										</th:block>
-										
-										<td th:text="${mrd.mentorReviewCnt}"></td>
-										<td th:text="${mrd.mentorReviewAvg}">5</td>
-										<th:block th:switch="${mrd.isapprove}">
-											<td th:case="${true}"><span class="badge rounded-pill alert-success">충족</span></td>
-											<td th:case="${false}"><span class="badge rounded-pill alert-danger">미달</span></td>
-										</th:block>
-										<td>
-											<a th:href="@{/manager/honor/approve(memberId=${mrd.mentorId})}" class="approveBtn btn btn-md rounded font-sm" th:classappend="${mrd.isCancel == true ? 'disabled' : ''}">승인</a>
-										</td>
-										<td>
-											<a th:href="@{/manager/honor/cancel(memberId=${mrd.mentorId})}" class="cancelBtn btn btn-md rounded font-sm" th:classappend="${mrd.isapprove == true ? 'disabled' : ''}">취소</a>
-										</td>
+									<tr th:each="mrd : ${mentorReviewsDataList.contents}"
+									    th:attr="data-is-honor-mentor=${mrd.isHonorMentor}" 
+									    th:attrappend="data-is-approve=${mrd.isapprove}">
+									    <td id="memberId" class="memberId" th:text="${mrd.mentorId}"></td>
+									    <th:block th:switch="${mrd.isHonorMentor}">
+									        <td th:case="${'Y'}"><span th:text="${'명예멘토'}" class="badge rounded-pill alert-primary"></span></td>
+									        <td th:case="${'N'}"><span th:text="${'일반멘토'}" class="badge rounded-pill alert-secondary"></span></td>
+									    </th:block>
+									
+									    <td th:text="${mrd.mentorReviewCnt}"></td>
+									    <td th:text="${mrd.mentorReviewAvg}">5</td>
+									    <th:block th:switch="${mrd.isapprove}">
+									        <td th:case="${true}"><span class="badge rounded-pill alert-success">충족</span></td>
+									        <td th:case="${false}"><span class="badge rounded-pill alert-danger">미달</span></td>
+									    </th:block>
+									    <td>
+									        <a th:href="@{/manager/honor/approve(memberId=${mrd.mentorId})}" class="approveBtn btn btn-md rounded font-sm" th:classappend="${mrd.isCancel == true ? 'disabled' : ''}">승인</a>
+									    </td>
+									    <td>
+									        <a th:href="@{/manager/honor/cancel(memberId=${mrd.mentorId})}" class="cancelBtn btn btn-md rounded font-sm" th:classappend="${mrd.isapprove == true ? 'disabled' : ''}">취소</a>
+									    </td>
 									</tr>
                                </tbody>
                            </table>
@@ -79,6 +81,51 @@
 	<th:block layout:fragment="customJs">
 		<script>
 			
+			function checkHonorMentorStatus(memberId, isCheck, msg) {
+			    return $.ajax({
+			        url: '/manager/honor/isCheck',
+			        type: 'POST',
+			        data: { "memberId": memberId },
+			        dataType: 'text'
+			    }).done(function(data) {
+			        if (data === isCheck) {
+			            alert(msg);
+			        }
+			    }).fail(function(jqXHR, textStatus, error) {
+			        console.log(error);
+			    });
+			}
+			
+			$('.approveBtn').click(function() {
+			    
+			    const memberId = $(this).closest('tr').find('.memberId').text().trim();
+			    checkHonorMentorStatus(
+			        memberId, 
+			        'Y', 
+			        "현재 명예멘토인 회원입니다."
+			    );
+			});
+
+			$('.cancelBtn').click(function() {
+			    
+			    const memberId = $(this).closest('tr').find('.memberId').text().trim();
+			    checkHonorMentorStatus(
+			        memberId, 
+			        'N', 
+			        "현재 일반멘토인 회원입니다."
+			    );
+			});
+			
+			$('tr').each(function() {
+		        const isHonorMentor = $(this).data('is-honor-mentor');  
+		        const isApprove = $(this).data('is-approve');           
+
+		        if (isHonorMentor === 'Y' && isApprove === false) {
+		            $(this).addClass('border border-danger border-2 shadow-sm p-3 mb-5 bg-body');
+		        } else if (isHonorMentor === 'N' && isApprove === true) {
+		            $(this).addClass('border border-success border-2 shadow-sm p-3 mb-5 bg-body');
+		        }
+		    });
 		
 		</script>
 	</th:block>
