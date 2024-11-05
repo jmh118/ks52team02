@@ -98,6 +98,7 @@
 		SELECT 
 			DISTINCT 
 			mn.mentoring_notice_title,
+			m.member_id,
 			m.member_name, 
 			mp.mentee_interest_field, 
 			mp.mentee_interest_field_technology,
