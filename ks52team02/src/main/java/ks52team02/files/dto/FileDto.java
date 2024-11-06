@@ -14,4 +14,5 @@ public class FileDto {
 	private long fileSize;
 	private String fileUpldDate;
 	
+	
 }

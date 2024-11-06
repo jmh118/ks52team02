@@ -152,26 +152,17 @@ public class MentorMypageController {
     
     @PostMapping("/workModify")
     public String ModifyWorkInfo(@RequestPart(name="files", required = false) MultipartFile multipartFile, MentorWork mentorWork) {
-		
-    	String fileCode = fileService.addFile(multipartFile);
-		mentorWork.setMentorFileNm(fileCode);
-    	mentorMypageService.modifyWorkInfo(mentorWork);
-    	
-    	
-    	
-    	
-    	
-    	
-    	
-    	
-    	
     	
 		if(!multipartFile.isEmpty()) { 
-			fileService.removeFileByCode(mentorWork.getMentorFileNm());
+			String fileCodeForRemove = new String (mentorWork.getMentorFileNm());
+			String fileCode = fileService.addFile(multipartFile);
 			mentorWork.setMentorFileNm(fileCode);
+			mentorMypageService.modifyWorkInfo(mentorWork);
+			fileService.removeFileByCode(fileCodeForRemove);
 		}else {
 			mentorMypageService.modifyWorkInfo(mentorWork);
 		}
+		
     	
     	return "redirect:/mypage/mentor/account";
     }

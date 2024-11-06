@@ -15,4 +15,5 @@ public class MentorWork {
 	private String mentorStatus;	//재직 여부
 	private String mentorFileNm;	//파일명
 	
+	
 }
