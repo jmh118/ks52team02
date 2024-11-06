@@ -27,7 +27,7 @@
 	<select id="getMentorReviewAvg" parameterType="string" resultType="double">
 		/* 평점 평균 조회 */
 		SELECT 
-			ROUND(AVG(mp.mentoring_postscript_score), 1)
+			IFNULL(ROUND(AVG(mp.mentoring_postscript_score), 1), 0)
 		FROM
 			mentoring_postscript mp INNER JOIN mentee_settlement_mentor_calculation msmc
 			ON mp.`mentee_settlement_mentor_calculation` = msmc.mentee_settlement_mentor_calculation_code
