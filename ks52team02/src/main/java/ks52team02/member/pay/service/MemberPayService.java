@@ -10,7 +10,7 @@ import ks52team02.member.pay.dto.SearchFilter;
 public interface MemberPayService {
 	
 	// 연도,월 검색 결제 내역 조회
-	List<Pay> getFilterMenteePaymentListById(String memberId, SearchFilter searchFilter);
+	List<Pay> getFilterMemberPaymentListById(String memberId, String memberLevel, SearchFilter searchFilter);
 	
 	// 결제 전 화면에서 신청 취소 
 	void removeMentoringApplyByCode(String applyCode, String detailCode);

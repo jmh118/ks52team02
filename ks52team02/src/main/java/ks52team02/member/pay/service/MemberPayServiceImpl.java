@@ -30,8 +30,9 @@ public class MemberPayServiceImpl implements MemberPayService {
 	
 	
 	@Override
-	public List<Pay> getFilterMenteePaymentListById(String memberId, SearchFilter searchFilter) {
+	public List<Pay> getFilterMemberPaymentListById(String memberId, String memberLevel, SearchFilter searchFilter) {
 		
+		List<Pay> payList = null;
 		Map<String, Object> filterParams = new HashMap<>();
 		
 		filterParams.put("memberId", memberId);
@@ -41,7 +42,11 @@ public class MemberPayServiceImpl implements MemberPayService {
 	        filterParams.put("selectedMonth", searchFilter.getSelectedMonth());
 	    }
 		
-		List<Pay> payList = memberPayMapper.getFilterMenteePaymentListById(filterParams);
+		if(memberLevel.equals("member_level_mentee")) {
+			payList = memberPayMapper.getFilterMenteePaymentListById(filterParams);
+		} else if(memberLevel.equals("member_level_mentor")) {
+			payList = memberPayMapper.getFilterMentorPaymentListById(filterParams);
+		}
 		
 		for (Pay pay : payList) {
 	        String formattedDate = dateFormatterUtil.formatDate(pay.getNoticeDetail().getMentoringYmd());

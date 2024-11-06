@@ -44,7 +44,9 @@ public class MemberPayController {
 	public List<Pay> searchPayList(SearchFilter searchFilter, HttpSession session){
 		
 		String memberId = (String) session.getAttribute("SID");
-		List<Pay> payList = memberPayService.getFilterMenteePaymentListById(memberId, searchFilter);
+		String memberLevel = (String) session.getAttribute("SLEVEL");
+		
+		List<Pay> payList = memberPayService.getFilterMemberPaymentListById(memberId, memberLevel, searchFilter);
 		
 		
 		return payList;
