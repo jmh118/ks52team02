@@ -2,6 +2,7 @@ package ks52team02.member.pay.service;
 
 import java.util.List;
 
+import ks52team02.manager.pay.dto.PaymentSettlement;
 import ks52team02.member.pay.dto.BeforePay;
 import ks52team02.member.pay.dto.MentoringData;
 import ks52team02.member.pay.dto.Pay;
@@ -9,8 +10,14 @@ import ks52team02.member.pay.dto.SearchFilter;
 
 public interface MemberPayService {
 	
+	// (멘토) 정산 내역 - 연도, 월 검색로 조회
+	List<PaymentSettlement> searchSettlementHistoryList(String memberId, SearchFilter searchFilter);
+	
+	// (멘토) 정산 내역 조회
+	List<PaymentSettlement> getSettlementHistoryList(String memberId);
+	
 	// 연도,월 검색 결제 내역 조회
-	List<Pay> getFilterMenteePaymentListById(String memberId, SearchFilter searchFilter);
+	List<Pay> getFilterMemberPaymentListById(String memberId, String memberLevel, SearchFilter searchFilter);
 	
 	// 결제 전 화면에서 신청 취소 
 	void removeMentoringApplyByCode(String applyCode, String detailCode);

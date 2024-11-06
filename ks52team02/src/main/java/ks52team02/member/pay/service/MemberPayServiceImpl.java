@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ks52team02.common.mapper.CommonMapper;
 import ks52team02.common.util.DateFormatterUtil;
+import ks52team02.manager.pay.dto.PaymentSettlement;
 import ks52team02.member.pay.dto.BeforePay;
 import ks52team02.member.pay.dto.MentoringData;
 import ks52team02.member.pay.dto.Pay;
@@ -30,7 +31,7 @@ public class MemberPayServiceImpl implements MemberPayService {
 	
 	
 	@Override
-	public List<Pay> getFilterMenteePaymentListById(String memberId, SearchFilter searchFilter) {
+	public List<PaymentSettlement> searchSettlementHistoryList(String memberId, SearchFilter searchFilter) {
 		
 		Map<String, Object> filterParams = new HashMap<>();
 		
@@ -41,7 +42,46 @@ public class MemberPayServiceImpl implements MemberPayService {
 	        filterParams.put("selectedMonth", searchFilter.getSelectedMonth());
 	    }
 		
-		List<Pay> payList = memberPayMapper.getFilterMenteePaymentListById(filterParams);
+		List<PaymentSettlement> settlementList = memberPayMapper.searchSettlementHistoryList(filterParams);
+		
+		return settlementList;
+	}
+	
+	@Override
+	public List<PaymentSettlement> getSettlementHistoryList(String memberId) {
+		
+		List<PaymentSettlement> settlementList = memberPayMapper.getSettlementHistoryList(memberId);
+		
+		for (PaymentSettlement paymentSettlement : settlementList) {
+	        String formattedDate = dateFormatterUtil.formatDate(paymentSettlement.getPay().getNoticeDetail().getMentoringYmd());
+	        String formattedTime = dateFormatterUtil.formatTime(paymentSettlement.getPay().getNoticeDetail().getMentoringTime());
+
+	        paymentSettlement.getPay().getNoticeDetail().setMentoringYmd(formattedDate);
+	        paymentSettlement.getPay().getNoticeDetail().setMentoringTime(formattedTime);
+	    }	
+		
+		return settlementList;
+	}
+	
+	
+	@Override
+	public List<Pay> getFilterMemberPaymentListById(String memberId, String memberLevel, SearchFilter searchFilter) {
+		
+		List<Pay> payList = null;
+		Map<String, Object> filterParams = new HashMap<>();
+		
+		filterParams.put("memberId", memberId);
+		
+		if (searchFilter != null) {
+	        filterParams.put("selectedYear", searchFilter.getSelectedYear());
+	        filterParams.put("selectedMonth", searchFilter.getSelectedMonth());
+	    }
+		
+		if(memberLevel.equals("member_level_mentee")) {
+			payList = memberPayMapper.getFilterMenteePaymentListById(filterParams);
+		} else if(memberLevel.equals("member_level_mentor")) {
+			payList = memberPayMapper.getFilterMentorPaymentListById(filterParams);
+		}
 		
 		for (Pay pay : payList) {
 	        String formattedDate = dateFormatterUtil.formatDate(pay.getNoticeDetail().getMentoringYmd());
