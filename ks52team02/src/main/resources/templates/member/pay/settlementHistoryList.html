@@ -23,10 +23,14 @@
                                         <div class="card-body">
                                             <p>멘토의 정산 내역 조회 화면</p>
                                             <!-- Row for filter and table -->
+                                            <hr/>
+                                            <div>
+                                            	총 금액 : <span id="totalAmount"></span>
+                                            </div>
                                             <div class="row">
                                                 <div class="col-lg-12">
 							                        <!-- 필터 -->
-							                        <th:block th:replace="~{member/pay/filter/filter :: filter}"></th:block>
+							                        <th:block th:replace="~{member/pay/filter/settlementHistoryFilter :: settlementHistoryFilter}"></th:block>
                                                 </div>
                                             </div>
                                             <div class="row mt-4">
@@ -36,48 +40,32 @@
                                                             <thead>
                                                                 <tr>
                                                                     <th>멘토링 공고명</th>
-                                                                    <th>신청 멘티명</th>
-                                                                    <th>정산금액</th>
-                                                                    <th>멘토링 진행여부</th>
-                                                                    <th>정산신청일</th>
-                                                                    <th>정산완료일</th>
-                                                                    <th>정산신청</th>
+                                                                    <th>날짜</th>
+                                                                    <th>시간</th>
+                                                                    <th>금액</th>
+                                                                    <th>요청일</th>
+                                                                    <th>승인일</th>
+                                                                    <th>상태</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                <tr>
-                                                                    <td>나도 포트폴리오 마스터!!</td>
-                                                                    <td>홍길동</td>
-                                                                    <td>45100</td>
-                                                                    <td><span class="badge rounded-pill alert-warning">진행전</span></td>
-                                                                    <td>2024. 9. 7 오후 6:00:00</td>
-                                                                    <td>2024. 9. 7 오후 6:10:00</td>
-                                                                    <td><a href="#" class="btn btn-md rounded font-sm">정산신청</a></td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>나도 포트폴리오 마스터!!</td>
-                                                                    <td>홍길동</td>
-                                                                    <td>45100</td>
-                                                                    <td><span class="badge rounded-pill alert-danger">진행중</span></td>
-                                                                    <td>2024. 9. 7 오후 6:00:00</td>
-                                                                    <td>2024. 9. 7 오후 6:10:00</td>
-                                                                    <td><a href="#" class="btn btn-md rounded font-sm">정산신청</a></td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>나도 포트폴리오 마스터!!</td>
-                                                                    <td>홍길동</td>
-                                                                    <td>45100</td>
-                                                                    <td><span class="badge rounded-pill alert-success">진행완료</span></td>
-                                                                    <td>2024. 9. 7 오후 6:00:00</td>
-                                                                    <td>2024. 9. 7 오후 6:10:00</td>
-                                                                    <td><a href="#" class="btn btn-md rounded font-sm">정산신청</a></td>
+                                                                <tr th:each="sl : ${settlementList}">
+                                                                    <td th:text="${sl.pay.notice.noticeTitle}"></td>
+                                                                    <td th:text="${sl.pay.noticeDetail.mentoringYmd}"></td>
+                                                                    <td th:text="${sl.pay.noticeDetail.mentoringTime}"></td>
+                                                                    <td th:text="${sl.pay.mentorCalAmount}"></td>
+                                                                    <td th:text="${sl.paymentSettlementDemandDate}"></td>
+                                                                    <td th:text="${sl.paymentSettlementGiveDate}"></td>
+                                                                    <th:block th:switch="${sl.paymentSettlementStatus}">
+																		<td th:case="'멘토가 플랫폼에 정산 요청'"><span th:text="${'정산 전'}" class="badge rounded-pill alert-secondary"></span></td>
+																		<td th:case="'플랫폼이 멘토에게 정산 완료'"><span th:text="${'정산완료'}" class="badge rounded-pill alert-danger"></span></td>
+																	</th:block>
                                                                 </tr>
                                                             </tbody>
                                                         </table>
                                                     </div>
                                                 </div>
                                             </div>
-
                                         </div>
                                     </div>
                                 </div>
@@ -88,5 +76,147 @@
             </div>
         </div>
     </div>
+</th:block>
+<th:block layout:fragment="customJs">
+	<script>
+		let activeStatus = ""; // 현재 필터링 상태를 저장할 변수
+		
+	    function updateTotalAmount() {
+	        let totalAmount = 0;
+	
+	        // 현재 보이는 항목만 합산
+	        const visibleRows = $("table tbody tr:visible");
+	
+	        if (visibleRows.length === 0) {
+	            $("#totalAmount").text("0");
+	            return;
+	        }
+	
+	        visibleRows.each(function() {
+	            const amount = Number($(this).find("td:nth-child(4)").text().replace(/,/g, ''));
+	            if (!isNaN(amount)) {
+	                totalAmount += amount;
+	            }
+	        });
+	
+	        $("#totalAmount").text(totalAmount.toLocaleString());
+	    }
+	
+	    function filterByStatus(status, element) {
+	        if (activeStatus === status) {
+	            // 같은 상태를 다시 클릭하면 필터 해제 (전체 표시)
+	            $("tbody tr").show();
+	            activeStatus = ""; // 필터 해제
+	            $("tbody .noResults").remove(); // 결과 없음 메시지 제거
+	            $(".status .status-option").removeClass("active"); // 모든 active 클래스 제거
+	        } else {
+	            let isList = false;
+	            let message = "";
+	
+	            if (status === "정산 전") {
+	                message = "정산된 내역이 없습니다.";
+	            } else if (status === "정산완료") {
+	                message = "정산 완료된 내역이 없습니다";
+	            }
+	
+	            $("tbody tr").each(function() {
+	                let statusText = $(this).find("td .badge").text();
+	                if (statusText === status) {
+	                    $(this).show();
+	                    isList = true;
+	                } else {
+	                    $(this).hide();
+	                }
+	            });
+	
+	            if (!isList) {
+	                $("tbody").append('<tr class="noResults"><td colspan="7">' + message + '</td></tr>');
+	            } else {
+	                $("tbody .noResults").remove();
+	            }
+	
+	            // 모든 상태 버튼의 active 클래스 제거 후 현재 선택된 버튼에만 추가
+	            $(".status .status-option").removeClass("active");
+	            $(element).addClass("active");
+	
+	            activeStatus = status; // 새로운 상태 저장
+	        }
+	
+	        updateTotalAmount(); // 총 금액 업데이트
+	    }
+	
+	    // 초기 총 금액 계산
+	    updateTotalAmount();
+	
+	    // 필터 버튼 클릭 이벤트 (정산 완료, 정산 전)
+	    $(".status #completed").click(function() {
+	        filterByStatus("정산완료", this);
+	    });
+	
+	    $(".status #before").click(function() {
+	        filterByStatus("정산 전", this);
+	    });
+	
+	    $('#searchBtn').click(function(){
+	        let selectedYear = $("#yearSelect").val();
+	        let selectedMonth = $("#monthSelect").val();
+	
+	        const request = $.ajax({
+	            url : '/pay/searchSettlementHistoryList',
+	            method : 'post',
+	            data : { 
+	                'selectedYear': selectedYear,
+	                'selectedMonth': selectedMonth
+	            },
+	            dataType: 'json'
+	        });
+	
+	        request.done(function(data){
+	            let tbody = $('table tbody');
+	            tbody.empty();
+	
+	            if (data.length === 0) {
+	                tbody.append('<tr><td colspan="7">결과가 없습니다.</td></tr>');
+	                $("#totalAmount").text("0");
+	                return;
+	            }
+	
+	            data.forEach(function(item) {
+	                let statusBadge = '';
+	                switch (item.paymentSettlementStatus) {
+	                    case '멘토가 플랫폼에 정산 요청':
+	                        statusBadge = '<span class="badge rounded-pill alert-secondary">정산 전</span>';
+	                        break;
+	                    case '플랫폼이 멘토에게 정산 완료':
+	                        statusBadge = '<span class="badge rounded-pill alert-danger">정산완료</span>';
+	                        break;
+	                }
+	
+	                let row = `
+	                    <tr>
+	                        <td>${item.pay.notice.noticeTitle || ''}</td>
+	                        <td>${item.pay.noticeDetail.mentoringYmd || ''}</td>
+	                        <td>${item.pay.noticeDetail.mentoringTime || ''}</td>
+	                        <td>${item.pay.mentorCalAmount || 0}</td>
+	                        <td>${item.paymentSettlementDemandDate || ''}</td>
+	                        <td>${item.paymentSettlementGiveDate || ''}</td>
+	                        <td>${statusBadge}</td>
+	                    </tr>
+	                `;
+	                tbody.append(row);
+	            });
+	
+	            updateTotalAmount();
+	        });
+	
+	        request.fail(function(jqXHR, textStatus, error){
+	            console.log(error);
+	        });
+	    });    
+	
+	
+	
+		
+	</script>
 </th:block>
 </html>

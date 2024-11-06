@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ks52team02.common.mapper.CommonMapper;
 import ks52team02.common.util.DateFormatterUtil;
+import ks52team02.manager.pay.dto.PaymentSettlement;
 import ks52team02.member.pay.dto.BeforePay;
 import ks52team02.member.pay.dto.MentoringData;
 import ks52team02.member.pay.dto.Pay;
@@ -27,6 +28,40 @@ public class MemberPayServiceImpl implements MemberPayService {
 	private final DateFormatterUtil dateFormatterUtil;
 	private final MemberPayMapper memberPayMapper;
 	private final CommonMapper commonMapper;
+	
+	
+	@Override
+	public List<PaymentSettlement> searchSettlementHistoryList(String memberId, SearchFilter searchFilter) {
+		
+		Map<String, Object> filterParams = new HashMap<>();
+		
+		filterParams.put("memberId", memberId);
+		
+		if (searchFilter != null) {
+	        filterParams.put("selectedYear", searchFilter.getSelectedYear());
+	        filterParams.put("selectedMonth", searchFilter.getSelectedMonth());
+	    }
+		
+		List<PaymentSettlement> settlementList = memberPayMapper.searchSettlementHistoryList(filterParams);
+		
+		return settlementList;
+	}
+	
+	@Override
+	public List<PaymentSettlement> getSettlementHistoryList(String memberId) {
+		
+		List<PaymentSettlement> settlementList = memberPayMapper.getSettlementHistoryList(memberId);
+		
+		for (PaymentSettlement paymentSettlement : settlementList) {
+	        String formattedDate = dateFormatterUtil.formatDate(paymentSettlement.getPay().getNoticeDetail().getMentoringYmd());
+	        String formattedTime = dateFormatterUtil.formatTime(paymentSettlement.getPay().getNoticeDetail().getMentoringTime());
+
+	        paymentSettlement.getPay().getNoticeDetail().setMentoringYmd(formattedDate);
+	        paymentSettlement.getPay().getNoticeDetail().setMentoringTime(formattedTime);
+	    }	
+		
+		return settlementList;
+	}
 	
 	
 	@Override

@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import ks52team02.manager.pay.dto.PaymentSettlement;
 import ks52team02.member.pay.dto.BeforePay;
 import ks52team02.member.pay.dto.MentoringData;
 import ks52team02.member.pay.dto.Pay;
@@ -12,6 +13,11 @@ import ks52team02.member.pay.dto.Pay;
 @Mapper
 public interface MemberPayMapper {
 	
+	// (멘토) 정산 내역 - 연도, 월 검색로 조회
+	List<PaymentSettlement> searchSettlementHistoryList(Map<String, Object> filterParams);
+
+	// (멘토) 정산 내역 조회
+	List<PaymentSettlement> getSettlementHistoryList(String memeberId);
 
 	// 연도,월 검색 결제된 조회
 	List<Pay> getFilterMentorPaymentListById(Map<String, Object> filterParams);

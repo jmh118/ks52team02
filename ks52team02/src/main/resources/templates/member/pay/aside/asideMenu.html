@@ -5,19 +5,23 @@
 		<div class="dashboard-menu">
 			<ul class="nav flex-column" role="tablist">
 				<li class="nav-item" th:if="${session.SLEVEL == 'member_level_mentee'}" >
-					<a class="nav-link" th:classappend="${activeMenu == 'payList' ? 'active' : ''}" id="payListBtn" href="/pay/list">
-					<i class="fi-rs-shopping-cart-check mr-10"></i>결제 내역</a>
+					<a class="nav-link" th:classappend="${activeMenu == 'payList' ? 'active' : ''}" href="/pay/list">
+					<i class="fi-rs-shopping-cart-check mr-10"></i>멘토링 결제 내역</a>
 				</li>
 				<li class="nav-item" th:if="${session.SLEVEL == 'member_level_mentee'}">
-					<a class="nav-link" th:classappend="${activeMenu == 'reviewList' ? 'active' : ''}" id="reviewListBtn" href="/review/list">
+					<a class="nav-link" th:classappend="${activeMenu == 'reviewList' ? 'active' : ''}" href="/review/list">
 					<i class="fi-rs-shopping-bag mr-10"></i>작성한 후기 목록</a>
 				</li>
 				<li class="nav-item" th:if="${session.SLEVEL == 'member_level_mentor'}">
-					<a class="nav-link" th:classappend="${activeMenu == 'settlementList' ? 'active' : ''}" id="paymentListBtn" href="/pay/settlementList">
-					<i class="fi-rs-shopping-bag mr-10"></i>정산 내역</a>
+					<a class="nav-link" th:classappend="${activeMenu == 'settlementList' ? 'active' : ''}" href="/pay/settlementList">
+					<i class="fi-rs-shopping-bag mr-10"></i>멘토링 신청 받은 내역</a>
 				</li>
 				<li class="nav-item" th:if="${session.SLEVEL == 'member_level_mentor'}">
-					<a class="nav-link" th:classappend="${activeMenu == 'info' ? 'active' : ''}" id="paymentListBtn" href="/mentoring/applyMenteeProfile">
+					<a class="nav-link" th:classappend="${activeMenu == 'settlementHistoryList' ? 'active' : ''}" href="/pay/settlementHistoryList">
+					<i class="fi-rs-shopping-bag mr-10"></i>멘토링 정산 내역</a>
+				</li>
+				<li class="nav-item" th:if="${session.SLEVEL == 'member_level_mentor'}">
+					<a class="nav-link" th:classappend="${activeMenu == 'info' ? 'active' : ''}" href="/mentoring/applyMenteeProfile">
 					<i class="fi-rs-shopping-bag mr-10"></i>신청 멘티 정보</a>
 				</li>
 			</ul>
