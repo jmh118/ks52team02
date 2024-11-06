@@ -274,6 +274,37 @@
 		WHERE
 			maa.mentor_join_approval_YN &lt;>'승인' AND
 			m.member_withdrawal_YN = 'N';
-	
 	</select>
+	
+	<update id="withdrawalApply" parameterType="WithdrawalMember">
+		/* 탈퇴 요청 승인 */
+		UPDATE `member_withdrawal_apply`
+		SET
+			withdrawal_approval_YMD=NOW(),
+			withdrawal_approval_YN='Y',
+			withdrawal_YMD=NOW(),
+			withdrawal_apply_manager=#{withdrawalApplyManager}
+		WHERE
+			withdrawal_member_id=#{withdrawalMemberId};
+	</update>
+	
+	<update id="managerWithdrawalApply" parameterType="WithdrawalMember">
+		/* 관리자 탈퇴 준비 */
+		INSERT INTO
+		member_withdrawal_apply
+		(withdrawal_apply_member_code, withdrawal_member_id, member_level_code, withdrawal_reason, withdrawal_demand_YMD, withdrawal_approval_YMD, withdrawal_approval_YN, withdrawal_YMD, withdrawal_apply_manager)
+		
+		VALUES
+		(#{withdrawalMemberCode}, #{withdrawalMemberId}, #{withdrawalMemberLevelCode}, #{withdrawalReason}, NOW(), NOW(), 'Y', NOW(), #{withdrawalMemberId})
+	</update>
+	
+	<update id="delMember" parameterType="WithdrawalMember">
+		/* 탈퇴처리 */
+		UPDATE `member`
+		SET
+			member_withdrawal_YN='Y'
+		WHERE
+			member_id=#{withdrawalMemberId};
+	</update>
+	
 </mapper>

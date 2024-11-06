@@ -26,7 +26,13 @@ public interface ManagerMemberService {
 	PageInfo<WithdrawalMember> getWithdrawalMemberList(Pageable pageable);
 	
 	// 관리자 - 회원탈퇴 승인
-	int withdrawalApply(String withdrawalMemberId);
+	void withdrawalApply(WithdrawalMember withdrawalMember);
+	
+	// 관리자 - 관리자 탈퇴
+	int managerWithdrawalApply(WithdrawalMember withdrawalManager);
+
+	// 관리자 - 회원탈퇴 승인 후 처리 
+	int delMember(WithdrawalMember withdrawalMember);
 
 	// 관리자 - 멤버 로그인 로그 조회
 	PageInfo<LoginLog> getLoginLog(Pageable pageable);
@@ -45,6 +51,10 @@ public interface ManagerMemberService {
 	
 	// 승인 요청 멘토 조회
 	List<Member> getWaitingForApprovalMentorList();
+
+
+
+
 
 
 }
