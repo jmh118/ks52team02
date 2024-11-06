@@ -41,7 +41,7 @@ public class MemberRegisterController {
 		memberRegisterMapper.register(member);
 		System.out.println("멘티 회원가입");
 		
-		return  "redirect:/";
+		return  "redirect:/member/memberMain";
 	}
 
 	@GetMapping("/mentor1")
@@ -63,7 +63,7 @@ public class MemberRegisterController {
 		memberRegisterMapper.register(member);
 		System.out.println("멘토 회원가입");
 		
-		return "redirect:/";
+		return "redirect:/member/memberMain";
 	}
 	
 	

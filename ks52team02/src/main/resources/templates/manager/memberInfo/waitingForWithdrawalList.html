@@ -13,8 +13,17 @@
 		        });
 		    }
 
+			const delMember = function(withdrawalMemberId){
+				return $.ajax({
+					type: 'POST',
+					url: '/manager/member/withdrawalApprove',
+					data: {'withdrawalMemberId': withdrawalMemberId},
+					dataType: 'json'
+				});
+			};
+			
+			
 		    $('.memberDelBtn').click(function(){
-		    	
 		        let memberPw = prompt("관리자 비밀번호를 입력하세요:");
 
 		        if (memberPw === null || memberPw === "") {
@@ -22,9 +31,12 @@
 		            return;
 		        }
 
+		    	let withdrawalMemberId = $(this).data('member-id');
+				console.log("선택된 withdrawalMemberId:", withdrawalMemberId);
+				
 		        checkPassword(memberPw).done(function(data) {
 		            if (data) {
-		                deleteReview(reviewCode).done(function() {
+						delMember(withdrawalMemberId).done(function() {
 		                    alert('회원 탈퇴 완료.');
 		                    location.reload(); 
 		                }).fail(function() {
@@ -36,6 +48,7 @@
 		        }).fail(function() {
 		            alert('검증 ERROR');
 		        });
+				
 		    });
 		    	
 		</script>
@@ -83,20 +96,20 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr th:each="wwl : ${waitingForWithDrawalList}">
-                                       	<td th:text="${wwl.withdrawalMemberCode}"></td>
-										<td th:text="${wwl.withdrawalMemberId}"></td>
-                                        <td>	
-											<span th:if="${wwl.withdrawalMemberLevel == '멘티'}" class="badge rounded-pill alert-success">멘티</span>
-											<span th:if="${wwl.withdrawalMemberLevel == '멘토'}" class="badge rounded-pill alert-warning">멘토</span>
-											<span th:if="${wwl.withdrawalMemberLevel == '플랫폼 관리자'}" class="badge rounded-pill alert-danger">플랫폼 관리자</span>
-										</td>
-                                        <td th:text="${wwl.withdrawalReason}"></td>
-                                        <td th:text="${wwl.withdrawalDemandYMD}"></td>
-                                        <td>
-                                            <a href="#" id="memberDelBtn" name="memberDelBtn" th:action="" class="btn btn-sm btn-brand rounded font-sm mt-15">탈퇴승인</a>
-                                        </td>
-                                    </tr>
+	                                    <tr th:each="wwl : ${waitingForWithDrawalList}">
+	                                       	<td th:text="${wwl.withdrawalMemberCode}"></td>
+											<td th:text="${wwl.withdrawalMemberId}"></td>
+	                                        <td>	
+												<span th:if="${wwl.withdrawalMemberLevel == '멘티'}" class="badge rounded-pill alert-success">멘티</span>
+												<span th:if="${wwl.withdrawalMemberLevel == '멘토'}" class="badge rounded-pill alert-warning">멘토</span>
+												<span th:if="${wwl.withdrawalMemberLevel == '플랫폼 관리자'}" class="badge rounded-pill alert-danger">플랫폼 관리자</span>
+											</td>
+	                                        <td th:text="${wwl.withdrawalReason}"></td>
+	                                        <td th:text="${wwl.withdrawalDemandYMD}"></td>
+	                                        <td>
+	                                            <button type="button" name="memberDelBtn" class="btn btn-sm btn-brand rounded font-sm mt-15 memberDelBtn" th:data-member-id="${wwl.withdrawalMemberId}">탈퇴승인</button>
+	                                        </td>
+	                                    </tr>
                                 </tbody>
                             </table>
                             <!-- table-responsive.// -->

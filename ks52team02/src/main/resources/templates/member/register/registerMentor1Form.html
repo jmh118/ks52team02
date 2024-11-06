@@ -72,8 +72,7 @@
 					    
 				    // 밀리초 일 단위로 변환
 				    let diffDays = diffTime / (1000 * 60 * 60 * 24);
-				    
-				    // 일수 차이 반환
+					
 				    return diffDays;
 				};
 				
@@ -84,6 +83,7 @@
 				
 				// 근무일수 계산		
 				const calculatedCareerDays = getCareerDays(joinCareer, quiteCareer);
+				
 
 				// 누적 일수에 추가
 				totalCareerDays += calculatedCareerDays;

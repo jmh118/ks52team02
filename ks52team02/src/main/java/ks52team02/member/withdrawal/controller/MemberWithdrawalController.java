@@ -29,16 +29,16 @@ public class MemberWithdrawalController {
 	public String removeMember(WithdrawalMember withdrawalMember, HttpSession session) {
 		System.out.println("탈퇴 신청");
 		String withdrawalMemberId = (String) session.getAttribute("SID");
-		String withdrawalMemberLevel = (String) session.getAttribute("SLEVEL");
+		String withdrawalMemberLevelCode = (String) session.getAttribute("SLEVEL");
 		withdrawalMember.setWithdrawalMemberId(withdrawalMemberId);
-		withdrawalMember.setWithdrawalMemberLevelCode(withdrawalMemberLevel);
+		withdrawalMember.setWithdrawalMemberLevelCode(withdrawalMemberLevelCode);
 		
 		int result = memberWithdrawalService.memberWithdrawal(withdrawalMember);
 		
 		if(result>0) {
 			session.invalidate();
 		}
-		return "redirect:/";
+		return "redirect:/manager";
 	}
 	
 	@GetMapping("/form")
