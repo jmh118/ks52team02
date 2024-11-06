@@ -66,6 +66,12 @@ public interface MentoringService {
 	// 메인화면 공고 조회
 	List<Notice> getNoticeMainList();
 
+	// 공고답변 삭제
+	void removeNoticeAnswer(String answerCode);
+
+	// 공고질문 삭제
+	void removeNoticeQuestion(String questionCode);
+
 
 
 }

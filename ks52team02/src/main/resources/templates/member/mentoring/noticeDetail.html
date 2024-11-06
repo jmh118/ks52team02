@@ -69,7 +69,11 @@
 	    		let isSubmit = true;
 	    		e.preventDefault();
 	    		const grade = $(this).data('grade');
-	    		if(grade != 'member_level_mentee'){
+	    		if(grade == null){
+	    			alert('로그인이 필요한 서비스입니다.');
+	    			isSubmit = false;
+	    			return ;
+	    		}else if(grade != 'member_level_mentee'){
 	    			alert('멘티만 등록할 수 있습니다.');
 	    			isSubmit = false;
 	    			return ;
@@ -93,6 +97,26 @@
 	    			}
 
 	    		if(isSubmit) $('#mentoringApply').modal('show');
+	    	});
+	    	
+	    	$('.answer-del-btn').click(function(e){
+	    		e.preventDefault();
+	    		if(confirm('정말로 삭제하시겠습니까?')){
+	    			location.href = $(this).attr('href');
+	    		}
+	    	});
+	    	
+	    	$('.question-del-btn').click(function(e){
+	    		e.preventDefault();
+	    		const answerCode = $(this).data('answer-code');
+	    		if (answerCode) {
+	    			 alert('답변이 있어 삭제할 수 없습니다.');
+	    	    } else {
+	    	    	if (confirm('정말로 삭제하시겠습니까?')) {
+	    	            location.href = $(this).attr('href');
+	    	        }
+	    	    }
+	    		
 	    	});
 
 		</script>
@@ -177,7 +201,8 @@
 	                                                                    </div>
 	                                                                    <p class="mb-10" th:text="${nqa.questionContent}"></p>
 		                                                                <a class="collapsed" data-bs-toggle="modal" data-bs-target="#noticeAnswer" th:attr="data-question-code=${nqa.questionCode}" th:if="${noticeDetail.memberId == session.SID}">답변하기</a>
-		                                                                <a class="collapsed" data-bs-toggle="modal" data-bs-target="#noticeQuestionModify" th:attr="data-question-code=${nqa.questionCode}, data-question-content=${nqa.questionContent}" th:if="${nqa.memberId == session.SID}">수정하기</a>
+		                                                                <a class="collapsed me-3" data-bs-toggle="modal" data-bs-target="#noticeQuestionModify" th:attr="data-question-code=${nqa.questionCode}, data-question-content=${nqa.questionContent}" th:if="${nqa.memberId == session.SID}">수정하기</a>
+		                                                                <a class="collapsed question-del-btn" th:data-answer-code="${nqa.noticeAnswer}" th:href="@{/mentoring/removeNoticeQuestion(questionCode=${nqa.questionCode}, noticeCode=${noticeDetail.noticeCode})}">삭제 하기</a>
 	                                                                </div>                                                             
 	                                                            </div>                                                           
 	                                                        </div>
@@ -193,7 +218,8 @@
 	                                                                        </div>
 	                                                                    </div>
 	                                                                    <p class="mb-10" th:text="${nqa.noticeAnswer.answerContent}"></p>
-	                                                                    <a class="collapsed" data-bs-toggle="modal" data-bs-target="#noticeAnswerModify" th:attr="data-answer-code=${nqa.noticeAnswer.answerCode}, data-answer-content=${nqa.noticeAnswer.answerContent}" th:if="${nqa.noticeAnswer.mentorId == session.SID}">수정하기</a>
+	                                                                    <a class="collapsed  me-3" data-bs-toggle="modal" data-bs-target="#noticeAnswerModify" th:attr="data-answer-code=${nqa.noticeAnswer.answerCode}, data-answer-content=${nqa.noticeAnswer.answerContent}" th:if="${nqa.noticeAnswer.mentorId == session.SID}">수정하기</a>
+	                                                                    <a class="collapsed answer-del-btn" th:href="@{/mentoring/removeNoticeAnswer(answerCode=${nqa.noticeAnswer.answerCode}, noticeCode=${noticeDetail.noticeCode})}" th:if="${nqa.noticeAnswer.mentorId == session.SID}">삭제하기</a>
 	                                                                </div>
 	                                                            </div>
 	                                                        </div>
