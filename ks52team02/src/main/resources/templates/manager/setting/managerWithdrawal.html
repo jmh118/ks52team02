@@ -1,7 +1,76 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" 
-	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  layout:decorate="~{manager/layouts/layout}">
+	  	<th:block layout:fragment="customJs">
+			<script>
+				
+				function checkPassword(memberPw) {
+					        return $.ajax({
+					            type: 'POST',
+					            url: '/member/checkPw',
+					            data: { 'memberPw': memberPw },
+					            dataType: 'json'
+					        });
+					    }
+				
+				$('#managerWithdrawalBtn').click(function(){
+					let isSubmit = true;
+					const $formControl = $('.managerWithdrawalForm input, .managerWithdrawalForm select');
+					const $withdrawalCheckBox = $('#managerWithdrawalCheckbox').prop('checked');
+	
+					if(!$withdrawalCheckBox) {
+						alert('탈퇴 동의 항목은 필수입니다. 탈퇴 약관을 읽고 체크해 주세요.');
+						isSubmit = false;
+						return false;
+					}
+					
+					if(isSubmit) {
+							
+					        let memberPw = prompt("비밀번호를 입력하세요:");
+					        if (memberPw === null || memberPw === "") {
+					            alert("비밀번호를 입력해 주세요.");
+					            return;
+					        }
+
+					    	let memberId = $(this).data('member-id');
+							let withdrawalReason = $(`select[name="withdrawalReason"]`).val();
+							console.log("선택된 memberId:", memberId);
+							console.log("선택된 withdrawalReason:", withdrawalReason);
+							
+					        checkPassword(memberPw).done(function(data) {
+								
+					            if (data) {
+									delManager(memberId, withdrawalReason).done(function() {
+										$('.managerWithdrawalForm').submit();
+										console.log('fffffff'+data);
+										alert('탈퇴 완료.');
+										
+					                }).fail(function() {
+										alert('ERROR');
+									});
+					            } else {
+					                alert("비밀번호가 잘못되었습니다.");
+					            }
+					        }).fail(function() {
+					            alert('검증 ERROR');
+						});
+					};
+				});
+
+				const delManager = function(withdrawalMemberId, withdrawalReason){
+					return $.ajax({
+						type: 'POST',
+						url: '/manager/member/managerWithdrawal',
+						data: {
+								'withdrawalMemberId': withdrawalMemberId,
+								'withdrawalReason': withdrawalReason
+								},
+						dataType: 'json'
+					});
+				};
+			</script>
+		</th:block>
+		
 	  <th:block layout:fragment="customContent">
             <section class="content-main">
                 <div class="content-header">
@@ -17,59 +86,58 @@
                                 	</div>
                                     <form>
                                         <div class="row">
-                                                <div class="row gx-3">
-                                                    <div class="col-6 mb-3">
-                                                        <label class="form-label">회사명</label>
-                                                        <input class="form-control" type="text" placeholder="(주)Teach Tech Talk" disabled />
-                                                    </div>
-                                                    <div class="col-6 mb-3">
-                                                        <label class="form-label">직무명</label>
-                                                        <input class="form-control" type="text" placeholder="플랫폼 관리자" disabled />
-                                                    </div>
-                                                    <div class="col-lg-6 mb-3">
-                                                        <label class="form-label">E-mail</label>
-                                                        <input class="form-control" type="email" placeholder="manager002@email.com" disabled />
-                                                    </div>
-                                                    <div class="col-lg-6 mb-3">
-                                                        <label class="form-label">Phone</label>
-                                                        <input class="form-control" type="tel" placeholder="010-0004-4444" disabled />
-                                                    </div>
-                                                    <div class="col-lg-12 mb-3">
-                                                        <label class="form-label">Address</label>
-                                                        <input class="form-control" type="text" placeholder="OOO도 OO시 OOO동 OO로 OOO-OO" disabled />
-                                                    </div>
-                                                    <div class="col-lg-8 mb-3">
-                                                        <label class="form-label">관리자 ID</label>
-                                                        <input class="form-control" type="text" placeholder="manager002" disabled />
-                                                    </div>                                                    
-                                                    <div class="col-lg-8 mb-3">
-                                                        <label class="form-label">관리자 Password</label>
-                                                        <input class="form-control" type="text" placeholder="managerpw002" disabled />
-                                                    </div>                                                    
-                                                    <div class="col-lg-8 mb-3">
-                                                        <label class="form-label">이름</label>
-                                                        <input class="form-control" type="text" placeholder="이OO" disabled />
-                                                    </div>
-                                                    <div>
+                                            <div class="row gx-3" th:each="mi : ${managerInfo}">
+                                                <div class="col-6 mb-3">
+                                                    <label class="form-label">회사명</label>
+                                                    <input class="form-control" type="text" value="(주)Teach Tech Talk" disabled />
+                                                </div>
+                                                <div class="col-6 mb-3">
+                                                    <label class="form-label">직무명</label>
+                                                    <input class="form-control" type="text" value="플랫폼 관리자" disabled/>
+                                                </div>
+                                                <div class="col-lg-6 mb-3">
+                                                    <label class="form-label">E-mail</label>
+                                                    <input class="form-control" type="email" th:value="${mi.memberEmail}" disabled />
+                                                </div>
+                                                <div class="col-lg-6 mb-3">
+                                                    <label class="form-label">Phone</label>
+                                                    <input class="form-control" type="tel" th:value="${mi.memberTelNo}" disabled />
+                                                </div>
+                                                <div class="col-lg-8 mb-3">
+                                                    <label class="form-label">관리자 ID</label>
+                                                    <input class="form-control" type="text" th:value="${mi.memberId}" disabled />
+                                                </div>                                                    
+                                                <div class="col-lg-8 mb-3">
+                                                    <label class="form-label">관리자 Password</label>
+                                                    <input class="form-control" type="text" th:value="${mi.memberPw}" disabled />
+                                                </div>                                                    
+                                                <div class="col-lg-8 mb-3">
+                                                    <label class="form-label">이름</label>
+                                                    <input class="form-control" type="text" th:value="${mi.memberName}" disabled />
+                                                </div>
+                                                <div>
+													<form class="container mt-100 col-5 justify-content-center managerWithdrawalForm" th:action="@{/manager/member/managerWithdrawal}" method="post">
 			                                            <label class="form-label mt-20">탈퇴사유</label>
 															<select class="col-lg-4 mb-3 form-control" name="withdrawalReason">
-																<option value="withdrawalReason1">플랫폼 이용 기록 삭제</option>
-																<option value="withdrawalReason2">퇴사</option>
-																<option value="withdrawalReason3">업데이트</option>
-																<option value="withdrawalReason4">디버그</option>
-																<option value="withdrawalReason5">기타</option>
+																<option value="">---- 선택 ----</option>
+																<option value="플랫폼 이용 기록 삭제">플랫폼 이용 기록 삭제</option>
+																<option value="퇴사">퇴사</option>
+																<option value="업데이트">업데이트</option>
+																<option value="디버그">디버그</option>
+																<option value="기타">기타</option>
 															</select>                                                    
-			                                        	<div class="chek-form ">
-															<div class="custome-checkbox">
-																<input class="form-check-input" type="checkbox" name="checkbox" id="exampleCheckbox13" value="" />
-																<label class="ml-5 form-check-label" for="exampleCheckbox13"><span>회원탈퇴 관련 사항을 모두 숙지하였으며, 탈퇴에 동의합니다.</span></label>
-															</div>
-							                            </div>
-						                            </div>
-                                                </div>
-                                        </div>
-                                        <div class="mt-40 py-1">
-                                      	  <button class="btn btn-primary" type="submit">관리자 계정 삭제</button>
+				                                        	<div class="chek-form ">
+																<div class="custome-checkbox">
+																	<input class="form-check-input" type="checkbox" name="checkbox" id="managerWithdrawalCheckbox" value="" />
+																	<label class="ml-5 form-check-label" for="managerWithdrawalCheckbox"><span>회원탈퇴 관련 사항을 모두 숙지하였으며, 탈퇴에 동의합니다.</span></label>
+																</div>
+							                            	</div>
+				                                        <div class="mt-40 py-1">
+				                                      	  <button id="managerWithdrawalBtn" class="btn btn-primary" type="button" th:data-member-id="${mi.memberId}">관리자 계정 삭제</button>
+				                                        </div>
+													</form>
+					                            </div>
+                                            </div>
                                         </div>
                                     </form>
                                 </section>
