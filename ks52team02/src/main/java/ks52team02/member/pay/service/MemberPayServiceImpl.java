@@ -115,6 +115,11 @@ public class MemberPayServiceImpl implements MemberPayService {
 		for (MentoringData mentoringData : mentoringDataList) {
 			String newReviewCode = commonMapper.getPrimaryKey("mentee_settlement_mentor_calculation", "mentee_settlement_mentor_calculation_code", "mentee_settlement_mentor_calculation_code_");
             mentoringData.setPayCode(newReviewCode);
+            if(mentoringData.getIsHonorMentor().equals("Y")) {
+            	mentoringData.setFee(8);
+            } else {
+            	mentoringData.setFee(10);
+            }
             applyCodeList.add(mentoringData.getApplyCode());
 			result = memberPayMapper.addPay(mentoringData);
 			result += result;

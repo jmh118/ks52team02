@@ -4,6 +4,9 @@ import java.util.Map;
 
 public interface MemberLoginService {
 	
+	// 아이디로 권한 확인 
+	boolean isCheckMemberLevel(String memberId);
+	
 	// 비밀번호 확인 
 	boolean isCheckMemberPw(String memberId, String memeberPw);
 	

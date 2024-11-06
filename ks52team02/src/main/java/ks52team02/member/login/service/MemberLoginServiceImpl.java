@@ -22,6 +22,20 @@ public class MemberLoginServiceImpl implements MemberLoginService {
 	private final CommonMapper commonMapper;
 	
 	@Override
+	public boolean isCheckMemberLevel(String memberId) {
+		
+		boolean isManager = false;
+		
+		Member memberInfo = memberLoginMapper.getMemberInfoById(memberId);
+		if(memberInfo.getMemberLevel().equals("member_level_manager")) {
+			isManager = true;
+		}
+		
+		return isManager;
+	}
+	
+	
+	@Override
 	public boolean isCheckMemberPw(String memberId, String memberPw) {
 		
 		boolean ischeckPw = false;
