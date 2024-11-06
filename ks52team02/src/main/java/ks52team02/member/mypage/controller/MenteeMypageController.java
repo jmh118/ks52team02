@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import ks52team02.files.service.FileService;
 import ks52team02.member.mypage.dto.CertificateName;
 import ks52team02.member.mypage.dto.MenteeCertificate;
 import ks52team02.member.mypage.dto.MenteeEducation;
@@ -30,6 +31,7 @@ public class MenteeMypageController {
 	
 	private final MenteeMypageService menteeMypageService;
 	private final MenteeMypageMapper menteeMypageMapper;
+	private final FileService fileService;
 	
 	//계정정보 수정
 	@PostMapping("/account")

@@ -36,6 +36,7 @@ public class MentorMypageServiceImpl implements MentorMypageService{
 	public void addWorkInfo(MentorWork mentorWork) {
 		String nextCode = commonMapper.getPrimaryKey("mentor_work_history_details", "mentor_work_career_details_code", "mentor_work_career_details_code_");
 		mentorWork.setMentorWorkCode(nextCode);			//테이블명, 자동증가 시킬 컬럼 명, 자동증가 시킬 컬럼 명_
+		
 		mentorMypageMapper.addWorkInfo(mentorWork);
 	}
 	

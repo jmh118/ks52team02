@@ -130,7 +130,7 @@
 			<if test="mentorFileNm != null and mentorFileNm != ''">
 			upload_file_work_history_name=#{mentorFileNm},
 			</if>
-			upload_file_work_history_date=NOW()
+			mentor_career_apply_manager='N'
 		WHERE 
 			mentor_work_career_details_code = #{mentorWorkCode};
 			
@@ -155,10 +155,9 @@
 				mentor_career_DATA_REG_upload_YN, 
 				mentor_career_apply_manager, 
 				mentor_employment_status, 
-				upload_file_work_history_name, 
-				upload_file_work_history_date
+				upload_file_work_history_name
 			)
-			VALUES (#{mentorWorkCode}, #{mentorId}, #{mentorPowkNm}, #{mentorTask}, #{mentorJncmpYmp}, #{mentorRsgntnYmp}, NOW(), 0, 0, NOW(), 'N', 'N', #{mentorStatus}, #{mentorFileNm}, NOW())
+			VALUES (#{mentorWorkCode}, #{mentorId}, #{mentorPowkNm}, #{mentorTask}, #{mentorJncmpYmp}, #{mentorRsgntnYmp}, NOW(), 0, 0, NOW(), 'N', 'N', #{mentorStatus}, #{mentorFileNm})
 		  	
   	</insert>
   	
@@ -218,6 +217,7 @@
 	  		/* 프로젝트 경력 수정 */
 	  		UPDATE 
 				mentor_tech_career_detail
+				SET
 				<trim prefix="SET" suffixOverrides=",">
 					<if test="mentorProjectNm != null and mentorProjectNm != ''">
 					mentor_project_NM=#{mentorProjectNm},
@@ -254,10 +254,9 @@
 		mentor_project_TASK_CN, 
 		TECH_career_DATA_REG_upload_YN, 
 		TECH_career_DATA_REG_approval_manager, 
-		mentor_upload_career_file_name, 
-		mentor_upload_career_file_date
+		mentor_upload_career_file_name
 		)
-		VALUES (#{mentorProjectCode}, #{mentorWorkCode}, #{mentorId}, #{mentorProjectNm}, #{mentorBgngYmd}, #{mentorCmptnYmd}, 0, #{mentorCn}, 'N', 'N', #{mentorFileNm}, NOW())
+		VALUES (#{mentorProjectCode}, #{mentorWorkCode}, #{mentorId}, #{mentorProjectNm}, #{mentorBgngYmd}, #{mentorCmptnYmd}, 0, #{mentorCn}, 'Y', 'N', #{mentorFileNm})
   	
   	</insert>
   
@@ -320,10 +319,10 @@
   	</select>
   	
   	<update id="modifyEducationInfo" parameterType="MentorEducation">
-	  		/* 프로젝트 경력 수정 */
+	  		/* 학력 수정 */
 	  		UPDATE 
 				mentor_acbg_detail
-				<trim prefix="SET" suffixOverrides=",">
+				SET
 					<if test="mentorCredits != null and mentorCredits != ''">
 					mentor_school_credits=#{mentorCredits},
 					</if>
@@ -345,7 +344,7 @@
 					<if test="mentorGdtYmd != null and mentorGdtYmd != ''">
 					mentor_graduation_date=#{mentorGdtYmd},
 					</if>
-				</trim>
+					mentor_CRTFCT_NM_approval_manager='N'
 			WHERE 
 				mentor_ACBG_detail_code = #{mentorEducationCode};
 				
@@ -367,12 +366,11 @@
 			mentor_CRTFCT_NM_approval_manager, 
 			mentor_graduation_Section, 
 			mentor_upload_ACBG_file_name, 
-			mentor_ACBG_release_YN, 
-			mentor_upload_ACBG_file_date, 
+			mentor_ACBG_release_YN,
 			mentor_matriculation_date, 
 			mentor_graduation_date
 			)
-		VALUES (#{mentorEducationCode}, #{mentorId}, 'N', #{mentorCredits}, #{mentorSchoolNm}, #{mentorScsbjtNm}, 'N', 'N', 'N', #{mentorSection}, #{mentorFileNm}, 'N', NOW(), #{mentorMtctYmd}, #{mentorGdtYmd})
+		VALUES (#{mentorEducationCode}, #{mentorId}, 'N', #{mentorCredits}, #{mentorSchoolNm}, #{mentorScsbjtNm}, 'N', 'N', 'N', #{mentorSection}, #{mentorFileNm}, 'N', #{mentorMtctYmd}, #{mentorGdtYmd})
 	  	
   	</insert>
   
@@ -453,7 +451,7 @@
 	  		/* 자격증 수정 */
 	  		UPDATE 
 				mentor_certificate_detail
-				<trim prefix="SET" suffixOverrides=",">
+				SET
 					<if test="mentorCertificateNm != null and mentorCertificateNm != ''">
 					certificate_name_code=#{mentorCertificateNm},
 					</if>
@@ -469,8 +467,7 @@
 					<if test="mentorGrade != null and mentorGrade != ''">
 					mentor_certificate_grade=#{mentorGrade},
 					</if>
-					
-				</trim>
+					mentor_certificate_approval_manager='N'
 			WHERE 
 				mentor_certificate_detail_code = #{mentorCertificateCode};
 				
@@ -490,12 +487,11 @@
 			mentor_upload_certificate_file_name, 
 			mentor_certificate_release_YN, 
 			mentor_certificate_grade, 
-			mentor_certificate_approval_manager, 
-			mentor_certificate_DATA_REG_upload_date
+			mentor_certificate_approval_manager
 			)
 		VALUES (#{mentorCertificateCode}, #{mentorId}, #{mentorCertificateNm},
 				 #{mentorInstitutionNm}, #{mentorIssuYmd}, 'N', #{mentorFileNm},
-				  'N', #{mentorGrade}, 'N', NOW())
+				  'N', #{mentorGrade}, 'N')
 	  	
   	</insert>
   	

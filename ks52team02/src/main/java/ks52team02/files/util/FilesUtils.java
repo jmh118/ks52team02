@@ -8,6 +8,8 @@ import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -23,6 +25,24 @@ public class FilesUtils {
 		private String fileRootPath;
 	
 	
+		//파일 삭제
+		public boolean deleteFileByPath(String path) {
+			boolean isDelete=false;
+			
+			File file= new File(path);
+			
+			Path targetPath =Paths.get(file.getAbsolutePath());
+			
+			try {
+				isDelete = Files.deleteIfExists(targetPath);
+				//isDelete=true;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			return isDelete;
+		}
+		
 		// 단일 파일 업로드
 		public FileDto uploadFile(MultipartFile multipartFile) {
 			
@@ -31,6 +51,16 @@ public class FilesUtils {
 			return fileInfo;
 		}
 	
+		// 다중 파일 업로드
+		public List<FileDto> uploadFiles(MultipartFile[] multipartFiles){
+			List<FileDto> fileList = new ArrayList<FileDto>();
+			FileDto fileInfo = null;
+			for(MultipartFile multipartFile : multipartFiles) {
+				fileInfo = storeFile(multipartFile);
+				if(fileInfo != null) fileList.add(fileInfo);
+			}
+			return fileList;
+		}
 		
 		// 파일업로드
 		private FileDto storeFile(MultipartFile multipartFile) {
@@ -88,7 +118,6 @@ public class FilesUtils {
 								  .build();
 				
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				return null;
 			}

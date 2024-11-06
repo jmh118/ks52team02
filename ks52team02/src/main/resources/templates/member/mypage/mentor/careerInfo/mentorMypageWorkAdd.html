@@ -14,7 +14,7 @@
                 <div class="col-lg-7">
                     <div class="row">
                         <h3 class="mb-30">등록</h3>
-                        <form id="addWorkForm" method="post" th:action="@{/mypage/mentor/workAdd}">
+                        <form id="addWorkForm" method="post" th:action="@{/mypage/mentor/workAdd}" enctype="multipart/form-data">
                         	<input class="form-control" name="mentorId" type="hidden" th:value="${session.SID}"/>
                                 <div class="form-group col-lg-6">
                                     <input type="text" name="mentorPowkNm" placeholder="회사명 *">
@@ -38,7 +38,7 @@
 									</select>
 								</div>
                                <div class="form-group col-lg-6">
-							  <input type="file" class="form-control" name="mentorFileNm" accept="image/png, image/jpeg">
+							  <input type="file" class="form-control" name="files" multiple />
 							  </div>
 							<button class="submit submit-auto-width" type="submit">추가</button>
                         </form>

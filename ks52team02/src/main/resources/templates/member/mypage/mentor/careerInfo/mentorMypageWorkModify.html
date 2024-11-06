@@ -14,8 +14,9 @@
                 <div class="col-lg-7">
                     <div class="row">
                         <h3 class="mb-30">수정&삭제</h3>
-                        <form id=modifyWorkForm method="post" th:action="@{/mypage/mentor/workModify}" th:object="${workInfo}">
+                        <form id=modifyWorkForm method="post" th:action="@{/mypage/mentor/workModify}" th:object="${workInfo}" enctype="multipart/form-data">
                         		<input class="form-control" name="mentorWorkCode" type="hidden" th:value="*{mentorWorkCode}"/>
+                        		<input class="form-control" name="mentorFileNm" type="hidden" th:value="*{mentorFileNm}"/>
                                 <div class="form-group col-lg-6">
                                     <input type="text" required name="mentorPowkNm" placeholder="회사명 *" th:value="*{mentorPowkNm}">
                                 </div>
@@ -35,16 +36,11 @@
 										<option th:unless="*{mentorStatus}=='퇴사'"> 퇴사 </option>
 									</select>
                                 </div>
-                               <div class="form-group col-lg-6">
-							  <input type="file" name="mentorFileNm" accept="image/png, image/jpeg" th:value="*{mentorFileNm}">
-						 <!--  <tr th:unless="${#lists.isEmpty(fileList)}"
-									th:each="l, status : ${fileList}">
-									<td th:text="${status.count}"></td>
-						  			<td>
-										<a th:href="@{/removeFile(fileIdx=${l.fileIdx})}">삭제</a>
-									</td>
-								</tr> -->
-							  </div>
+                                <div class="form-group col-lg-6">
+                                	<span>파일을 등록하고 수정시 기존 파일은 삭제 됩니다*</span>
+                                	<span><input type="file" name="files" multiple></span>
+                                	<span><a th:href="@{/mypage/mentor/download(mentorFileNm=*{mentorFileNm})}">등록되어 있는 파일확인 (다운로드)</a></span>
+							  	</div>
 							<button class="submit submit-auto-width" type="submit">수정</button>
 							<button class="submit submit-auto-width" type="submit">삭제</button>
                         </form>

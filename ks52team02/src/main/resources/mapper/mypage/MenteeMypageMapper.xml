@@ -410,7 +410,7 @@
 	  		/* 포트폴리오 수정 */
 	  		UPDATE 
 				mentee_portfolio_registration_details
-				<trim prefix="SET" suffixOverrides=",">
+				SET
 					<if test="menteePtflCode != null and menteePtflCode != ''">
 					mentee_portfolio_registration_details_code=#{menteePtflCode},
 					</if>
@@ -426,16 +426,13 @@
 					<if test="menteePtflUlYn != null and menteePtflUlYn != ''">
 					portfolio_upload_YN=#{menteePtflUlYn},
 					</if>
-					<if test="menteePtflRgstDate != null and menteePtflRgstDate != ''">
-					portfolio_register_date=#{menteePtflRgstDate},
-					</if>
 					<if test="menteePtflReleaseYn != null and menteePtflReleaseYn != ''">
 					portfolio_release_YN=#{menteePtflReleaseYn},
 					</if>
 					<if test="menteePtflFileNm != null and menteePtflFileNm != ''">
 					upload_portfolio_file_name='file_code_01',
 					</if>
-				</trim>
+					portfolio_register_date='now()'
 			WHERE 
 				mentee_portfolio_registration_details_code = #{menteePtflCode};
 				
