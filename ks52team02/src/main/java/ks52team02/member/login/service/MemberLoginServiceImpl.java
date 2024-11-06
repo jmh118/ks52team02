@@ -6,9 +6,11 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import jakarta.servlet.http.HttpSession;
 import ks52team02.common.mapper.CommonMapper;
 import ks52team02.manager.member.dto.Member;
 import ks52team02.member.login.mapper.MemberLoginMapper;
+import ks52team02.member.withdrawal.dto.WithdrawalStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -20,6 +22,21 @@ public class MemberLoginServiceImpl implements MemberLoginService {
 
 	private final MemberLoginMapper memberLoginMapper;
 	private final CommonMapper commonMapper;
+	
+	
+	
+	@Override
+	public boolean memberWithdrawalStatus(String memberId) {
+
+		WithdrawalStatus status = memberLoginMapper.getMemberWithdrawalStatus(memberId);
+		
+		if(status.getIsWithdrawal() == 'Y' || status.getWithdrawalApplyCnt() > 0) {
+			return false;
+		}
+		
+		return true;
+	}
+	
 	
 	@Override
 	public boolean isCheckMemberLevel(String memberId) {
