@@ -2,7 +2,6 @@ package ks52team02.member.login.controller;
 
 import java.util.Map;
 
-import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -89,7 +88,6 @@ public class MemberLoginController {
 	public String loginProcess(String memberId, String memberPw,
 							   HttpSession session, RedirectAttributes reAttr) {
 		
-		log.info("id: {}, pw: {}", memberId, memberPw);
 		
 		String viewName = "redirect:/member/login";
 		String msg = "회원의 정보가 일치하지 않습니다. 다시 로그인해주세요~";
@@ -112,6 +110,7 @@ public class MemberLoginController {
 			session.setAttribute("SLEVEL", memberLevel);
 					
 		}else {
+			
 			reAttr.addAttribute("msg", msg);
 		}
 	

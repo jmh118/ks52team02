@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{manager/layouts/layout}">
+	  
+	  <th:block layout:fragment="customJs">
+		<script>
+		
+			function checkPassword(memberPw) {
+		        return $.ajax({
+		            type: 'POST',
+		            url: '/member/checkPw',
+		            data: { 'memberPw': memberPw },
+		            dataType: 'json'
+		        });
+		    }
+			
+			function deleteQuestion(questionCode){
+				return $.ajax({
+					type : 'GET',
+					url : '/manager/mentoring/removeQuestion',
+					data: {'questionCode': questionCode}
+				});
+			}
+			
+			$('.questionDelBtn').click(function(){
+				const questionCode = $(this).data('question-code');
+				isDel = confirm('해당 질문을 정말 삭제하시겠습니까? 삭제 시 질문에 해당하는 답변도 삭제됩니다.');
+				/* let delMSG = '취소하셨습니다.' */
+				if(isDel){
+					let memberPw = prompt("관리자 비밀번호를 입력하세요");
+					if(memberPw === null || memberPw === ""){
+						alert('비밀번호를 입력해 주세요.');
+						return ;
+					}
+					
+					checkPassword(memberPw).done(function(data){
+						if(data){
+							deleteQuestion(questionCode).done(function(){
+								alert('공고 질문이 삭제되었습니다.');
+								location.reload();
+							}).fail(function(){
+								alert('공고 질문 삭제 중 오류가 발생했습니다.');
+							});
+						}else{
+							alert("비밀번호가 잘못되었습니다.");
+						}
+					}).fail(function(){
+						alert('비밀번호 검증 오류가 발생했습니다.');
+					});
+				}
+				
+			});
+			
+		</script>
+	</th:block>
+	  
+	  <th:block layout:fragment="customContent">
+            <section class="content-main">
+                <div class="content-header">
+                    <div>
+                        <h2 class="content-title card-title">멘토링 공고 질문 조회</h2>
+                        <p>멘토링 공고 질문 조회 (내용이 부적절할 시 관리자가 삭제)</p>
+                    </div>
+                </div>
+                <div class="card mb-4">
+                    <!-- card-header end// -->
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>회원(멘티)ID</th>
+                                        <th>멘토링 질문 코드</th>
+                                        <th>멘토링 공고 코드</th>
+                                        <th>멘토링 질문 내용</th>
+                                        <th>질문 등록일</th>
+                                        <th>삭제</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="ql : ${questionList.contents}">
+									    <td th:text="${ql.memberId}"></td>
+									    <td th:text="${ql.questionCode}"></td>
+									    <td th:text="${ql.noticeCode}"></td>
+									    <td th:text="${ql.questionContent}"></td>
+									    <td th:text="${ql.questionYmd}"></td>
+									    <td>
+									    	<button type="button" class="btn btn-sm font-sm btn-light rounded questionDelBtn" th:data-question-code="${ql.questionCode}"><i class="material-icons md-delete_forever"></i>삭제</button>
+									    </td>
+									</tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- table-responsive//end -->
+                    </div>
+                    <!-- card-body end// -->
+                </div>
+                <div class="pagination-area mt-30 mb-50">
+                    <nav aria-label="Page navigation example">
+					    <ul class="pagination justify-content-start">
+					    	<li class="page-item" th:classappend="${questionList.currentPage < 2}? 'disabled'">
+								<a class="page-link d-flex justify-content-center align-items-center" th:href="@{/manager/mentoring/questionList(currentPage=${questionList.currentPage - 1})}"><i class="material-icons md-chevron_left"></i></a>
+							</li>
+					        <th:block th:each="num : ${#numbers.sequence(questionList.startPageNum, questionList.endPageNum)}">
+					            <li class="page-item"
+					                th:classappend="${questionList.currentPage == num} ? 'active'">
+					                <a class="page-link" th:href="@{/manager/mentoring/questionList(currentPage=${num})}">[[${num}]]</a>
+					            </li>
+					        </th:block>
+					        <li class="page-item" th:classappend="${questionList.currentPage >= questionList.lastPage} ? 'disabled'">
+					            <a class="page-link d-flex justify-content-center align-items-center" th:href="@{/manager/mentoring/questionList(currentPage=${questionList.currentPage + 1})}"><i class="material-icons md-chevron_right"></i></a>
+					        </li>
+					    </ul>
+					</nav>
+                </div>
+		</section>
+      <!-- content-main end//  -->
+      </th:block>
+</html>

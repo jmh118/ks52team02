@@ -7,6 +7,9 @@ import ks52team02.page.Pageable;
 
 public interface ManagerHonorService {
 	
+	// 명예멘토 여부 확인
+	String gethonorMentorCheck(String memberId);
+	
 	// 명예멘토 취소 
 	int honorMentorCancel(String memeberId);
 	

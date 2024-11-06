@@ -18,9 +18,11 @@ import com.siot.IamportRestClient.response.IamportResponse;
 import com.siot.IamportRestClient.response.Payment;
 
 import jakarta.servlet.http.HttpSession;
+import ks52team02.manager.pay.dto.PaymentSettlement;
 import ks52team02.member.pay.dto.BeforePay;
 import ks52team02.member.pay.dto.Pay;
 import ks52team02.member.pay.dto.PaymentRequest;
+import ks52team02.member.pay.dto.SearchFilter;
 import ks52team02.member.pay.mapper.MemberPayMapper;
 import ks52team02.member.pay.service.MemberPayService;
 import ks52team02.member.review.service.MemberReviewService;
@@ -38,6 +40,43 @@ public class MemberPayController {
 	private final IamportClient iamportClient = new IamportClient("2328516881331875", 
 								"l3OOEUYVupHQ01RXV85v2JjWjy1t0XBbqRuZ3tptIixCZKrXJ1JhLWhxoXAkn0PD1j9vRm0oy8fGpILt");
 	
+	@PostMapping("/searchSettlementHistoryList")
+	@ResponseBody
+	public List<PaymentSettlement> searchSettlementHistoryList(SearchFilter searchFilter, HttpSession session){
+		
+		String memberId = (String) session.getAttribute("SID");
+		List<PaymentSettlement> settlementList = memberPayService.searchSettlementHistoryList(memberId, searchFilter);
+		
+		log.info("32-42-0=340-2=3 : {}", settlementList);
+		
+		return settlementList;
+	}
+	
+	
+	@GetMapping("/settlementHistoryList")
+	public String getSettlementHistoryListById(Model model, HttpSession session) {
+		
+		String memberId = (String) session.getAttribute("SID");
+		List<PaymentSettlement> settlementList = memberPayService.getSettlementHistoryList(memberId);
+		
+		model.addAttribute("activeMenu", "settlementHistoryList");
+		model.addAttribute("settlementList", settlementList);
+		
+		return "member/pay/settlementHistoryList";
+	}
+	
+	@PostMapping("/searchList")
+	@ResponseBody
+	public List<Pay> searchPayList(SearchFilter searchFilter, HttpSession session){
+		
+		String memberId = (String) session.getAttribute("SID");
+		String memberLevel = (String) session.getAttribute("SLEVEL");
+		
+		List<Pay> payList = memberPayService.getFilterMemberPaymentListById(memberId, memberLevel, searchFilter);
+		
+		
+		return payList;
+	}
 	
 	@GetMapping("remove")
 	public String removeApply(@RequestParam(name="applyCode") String applyCode, @RequestParam(name="detailCode") String detailCode) {

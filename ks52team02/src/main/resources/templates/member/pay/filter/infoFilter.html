@@ -2,11 +2,10 @@
 <html xmlns:th="http://www.thymeleaf.org">
 	<div class="filter-container" th:fragment="infoFilter">
 	    <div class="filter">
-	        <label for="year">FILTER</label>
-	        
-	        <input type="text" class="fl-mtc-btn-2" placeholder="멘티 아이디 검색" />
+	        <label for="searchId">FILTER</label>
+	        <input type="text" id="searchId" class="fl-mtc-btn-2" placeholder="멘티 아이디 검색" />
 	        <div class="fl-mtc-btn-1">
-	            <a href="#" class="btn btn-md rounded font-sm">click</a>
+	            <button type="button" class="btn btn-md rounded font-sm search-btn">click</button>
 	        </div>
 	    </div>
 	    <div class="sort">

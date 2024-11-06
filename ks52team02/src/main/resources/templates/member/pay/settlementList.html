@@ -18,10 +18,10 @@
                                 <div class="tab-pane fade active show">
                                     <div class="card">
                                         <div class="card-header">
-                                            <h5>멘토링 신청 내역</h5>
+                                            <h5>멘토링 신청된 내역</h5>
                                         </div>
                                         <div class="card-body">
-                                            <p>멘토의 신청 내역 조회 화면</p>
+                                            <p>멘토의 멘토링 신청된 내역 조회 화면</p>
                                             <p>멘토링 진행 상태에 따라서 정산 신청 버튼 활성/비활성</p>
                                             <!-- Row for filter and table -->
                                             <div class="row">
@@ -103,7 +103,7 @@
 	        });
 	
 	        if (!isList) {
-	            $('tbody').append('<tr class="noResults"><td colspan="8">' + message + '</td></tr>');
+	            $('tbody').append('<tr class="noResults"><td colspan="7">' + message + '</td></tr>');
 	        } else {
 	            $('tbody .noResults').remove();
 	        }
@@ -142,7 +142,7 @@
                request.done(function(data){
             	   if(data) {
 	            	   alert("정산 신청이 완료되었습니다.");
-	                   location.reload();            		   
+	                   location.href = "/pay/settlementHistoryList";           		   
             	   } else {
 	            	   alert("정산 신청 실패");
             	   }
@@ -154,6 +154,71 @@
                
            }
 	    	
+	    });
+	    $('#searchBtn').click(function(){
+	    	let selectedYear = $("#yearSelect").val();
+	        let selectedMonth = $("#monthSelect").val();
+	        
+	        console.log(selectedYear);
+	        console.log(selectedMonth);
+	        
+	        const request = $.ajax({
+				url : '/pay/searchList',
+				method : 'post',
+				data : { 
+						'selectedYear': selectedYear,
+						'selectedMonth': selectedMonth
+				},
+				dataType: 'json'
+			});
+			request.done(function(data){
+		        console.log(data);
+				
+		        let tbody = $('table tbody');
+		        tbody.empty();
+		        
+		        if (data.length === 0) {
+		            tbody.append('<tr><td colspan="7">결과가 없습니다.</td></tr>');
+		            return;
+		        }
+		        
+		        data.forEach(function(item, idx) {
+		            let statusBadge = '';
+		            switch (item.mentoringProcStatus) {
+		                case '':
+		                    statusBadge = '<span class="badge rounded-pill alert-secondary">진행 전</span>';
+		                    break;
+		                case '진행 중':
+		                    statusBadge = '<span class="badge rounded-pill alert-danger">진행 중</span>';
+		                    break;
+		                case '종료':
+		                    statusBadge = '<span class="badge rounded-pill alert-success">종료</span>';
+		                    break;
+		            }
+
+		            let row = `
+		                <tr>
+		                    <td>${item.notice.noticeTitle || ''}</td>
+		                    <td>${item.noticeDetail.mentoringYmd || ''}</td>
+		                    <td>${item.noticeDetail.mentoringTime || ''}</td>
+		                    <td>${item.payId || ''}</td>
+		                    <td>${item.mentorCalAmount || 0}</td>
+		                    <td>${statusBadge}</td>
+		                    <td>
+		                        <button type="button" class="settlementApplyBtn btn btn-md rounded font-sm ${item.mentoringProcStatus !== '종료' ? 'disabled' : ''}" data-pay-code="${item.paySettlementCalCode}" data-notice-code="${item.notice.noticeCode}">신청</button>
+		                    </td>
+		                </tr>
+		            `;
+		            tbody.append(row);
+
+		        });
+		        
+			});
+			request.fail(function(jqXHR, textStatus, error){
+				console.log(error);
+			});
+	        
+	        
 	    });
 	</script>
 </th:block>

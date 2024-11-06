@@ -26,7 +26,7 @@
 	</resultMap>
 	
 	
-	<delete id="removeReview">
+	<delete id="removeReview" parameterType="string">
 		/* 후기 삭제 */
 		DELETE 
 		FROM 

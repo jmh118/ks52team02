@@ -6,10 +6,7 @@
 	<resultMap type="Pay" id="payMap">
 		<id column="mentee_settlement_mentor_calculation_code" 	property="paySettlementCalCode"/>
 		<result column="mentor_notice_code" 					property="noticeCode"/>	
-		
 		<result column="settlement_id" 							property="payId"/>	
-		
-		
 		<result column="last_amount" 							property="totalAmount"/>	
 		<result column="settlement_day" 						property="payDate"/>	
 		<result column="settlement_method" 						property="payMethod"/>	
@@ -60,18 +57,17 @@
 			ON msmc.mentee_settlement_mentor_calculation_code = mcdc.mentee_settlement_mentor_calculation_code
 		WHERE 
 			mcdc.calculation_status = '플랫폼이 멘토에게 정산 완료';
-		
 	</select>
 	
 	<select id="getPaymentSettlementAmount" resultType="int">
-	/* 총 정산 금액 */
-	SELECT
-		SUM(msmc.mentor_calculation_amount)
-	FROM 
-		mentee_settlement_mentor_calculation msmc INNER JOIN mentor_calculation_demand_completion mcdc
-		ON msmc.mentee_settlement_mentor_calculation_code = mcdc.mentee_settlement_mentor_calculation_code
-	WHERE 
-		mcdc.calculation_status = '플랫폼이 멘토에게 정산 완료';
+		/* 총 정산 금액 */
+		SELECT
+			SUM(msmc.mentor_calculation_amount)
+		FROM 
+			mentee_settlement_mentor_calculation msmc INNER JOIN mentor_calculation_demand_completion mcdc
+			ON msmc.mentee_settlement_mentor_calculation_code = mcdc.mentee_settlement_mentor_calculation_code
+		WHERE 
+			mcdc.calculation_status = '플랫폼이 멘토에게 정산 완료';
 	
 	</select>
 	
@@ -89,6 +85,7 @@
 		UPDATE mentor_calculation_demand_completion
 		SET
 			calculation_give_date = NOW(),
+			manager_id = #{managerId},
 			calculation_status='플랫폼이 멘토에게 정산 완료'
 		WHERE mentor_calculation_demand_completion_code = #{settlementCode};
 	

@@ -9,6 +9,9 @@ public class MentoringData {
 	private String memberId;
 	private String applyCode;
     private String noticeCode;
+    private String isHonorMentor;
+    private int fee;
+    
     private int amount;
 
 }
