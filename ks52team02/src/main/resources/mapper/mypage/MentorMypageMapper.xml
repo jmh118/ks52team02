@@ -70,6 +70,7 @@
   	<select id="getMentorWorkById" parameterType="string" resultMap="mentorWorkMap">
 	  	/* 근무경력 조회 */
 	  	SELECT 
+	  		mentor_work_career_details_code,
 			member_id, 
 			mentor_POWK_NM, 
 			mentor_TKCG_TASK, 
@@ -84,6 +85,83 @@
 			member_id=#{mentorId};
   	</select>
   	
+  	<select id="getMentorWorkByCode" parameterType="string" resultMap="mentorWorkMap">
+	  	/*코드로 근무경력 조회 */
+			
+			SELECT 
+	  		mentor_work_career_details_code,
+			member_id, 
+			mentor_POWK_NM, 
+			mentor_TKCG_TASK, 
+			mentor_JNCMP_YMD, 
+			mentor_RSGNTN_YMD, 
+			mentor_WRKDY_CNT,
+			mentor_employment_status, 
+			upload_file_work_history_name
+		FROM
+			mentor_work_history_details
+		WHERE
+			mentor_work_career_details_code = #{mentorWorkCode};
+			
+  	</select>
+  	
+  	
+  	<update id="modifyWorkInfo" parameterType="MentorWork">
+  		/* 근무경력 수정 */
+  		UPDATE 
+			mentor_work_history_details
+			SET
+			<if test="mentorPowkNm != null and mentorPowkNm != ''">
+			mentor_POWK_NM=#{mentorPowkNm},
+			</if>
+			<if test="mentorTask != null and mentorTask != ''">
+			mentor_TKCG_TASK=#{mentorTask},
+			</if>
+			<if test="mentorJncmpYmp != null and mentorJncmpYmp != ''">
+			mentor_JNCMP_YMD=#{mentorJncmpYmp},
+			</if>
+			<if test="mentorRsgntnYmp != null and mentorRsgntnYmp != ''">
+			mentor_RSGNTN_YMD=#{mentorRsgntnYmp},
+			</if>
+			MDFCN_YMD=NOW(),
+			<if test="mentorStatus != null and mentorStatus != ''">
+			mentor_employment_status=#{mentorStatus},
+			</if>
+			<if test="mentorFileNm != null and mentorFileNm != ''">
+			upload_file_work_history_name=#{mentorFileNm},
+			</if>
+			mentor_career_apply_manager='N'
+		WHERE 
+			mentor_work_career_details_code = #{mentorWorkCode};
+			
+			
+  	</update>
+  	
+  	
+  	<insert id="addWorkInfo" parameterType="MentorWork">
+  	/* 근무 경력 등록 */
+  		INSERT INTO mentor_work_history_details
+			(
+				mentor_work_career_details_code, 
+				member_id, 
+				mentor_POWK_NM, 
+				mentor_TKCG_TASK, 
+				mentor_JNCMP_YMD, 
+				mentor_RSGNTN_YMD, 
+				FRST_REG_DT, 
+				mentor_WRKDY_CNT, 
+				mentor_ACML_WRKDY_CNT, 
+				MDFCN_YMD, 
+				mentor_career_DATA_REG_upload_YN, 
+				mentor_career_apply_manager, 
+				mentor_employment_status, 
+				upload_file_work_history_name
+			)
+			VALUES (#{mentorWorkCode}, #{mentorId}, #{mentorPowkNm}, #{mentorTask}, #{mentorJncmpYmp}, #{mentorRsgntnYmp}, NOW(), 0, 0, NOW(), 'N', 'N', #{mentorStatus}, #{mentorFileNm})
+		  	
+  	</insert>
+  	
+  	
   	
   	
   <!-- 근무 경력 관리 쿼리문/ -->
@@ -97,7 +175,6 @@
   		<result column="mentor_project_NM" property="mentorProjectNm"/>
   		<result column="mentor_project_BGNG_YMD" property="mentorBgngYmd"/>
   		<result column="mentor_project_CMPTN_YMD" property="mentorCmptnYmd"/>
-  		<result column="mentor_project_FLFMT_CNT" property="mentorCnt"/>
   		<result column="mentor_project_TASK_CN" property="mentorCn"/>
   		<result column="mentor_upload_career_file_name" property="mentorFileNm"/>
   	</resultMap>
@@ -110,7 +187,6 @@
 			mentor_project_NM, 
 			mentor_project_BGNG_YMD, 
 			mentor_project_CMPTN_YMD, 
-			mentor_project_FLFMT_CNT, 
 			mentor_project_TASK_CN, 
 			mentor_upload_career_file_name
 		FROM 
@@ -118,6 +194,73 @@
 		WHERE
 			mentor_id=#{mentorId};
   	</select>
+  
+  	<select id="getMentorProjectByCode" parameterType="string" resultMap="mentorProjectMap">
+	  	/*코드로 프로젝트 경력 조회 */
+		SELECT 
+			mentor_TECH_career_detail_code, 
+			mentor_id, 
+			mentor_project_NM, 
+			mentor_project_BGNG_YMD, 
+			mentor_project_CMPTN_YMD, 
+			mentor_project_TASK_CN, 
+			mentor_upload_career_file_name
+		FROM 
+			mentor_tech_career_detail
+		WHERE
+			mentor_TECH_career_detail_code = #{mentorProjectCode};
+			
+			
+  	</select>
+  	
+	  <update id="modifyProjectInfo" parameterType="MentorProject">
+	  		/* 프로젝트 경력 수정 */
+	  		UPDATE 
+				mentor_tech_career_detail
+				SET
+				<trim prefix="SET" suffixOverrides=",">
+					<if test="mentorProjectNm != null and mentorProjectNm != ''">
+					mentor_project_NM=#{mentorProjectNm},
+					</if>
+					<if test="mentorBgngYmd != null and mentorBgngYmd != ''">
+					mentor_project_BGNG_YMD=#{mentorBgngYmd},
+					</if>
+					<if test="mentorCmptnYmd != null and mentorCmptnYmd != ''">
+					mentor_project_CMPTN_YMD=#{mentorCmptnYmd},
+					</if>
+					<if test="mentorCn != null and mentorCn != ''">
+					mentor_project_TASK_CN=#{mentorCn},
+					</if>
+					<if test="mentorFileNm != null and mentorFileNm != ''">
+					mentor_upload_career_file_name=#{mentorFileNm},
+					</if>
+				</trim>
+			WHERE 
+				mentor_TECH_career_detail_code = #{mentorProjectCode};
+				
+	  	</update>
+  	
+  	<insert id="addProjectInfo" parameterType="MentorProject">
+  		/* 프로젝트 경력 등록 */
+	  	INSERT INTO mentor_tech_career_detail
+		(
+		mentor_TECH_career_detail_code, 
+		mentor_work_career_details_code, 
+		mentor_id, 
+		mentor_project_NM, 
+		mentor_project_BGNG_YMD, 
+		mentor_project_CMPTN_YMD, 
+		mentor_project_FLFMT_CNT, 
+		mentor_project_TASK_CN, 
+		TECH_career_DATA_REG_upload_YN, 
+		TECH_career_DATA_REG_approval_manager, 
+		mentor_upload_career_file_name
+		)
+		VALUES (#{mentorProjectCode}, #{mentorWorkCode}, #{mentorId}, #{mentorProjectNm}, #{mentorBgngYmd}, #{mentorCmptnYmd}, 0, #{mentorCn}, 'Y', 'N', #{mentorFileNm})
+  	
+  	</insert>
+  
+  
   
   
   <!-- 프로젝트 경력 관리 쿼리문/ -->
@@ -155,15 +298,205 @@
 		WHERE
 			member_id=#{mentorId};
   	</select>
+  	
+  	<select id="getMentorEducationByCode" parameterType="string" resultMap="mentorEducationMap">
+	  	/*코드로 학력 조회 */
+	  	SELECT 
+			mentor_ACBG_detail_code, 
+			member_id, 
+			last_ACBG_update, 
+			mentor_school_credits, 
+			mentor_SCHL_NM, 
+			mentor_SCSBJT_NM, 
+			mentor_graduation_Section, 
+			mentor_upload_ACBG_file_name, 
+			mentor_matriculation_date, 
+			mentor_graduation_date
+		FROM 
+			mentor_acbg_detail
+		WHERE
+			mentor_ACBG_detail_code=#{mentorEducationCode};
+  	</select>
+  	
+  	<update id="modifyEducationInfo" parameterType="MentorEducation">
+	  		/* 학력 수정 */
+	  		UPDATE 
+				mentor_acbg_detail
+				SET
+					<if test="mentorCredits != null and mentorCredits != ''">
+					mentor_school_credits=#{mentorCredits},
+					</if>
+					<if test="mentorSchoolNm != null and mentorSchoolNm != ''">
+					mentor_SCHL_NM=#{mentorSchoolNm},
+					</if>
+					<if test="mentorScsbjtNm != null and mentorScsbjtNm != ''">
+					mentor_SCSBJT_NM=#{mentorScsbjtNm},
+					</if>
+					<if test="mentorSection != null and mentorSection != ''">
+					mentor_graduation_Section=#{mentorSection},
+					</if>
+					<if test="mentorFileNm != null and mentorFileNm != ''">
+					mentor_upload_ACBG_file_name=#{mentorFileNm},
+					</if>
+					<if test="mentorMtctYmd != null and mentorMtctYmd != ''">
+					mentor_matriculation_date=#{mentorMtctYmd},
+					</if>
+					<if test="mentorGdtYmd != null and mentorGdtYmd != ''">
+					mentor_graduation_date=#{mentorGdtYmd},
+					</if>
+					mentor_CRTFCT_NM_approval_manager='N'
+			WHERE 
+				mentor_ACBG_detail_code = #{mentorEducationCode};
+				
+	  	</update>
   
-  
-  
+  	<insert id="addEducationInfo" parameterType="MentorEducation">
+  		/* 학력 등록 */
+	  	
+	  	INSERT INTO mentor_acbg_detail
+			(
+			mentor_ACBG_detail_code, 
+			member_id, 
+			last_ACBG_update,
+			mentor_school_credits, 
+			mentor_SCHL_NM, 
+			mentor_SCSBJT_NM, 
+			mentor_graduation_CRTFCT_NM_upload_YN, 
+			mentor_grade_CRTFCT_NM_upload_YN, 
+			mentor_CRTFCT_NM_approval_manager, 
+			mentor_graduation_Section, 
+			mentor_upload_ACBG_file_name, 
+			mentor_ACBG_release_YN,
+			mentor_matriculation_date, 
+			mentor_graduation_date
+			)
+		VALUES (#{mentorEducationCode}, #{mentorId}, 'N', #{mentorCredits}, #{mentorSchoolNm}, #{mentorScsbjtNm}, 'N', 'N', 'N', #{mentorSection}, #{mentorFileNm}, 'N', #{mentorMtctYmd}, #{mentorGdtYmd})
+	  	
+  	</insert>
   
   
   
   <!-- 학력 관리 쿼리문/ -->
   
   
+  <!-- 자격증 관리 쿼리문 -->
+  
+  <resultMap type="MentorCertificate" id="mentorCertificateMap">
+  		<id column="mentor_certificate_detail_code" property="mentorCertificateCode"/>
+  		<result column="member_id" property="mentorId"/>
+  		<result column="certificate_name_code" property="mentorCertificateNm"/>
+  		<result column="issue_institution_code" property="mentorInstitutionNm"/>
+  		<result column="mentor_certificate_ISSU_YMD" property="mentorIssuYmd"/>
+  		<result column="mentor_upload_certificate_file_name" property="mentorFileNm"/>
+  		<result column="mentor_certificate_grade" property="mentorGrade"/>
+  		
+  		<association property="certificateName" javaType="CertificateName">
+  			<id column="certificate_name_code" property="nameCode"/>
+  			<result column="issue_certificate_name" property="certificateNm"/>
+  			<result column="certificate_classification" property="certificateCf"/>
+  			<result column="issue_institution_name" property="institutionNm"/>
+  		</association>
+  		
+  	</resultMap>
+  	
+  	<select id="getCertificateInfoCode" resultType="CertificateName">
+  		/* 자격증 이름,발급기관 select박스 */
+  		
+  		SELECT 
+			certificate_name_code AS nameCode,
+			issue_certificate_name AS certificateNm, 
+			issue_institution_code AS institutionCode, 
+			issue_institution_name AS institutionNm
+		FROM 
+			certificate_name
+  		
+  	</select>
+  	
+  	
+  	<select id="getMentorCertificateById" parameterType="string" resultMap="mentorCertificateMap">
+	  	/* 자격증 조회 */
+	  	SELECT 
+			mcd.mentor_certificate_detail_code, 
+			cn.issue_certificate_name,
+			cn.issue_institution_name, 
+			mcd.mentor_certificate_ISSU_YMD, 
+			mcd.mentor_upload_certificate_file_name, 
+			mcd.mentor_certificate_grade
+		FROM 
+			mentor_certificate_detail mcd
+			INNER join
+			certificate_name cn
+			on
+			mcd.certificate_name_code=cn.certificate_name_code
+		WHERE
+			member_id=#{mentorId};
+  	</select>
+  
+  	<select id="getMentorCertificateByCode" parameterType="string" resultMap="mentorCertificateMap">
+	  	/*코드로 자격증 조회 */
+	  	SELECT 
+			mentor_certificate_detail_code, 
+			certificate_name_code, 
+			issue_institution_code, 
+			mentor_certificate_ISSU_YMD, 
+			mentor_upload_certificate_file_name, 
+			mentor_certificate_grade 
+		FROM 
+			mentor_certificate_detail
+		WHERE
+			mentor_certificate_detail_code=#{mentorCertificateCode};
+  	</select>
+  
+  	<update id="modifyCertificateInfo" parameterType="MentorCertificate">
+	  		/* 자격증 수정 */
+	  		UPDATE 
+				mentor_certificate_detail
+				SET
+					<if test="mentorCertificateNm != null and mentorCertificateNm != ''">
+					certificate_name_code=#{mentorCertificateNm},
+					</if>
+					<if test="mentorInstitutionNm != null and mentorInstitutionNm != ''">
+					issue_institution_code=#{mentorInstitutionNm},
+					</if>
+					<if test="mentorIssuYmd != null and mentorIssuYmd != ''">
+					mentor_certificate_ISSU_YMD=#{mentorIssuYmd},
+					</if>
+					<if test="mentorFileNm != null and mentorFileNm != ''">
+					mentor_upload_certificate_file_name=#{mentorFileNm},
+					</if>
+					<if test="mentorGrade != null and mentorGrade != ''">
+					mentor_certificate_grade=#{mentorGrade},
+					</if>
+					mentor_certificate_approval_manager='N'
+			WHERE 
+				mentor_certificate_detail_code = #{mentorCertificateCode};
+				
+	  	</update>
+  
+  	<insert id="addCertificateInfo" parameterType="MentorCertificate">
+  		/* 자격증 등록 */
+	  	
+	  	INSERT INTO mentor_certificate_detail
+			(
+			mentor_certificate_detail_code, 
+			member_id, 
+			certificate_name_code, 
+			issue_institution_code, 
+			mentor_certificate_ISSU_YMD, 
+			mentor_certificate_DATA_REG_upload_YN, 
+			mentor_upload_certificate_file_name, 
+			mentor_certificate_release_YN, 
+			mentor_certificate_grade, 
+			mentor_certificate_approval_manager
+			)
+		VALUES (#{mentorCertificateCode}, #{mentorId}, #{mentorCertificateNm},
+				 #{mentorInstitutionNm}, #{mentorIssuYmd}, 'N', #{mentorFileNm},
+				  'N', #{mentorGrade}, 'N')
+	  	
+  	</insert>
+  	
+  
+  <!-- 자격증 관리 쿼리문/ -->
   
   
   

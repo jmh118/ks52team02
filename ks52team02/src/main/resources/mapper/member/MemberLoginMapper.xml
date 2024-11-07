@@ -13,7 +13,7 @@
 			`member` m INNER JOIN member_withdrawal_apply mwa
 			ON m.member_id = mwa.withdrawal_member_id
 		WHERE
-			withdrawal_member_id = 'mentor053';
+			withdrawal_member_id = #{memberId};
 
 	</select>
 

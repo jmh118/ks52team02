@@ -140,16 +140,15 @@
 		WHERE mentoring_notice_detail_code=#{noticeDetailCode};
 	</update>
 	
-	<select id="getApplyCheck" parameterType="ks52team02.manager.member.dto.Member" resultType="boolean">
+	<select id="getApplyCheck" parameterType="string" resultType="ks52team02.manager.member.dto.Member">
 		/* 공고신청 조회 */
 		SELECT
-			COUNT(member_id)
-		FROM
+			member_name AS memberName, 
+			member_phone_number AS memberTelNo, 
+			member_email AS memberEmail
+		FROM 
 			member
-		WHERE
-			member_name=#{memberName} AND 
-			member_phone_number =#{memberTelNo} AND 
-			member_email=#{memberEmail};
+		WHERE member_id=#{searchId};
 	</select>
 	
 	<update id="modifyNotice" parameterType="Notice">
