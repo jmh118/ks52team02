@@ -4,8 +4,17 @@
 	  layout:decorate="~{manager/layouts/layout}">
 	  
 	<th:block layout:fragment="customJs">
-		<script>
-		
+		<script th:inline="javascript">
+	            $('a.search-list').each(function() {
+		            let searchId = [[${searchId}]];  // Thymeleaf로 searchId 값 가져오기
+	                let href = $(this).attr('href');
+	                
+	                if (searchId && searchId.trim() !== '') {
+	                    // 기존 href에 searchId 추가
+	                    let newHref = href.includes('?') ? `${href}&searchId=${searchId}` : `${href}?searchId=${searchId}`;
+	                    $(this).attr('href', newHref);
+	                }
+	            });
 		</script>
 	</th:block>
 	  
@@ -23,7 +32,7 @@
                             <div class="col-lg-4 col-md-6 me-auto">
                             	<form class="searchform" th:action="@{/manager/mentoring/applyList}" method="get" >
 			                        <div class="input-group">
-			                            <input list="search_terms" name="searchId" type="text" class="form-control" placeholder="mentorId Search" />
+			                            <input list="search_terms" name="searchId" type="text" class="form-control" placeholder="멘토 ID 검색" />
 			                            <button class="btn btn-light bg search-btn" type="submit"><i class="material-icons md-search"></i></button>
 			                        </div>
 		                        </form>
@@ -57,7 +66,7 @@
 									    <td th:text="${al.amountStatus}"></td>
 									    <td th:text="${al.updateYmd}"></td>
 									</tr>
-									<tr th:if="${applyList.contents.size() == 0}">
+									<tr th:if="${applyList != null && applyList.contents.size() == 0}">
 								        <td colspan="7" class="text-center">결과가 없습니다.</td>
 								    </tr>
                                 </tbody>
@@ -67,54 +76,23 @@
                     </div>
                     <!-- card-body end// -->
                 </div>
-                <div class="pagination-area mt-30 mb-50">
-                    <nav aria-label="Page navigation example">
-					    <ul class="pagination justify-content-start">
-					    	<li class="page-item" th:classappend="${applyList.currentPage < 2}? 'disabled'">
-								<a class="page-link d-flex justify-content-center align-items-center search-list" 
-									th:href="@{/manager/mentoring/applyList(currentPage=${applyList.currentPage - 1})}"><i class="material-icons md-chevron_left"></i></a>
-							</li>		
-					        <th:block th:each="num : ${#numbers.sequence(applyList.startPageNum, applyList.endPageNum)}">
-					            <li class="page-item"
-					                th:classappend="${applyList.currentPage == num} ? 'active'">
-					                <a class="page-link search-list" th:href="@{/manager/mentoring/applyList(currentPage=${num})}">[[${num}]]</a>
-					            </li>
-					        </th:block>
-					        <li class="page-item" th:classappend="${applyList.currentPage >= applyList.lastPage} ? 'disabled'">
-					            <a class="page-link d-flex justify-content-center align-items-center search-list" th:href="@{/manager/mentoring/applyList(currentPage=${applyList.currentPage + 1})}"><i class="material-icons md-chevron_right"></i></a>
-					        </li>
-					    </ul>
-					</nav>
-                </div>
-	                <!-- <div class="pagination-area mt-30 mb-50">
-					    <nav aria-label="Page navigation example">
-					        <ul class="pagination justify-content-start">
-					            <li class="page-item" th:classappend="${applyList.currentPage < 2}? 'disabled'">
-					                <a class="page-link d-flex justify-content-center align-items-center" 
-					                    th:href="@{/manager/mentoring/applyList(currentPage=${applyList.currentPage - 1}, 
-					                        searchId=${searchId != null and searchId != '' ? searchId : ''})}">
-					                    <i class="material-icons md-chevron_left"></i>
-					                </a>
-					            </li>        
-					            <th:block th:each="num : ${#numbers.sequence(applyList.startPageNum, applyList.endPageNum)}">
-					                <li class="page-item" th:classappend="${applyList.currentPage == num} ? 'active'">
-					                    <a class="page-link" 
-					                       th:href="@{/manager/mentoring/applyList(currentPage=${num}, 
-					                        searchId=${searchId != null and searchId != '' ? searchId : ''})}">[[${num}]]</a>
-					                </li>
-					            </th:block>
-					            <li class="page-item" th:classappend="${applyList.currentPage >= applyList.lastPage} ? 'disabled'">
-					                <a class="page-link d-flex justify-content-center align-items-center" 
-					                    th:href="@{/manager/mentoring/applyList(currentPage=${applyList.currentPage + 1}, 
-					                        searchId=${searchId != null and searchId != '' ? searchId : ''})}">
-					                    <i class="material-icons md-chevron_right"></i>
-					                </a>
-					            </li>
-					        </ul>
-					    </nav>
-					</div> -->
-
-                
+			<div class="pagination-area mt-30 mb-50">
+				<nav aria-label="Page navigation example">
+					<ul class="pagination justify-content-start">
+						<li class="page-item" th:classappend="${applyList.currentPage < 2}? 'disabled'">
+							<a class="page-link d-flex justify-content-center align-items-center search-list" th:href="@{/manager/mentoring/applyList(currentPage=${applyList.currentPage - 1})}"><i class="material-icons md-chevron_left"></i></a>
+						</li>		
+						<th:block th:each="num : ${#numbers.sequence(applyList.startPageNum, applyList.endPageNum)}">
+							<li class="page-item" th:classappend="${applyList.currentPage == num} ? 'active'">
+								<a class="page-link search-list" th:href="@{/manager/mentoring/applyList(currentPage=${num})}" th:if ="${num} != 0">[[${num}]]</a>
+							</li>
+						</th:block>
+						<li class="page-item" th:classappend="${applyList.currentPage >= applyList.lastPage} ? 'disabled'">
+							<a class="page-link d-flex justify-content-center align-items-center search-list" th:href="@{/manager/mentoring/applyList(currentPage=${applyList.currentPage + 1})}"><i class="material-icons md-chevron_right"></i></a>
+						</li>
+					</ul>
+				</nav>
+			</div>
 		</section>
       <!-- content-main end//  -->
       </th:block>
