@@ -25,11 +25,13 @@ public class ManagerMentoringController {
 	private final ManagerMentoringService managerMentoringService;
 	
 	@GetMapping("/applyList")
-	public String getManagerMentoringApplyList(Pageable pageable, Model model) {
+	public String getManagerMentoringApplyList(@RequestParam(name="searchId",required = false) String searchId, Pageable pageable, Model model) {
 		
-		PageInfo<MentoringApply> applyList = managerMentoringService.getManagerMentoringApplyList(pageable);
-		model.addAttribute("applyList", applyList);
-		return "manager/mentoring/noticeApplyList";
+			PageInfo<MentoringApply> applyList = managerMentoringService.getManagerMentoringApplyList(pageable, searchId);
+			
+			model.addAttribute("applyList", applyList);
+			model.addAttribute("searchId", searchId);
+		return "manager/mentoring/mentoringApplyList";
 	}
 	
 	@GetMapping("/removeQuestion")
@@ -46,9 +48,9 @@ public class ManagerMentoringController {
 	}
 	
 	@GetMapping("/noticeList")
-    public String moveManagerNoticeList(Pageable pageable,Model model) {
+    public String moveManagerNoticeList(@RequestParam(name="searchId",required = false) String searchId, Pageable pageable,Model model) {
 		
-		PageInfo<ManagerMetoringNotice> noticeList = managerMentoringService.getManagerNoticeList(pageable);
+		PageInfo<ManagerMetoringNotice> noticeList = managerMentoringService.getManagerNoticeList(pageable,searchId);
 		
     	model.addAttribute("noticeList", noticeList);
 		

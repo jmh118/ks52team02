@@ -30,7 +30,7 @@
 		<result column="question_writing_YMD" property="questionYmd"/>
 	</resultMap>
 	
-	<select id="getManagerMentoringApplyList" parameterType="ks52team02.page.Pageable" resultMap="mentoringApplyMap">
+	<select id="getManagerMentoringApplyList" parameterType="map" resultMap="mentoringApplyMap">
 		SELECT 
 			mentoring_apply_code, 
 			mentoring_notice_code, 
@@ -41,16 +41,26 @@
 			update_YMD
 		FROM 
 			mentoring_apply
+		<where>
+			<if test="searchId != null and searchId != ''">
+				member_id LIKE CONCAT('%', #{searchId}, '%')
+			</if>
+		</where> 
 		ORDER BY update_YMD DESC
 		LIMIT #{rowPerPage} OFFSET #{offset};
 	</select>
 	
-	<select id="getManagerMentoringApplyCount" resultType="int">
+	<select id="getManagerMentoringApplyCount" parameterType="string" resultType="int">
 		/* 멘토링 신청 수 조회 */
 		SELECT
 			COUNT(*)
 		FROM
-			mentoring_apply;
+			mentoring_apply
+		<where>
+			<if test="searchId != null and searchId != ''">
+				member_id LIKE CONCAT('%', #{searchId}, '%')
+			</if>
+		</where>
 	</select>
 	
 	<delete id="removeQuestion" parameterType="string">
@@ -80,15 +90,20 @@
 		WHERE mentoring_notice_question_answer_code=#{answerCode};
 	</delete>
 
-	<select id="getNoticeListCount" resultType="int">
+	<select id="getNoticeListCount" parameterType="string" resultType="int">
 		/* 공고목록 행의 갯수 */
 		SELECT
 			COUNT(*)
 		FROM
-			mentoring_notice; 
+			mentoring_notice
+		<where>
+			<if test="searchId != null and searchId != ''">
+				member_id LIKE CONCAT('%', #{searchId}, '%')
+			</if>
+		</where> 
 	</select>
 	
-	<select id="getManagerNoticeList" parameterType="ks52team02.page.Pageable" resultType="ManagerMetoringNotice">
+	<select id="getManagerNoticeList" parameterType="map" resultType="ManagerMetoringNotice">
 		/* 공고목록조회 */		
 		SELECT
 			member_id AS memberId,
@@ -99,6 +114,11 @@
 			mentor_notice_REG_YMD AS noticeRegYmd
 		FROM
 			mentoring_notice
+		<where>
+			<if test="searchId != null and searchId != ''">
+				member_id LIKE CONCAT('%', #{searchId}, '%')
+			</if>
+		</where> 
 		ORDER BY mentor_notice_REG_YMD DESC
 		LIMIT #{rowPerPage} OFFSET #{offset};
 	</select>

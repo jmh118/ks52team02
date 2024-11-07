@@ -11,6 +11,19 @@
                     </div>
                 </div>
                 <div class="card mb-4">
+                	<header class="card-header">
+                        <div class="row gx-3">
+                            <div class="col-lg-4 col-md-6 me-auto">
+                            	<form class="searchform" th:action="@{/manager/mentoring/noticeList}" method="get" >
+			                        <div class="input-group">
+			                            <input list="search_terms" name="searchId" type="text" class="form-control" placeholder="mentorId Search" />
+			                            <button class="btn btn-light bg search-btn" type="submit"><i class="material-icons md-search"></i></button>
+			                        </div>
+		                        </form>
+                            </div>
+                            
+                        </div>
+                    </header>
                     <!-- card-header end// -->
                     <div class="card-body">
                         <div class="table-responsive">
