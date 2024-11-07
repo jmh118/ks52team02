@@ -22,4 +22,15 @@
 		WHERE
 			member_id = #{memberId};
 	</select>
+	
+	<insert id="mentorPreRegister" parameterType="MentorApproval">
+		/* 멘토 회원가입 요청 */
+		INSERT INTO `mentor_authority_approval`
+		(mentor_authority_approval_code, member_id, mentor_join_approval_YN, honor_mentor_YN)
+		
+		VALUES
+		(#{mentorApprovalCode}, #{memberId}, '승인요청상태', 'N');
+	</insert>
+	
+	
 </mapper>

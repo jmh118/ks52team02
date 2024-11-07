@@ -112,7 +112,10 @@
 						}
 						
 				// 모든 조건이 true일 때(isSubmit) 폼 제출
-						if(isSubmit) $('#registerMentorForm').submit();
+						if(isSubmit) {
+							$('#registerMentorForm').submit();
+							alert('멘티로 회원가입 완료. 자료 확인 후 멘토 권한으로 변경됩니다.');
+							}
 					});
 					
 			</script>
@@ -192,7 +195,6 @@
 						    </div>
 						    <!-- form-group  .// -->
 						    <div class="mb-10 d-flex justify-content-center">
-								<input type="hidden" id="memberJoinYMD" name="memberJoinYMD" value="${memberJoinYMD}">
 						        <button type="button" class="btn btn-block w-80" id="registerBtn" name="registerBtn">REGISTER</button>
 						    </div>
 						    <!-- form-group// -->

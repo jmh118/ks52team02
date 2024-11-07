@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 
 import ks52team02.manager.member.dto.LoginLog;
 import ks52team02.manager.member.dto.Member;
+import ks52team02.manager.member.dto.MentorApproval;
 import ks52team02.manager.member.dto.WithdrawalMember;
 import ks52team02.page.PageInfo;
 import ks52team02.page.Pageable;
@@ -26,7 +27,7 @@ public interface ManagerMemberService {
 	PageInfo<WithdrawalMember> getWithdrawalMemberList(Pageable pageable);
 	
 	// 관리자 - 회원탈퇴 승인
-	void withdrawalApply(WithdrawalMember withdrawalMember);
+	int withdrawalApply(WithdrawalMember withdrawalMember);
 	
 	// 관리자 - 관리자 탈퇴
 	int managerWithdrawalApply(WithdrawalMember withdrawalManager);
@@ -52,9 +53,11 @@ public interface ManagerMemberService {
 	// 승인 요청 멘토 조회
 	List<Member> getWaitingForApprovalMentorList();
 
+	// 멘토 승인
+	int approvalMentorLevel(MentorApproval mentorApproval, String actionType);
 
-
-
+	// 멘토 권한으로 변경
+	int changeMentorLevel(MentorApproval mentorApproval);
 
 
 }
