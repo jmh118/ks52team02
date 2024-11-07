@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import jakarta.servlet.http.HttpSession;
 import ks52team02.manager.member.dto.LoginLog;
 import ks52team02.manager.member.dto.Member;
+import ks52team02.manager.member.dto.MentorApproval;
 import ks52team02.manager.member.dto.WithdrawalMember;
 import ks52team02.manager.member.service.ManagerMemberService;
 import ks52team02.page.PageInfo;
@@ -88,6 +89,20 @@ public class ManagerMemberController {
 	}
 	
 	
+	@PostMapping("/mentorApproval")
+	public int mentorApproval(@RequestParam(name="memberId") String memberId,
+								@RequestParam(name="actionType") String actionType,
+								MentorApproval mentorApproval, HttpSession session) {
+		System.out.println("멘토 권한 변경 요청");
+		String mentorApprovalManager = (String) session.getAttribute("SID");
+		mentorApproval.setMentorApprovalManager(mentorApprovalManager);
+		
+		int result = managerMemberService.approvalMentorLevel(mentorApproval, actionType);
+		
+		return result;
+	}
+	
+	
 	@GetMapping("/waitingForWithdrawal")
     public String waitingForWithdrawal(Model model) {
     	System.out.println("회원탈퇴 신청 대기 내역 페이지 이동");
@@ -99,21 +114,31 @@ public class ManagerMemberController {
 	
 	
 	@PostMapping("/withdrawalApprove")
-	@ResponseBody
-	public String withdrawalApprove(@RequestParam(name="withdrawalMemberId") String withdrawalMemberId,
-									WithdrawalMember withdrawalMember, HttpSession session) {
-		System.out.println("관리자 탈퇴승인");
-		String withdrawalApplyManager = (String) session.getAttribute("SID");
-		withdrawalMember.setWithdrawalApplyManager(withdrawalApplyManager);
+    @ResponseBody
+    public boolean withdrawalApprove(WithdrawalMember withdrawalMember, HttpSession session) {
 		
-		managerMemberService.withdrawalApply(withdrawalMember);
-		managerMemberService.delMember(withdrawalMember);
-		
-		log.info("withdrawalMemberId : {}", withdrawalMemberId);
-		log.info("withdrawalApplyManager : {}", withdrawalApplyManager);
-		
-		return "redirect:/manager/member/withdrawalApprove";
-	}
+		System.out.println("회원탈퇴");
+        boolean isapprove = false;
+
+        if(withdrawalMember.getWithdrawalMemberId() == null) {
+            return isapprove;
+        }
+
+        String withdrawalApplyManager = (String) session.getAttribute("SID");
+        withdrawalMember.setWithdrawalApplyManager(withdrawalApplyManager);
+
+
+        log.info("withdrawalMemberId : {}", withdrawalMember.getWithdrawalMemberId());
+        log.info("withdrawalApplyManager : {}", withdrawalApplyManager);
+
+        int applyResult = managerMemberService.withdrawalApply(withdrawalMember);
+
+        if(applyResult > 0) {
+            isapprove = true;
+        }
+
+        return isapprove;
+    }
 	
 	
 	@GetMapping("/managerWithdrawal")
@@ -131,9 +156,15 @@ public class ManagerMemberController {
 	
 	@PostMapping("/managerWithdrawal")
 	@ResponseBody
-	public int managerWithdrawal(WithdrawalMember withdrawalManager, HttpSession session) {
+	public boolean managerWithdrawal(WithdrawalMember withdrawalManager, HttpSession session) {
 		
 		System.out.println("관리자 탈퇴");
+		boolean isapprove = false;
+		
+		if(withdrawalManager.getWithdrawalMemberId() == null) {
+            return isapprove;
+        }
+		
 		String withdrawalMemberId = (String) session.getAttribute("SID");
 		String withdrawalMemberLevelCode = (String) session.getAttribute("SLEVEL");
 		withdrawalManager.setWithdrawalMemberId(withdrawalMemberId);
@@ -141,14 +172,18 @@ public class ManagerMemberController {
 		
 		log.info("withdrawalMemberId : {}", withdrawalMemberId);
 		
-		int result = managerMemberService.managerWithdrawalApply(withdrawalManager);
 		managerMemberService.delMember(withdrawalManager);
 		
-		if(result>0) {
-			session.invalidate();
-		}
+		int result = managerMemberService.managerWithdrawalApply(withdrawalManager);
 		
-		return result;
+        if(result > 0) {
+            isapprove = true;
+            if (session != null) {
+                session.invalidate(); // 세션이 null이 아닐 때만 무효화
+            }
+        }
+        
+        return isapprove;
 	}
 	
 	
