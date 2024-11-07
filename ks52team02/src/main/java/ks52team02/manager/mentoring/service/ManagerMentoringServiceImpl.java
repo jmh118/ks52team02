@@ -1,6 +1,8 @@
 package ks52team02.manager.mentoring.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,10 +24,16 @@ public class ManagerMentoringServiceImpl implements ManagerMentoringService{
 	private final ManagerMentoringMapper managerMentoringMapper;
 	
 	@Override
-	public PageInfo<MentoringApply> getManagerMentoringApplyList(Pageable pageable) {
+	public PageInfo<MentoringApply> getManagerMentoringApplyList(Pageable pageable, String searchId) {
 		
-		int rowCnt = managerMentoringMapper.getManagerMentoringApplyCount();
-		List<MentoringApply> contents = managerMentoringMapper.getManagerMentoringApplyList(pageable);
+		int rowCnt = managerMentoringMapper.getManagerMentoringApplyCount(searchId);
+		
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("rowPerPage", pageable.getRowPerPage());
+		paramMap.put("offset", pageable.getOffset());
+		paramMap.put("searchId",searchId);
+		
+		List<MentoringApply> contents = managerMentoringMapper.getManagerMentoringApplyList(paramMap);
 		
 		return new PageInfo<>(contents, pageable, rowCnt);
 	}
@@ -44,11 +52,17 @@ public class ManagerMentoringServiceImpl implements ManagerMentoringService{
 	}
 	
 	@Override
-	public PageInfo<ManagerMetoringNotice> getManagerNoticeList(Pageable pageable) {
+	public PageInfo<ManagerMetoringNotice> getManagerNoticeList(Pageable pageable, String searchId) {
 		
-		int rowCnt = managerMentoringMapper.getNoticeListCount();
+		int rowCnt = managerMentoringMapper.getNoticeListCount(searchId);
 		
-		List<ManagerMetoringNotice> contents = managerMentoringMapper.getManagerNoticeList(pageable);
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("rowPerPage", pageable.getRowPerPage());
+		paramMap.put("offset", pageable.getOffset());
+		paramMap.put("searchId",searchId);
+		
+		
+		List<ManagerMetoringNotice> contents = managerMentoringMapper.getManagerNoticeList(paramMap);
 		
 		return new PageInfo<>(contents, pageable, rowCnt);
 	}

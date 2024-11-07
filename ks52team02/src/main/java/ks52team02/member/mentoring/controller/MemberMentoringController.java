@@ -174,8 +174,8 @@ public class MemberMentoringController {
 		List<Topic> categoryCount = mentoringService.getCategoryCountList();
 		PageInfo<Notice> noticeList = mentoringService.getNoticeList(category, pageable);
 		
-		model.addAttribute("noticeList", noticeList);
 		log.info("noticeList :{}",noticeList);
+		model.addAttribute("noticeList", noticeList);
 		model.addAttribute("categoryCount", categoryCount);
 		
     	System.out.println("멘토링 | 멘토링 공고 조회 화면");
