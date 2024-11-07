@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-	<div class="filter-container" th:fragment="filter">
+	<div class="filter-container" th:fragment="settlementHistoryFilter">
 	    <div class="filter">
 	        <label for="year">FILTER</label>
 	        <select id="yearSelect">
@@ -32,9 +32,8 @@
 	    </div>
 	    <div class="status">
 	        <span>STATUS</span>
-	        <span id="before" class="status-option">• 진행전</span>
-	        <span id="progress" class="status-option">• 진행중</span>
-	        <span id="completed" class="status-option">• 진행완료</span>
+	        <span id="before" class="status-option">• 정산전 </span>
+	        <span id="completed" class="status-option">• 정산완료</span>
 	    </div>
 	</div>
 </html>

@@ -14,6 +14,8 @@ public class BeforePay {
 	private String amountStatus;
 	private String updateYmd;
 	
+	private String isHonorMentor;
+	
 	private Notice notice;
 	private NoticeDetail noticeDetail;
 	

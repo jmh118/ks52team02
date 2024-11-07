@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
+import ks52team02.common.mapper.CommonMapper;
 import ks52team02.manager.member.dto.LoginLog;
 import ks52team02.manager.member.dto.Member;
 import ks52team02.manager.member.dto.WithdrawalMember;
@@ -24,7 +25,8 @@ import lombok.extern.slf4j.Slf4j;
 public class ManagerMemberServiceImpl implements ManagerMemberService {
 
 	private final ManagerMemberMapper managerMemberMapper;
-
+	private final CommonMapper withdrawalCommonMapper;
+	
 	 
 	@Override
 	public PageInfo<Member> getMemberList(Pageable pageable) {
@@ -110,13 +112,33 @@ public class ManagerMemberServiceImpl implements ManagerMemberService {
 		return waitingForApprovalMentorList;
 	}
 
+
 	@Override
-	public int withdrawalApply(String withdrawalMemberId) {
-		
-		return managerMemberMapper.withdrawalApply(withdrawalMemberId);
+	public void withdrawalApply(WithdrawalMember withdrawalMember) {
+		managerMemberMapper.withdrawalApply(withdrawalMember);
 	}
+
+	@Override
+	public int managerWithdrawalApply(WithdrawalMember withdrawalManager) {
+		String withdrawalManagerNextCode = withdrawalCommonMapper.getPrimaryKey("member_withdrawal_apply", "withdrawal_apply_member_code", "withdrawal_apply_member_code_");
+		withdrawalManager.setWithdrawalMemberCode(withdrawalManagerNextCode);
+		
+		return managerMemberMapper.managerWithdrawalApply(withdrawalManager);
+	}
+
+	@Override
+	public int delMember(WithdrawalMember withdrawalMember) {
+		
+		return managerMemberMapper.delMember(withdrawalMember);
+	}
+
 	
-	
+	/*
+	 * @Override public int managerWithdrawal(WithdrawalMember withdrawalMember) {
+	 * String withdrawalNextCode =
+	 * withdrawalCommonMapper.getPrimaryKey("member_withdrawal_apply",
+	 * "withdrawal_apply_member_code", "withdrawal_apply_member_code_"); }
+	 */
 	
 
 }

@@ -4,7 +4,16 @@
      <!--/* 기존 class는 main pages...  pages 누락 시 문제 없음
     	<main class="main pages"layout:fragment="content"> */-->
     <th:block layout:fragment="customJs">
-    	<script th:inline="javascript">
+    	<script>
+	    	$('#menteeAccount').click(function(){
+				$('#memberId').val('mentee001');
+				$('#memberPw').val('menteepw001');
+				
+			});
+			$('#mentorAccount').click(function(){
+				$('#memberId').val('mentor001');
+				$('#memberPw').val('mentorpw001');
+			});
 	
 	        $('#loginBtn').click(function(){
 	            let isSubmit = true;
@@ -44,10 +53,15 @@
                                             <h1 class="mb-10">Login</h1>
                                             <p class="mb-30">회원이 아니신가요!!!!!? <a href="/register/info"> 회원가입</a></p>
                                         </div>
-                                        <!-- 여기서 msg 값 표시
-	                                    <div th:if="${param.msg}">
+                                       
+	                                    <div class="mb-10">
+		                                    <button type="button" id="menteeAccount" class="btn btn-heading btn-block hover-up">멘티</button>
+		                                    <button type="button" id="mentorAccount" class="btn btn-heading btn-block hover-up">멘토</button>
+	                                    </div>
+	                                    <hr/>
+	                                    <div class="mb-10" th:if="${param.msg}">
 	                                        <p style="color: red;" th:text="${param.msg}"></p>
-	                                    </div> -->
+	                                    </div>
                                         <form id="loginForm" th:action="@{/member/loginProc}" method="post">
                                             <div class="form-group">
                                                 <input type="text" id="memberId" name="memberId" placeholder="아이디" />

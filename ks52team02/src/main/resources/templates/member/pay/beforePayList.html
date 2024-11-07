@@ -37,6 +37,7 @@
                                     <input type="hidden" class="applyCode" th:value="${bpl.applyCode}"/>
                                     <input type="hidden" class="noticeCode" th:value="${bpl.notice.noticeCode}"/>
                                     <input type="hidden" class="noticeDetailCode" th:value="${bpl.noticeDetail.noticeDetailCode}"/>
+                                    <input type="text" class="ishonorMentor" th:value="${bpl.isHonorMentor}"/>
                                 </td>
                                 <td class="image product-thumbnail pt-40"><img src="/manager/imgs/people/user-avatar.png" alt="mentor"></td>
                                 <td class="product-des product-name">
@@ -80,7 +81,7 @@
                         </table>
                     </div>
                     <input type="hidden" id="memberId" th:value="${session.SID}" />
-                    <button class="btn mb-20 w-100" id="payBtn">결제하기<i class="fi-rs-sign-out ml-15"></i></button>
+                    <button type="button" class="btn mb-20 w-100" id="payBtn">결제하기<i class="fi-rs-sign-out ml-15"></i></button>
                 </div>
             </div>
         </div>
@@ -153,12 +154,14 @@
                     const memberId = $('#memberId').val();
                     const applyCode = row.find('.applyCode').val();
                     const noticeCode = row.find('.noticeCode').val();
+                    const isHonorMentor = row.find('.ishonorMentor').val();
                     const amount = parseInt(row.find('.price h4').text().replace(/[^0-9]/g, ''));
 
                     selectedMentoringData.push({
                     	"memberId" : memberId,
                         "applyCode": applyCode,
                         "noticeCode": noticeCode,
+                        "isHonorMentor" : isHonorMentor,
                         "amount": amount
                     });
                 });
@@ -212,6 +215,8 @@
                 processPayment();
             });
         });
+        
+        
     </script>
 </th:block>
 </html>
