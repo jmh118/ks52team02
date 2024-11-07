@@ -14,7 +14,13 @@
 		<result column="upload_portfolio_file_name" 				property="portfolioFile"/>
 	</resultMap>
   
-  <select id="getPortfolioList" resultMap="portfolioDetailMap">
+  <select id="getPortfolioListCount" resultType="int">
+	  	SELECT 
+			COUNT(*)
+		FROM mentee_portfolio_registration_details
+  </select>
+  
+  <select id="getPortfolioList" parameterType="ks52team02.page.Pageable" resultMap="portfolioDetailMap">
   	/* 포트폴리오 리스트 조회 */
   	SELECT 
   		mentee_portfolio_registration_details_code,
@@ -24,8 +30,8 @@
 	FROM
 		mentee_portfolio_registration_details
 	WHERE
-		portfolio_release_YN='Y';
-  	
+		portfolio_release_YN='Y'
+  	LIMIT #{rowPerPage} OFFSET #{offset};
   </select>
   
   <select id="getPortfolioDetailByCode" parameterType="string" resultMap="portfolioDetailMap">

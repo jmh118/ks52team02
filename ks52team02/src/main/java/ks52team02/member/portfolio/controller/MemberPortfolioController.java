@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ks52team02.member.portfolio.dto.Portfolio;
 import ks52team02.member.portfolio.mapper.PortfolioMapper;
 import ks52team02.member.portfolio.service.PortfolioService;
+import ks52team02.page.PageInfo;
+import ks52team02.page.Pageable;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,9 +27,10 @@ public class MemberPortfolioController {
 	private final PortfolioMapper portfolioMapper;
 	
 	@GetMapping("/list")
-    public String MovePortfolio(Model model) {
+    public String MovePortfolio(Pageable pageable, Model model) {
     	System.out.println("포트폴리오 | 멘티의 포트폴리오 전체 조회 화면");
-    	List<Portfolio> PortfolioList= portfolioService.getPortfolioList();
+    	
+    	PageInfo<Portfolio> PortfolioList= portfolioService.getPortfolioList(pageable);
     	model.addAttribute("PortfolioList", PortfolioList);
     	
         return  "member/portfolio/allMenteePortfolioList";

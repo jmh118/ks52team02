@@ -12,6 +12,8 @@ import ks52team02.manager.career.dto.Education;
 import ks52team02.manager.career.dto.Project;
 import ks52team02.manager.career.dto.Work;
 import ks52team02.manager.career.service.CareerService;
+import ks52team02.page.PageInfo;
+import ks52team02.page.Pageable;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -24,10 +26,10 @@ public class ManagerCareerController {
 	private final CareerService careerService;
 	
 	@GetMapping("/work")
-    public String mentorCareerWork(Model model) {
+    public String mentorCareerWork(Pageable pageable,Model model) {
         System.out.println("멘토 근무경력 승인 페이지 이동");
-        
-        List<Work> memberList = careerService.getMemberWorkCareer();
+        PageInfo<Work> memberList = careerService.getMemberWorkCareer(pageable);
+       
         model.addAttribute("memberList", memberList);
         log.info("memberList :{}", memberList);
         
@@ -35,10 +37,10 @@ public class ManagerCareerController {
     }
 
     @GetMapping("/project")
-    public String mentorCareerProject(Model model) {
+    public String mentorCareerProject(Pageable pageable, Model model) {
         System.out.println("멘토 기술경력 승인 페이지 이동");
         
-        List<Project> memberList = careerService.getMemberProjectCareer();
+        PageInfo<Project> memberList = careerService.getMemberProjectCareer(pageable);
         model.addAttribute("memberList", memberList);
         log.info("memberList :{}", memberList);
         
@@ -46,10 +48,10 @@ public class ManagerCareerController {
     }
 
     @GetMapping("/education")
-    public String mentorCareerEducation(Model model) {
+    public String mentorCareerEducation(Pageable pageable, Model model) {
         System.out.println("멘토 학력 승인 페이지 이동");
         
-        List<Education> memberList = careerService.getMemberEducationCareer();
+        PageInfo<Education> memberList = careerService.getMemberEducationCareer(pageable);
         model.addAttribute("memberList", memberList);
         log.info("memberList :{}", memberList);
         
@@ -57,10 +59,10 @@ public class ManagerCareerController {
     }
 
     @GetMapping("/certificate")
-    public String mentorCareerCertificate(Model model) {
+    public String mentorCareerCertificate(Pageable pageable, Model model) {
         System.out.println("멘토 자격증 승인 페이지 이동");
         
-        List<Certificate> memberList = careerService.getMemberCertificateCareer();
+        PageInfo<Certificate> memberList = careerService.getMemberCertificateCareer(pageable);
         model.addAttribute("memberList", memberList);
         log.info("memberList :{}", memberList);
         
