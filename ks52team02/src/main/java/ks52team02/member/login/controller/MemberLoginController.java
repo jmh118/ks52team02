@@ -30,7 +30,7 @@ public class MemberLoginController {
 	@ResponseBody
 	public boolean checkPw(HttpSession session, @RequestParam(value="memberPw") String memberPw) {
 
-		log.info("아이디 뭐임?? : {}", session.getAttribute("SID"));
+		log.info("아이디 확인 : {}", session.getAttribute("SID"));
 		String memberId = (String) session.getAttribute("SID");
 		boolean isCheckPw = memberLoginService.isCheckMemberPw(memberId, memberPw);
 		
@@ -52,6 +52,25 @@ public class MemberLoginController {
 	}
 	
 	
+	@GetMapping("/findPassword")
+	public String findPasswordView() {
+		System.out.println("로그인 | 비밀번호 찾기 화면");
+		
+		return  "member/login/findPassword";
+	}
+	
+	@PostMapping("/findPassword")
+	@ResponseBody
+	public String findPasswordView(@RequestParam("inputId") String inputId) {
+		System.out.println("비밀번호 찾기");
+		String foundPw = memberLoginMapper.findMemberPwById(inputId);
+		System.out.println(foundPw);
+
+
+	    return foundPw;
+	}
+	
+	
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
 		
@@ -64,21 +83,32 @@ public class MemberLoginController {
 		return viewName;
 	}
 	
-	
-	
 	@PostMapping("/loginProc")
 	public String loginProcess(String memberId, String memberPw,
 							   HttpSession session, RedirectAttributes reAttr) {
 		
-		log.info("id: {}, pw: {}", memberId, memberPw);
 		
-		String viewName = "redirect:/member/login";
+		String viewName = null;
 		String msg = "회원의 정보가 일치하지 않습니다. 다시 로그인해주세요~";
+		
 		
 		Map<String, Object> loginMap = memberLoginService.checkedMember(memberId, memberPw);
 		boolean checkMember = (boolean) loginMap.get("isCheck");
+		String level = memberLoginMapper.getMemberLevelById(memberId);
 		
 		if(checkMember) {
+			
+			if (!memberLoginService.memberWithdrawalStatus(memberId)) {
+				
+	            // 탈퇴 상태이거나 탈퇴 신청 상태인 경우
+	            viewName = "redirect:/member/login";
+	            if ("member_level_manager".equals(level)) {
+				    viewName = "redirect:/member/managerLogin";
+				}
+	            msg = "탈퇴한 회원이거나 탈퇴 신청 중인 회원은 로그인이 불가합니다.";
+	            reAttr.addAttribute("msg", msg);
+	            return viewName;
+	        }
 			
 			Member memberInfo = (Member) loginMap.get("memberInfo");
 			String memberLevel = memberInfo.getMemberLevel();
@@ -93,6 +123,14 @@ public class MemberLoginController {
 			session.setAttribute("SLEVEL", memberLevel);
 					
 		}else {
+			if (level == null) {
+			    viewName = "redirect:/member/login";
+			    msg = "존재하지 않는 회원입니다.";
+			} else if ("member_level_manager".equals(level)) {
+			    viewName = "redirect:/member/managerLogin";
+			} else {
+			    viewName = "redirect:/member/login";
+			}
 			reAttr.addAttribute("msg", msg);
 		}
 	
@@ -103,20 +141,13 @@ public class MemberLoginController {
 	
 	@GetMapping("/managerLogin")
 	public String managerLoginView() {
-		System.out.println("관리자 로그인 화면");
 		return  "member/login/managerLogin";
 	}
 	
 	@GetMapping("/login")
 	public String loginView() {
-		System.out.println("로그인 화면");
 		return  "member/login/login";
 	}
-	
-	@GetMapping("/findPassword")
-	public String findPasswordView() {
-		System.out.println("로그인 | 비밀번호 찾기 화면");
-		return  "member/login/findPassword";
-	}
+
 
 }

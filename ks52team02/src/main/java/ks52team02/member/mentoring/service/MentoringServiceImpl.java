@@ -1,11 +1,16 @@
 package ks52team02.member.mentoring.service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ks52team02.common.mapper.CommonMapper;
+import ks52team02.manager.member.dto.Member;
+import ks52team02.manager.mentoring.mapper.ManagerMentoringMapper;
 import ks52team02.member.mentoring.dto.MentoringApply;
 import ks52team02.member.mentoring.dto.Notice;
 import ks52team02.member.mentoring.dto.NoticeAnswer;
@@ -13,6 +18,9 @@ import ks52team02.member.mentoring.dto.NoticeDetail;
 import ks52team02.member.mentoring.dto.NoticeQuestion;
 import ks52team02.member.mentoring.dto.Topic;
 import ks52team02.member.mentoring.mapper.MentoringMapper;
+import ks52team02.member.mypage.dto.MenteeProfile;
+import ks52team02.page.PageInfo;
+import ks52team02.page.Pageable;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -23,14 +31,76 @@ import lombok.extern.slf4j.Slf4j;
 public class MentoringServiceImpl implements MentoringService{
 	
 	private final MentoringMapper mentoringMapper;
+	private final ManagerMentoringMapper managerMentoringMapper;
 	private final CommonMapper commonMapper;
+	
+	@Override
+	public void removeNoticeQuestion(String questionCode) {
+		managerMentoringMapper.removeQuestion(questionCode);
+	}
+	
+	@Override
+	public void removeNoticeAnswer(String answerCode) {
+		managerMentoringMapper.removeAnswer(answerCode);
+	}
+	
+	@Override
+	public List<Notice> getNoticeMainList() {
+		List<Notice> noticeList = mentoringMapper.getNoticeMainList();
+		return noticeList;
+	}
+	
+	@Override
+	public void modifyAnswer(NoticeAnswer noticeAnswer) {
+		mentoringMapper.modifyAnswer(noticeAnswer);	
+	}
+	
+	@Override
+	public List<Topic> getCategoryCountList() {
+		List<Topic> categoryCount = mentoringMapper.getCategoryCountList();
+		return categoryCount;
+	}
+	
+	@Override
+	public List<MenteeProfile> getApplyMenteeProfileById(String memberId) {
+		List<MenteeProfile> menteeProfile = mentoringMapper.getApplyMenteeProfileById(memberId);
+		return menteeProfile;
+	}
+	
+	@Override
+	public void modifyQuestion(NoticeQuestion noticeQuestion) {
+		mentoringMapper.modifyQuestion(noticeQuestion);
+		
+	}
+	
+	@Override
+	public Member getApplyCheck(String searchId) {
+		Member memberInfo = mentoringMapper.getApplyCheck(searchId);
+		return memberInfo;
+	}
+
+	
+	@Override
+	public void modifyNotice(Notice notice) {
+		mentoringMapper.modifyNotice(notice);
+		
+	}
+	
+	@Override
+	public Notice getNoticeInfoByCode(String noticeCode) {
+		Notice noticeInfo = mentoringMapper.getNoticeInfoByCode(noticeCode);
+		
+		return noticeInfo;
+	}
 	
 	@Override
 	public void addMentoringApply(MentoringApply mentoringApply) {
 		String nextCode = commonMapper.getPrimaryKey("mentoring_apply", "mentoring_apply_code", "mentoring_apply_code_");
 		mentoringApply.setApplyCode(nextCode);
-		log.info("mentoringApply : {}",mentoringApply);
+		
 		mentoringMapper.addMentoringApply(mentoringApply);
+		String noticeDetailCode = mentoringApply.getNoticeDetailCode();
+		mentoringMapper.modifyNoticeDetailTime(noticeDetailCode);
 	}
 	
 	@Override
@@ -60,16 +130,24 @@ public class MentoringServiceImpl implements MentoringService{
 		List<NoticeDetail> mentoringTime = mentoringMapper.getNoticeDetailTimeByCode(noticeCode);
 		return mentoringTime;
 	}
-
 	
 	@Override
-	public List<Notice> getNoticeByCategory(String category) {
-
-		List<Notice> noticeCateList = mentoringMapper.getNoticeByCategory(category);
+	public void addNoticeDetail(NoticeDetail noticeDetail) {
+		List<String> mentoringTimes = noticeDetail.getMentoringTimeList();
+	    List<String> mentoringYmds = noticeDetail.getMentoringYmdList();
+	    String lastNoticeCode = mentoringMapper.getLastNoticeCode();
+	    for (int i = 0; i < mentoringTimes.size(); i++) {
+	    	NoticeDetail detail = new NoticeDetail();
+	    	String nextCode = commonMapper.getPrimaryKey("mentoring_notice_detail", "mentoring_notice_detail_code", "mentoring_notice_detail_code_");
+	    	detail.setNoticeDetailCode(nextCode);
+	    	detail.setNoticeCode(lastNoticeCode);
+	    	detail.setMentoringYmd(mentoringYmds.get(i));
+	    	detail.setMentoringTime(mentoringTimes.get(i));
+	        
+	        mentoringMapper.addNoticeDetail(detail);
+	    }
 		
-		return noticeCateList;
 	}
-
 	
 	@Override
 	public void addNotice(Notice notice) {
@@ -84,13 +162,17 @@ public class MentoringServiceImpl implements MentoringService{
 		
 		return mentoringMapper.getTopicList();
 	}
-	
+
 	@Override
-		public List<Notice> getNoticeList() {
-			
-			List<Notice> noticeList = mentoringMapper.getNoticeList();
-			
-			return noticeList;
-		}
+	public PageInfo<Notice> getNoticeList(String category, Pageable pageable) {
+		int rowCnt = mentoringMapper.getNoticeListCount(category);
+		pageable.setRowPerPage(20);
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("rowPerPage", pageable.getRowPerPage());
+		paramMap.put("offset", pageable.getOffset());
+		paramMap.put("category",category);
+		List<Notice> contents = mentoringMapper.getNoticeList(paramMap);
+		return new PageInfo<>(contents, pageable, rowCnt);
+	}
 
 }

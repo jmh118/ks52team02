@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ks52team02.manager.mentoring.mapper.ManagerMentoringMapper">
+
+	<resultMap type="ks52team02.member.mentoring.dto.MentoringApply" id="mentoringApplyMap">
+		<id column="mentoring_apply_code" property="applyCode"/>
+		<result column="mentoring_notice_code" property="noticeCode"/>
+		<result column="mentoring_notice_detail_code" property="noticeDetailCode"/>
+		<result column="member_id" property="memberId"/>
+		<result column="amount" property="noticeUntprc"/>
+		<result column="amount_status" property="amountStatus"/>
+		<result column="update_YMD" property="updateYmd"/>	
+	</resultMap>
+
+	<resultMap type="ks52team02.member.mentoring.dto.NoticeAnswer" id="noticeAnswerMap">
+		<id column="mentoring_notice_question_answer_code" property="answerCode" />
+		<result column="mentoring_notice_question_code" property="questionCode" />
+		<result column="mentor_id" property="mentorId" />
+		<result column="answer_content" property="answerContent" />
+		<result column="answer_writing_YMD" property="answerYmd" />
+	</resultMap>
+
+	<resultMap type="ks52team02.member.mentoring.dto.NoticeQuestion" id="noticeQuestionMap">
+		<id column="mentoring_notice_question_code" property="questionCode"/>
+		<result column="mentoring_notice_code" property="noticeCode"/>	
+		<result column="member_id" property="memberId"/>	
+		<result column="question_content" property="questionContent"/>	
+		<result column="question_writing_YMD" property="questionYmd"/>
+	</resultMap>
+	
+	<select id="getManagerMentoringApplyList" parameterType="ks52team02.page.Pageable" resultMap="mentoringApplyMap">
+		SELECT 
+			mentoring_apply_code, 
+			mentoring_notice_code, 
+			mentoring_notice_detail_code, 
+			member_id, 
+			amount, 
+			amount_status, 
+			update_YMD
+		FROM 
+			mentoring_apply
+		ORDER BY update_YMD DESC
+		LIMIT #{rowPerPage} OFFSET #{offset};
+	</select>
+	
+	<select id="getManagerMentoringApplyCount" resultType="int">
+		/* 멘토링 신청 수 조회 */
+		SELECT
+			COUNT(*)
+		FROM
+			mentoring_apply;
+	</select>
+	
+	<delete id="removeQuestion" parameterType="string">
+		/* 멘토링공고 질문 삭제 */
+		DELETE 
+		FROM 
+			mentoring_notice_question 
+		WHERE 
+			mentoring_notice_question_code=#{questionCode};
+	</delete>
+	
+	<select id="getManagerAnswerCodeByCode" parameterType="String" resultType="String">
+		/* 질문에 해당하는 답변 코드 조회 */ 
+		SELECT
+			mentoring_notice_question_answer_code
+		FROM
+			mentoring_notice_question_answer
+		WHERE 
+			mentoring_notice_question_code=#{questionCode};
+	</select>
+	
+	<delete id="removeAnswer" parameterType="string">
+		/* 멘토링공고 답변 삭제 */
+		DELETE 
+		FROM 
+			mentoring_notice_question_answer 
+		WHERE mentoring_notice_question_answer_code=#{answerCode};
+	</delete>
+
+	<select id="getNoticeListCount" resultType="int">
+		/* 공고목록 행의 갯수 */
+		SELECT
+			COUNT(*)
+		FROM
+			mentoring_notice; 
+	</select>
+	
+	<select id="getManagerNoticeList" parameterType="ks52team02.page.Pageable" resultType="ManagerMetoringNotice">
+		/* 공고목록조회 */		
+		SELECT
+			member_id AS memberId,
+			mentoring_notice_code AS noticeCode,
+			mentoring_notice_title AS noticeTitle,
+			mentoring_mentor_PSBLTY_start_YMD AS noticeStartYmd,
+			mentoring_mentor_PSBLTY_end_YMD AS noticeEndYmd,
+			mentor_notice_REG_YMD AS noticeRegYmd
+		FROM
+			mentoring_notice
+		ORDER BY mentor_notice_REG_YMD DESC
+		LIMIT #{rowPerPage} OFFSET #{offset};
+	</select>
+	
+	<select id="getManagerNoticeQuestionCount">
+		/* 공고 질문 수 조회 */
+		SELECT
+			COUNT(*)
+		FROM
+			mentoring_notice_question;
+	</select>
+	
+	<select id="getManagerNoticeQuestionList" parameterType="ks52team02.page.Pageable" resultMap="noticeQuestionMap">
+		/* 멘토링공고 질문 조회 */
+		SELECT
+			mentoring_notice_question_code, 
+			mentoring_notice_code, 
+			member_id, 
+			question_content, 
+			question_writing_YMD
+		FROM
+			mentoring_notice_question
+		ORDER BY question_writing_YMD DESC
+		LIMIT #{rowPerPage} OFFSET #{offset};
+	</select>
+	
+	<select id="getManagerNoticeAnswerCount">
+		/* 멘토링 공고 답변 수 조회 */
+		SELECT
+			COUNT(*)
+		FROM
+			mentoring_notice_question_answer;
+	</select>
+	
+	<select id="getManagerNoticeAnswerList" parameterType="ks52team02.page.Pageable" resultMap="noticeAnswerMap">
+		/* 멘토링공고 답변 조회 */
+		SELECT 
+			mentoring_notice_question_answer_code,
+			mentoring_notice_question_code,
+			mentor_id,
+			answer_content,
+			answer_writing_YMD
+		FROM 
+			mentoring_notice_question_answer
+		ORDER BY answer_writing_YMD DESC
+		LIMIT #{rowPerPage} OFFSET #{offset};
+	</select>
+	
+</mapper>

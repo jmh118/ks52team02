@@ -14,33 +14,29 @@
                 <div class="col-lg-7">
                     <div class="row">
                         <h3 class="mb-30">등록</h3>
-                        <form method="post">
+                        <form method="post" th:action="@{/mypage/mentee/certificateAdd}">
+                        		<input class="form-control" name="menteeId" type="hidden" th:value="${session.SID}"/>
                                 <div class="form-group col-lg-6">자격증명*
-	                                <select class="form-select">
-										<option> 자격증1 </option>
-										<option> 자격증2 </option>
-										<option> 자격증3 </option>
-										<option> 자격증4 </option>
-										<option> 자격증5 </option>
-										<option> 자격증6 </option>
-										<option> 자격증7 </option>
+	                                <select class="form-select" name="menteeCtfcNm">
+										<option value=""> ================== </option>
+										<th:block>
+											<option th:each="cic : ${certificateNameCode}" th:value="${cic.nameCode}" th:text="${cic.certificateNm}"></option>
+										</th:block>
 									</select>
 								</div>
 								<div class="form-group col-lg-6">발급기관명*
-	                                <select class="form-select">
-										<option> 한국산업인력공단 </option>
-										<option> 대한상공회의소 </option>
-										<option> 한국TOEIC위원회 </option>
-										<option> 서울대학교발전재단 </option>
-										<option> ets </option>
-										<option> Amazon Web Services </option>
+	                                <select class="form-select" name="menteeCtfcIstt">
+										<option> ================== </option>
+										<th:block>
+											<option th:each="cic : ${certificateNameCode}" th:value="${cic.institutionCode}" th:text="${cic.institutionNm}"></option>
+										</th:block>
 									</select>
 								</div>							
                                 <div class="form-group col-lg-6">자격증 발급 날짜*
-                                    <input type="datetime-local" name="billing_address" required="" placeholder="자격증 발급 날짜 *">
+                                    <input type="date" name="menteeCtfcDate" required placeholder="자격증 발급 날짜 *">
                                 </div>
                                 <div class="form-group col-lg-6">
-                                    <input type="text" name="billing_address2" required="" placeholder="자격증 등급 *">
+                                    <input type="text" name="menteeCtfcGrade" required placeholder="자격증 등급 *">
                                 </div>
 							<button class="submit submit-auto-width" type="submit">추가</button>
                         </form>

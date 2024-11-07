@@ -2,8 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 
-<div th:fragment="NoticeQuestion">
-	<div class="modal fade custom-modal" id="NoticeQuestion" data-bs-backdrop="static" tabindex="-1" aria-labelledby="NoticeQuestion" aria-hidden="true">
+<div th:fragment="noticeQuestion">
+	<div class="modal fade custom-modal" id="noticeQuestion" data-bs-backdrop="static" tabindex="-1" aria-labelledby="noticeQuestion" aria-hidden="true">
 	    <div class="modal-dialog">
 	        <div class="modal-content">
 	            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -20,7 +20,7 @@
 		                	</ul>
 		                    <div class="comment-form">
 		                        <div class="col-lg-8 col-md-12">
-		                            <form class="form-contact comment_form" th:action="@{/mentoring/noticeQuestion}" method="post" id="noticeQuestionForm">
+		                            <form class="form-contact comment_form" th:action="@{/mentoring/noticeQuestion}" method="post">
 	                                    <div class="col-12">
 	                                        <div class="form-group">
 	                                        	<input type="hidden" id="noticeCode" name="noticeCode" th:value="*{noticeCode}">
@@ -28,7 +28,7 @@
 	                                            <textarea class="form-control w-100" name="questionContent" id="questionContent" cols="30" rows="9" placeholder="Write Comment"></textarea>
 	                                        </div>
 	                                    </div>
-		                                <button type="submit" id="questionBtn" class="button button-contactForm">작성 하기<i class="fi-rs-arrow-right"></i></button>
+		                                <button type="submit" class="button button-contactForm">작성 하기<i class="fi-rs-arrow-right"></i></button>
 		                            </form>
 		                        </div>	
 		                    </div>

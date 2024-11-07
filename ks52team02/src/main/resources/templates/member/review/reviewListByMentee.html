@@ -2,51 +2,72 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{member/layouts/layout}">
-<th:block class="main" layout:fragment="customContent">
-	<div class="page-content pt-150 pb-150">
-		<div class="container">
-			<!-- 타이틀 후기 레이아웃 수정 필요~ -->
-            <h3 class="pb-30">내가 쓴 후기</h3>
-			<div class="row">
-				<div class="col-lg-10 m-auto">
-					<div class="col-lg-12">
-						<div class="table-responsive">
-							<table class="table table-hover">
-								<thead>
-									<tr>
-										<th>신청한 멘토링</th>
-										<th>멘토명</th>
-										<th>후기 내용</th>
-										<th>평점</th>
-										<th>수정</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td>나도 포트폴리오 마스터!!</td>
-										<td>홍길동</td>
-										<td>후기 내용</td>
-										<td>
-											<div class="product-rate-cover">
-			                                   <div class="product-rate d-inline-block">
-			                                       <div class="product-rating" style="width: 90%"></div>
-			                                   </div>
-			                                   <span class="font-small ml-5 text-muted"> (4.0)</span>
-			                               </div>
-										</td>
-										<!-- 수정 시 alert으로 평점은 수정 불가 안내 -->
-										<td><a href="/review/modify" class="btn btn-md rounded font-sm">수정</a></td>
-									</tr>
-								</tbody>
-							</table>
+	
+	<th:block class="main" layout:fragment="customContent">
+		<div class="page-content pt-150 pb-150">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-10 m-auto">
+						<div class="row">
+							<!--/* 멘토링관리 사이드바 */-->
+							<th:block th:replace="~{member/pay/aside/asideMenu :: asideMenu}"></th:block>
+							<div class="col-md-9">
+								<div class="tab-content account dashboard-content pl-50">
+									<div class="tab-pane fade active show">
+										<div class="card">
+											<div class="card-header">
+												<h5>후기 목록</h5>
+											</div>
+											<div class="card-body">
+												<p>작성한 멘토링 후기 조회 화면입니다.</p>
+												<p>수정 버튼 클릭 시 작성한 후기 수정이 가능하고,</p>
+												<p>멘토링 진행 일자에서 30일이 지난 경우 수정이 불가능</p>
+												<div class="table-responsive pt-20">
+													<table class="table table-hover ">
+														<thead class="text-center">
+															<tr>
+																<th>신청 멘토링</th>
+																<th>날짜</th>
+																<th>시간</th>
+																<th>멘토</th>
+																<th>평점</th>
+																<!--/* 상세로 넘겨야... */-->
+																<th>후기 내용</th>
+																<th>수정</th>
+															</tr>
+														</thead>
+														<tbody>
+															<tr th:each="rl : ${reviewList}">
+																<th:block>
+																	<input type="hidden" th:value="${rl.reviewCode}">
+																</th:block>
+																<td th:text="${rl.notice.noticeTitle}"></td>
+																<td th:text="${rl.noticeDetail.mentoringYmd}"></td>
+																<td th:text="${rl.noticeDetail.mentoringTime}"></td>
+																<td th:text="${rl.notice.memberId}"></td>
+																<td>
+																    <div class="product-rate-cover">
+																        <div class="product-rate d-inline-block">
+																            <div class="product-rating" th:style="'width:' + (${rl.reviewScore} * 20) + '%'"></div>
+																        </div>
+																        <span class="font-small ml-5 text-muted" th:text="${rl.reviewScore}"></span>
+																    </div>
+																</td>
+																<td th:text="${rl.reviewContent}"></td>
+																<td><a th:href="@{/review/modify(reviewCode=${rl.reviewCode})}" class="btn btn-md rounded font-sm">수정</a></td>
+															</tr>
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
 						</div>
-						<!-- table-responsive //end -->
 					</div>
-					<!-- card-body end// -->
 				</div>
-				<!-- card end// -->
 			</div>
 		</div>
-	</div>
-</th:block>
+	</th:block>
 </html>

@@ -5,14 +5,18 @@
 	  <th:block layout:fragment="customContent">
 			<section class="content-main">
                 <div class="content-header">
-                    <h2 class="content-title" th:text="${title}"></h2>
+                	<div>
+	                    <h2 class="content-title" th:text="${title}"></h2>
+	                	<p>정산 신청 내역이 <label class="fst-italic text-danger" th:text="${settlementCnt}"></label> 건 있습니다</p>
+                	
+                	</div>
                 </div>
                 <div class="card">
                     <div class="card-body">
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="table-responsive">
-                                    <table class="table table-hover">
+                                    <table class="table table-hover text-center">
                                         <thead>
                                             <tr>
                                                 <th>신청(멘토) ID</th>
@@ -24,16 +28,22 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr th:each="psl : ${paymentSettlementList}">
+                                            <tr th:unless="${#lists.isEmpty(paymentSettlementList.contents)}" th:each="psl : ${paymentSettlementList.contents}">
+                                            	<th:block>
+                                            		<input type="hidden" th:value=${psl.paymentSettlementCode} />
+                                            	</th:block>
                                                 <td th:text="${psl.mentorId}"></td>
                                                 <td th:text="${psl.noticeCode}"></td>
                                                 <td th:text="${psl.pay.totalAmount}"></td>
                                                 <td th:text="${psl.pay.mentorCalAmount}"></td>
                                                 <td th:text="${psl.paymentSettlementDemandDate}"></td>
                                                 <td>
-		                                            <a href="#" class="btn btn-md rounded font-sm">정산</a>
+		                                            <a th:href="@{/manager/pay/approve(settlementCode=${psl.paymentSettlementCode})}" class="btn btn-md rounded font-sm">정산</a>
 		                                        </td>
 		                                    </tr>
+		                                    <tr th:if="${#lists.isEmpty(paymentSettlementList.contents)}" class="text-center">
+						        				<td colspan="6">정산 신청 내역이 없습니다.</td>
+						        			</tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -46,20 +56,24 @@
                     <!-- card-body // -->
                 </div>
                 <!-- card end// -->
-                <div class="pagination-area mt-30 mb-50">
-                    <nav aria-label="Page navigation example">
-                        <ul class="pagination justify-content-start">
-                            <li class="page-item active"><a class="page-link" href="#">01</a></li>
-                            <li class="page-item"><a class="page-link" href="#">02</a></li>
-                            <li class="page-item"><a class="page-link" href="#">03</a></li>
-                            <li class="page-item"><a class="page-link dot" href="#">...</a></li>
-                            <li class="page-item"><a class="page-link" href="#">16</a></li>
-                            <li class="page-item">
-                                <a class="page-link" href="#"><i class="material-icons md-chevron_right"></i></a>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
+ 				<div class="pagination-area mt-30 mb-50">
+					<nav aria-label="Page navigation example">
+					    <ul class="pagination justify-content-start">
+					    	<li class="page-item" th:classappend="${paymentSettlementList.currentPage < 2}? 'disabled'">
+								<a class="page-link d-flex justify-content-center align-items-center" th:href="@{/manager/pay/settlementList(currentPage=${paymentSettlementList.currentPage - 1})}"><i class="material-icons md-chevron_left"></i></a>
+							</li>
+					        <th:block th:each="num : ${#numbers.sequence(paymentSettlementList.startPageNum, paymentSettlementList.endPageNum)}">
+					            <li class="page-item"
+					                th:classappend="${paymentSettlementList.currentPage == num} ? 'active'">
+					                <a class="page-link" th:href="@{/manager/pay/settlementList(currentPage=${num})}">[[${num}]]</a>
+					            </li>
+					        </th:block>
+					        <li class="page-item" th:classappend="${paymentSettlementList.currentPage >= paymentSettlementList.lastPage} ? 'disabled'">
+					            <a class="page-link d-flex justify-content-center align-items-center" th:href="@{/manager/pay/settlementList(currentPage=${paymentSettlementList.currentPage + 1})}"><i class="material-icons md-chevron_right"></i></a>
+					        </li>
+					    </ul>
+					</nav>
+				</div>
             </section>
       </th:block>
 </html>

@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<div th:fragment="NoticeAnswer">
-	<div class="modal fade custom-modal" id="NoticeAnswer" data-bs-backdrop="static" tabindex="-1" aria-labelledby="NoticeAnswer" aria-hidden="true">
+<div th:fragment="noticeAnswer">
+	<div class="modal fade custom-modal" id="noticeAnswer" data-bs-backdrop="static" tabindex="-1" aria-labelledby="noticeAnswer" aria-hidden="true">
 	    <div class="modal-dialog">
 	        <div class="modal-content">
 	            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -22,7 +22,8 @@
 		                            <form class="form-contact comment_form" th:action="@{/mentoring/noticeAnswer}" method="post" id="noticeAnswerForm">
 	                                    <div class="col-12">
 	                                        <div class="form-group">
-	                                        	<input type="text" name="questionCode" value="">
+	                                        	<input type="hidden" id="noticeCode" name="noticeCode" th:value="*{noticeCode}">
+	                                        	<input type="hidden" name="questionCode" value="">
 	                                        	<input type="hidden" id="mentorId" name="mentorId" th:value="${session.SID}">
 	                                            <textarea class="form-control w-100" name="answerContent" id="answerContent" cols="30" rows="9" placeholder="Write Comment"></textarea>
 	                                        </div>

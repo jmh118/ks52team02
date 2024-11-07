@@ -6,17 +6,17 @@
     <th:block layout:fragment="customContent">
 		<section class="content-main mt-40 mb-40 my-2 text-brand">
 		       <div class="card-body container col-3 my-2">
-                   <h3 class="mb-20 mt-40 text-brand d-flex justify-content-center">멘토링 후기 등록하기</h3>
-                        <form class="container mt-40">
-                            <!-- form-group// -->
+					<h3 class="mb-20 mt-40 text-brand d-flex justify-content-center">멘토링 후기 등록하기</h3>
+					<form class="container mt-40" th:action="@{/review/add}" method="post" id="reviewAddForm">
+							<input type="hidden" th:value="${payCode}" name="settlementCalCode"/>
 							<div class="mb-4">
                                 <label class="form-label">신청한 멘토링명</label>
-                                <input type="text" class="form-control" name="mentroingName" value="신청한 멘토링명" readonly/>
+                                <input type="text" class="form-control" name="mentroingName" th:value="${noticeTitle}" readonly/>
                             </div>
                             <!-- form-group// -->
 							<div class="mb-4">
-                                <label class="form-label">평점</label>
-                               <!--  <input type="text" class="form-control" name="mentroingRating"/> -->
+                                <label class="form-label">평점 : </label>
+                                <label class="form-label" id="rating"></label>
                                 <div id="star-rating">
 								    <span class="star" data-value="1">★</span>
 								    <span class="star" data-value="2">★</span>
@@ -24,52 +24,74 @@
 								    <span class="star" data-value="4">★</span>
 								    <span class="star" data-value="5">★</span>
 								</div>
-								<p id="rating">Rating: 0</p>
-                                
+								<input type="hidden" name="reviewScore" id="reviewScoreInput" />                                
                             </div>
                             <!-- form-group// -->
 							<div class="mb-4">
                                 <label class="form-label">내용</label>
-                                <textarea rows="500" cols="500"></textarea>
+                                <textarea rows="500" cols="500" name="reviewContent"></textarea>
                             </div>
-                            <div class="mb-10 d-flex justify-content-center">
-                                <button type="submit" class="btn btn-primary w-80">후기 등록</button>
-                            </div>
-                   		</form>
+                            <div class="mb-10 d-flex justify-content-center gap-2">
+							    <button type="button" id="reviewAddBtn" class="btn btn-primary w-80">등록</button>
+							    <a href="/pay/list" class="btn btn-primary w-80">취소</a>
+							</div>
+					</form>
                 </div>
            </section>
     </th:block>
     <th:block layout:fragment="customJs">
     	<script>
-	    	// 모든 별(span)을 선택
-	    	const stars = document.querySelectorAll('.star');
-	    	const ratingDisplay = document.getElementById('rating');
-	
-	    	stars.forEach(star => {
-	    	    star.addEventListener('click', function() {
-	    	        const rating = this.getAttribute('data-value');
-	    	        updateRating(rating);
-	    	        highlightStars(rating);
-	    	    });
-	    	});
-	
-	    	// 점수 업데이트
-	    	function updateRating(rating) {
-	    	    ratingDisplay.textContent = `Rating: ${rating}`;
-	    	}
-	
-	    	// 별을 강조(하이라이트)하는 함수
-	    	function highlightStars(rating) {
-	    	    stars.forEach(star => {
-	    	        // 별의 data-value가 현재 선택한 rating보다 작거나 같으면 채운 별로 강조
-	    	        if (star.getAttribute('data-value') <= rating) {
-	    	            star.style.color = 'gold';
-	    	        } else {
-	    	            star.style.color = 'gray';
-	    	        }
-	    	    });
-	    	}
 	    	
+	    	const $stars = $('.star');
+		    const $ratingDisplay = $('#rating');
+		    const $reviewScoreInput = $('#reviewScoreInput');
+	
+		    function updateRating(rating) {
+    	        $ratingDisplay.text(rating);
+    	        $reviewScoreInput.val(rating);
+    	    }
+
+    	    function highlightStars(rating) {
+    	        $stars.each(function() {
+    	            const starValue = $(this).data('value');
+    	            $(this).css('color', starValue <= rating ? 'gold' : 'gray');
+    	        });
+    	    }
+    	    
+		    $('.star').click(function() {
+		        const rating = $(this).data('value');
+		        updateRating(rating);
+		        highlightStars(rating);
+		    });
+	    	
+    	    $('#reviewAddBtn').click(function() {
+    	    	let isSubmit = true;
+    	    	const $formControl = $('#reviewAddForm input, #reviewAddForm textarea');
+    	    	
+    	    	$formControl.each((index, item) => {
+    	            const value = $(item).val();
+    	            const name = $(item).attr('name');
+    	            
+    	            if (!value || (name === "reviewContent" && !value.trim())) {
+    	                let msg;
+    	                
+    	                if (name === "reviewScore") {
+    	                    msg = "평점을 선택해 주세요.";
+    	                    $('#star-rating').focus();
+    	                } else if (name === "reviewContent") {
+    	                    msg = "내용은 필수 입력항목입니다.";
+    	                    $(item).focus();
+    	                }
+    	                
+    	                alert(msg);
+    	                isSubmit = false;
+    	                return false;
+    	            }
+    	        });
+
+    	        if(isSubmit) $('#reviewAddForm').submit();
+    	    });
+		    
     	</script>
     </th:block>
 </html>

@@ -2,8 +2,33 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
 <mapper namespace="ks52team02.member.login.mapper.MemberLoginMapper">
+
+	<select id="getMemberWithdrawalStatus" parameterType="string" resultType="WithdrawalStatus">
+		/* 회원 탈퇴 여부 및 신청 상태 조회 */
+		SELECT 
+			m.member_withdrawal_YN AS isWithdrawal, 
+			COUNT(mwa.withdrawal_apply_member_code) AS withdrawalApplyCnt
+		FROM 
+			`member` m INNER JOIN member_withdrawal_apply mwa
+			ON m.member_id = mwa.withdrawal_member_id
+		WHERE
+			withdrawal_member_id = #{memberId};
+
+	</select>
+
+	<insert id="addLoginLog" parameterType="string" >
+		/* 로그인 이력 추가 */
+		INSERT INTO member_login_log
+			(login_log_code, 
+			 member_id, 
+			 member_level_code,
+			 member_login_YMD)
+		VALUES (#{loginCode}, 
+				#{memberId}, 
+				#{memberLevelCode}, 
+				NOW());
+	</insert>
 	<select id="getMemberLevelById" parameterType="string" resultType="string">
 	
 		/* 관리자 로그인 화면에서 관리자 아이디 검증을 위한 권한 조회 */
@@ -31,6 +56,15 @@
 			`member`
 		WHERE 
 			member_id = #{inputId};
+	</select>
+	
+	<select id="findMemberPwById" parameterType="String" resultType="String">
+		SELECT
+			m.member_password AS memberPw
+		FROM
+			member m
+		WHERE
+			m.member_id = #{inputId};
 	</select>
 	
 </mapper>

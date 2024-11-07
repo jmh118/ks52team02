@@ -1,6 +1,183 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{member/layouts/layout}">
+	<head>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.css">
+   	 	<link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/material_blue.css">
+   	 	<style>
+	        input.inputDate{
+	            background: url("/member/imgs/theme/calendar.png") no-repeat right 20px center / 20px auto;
+	        }
+    	</style>
+	</head>
+	<th:block layout:fragment="customJs">
+		<script type="text/javascript">
+			
+	        const $noticeStartYmd = $('#noticeStartYmd').flatpickr();
+	        const $noticeEndYmd = $('#noticeEndYmd').flatpickr();
+	        const $datePicker = $('.datePicker').flatpickr({
+					                enable : [
+					                    function(date){
+					                        if(startDate && endDate) return date >= startDate && date <= endDate;
+					                    }
+					                ]
+					            });
+
+	        $('.datePicker').prop('disabled', true);
+	        
+	        
+	        $noticeStartYmd.config.onChange.push(function(selectedDates, dateStr, instance){
+	        	console.log(selectedDates, dateStr,instance);
+	        	const startDate = selectedDates[0];
+	            const endDate = $noticeEndYmd?.selectedDates[0];
+	            
+	            const $datePicker = $('.datePicker');
+	            if(endDate && (startDate > endDate)){
+	                Swal.fire({
+	                    icon: "error",
+	                    title: "Oops...",
+	                    text: `${endDate.toLocaleDateString()} 이전 날짜를 선택해주세요`
+	                });
+	   				instance.clear();
+	   				$datePicker.prop('disabled', true);
+	                return;
+	            }
+	            
+	            if(startDate && endDate) $datePicker.prop('disabled', false);
+	            
+	            $($datePicker).each((idx, item)=>{
+	            	const datePicker = flatpickr(item, {});
+	            	datePicker.config.enable = [function(date){
+	                    if(endDate) return date >= startDate && date <= endDate;
+	                    return date >= startDate;
+	                }];
+	            	datePicker.redraw();
+	            	const startDate1 = new Date($('#noticeStartYmd').val());
+	                const targetDate = new Date($(item).val());
+	                if(startDate1 > targetDate) datePicker.clear();
+	            });
+	            instance.close();
+	        });
+        
+	        $noticeEndYmd.config.onChange.push(function(selectedDates, dateStr, instance) {
+	        	console.log(selectedDates, dateStr,instance);
+	        	const startDate = $noticeStartYmd?.selectedDates[0];
+	            const endDate = selectedDates[0];
+	            
+	            const $datePicker = $('.datePicker');
+	            if(startDate && (startDate > endDate)){
+	                Swal.fire({
+	                    icon: "error",
+	                    title: "Oops...",
+	                    text: `${startDate.toLocaleDateString()} 이후 날짜를 선택해주세요`
+	                });
+	                instance.clear();
+	                $datePicker.prop('disabled', true);
+	                return;
+	            }
+	            
+	            if(startDate && endDate) $datePicker.prop('disabled', false);
+	            
+	            $($datePicker).each((idx, item)=>{
+	            	const datePicker = flatpickr(item, {});
+	            	datePicker.config.enable = [function(date){
+	                    if(startDate) return date >= startDate && date <= endDate;
+	                    return date >= startDate;
+	                }];
+	            	datePicker.redraw();
+	            	const endDate1 = new Date($('#noticeEndYmd').val());
+	                const targetDate = new Date($(item).val());
+	                if(endDate1 > targetDate) datePicker.clear();
+	            });
+	            instance.close();
+	        });
+
+	
+	        // 멘토링 시간 선택 시 1시간 추가
+	        $('.dateTimePicker').flatpickr({
+	            enableTime: true,
+	            noCalendar: true,
+	            dateFormat: "H:i",
+	            onChange: function(selectedDates, dateStr, instance) {
+	                const startTime = dateStr; // 사용자가 선택한 시간
+	                const endTime = addOneHour(startTime); // 1시간 추가한 시간
+	                instance.input.value = `${startTime} ~ ${endTime}`; // 입력 필드에 설정
+	            }
+	        });
+	
+	        // 시간을 1시간 추가하는 함수
+	        function addOneHour(time) {
+	            const [hours, minutes] = time.split(':').map(Number);
+	            const newDate = new Date();
+	            newDate.setHours(hours + 1, minutes); // 1시간 추가
+	            const newHours = String(newDate.getHours()).padStart(2, '0');
+	            const newMinutes = String(newDate.getMinutes()).padStart(2, '0');
+	            return `${newHours}:${newMinutes}`;
+	        }
+		        
+	        $(document).on('click', '.copy-btn', function(){
+	        	const $row = $(this).closest('.mb-3.row').clone(true);
+	        	$row.find('input').val('');
+	        	$row.find('input.datePicker').each((idx,item)=>{
+	                const startDate = $noticeStartYmd?.selectedDates[0];
+	                const endDate = $noticeEndYmd?.selectedDates[0];
+	                const datePicker = item.flatpickr({
+	                    enable : [
+	                        function(date){
+	                            if(startDate && endDate) return date >= startDate && date <= endDate;
+	                        }
+	                    ]
+	                });
+
+	            });
+	        	$row.find('input.dateTimePicker').flatpickr({
+                    enableTime: true,
+                    noCalendar: true,
+                    dateFormat: "H:i",
+                    onChange: function(selectedDates, dateStr, instance) {
+                        const startTime = dateStr; // 사용자가 선택한 시간
+                        const endTime = addOneHour(startTime); // 1시간 추가한 시간
+                        instance.input.value = `${startTime} ~ ${endTime}`; // 입력 필드에 '12:00~13:00' 형식으로 설정
+                    }
+                })
+	        	
+	        	$('#timeContainer').append($row);
+	        });
+	        
+	        $(document).on('click', '.del-btn', function() { 
+	            if ($('#timeContainer .mb-3.row').length > 1) {
+	                $(this).closest('.mb-3.row').remove();
+	            }
+	        });
+	        
+	        
+	        $('#addBtn').click(function(){
+	        	let isSubmit = true;
+	        	const $formControl = $('#addNoticeForm input, #addNoticeForm select, #addNoticeForm textarea');
+	        	const noticeUntprc = $('#noticeUntprc').val();
+	        	$formControl.each((index, item) => {
+	                const value = $(item).val();
+	                if (!value) {
+	                    const labelText = $('label[for="' + $(item).attr('id') + '"]').text();
+	                    const msg = `${labelText} 필수 입력항목입니다.`;
+	                    alert(msg);
+	                    $(item).focus();
+	                    isSubmit = false;
+	                    return false;
+	                } else {
+	                    if (noticeUntprc && noticeUntprc < 3000) {
+	                        alert('시간당 멘토링 금액은 3000원이상부터 가능합니다.');
+	                        $('#noticeUntprc').focus();
+	                        isSubmit = false;
+	                        return false;
+	                    }
+	                }
+	            });
+	        	if(isSubmit) $('#addNoticeForm').submit();
+	        });
+	        
+	    </script>
+	</th:block>
 	
     <th:block layout:fragment="customContent">   	
         <div class="container mb-80 mt-50">
@@ -13,7 +190,8 @@
                 <div class="col-lg-7">                   
                     <div class="row">
                         <h4 class="mb-30">등록 정보</h4>
-                        <form th:action="@{/mentoring/noticeAdd}" method="post">
+                        <form th:action="@{/mentoring/noticeAdd}" method="post" id="addNoticeForm">
+                        	<input type="hidden" name="memberId" th:value="${session.SID}">
                             <div class="row">
                                 <div class="form-group col-lg-6">
 									<label for="noticeTitle">제목</label>
@@ -23,7 +201,7 @@
                             <div class="row shipping_calculator">
                                 <div class="form-group col-lg-6">
                                     <div class="custom_select">
-                                    	카테고리
+                                    	<label for="topicCode">카테고리</label>
                                         <select name="topicCode" class="form-control select-active">
                                             <option value="">===== 카테고리를 선택해주세요 =====</option>
                                             <th:block>
@@ -35,8 +213,8 @@
                             </div>
                             <div class="row">
                                 <div class="form-group col-lg-6">
-                                	<label for="noticeUntprc">멘토링 시간당 금액 </label>
-                                    <input type="text" id="noticeUntprc" name="noticeUntprc" placeholder="금액" required>
+                                	<label for="noticeUntprc">멘토링 시간당 금액</label>
+                                    <input type="text" id="noticeUntprc" name="noticeUntprc" placeholder="금액(원/ 3000원 이상)" required>
                                 </div>
                             </div>
                             <div class="row">
@@ -49,25 +227,30 @@
                             	<p>멘토링 가능 날짜</p>                        	
                                 <div class="form-group col-lg-6">	                               									
 									<label for="noticeStartYmd">Start Date</label>
-            						<input type="date" id="noticeStartYmd" name="noticeStartYmd" required>
+            						<input type="text" id="noticeStartYmd" name="noticeStartYmd" class="form-control inputDate" value="">
             					</div>
             					<div class="form-group col-lg-6">
             						<label for="noticeEndYmd">End Date</label>
-            						<input type="date" id="noticeEndYmd" name="noticeEndYmd" required>
+            						<input type="text" id="noticeEndYmd" name="noticeEndYmd" class="form-control inputDate" value="">
                                 </div>
                             </div>
-                            <div class="row">  
-                            	<p>멘토링 가능 시간 (1시간)</p>                        	
-                                <div class="form-group col-lg-6">	                               									
-									<label for="noticeStartTime">Time Slot 1 (Start)</label>
-            						<input type="time" id="noticeStartTime" name="noticeStartTime" required>
-            					</div>
-            					<div class="form-group col-lg-6">
-            						<label for="noticeEndTime">End Date</label>
-            						<input type="time" id="noticeEndTime" name="noticeEndTime" required>
-                                </div>
-                            </div>					                          
-                            <button type="submit" class="btn btn-fill-out btn-block mt-30 ">등록하기<i class="fi-rs-sign-out ml-15"></i></button>
+                             <div id="timeContainer">
+						        <div class="mb-3 row">
+						            <div class="form-group col-lg-3">
+						                <label for="datePicker" class="form-label">날짜</label>
+						                <input type="text" name="mentoringYmdList" class="form-control input-date datePicker inputDate" value="">
+						            </div>
+						            <div class="form-group col-lg-3">
+						                <label for="dateTimePicker" class="form-label">멘토링시간</label>
+						                <input type="text" name="mentoringTimeList" class="form-control dateTimePicker" value="">
+						            </div>
+						            <div class="form-group col-lg-3">
+						                <button type="button" class="btn btn-fill-out btn-block mt-30 copy-btn">추가</button>
+						                <button type="button" class="btn btn-fill-out btn-block mt-30 del-btn">제거</button>
+						            </div>
+						        </div>
+						    </div>                          
+                            <button type="button" id="addBtn" class="btn btn-fill-out btn-block mt-30 ">등록하기<i class="fi-rs-sign-out ml-15"></i></button> 	
                         </form>
                     </div>
                 </div>

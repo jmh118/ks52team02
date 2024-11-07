@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<div class="filter-container" th:fragment="infoFilter">
+	    <div class="filter">
+	        <label for="searchId">FILTER</label>
+	        <input type="text" id="searchId" class="fl-mtc-btn-2" placeholder="멘티 아이디 검색" />
+	        <div class="fl-mtc-btn-1">
+	            <button type="button" class="btn btn-md rounded font-sm search-btn">click</button>
+	        </div>
+	    </div>
+	    <div class="sort">
+	        <span >SORT</span>
+	        <span id="elementary" class="status-option">• 초급</span>
+	        <span id="middle" class="status-option">• 중급</span>
+	        <span id="high" class="status-option">• 고급</span>
+	    </div>
+	</div>
+</html>

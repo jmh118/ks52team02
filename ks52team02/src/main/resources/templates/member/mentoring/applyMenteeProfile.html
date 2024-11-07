@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{member/layouts/layout}">
+<head>
+    <!-- 필터 부분 css -->
+    <link rel="stylesheet" href="/member/css/filter.css">
+</head>
+<th:block layout:fragment="customJs">
+	<script th:inline="javascript">
+		function filterBySearchId(searchId) {
+	        let isList = false;
+	        let message = "해당 아이디를 가진 멘티가 없습니다";
+	
+	        $('#contentTbody tr').each(function() {
+	            let memberId = $(this).find('td.menteeId').text().trim();
+	            if (memberId.includes(searchId)) {
+	                $(this).show();
+	                isList = true;
+	            } else {
+	                $(this).hide();
+	            }
+	        });
+	
+	        if (!isList) {
+	            $('#contentTbody').append('<tr class="noResults"><td colspan="7">' + message + '</td></tr>');
+	        } else {
+	            $('#contentTbody .noResults').remove();
+	        }
+	    }
+	
+	
+		function filterByStatus(status) {
+	        let	isList = false;
+	        let message = "진행 중인 멘토링이 없습니다";  
+	
+	        $('#contentTbody tr').each(function() {
+	            let statusText = $(this).find('td .badge').text();
+	            if (statusText === status) {
+	                $(this).show();
+	                isList = true; 
+	            } else {
+	                $(this).hide();
+	            }
+	        });
+	
+	        if (!isList) {
+	            $('tbody').append('<tr class="noResults"><td colspan="7">' + message + '</td></tr>');
+	        } else {
+	            $('tbody .noResults').remove();
+	        }
+	    }
+	
+	 	$('.sort #elementary').click(function() {
+	        filterByStatus('초급');
+	    });
+	
+	    $('.sort #middle').click(function() {
+	        filterByStatus('중급');
+	    });
+	
+	    $('.sort #high').click(function() {
+	        filterByStatus('고급');
+	    });
+		
+	    $('.sort .status-option').click(function() {
+	        $('.sort .status-option').removeClass('active');
+	        $(this).addClass('active'); 
+	    });
+
+		$('.detail-btn').click(function(e){
+			e.preventDefault();
+			const idx = $(this).data('idx');
+			const menteeProfileList =  [[${menteeProfile}]];
+			const menteeProfile = menteeProfileList[idx];
+			const param = {}
+			for(key in menteeProfile){
+				const value = menteeProfile[key];
+				if(value){
+					if(typeof value == 'object'){
+						const obj = value;
+						for(key in obj){
+							const value = obj[key];
+							if(value) param[key] = value;
+						}
+						continue;
+					}
+					param[key] = value;
+				}
+			}
+			console.log(menteeProfile);
+			console.log(param);
+			for(const key in param){
+				$(`#m${key}`).text(param[key]);
+			}
+			
+			$('#profileModal').modal('show');
+			
+		});
+	    
+		$('.search-btn').click(function(){
+			const searchId = $('#searchId').val().trim();
+			console.log(searchId);
+		    filterBySearchId(searchId);
+		});
+	    
+	</script>
+</th:block>
+<th:block layout:fragment="customContent">
+    <div class="page-content pt-150 pb-150">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-10 m-auto">
+                    <div class="row">
+                        <!-- 멘토링관리 사이드바 -->
+                        <th:block th:replace="~{member/pay/aside/asideMenu :: asideMenu}"></th:block>
+                        <div class="col-md-9">
+                            <div class="tab-content account dashboard-content pl-50">
+                                <div class="tab-pane fade active show">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h5>신청 멘티 프로필</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <p>멘티 정보</p>
+											<div th:insert="~{member/mentoring/modal/menteeProfileModal :: profileModal}"></div>
+                                            <!-- Row for filter and table -->
+                                            <div class="row">
+                                               <div class="col-lg-12">
+							                        <th:block th:replace="~{member/pay/filter/infoFilter :: infoFilter}"></th:block>
+                                                </div>
+                                            </div>
+                                            <div class="row mt-4">
+                                                <div class="col-lg-12">
+                                                    <div class="table-responsive pl-20">
+                                                        <table class="table table-hover text-center">
+															<thead>
+																<tr>
+																	<th>멘토링 제목</th>
+																	<th>멘티 아이디</th>
+																	<th>멘티명</th>
+																	<th>멘티 관심분야 </th>
+																	<th>멘티 경험수준</th>
+																	<th>상세보기</th>
+																</tr>
+															</thead>
+															<tbody id="contentTbody">
+																<tr th:each="m, status : ${menteeProfile}">																
+																	<td th:text="${m.notice.noticeTitle}"></td>
+																	<td class="menteeId" th:text="${m.member.memberId}"></td>
+																	<td th:text="${m.member.memberName}"></td>
+																	<td th:text="${m.interestField}"></td>
+																	<th:block th:switch="${m.experienceLevel}">
+																		<td th:case="'초급'"><span th:text="${m.experienceLevel}" class="badge rounded-pill alert-secondary"></span></td>
+																		<td th:case="'중급'"><span th:text="${m.experienceLevel}" class="badge rounded-pill alert-danger"></span></td>
+																		<td th:case="'고급'"><span th:text="${m.experienceLevel}" class="badge rounded-pill alert-success"></span></td>
+																	</th:block>
+																	<td>
+																		<a class="btn btn-md rounded font-sm detail-btn" th:data-idx="${status.index}">상세보기</a>
+																	</td>
+																</tr>
+															</tbody>
+														</table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+</html>

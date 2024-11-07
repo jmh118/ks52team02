@@ -32,15 +32,17 @@
                                         <th>프로젝트 명</th>
                                         <th>승인 상태</th>
                                         <th>신청날짜</th>
+                                        <th>파일</th>
                                         <th class="text-end"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr th:each="m : ${memberList}">
                                         <td th:text="${m.mentorId}"></td>
-                                        <td class="text-muted" th:text="mentorProjectNm"></td>
+                                        <td class="text-muted" th:text="${m.mentorProjectNm}"></td>
                                         <td th:unless="${m.mentorYn == 'N'}"><span class="rounded-pill alert-success">승인</span></td>
                                         <td th:if="${m.mentorYn == 'N'}"><span class="rounded-pill alert-danger">대기</span></td>
+                                        <td th:text="${m.mentorDate}"></td>
                                         <td th:text="${m.mentorDate}"></td>
                                         <td class="text-end">
                                             <a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15" th:if="${m.mentorYn == 'N'}">승인</a>

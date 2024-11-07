@@ -18,16 +18,16 @@
 							<div class="header-action-2">
 	
 								<div class="header-action-icon-2">
-									<a href="/member/login"><span class="lable ml-0" th:if="${session.SID == null}">로그인(이승현)</span></a>
+									<a href="/member/login"><span class="label ml-0" th:if="${session.SID == null}">로그인</span></a>
 								</div>
 								<div class="header-action-icon-2">
-									<a href="/register/info"><span class="lable" th:if="${session.SID == null}">회원가입(이승현)</span></a>
+									<a href="/register/info"><span class="label" th:if="${session.SID == null}">회원가입</span></a>
 								</div>
 								<div class="header-action-icon-2" th:unless="${session.SID == null}">
+                                    <span class="label ml-0" th:with="SID=${session.SID}" th:text="|${SID} 님 |"></span>
                                     <a>
-                                        <img class="svgInject" alt="Nest" src="/member/imgs/theme/icons/icon-user.svg" />
+                                        <img class="svgInject" alt="user" src="/member/imgs/theme/icons/icon-user.svg" />
                                     </a>
-                                    <span class="lable ml-0"></span>
                                     <div class="cart-dropdown-wrap cart-dropdown-hm2 account-dropdown">
                                         <ul>
                                         	<th:block th:switch="${session.SLEVEL}">
@@ -39,16 +39,13 @@
 	                                            </li>
                                         	</th:block>
                                             <li th:if="${session.SLEVEL == 'member_level_mentee'}">
-                                                <a th:href="@{/coupon/list}"><i class="fi fi-rs-label mr-10"></i>쿠폰</a>
-                                            </li>
-                                            <li th:if="${session.SLEVEL == 'member_level_mentee'}">
-                                                <a th:href="@{/goal/list}"><i class="fi fi-rs-label mr-10"></i>목표설정</a>
-                                            </li>
-                                            <li th:if="${session.SLEVEL == 'member_level_mentee'}">
-                                                <a th:href="@{/pay/list}"><i class="fi fi-rs-label mr-10"></i>결제내역</a>
+                                                <a th:href="@{/pay/list}"><i class="fi fi-rs-label mr-10"></i>멘토링 관리</a>
                                             </li>
                                             <li th:if="${session.SLEVEL == 'member_level_mentor'}">
-                                                <a th:href="@{/pay/settlementList}"><i class="fi fi-rs-label mr-10"></i>정산내역</a>
+                                                <a th:href="@{/pay/settlementList}"><i class="fi fi-rs-label mr-10"></i>멘토링 관리</a>
+                                            </li>
+                                            <li th:if="${session.SLEVEL == 'member_level_manager'}">
+                                                <a th:href="@{/manager}"><i class="fi fi-rs-label mr-10"></i>관리자 페이지</a>
                                             </li>
                                             <li>
                                                 <a th:href="@{/member/logout}"><i class="fi fi-rs-sign-out mr-10"></i>logout</a>
@@ -56,6 +53,12 @@
                                         </ul>
                                     </div>
                                 </div>
+								<div class="header-action-icon-2" th:if="${session.SID != null && session.SLEVEL == 'member_level_mentee'}">
+                                    <a href="/pay/beforeList">
+                                        <img class="svgInject" alt="beforePayList" src="/member/imgs/theme/icons/icon-heart.svg">
+                                        <span class="pro-count blue" th:text="${cnt}"></span>
+                                    </a>
+                                </div>                                
 							</div>
 						</div>
 					</div>
@@ -66,7 +69,7 @@
 			<div class="container">
 				<div class="header-wrap d-flex justify-content-center position-relative">
 					<div class="logo logo-width-1 d-block d-lg-none">
-						<a href="index.html"><img src="/member/imgs/theme/logo.svg" alt="logo" /></a>
+						<a href="/member"><img src="/manager/imgs/theme/Preview.png" alt="logo" /></a>
 					</div>
 					<div class="header-nav d-none d-lg-flex">
 						<div class="main-menu main-menu-padding-1 main-menu-lh-2 d-none d-lg-block font-heading">
@@ -76,22 +79,30 @@
 										<a class="active" href="/">Home</a>
 									</li>
 									<li>
-										<a href="/mentoring/notice">멘토링(정용우)</a>
+										<a href="/mentoring/notice">멘토링</a>
 									</li>
 									<li>
-										<a href="#">멘토 찾기(이승현)<i class="fi-rs-angle-down"></i></a>
+										<a href="#">멘토 찾기<i class="fi-rs-angle-down"></i></a>
 										<ul class="sub-menu">
-											<li><a href="/honor/mentorList">명예멘토(이승현)</a></li>
-											<li><a href="/mentor/list">멘토(이승현)</a></li>
+											<li><a href="/honor/mentorList">명예멘토</a></li>
+											<li><a href="/mentor/list">멘토</a></li>
 										</ul>
 									</li>
 									<li>
-										<a href="/portfolio/list">포트폴리오(김광민)</a>
+										<a href="/portfolio/list">포트폴리오</a>
 									</li>
 								</ul>
 							</nav>
 						</div>
 					</div>
+					<div class="header-action-icon-2 d-block d-lg-none">
+                        <div class="burger-icon burger-icon-white">
+                            <span class="burger-icon-top"></span>
+                            <span class="burger-icon-mid"></span>
+                            <span class="burger-icon-bottom"></span>
+                        </div>
+                    </div>
+					<!-- mobile menu -->
 					<div class="header-action-right d-block d-lg-none">
 						<div class="header-action-2">
 							<div class="header-action-icon-2">
@@ -126,171 +137,32 @@
                 </div>
             </div>
             <div class="mobile-header-content-area">
-                <div class="mobile-search search-style-3 mobile-header-border">
-                    <form action="#">
-                        <input type="text" placeholder="Search for items…" />
-                        <button type="submit"><i class="fi-rs-search"></i></button>
-                    </form>
-                </div>
+                
                 <div class="mobile-menu-wrap mobile-header-border">
                     <!-- mobile menu start -->
                     <nav>
                         <ul class="mobile-menu font-heading">
                             <li class="menu-item-has-children">
-                                <a href="index.html">Home</a>
+                                <a href="/">Home</a>
+                            </li>
+                            <li class="menu-item-has-children">
+                                <a href="/mentoring/notice">멘토링</a> 
+                            </li>
+                            <li class="menu-item-has-children">
+                                <a href="#">멘토찾기</a>
                                 <ul class="dropdown">
-                                    <li><a href="index.html">Home 1</a></li>
-                                    <li><a href="index-2.html">Home 2</a></li>
-                                    <li><a href="index-3.html">Home 3</a></li>
-                                    <li><a href="index-4.html">Home 4</a></li>
-                                    <li><a href="index-5.html">Home 5</a></li>
-                                    <li><a href="index-6.html">Home 6</a></li>
+                                    <li><a href="/honor/mentorList">명예멘토</a></li>
+									<li><a href="/mentor/list">멘토</a></li>
                                 </ul>
                             </li>
                             <li class="menu-item-has-children">
-                                <a href="shop-grid-right.html">shop</a>
-                                <ul class="dropdown">
-                                    <li><a href="shop-grid-right.html">Shop Grid – Right Sidebar</a></li>
-                                    <li><a href="shop-grid-left.html">Shop Grid – Left Sidebar</a></li>
-                                    <li><a href="shop-list-right.html">Shop List – Right Sidebar</a></li>
-                                    <li><a href="shop-list-left.html">Shop List – Left Sidebar</a></li>
-                                    <li><a href="shop-fullwidth.html">Shop - Wide</a></li>
-                                    <li class="menu-item-has-children">
-                                        <a href="#">Single Product</a>
-                                        <ul class="dropdown">
-                                            <li><a href="shop-product-right.html">Product – Right Sidebar</a></li>
-                                            <li><a href="shop-product-left.html">Product – Left Sidebar</a></li>
-                                            <li><a href="shop-product-full.html">Product – No sidebar</a></li>
-                                            <li><a href="shop-product-vendor.html">Product – Vendor Infor</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="shop-filter.html">Shop – Filter</a></li>
-                                    <li><a href="shop-wishlist.html">Shop – Wishlist</a></li>
-                                    <li><a href="shop-cart.html">Shop – Cart</a></li>
-                                    <li><a href="shop-checkout.html">Shop – Checkout</a></li>
-                                    <li><a href="shop-compare.html">Shop – Compare</a></li>
-                                    <li class="menu-item-has-children">
-                                        <a href="#">Shop Invoice</a>
-                                        <ul class="dropdown">
-                                            <li><a href="shop-invoice-1.html">Shop Invoice 1</a></li>
-                                            <li><a href="shop-invoice-2.html">Shop Invoice 2</a></li>
-                                            <li><a href="shop-invoice-3.html">Shop Invoice 3</a></li>
-                                            <li><a href="shop-invoice-4.html">Shop Invoice 4</a></li>
-                                            <li><a href="shop-invoice-5.html">Shop Invoice 5</a></li>
-                                            <li><a href="shop-invoice-6.html">Shop Invoice 6</a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="menu-item-has-children">
-                                <a href="#">Vendors</a>
-                                <ul class="dropdown">
-                                    <li><a href="vendors-grid.html">Vendors Grid</a></li>
-                                    <li><a href="vendors-list.html">Vendors List</a></li>
-                                    <li><a href="vendor-details-1.html">Vendor Details 01</a></li>
-                                    <li><a href="vendor-details-2.html">Vendor Details 02</a></li>
-                                    <li><a href="vendor-dashboard.html">Vendor Dashboard</a></li>
-                                    <li><a href="vendor-guide.html">Vendor Guide</a></li>
-                                </ul>
-                            </li>
-                            <li class="menu-item-has-children">
-                                <a href="#">Mega menu</a>
-                                <ul class="dropdown">
-                                    <li class="menu-item-has-children">
-                                        <a href="#">Women's Fashion</a>
-                                        <ul class="dropdown">
-                                            <li><a href="shop-product-right.html">Dresses</a></li>
-                                            <li><a href="shop-product-right.html">Blouses & Shirts</a></li>
-                                            <li><a href="shop-product-right.html">Hoodies & Sweatshirts</a></li>
-                                            <li><a href="shop-product-right.html">Women's Sets</a></li>
-                                        </ul>
-                                    </li>
-                                    <li class="menu-item-has-children">
-                                        <a href="#">Men's Fashion</a>
-                                        <ul class="dropdown">
-                                            <li><a href="shop-product-right.html">Jackets</a></li>
-                                            <li><a href="shop-product-right.html">Casual Faux Leather</a></li>
-                                            <li><a href="shop-product-right.html">Genuine Leather</a></li>
-                                        </ul>
-                                    </li>
-                                    <li class="menu-item-has-children">
-                                        <a href="#">Technology</a>
-                                        <ul class="dropdown">
-                                            <li><a href="shop-product-right.html">Gaming Laptops</a></li>
-                                            <li><a href="shop-product-right.html">Ultraslim Laptops</a></li>
-                                            <li><a href="shop-product-right.html">Tablets</a></li>
-                                            <li><a href="shop-product-right.html">Laptop Accessories</a></li>
-                                            <li><a href="shop-product-right.html">Tablet Accessories</a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="menu-item-has-children">
-                                <a href="blog-category-fullwidth.html">Blog</a>
-                                <ul class="dropdown">
-                                    <li><a href="blog-category-grid.html">Blog Category Grid</a></li>
-                                    <li><a href="blog-category-list.html">Blog Category List</a></li>
-                                    <li><a href="blog-category-big.html">Blog Category Big</a></li>
-                                    <li><a href="blog-category-fullwidth.html">Blog Category Wide</a></li>
-                                    <li class="menu-item-has-children">
-                                        <a href="#">Single Product Layout</a>
-                                        <ul class="dropdown">
-                                            <li><a href="blog-post-left.html">Left Sidebar</a></li>
-                                            <li><a href="blog-post-right.html">Right Sidebar</a></li>
-                                            <li><a href="blog-post-fullwidth.html">No Sidebar</a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="menu-item-has-children">
-                                <a href="#">Pages</a>
-                                <ul class="dropdown">
-                                    <li><a href="page-about.html">About Us</a></li>
-                                    <li><a href="page-contact.html">Contact</a></li>
-                                    <li><a href="page-account.html">My Account</a></li>
-                                    <li><a href="page-login.html">Login</a></li>
-                                    <li><a href="page-register.html">Register</a></li>
-                                    <li><a href="page-forgot-password.html">Forgot password</a></li>
-                                    <li><a href="page-reset-password.html">Reset password</a></li>
-                                    <li><a href="page-purchase-guide.html">Purchase Guide</a></li>
-                                    <li><a href="page-privacy-policy.html">Privacy Policy</a></li>
-                                    <li><a href="page-terms.html">Terms of Service</a></li>
-                                    <li><a href="page-404.html">404 Page</a></li>
-                                </ul>
-                            </li>
-                            <li class="menu-item-has-children">
-                                <a href="#">Language</a>
-                                <ul class="dropdown">
-                                    <li><a href="#">English</a></li>
-                                    <li><a href="#">French</a></li>
-                                    <li><a href="#">German</a></li>
-                                    <li><a href="#">Spanish</a></li>
-                                </ul>
+                                <a href="/portfolio/list">포트폴리오</a>
                             </li>
                         </ul>
                     </nav>
                     <!-- mobile menu end -->
                 </div>
-                <div class="mobile-header-info-wrap">
-                    <div class="single-mobile-header-info">
-                        <a href="page-contact.html"><i class="fi-rs-marker"></i> Our location </a>
-                    </div>
-                    <div class="single-mobile-header-info">
-                        <a href="page-login.html"><i class="fi-rs-user"></i>Log In / Sign Up </a>
-                    </div>
-                    <div class="single-mobile-header-info">
-                        <a href="#"><i class="fi-rs-headphones"></i>(+01) - 2345 - 6789 </a>
-                    </div>
-                </div>
-                <div class="mobile-social-icon mb-50">
-                    <h6 class="mb-15">Follow Us</h6>
-                    <a href="#"><img src="/member/imgs/theme/icons/icon-facebook-white.svg" alt="" /></a>
-                    <a href="#"><img src="/member/imgs/theme/icons/icon-twitter-white.svg" alt="" /></a>
-                    <a href="#"><img src="/member/imgs/theme/icons/icon-instagram-white.svg" alt="" /></a>
-                    <a href="#"><img src="/member/imgs/theme/icons/icon-pinterest-white.svg" alt="" /></a>
-                    <a href="#"><img src="/member/imgs/theme/icons/icon-youtube-white.svg" alt="" /></a>
-                </div>
-                <div class="site-copyright">Copyright 2022 © Nest. All rights reserved. Powered by AliThemes.</div>
+               
             </div>
         </div>
     </div>

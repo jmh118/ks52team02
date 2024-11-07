@@ -1,63 +1,225 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{member/layouts/layout}">
-    <!--/* 기존 class는 main pages...  pages 누락 시 문제 없음
-    	<main class="main pages"layout:fragment="content"> */-->
-    <th:block layout:fragment="customContent">
-        <div class="page-content pt-50">
-            <div class="container">
-            	<!-- 타이틀 후기 레이아웃 수정 필요~ -->
-                <h3 class="pb-30">정산 내역 조회</h3>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="table-responsive">
-							<table class="table table-hover text-center">
-								<thead>
-									<tr>
-										<th>멘토링 공고명</th>
-										<th>신청 멘티명</th>
-										<th>정산금액</th>
-										<th>멘토링 진행여부</th>
-										<th>정산신청일</th>
-										<th>정산완료일</th>
-										<th>정산신청</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td>나도 포트폴리오 마스터!!</td>
-										<td>홍길동</td>
-										<td>45100</td>
-										<td><span class="badge rounded-pill alert-warning">진행전</span></td>
-										<td>2024. 9. 7 오후 6:00:00</td>
-										<td>2024. 9. 7 오후 6:10:00</td>
-										<td><a href="#" class="btn btn-md rounded font-sm">정산신청</a></td>
-									</tr>
-									<tr>
-										<td>나도 포트폴리오 마스터!!</td>
-										<td>홍길동</td>
-										<td>45100</td>
-										<td><span class="badge rounded-pill alert-danger">진행중</span></td>
-										<td>2024. 9. 7 오후 6:00:00</td>
-										<td>2024. 9. 7 오후 6:10:00</td>
-										<td><a href="#" class="btn btn-md rounded font-sm">정산신청</a></td>
-									</tr>
-									<tr>
-										<td>나도 포트폴리오 마스터!!</td>
-										<td>홍길동</td>
-										<td>45100</td>
-										<td><span class="badge rounded-pill alert-success">진행완료</span></td>
-										<td>2024. 9. 7 오후 6:00:00</td>
-										<td>2024. 9. 7 오후 6:10:00</td>
-										<td><a href="#" class="btn btn-md rounded font-sm">정산신청</a></td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-						<h5>정산금액</h5>
+    layout:decorate="~{member/layouts/layout}">
+<head>
+    <!-- 필터 부분 css -->
+    <link rel="stylesheet" href="/member/css/filter.css">
+</head>
+<th:block layout:fragment="customContent">
+    <div class="page-content pt-150 pb-150">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-10 m-auto">
+                    <div class="row">
+                        <!-- 멘토링관리 사이드바 -->
+                        <th:block th:replace="~{member/pay/aside/asideMenu :: asideMenu}"></th:block>
+                        <div class="col-md-9">
+                            <div class="tab-content account dashboard-content pl-50">
+                                <div class="tab-pane fade active show">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h5>멘토링 신청된 내역</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <p>멘토의 멘토링 신청된 내역 조회 화면</p>
+                                            <p>멘토링 진행 상태에 따라서 정산 신청 버튼 활성/비활성</p>
+                                            <!-- Row for filter and table -->
+                                            <div class="row">
+                                                <div class="col-lg-12">
+							                        <!-- 필터 -->
+							                        <th:block th:replace="~{member/pay/filter/filter :: filter}"></th:block>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="row mt-4">
+                                                <div class="col-lg-12">
+                                                    <div class="table-responsive pl-20">
+                                                        <table class="table table-hover text-center">
+                                                            <thead>
+                                                                <tr>
+                                                                	<th>신청 멘토링</th>
+																	<th>날짜</th>
+																	<th>시간</th>
+																	<th>멘티</th>
+																	<th>정산 금액</th>
+																	<th>진행</th>
+                                                                    <th>정산</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr th:each="pl, idx : ${paymentList}">
+                                                                    <td th:text="${pl.notice.noticeTitle}"></td>
+                                                                    <td th:text="${pl.noticeDetail.mentoringYmd}"></td>
+																	<td th:text="${pl.noticeDetail.mentoringTime}"></td>
+                                                                    <td th:text="${pl.payId}"></td>
+                                                                    <td th:text="${pl.mentorCalAmount}"></td>
+                                                                    <th:block th:switch="${pl.mentoringProcStatus}">
+																		<td th:case="''"><span th:text="${'진행 전'}" class="badge rounded-pill alert-secondary"></span></td>
+																		<td th:case="'진행 중'"><span th:text="${pl.mentoringProcStatus}" class="badge rounded-pill alert-danger"></span></td>
+																		<td th:case="'종료'"><span th:text="${pl.mentoringProcStatus}" class="badge rounded-pill alert-success"></span></td>
+																	</th:block>
+                                                                    <td>
+																		<button type="button" class="settlementApplyBtn btn btn-md rounded font-sm" th:data-pay-code="${pl.paySettlementCalCode}" th:data-notice-code="${pl.notice.noticeCode}" th:classappend="${pl.mentoringProcStatus != '종료' || settlementCheck[idx.index]} ? 'disabled' : ''">신청</button>
+																	</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </th:block>
+    </div>
+</th:block>
+<th:block layout:fragment="customJs">
+	<script>
+		function filterByStatus(status) {
+	        let	isList = false;
+	        let message = "";  
+	
+	        if (status === "진행 중") {
+	            message = "진행 중인 멘토링이 없습니다";
+	        } else if (status === "종료") {
+	            message = "진행 완료인 멘토링이 없습니다";
+	        } else if (status === "진행 전") {
+	            message = "진행 준비 중인 멘토링이 없습니다";
+	        }
+	
+	        $('tbody tr').each(function() {
+	            let statusText = $(this).find('td .badge').text();
+	            if (statusText === status) {
+	                $(this).show();
+	                isList = true; 
+	            } else {
+	                $(this).hide();
+	            }
+	        });
+	
+	        if (!isList) {
+	            $('tbody').append('<tr class="noResults"><td colspan="7">' + message + '</td></tr>');
+	        } else {
+	            $('tbody .noResults').remove();
+	        }
+	    }
+	
+	    $('.status #progress').click(function() {
+	        filterByStatus('진행 중');
+	    });
+	
+	    $('.status #completed').click(function() {
+	        filterByStatus('종료');
+	    });
+	
+	    $('.status #before').click(function() {
+	        filterByStatus('진행 전');
+	    });
+		
+	    $('.status .status-option').click(function() {
+            $('.status .status-option').removeClass('active');
+            $(this).addClass('active'); 
+        });	  
+	    
+	    $('.settlementApplyBtn').click(function(){
+	    	
+	    	let payCode = $(this).data('pay-code'); 
+	    	let noticeCode = $(this).data('notice-code');
+
+          if (confirm("정산 신청을 하시겠습니까?")) {
+               const request = $.ajax({
+                   url: '/pay/settlementApply',
+                   type: 'POST',
+                   data : { "payCode" : payCode,
+               	   			"noticeCode" : noticeCode
+                           }
+               });
+               request.done(function(data){
+            	   if(data) {
+	            	   alert("정산 신청이 완료되었습니다.");
+	                   location.href = "/pay/settlementHistoryList";           		   
+            	   } else {
+	            	   alert("정산 신청 실패");
+            	   }
+				});
+               request.fail(function(jqXHR, textStatus, error){
+            	    alert("정산 신청에 실패했습니다. 다시 시도해주세요.");
+					console.log(error);
+				});	
+               
+           }
+	    	
+	    });
+	    $('#searchBtn').click(function(){
+	    	let selectedYear = $("#yearSelect").val();
+	        let selectedMonth = $("#monthSelect").val();
+	        
+	        console.log(selectedYear);
+	        console.log(selectedMonth);
+	        
+	        const request = $.ajax({
+				url : '/pay/searchList',
+				method : 'post',
+				data : { 
+						'selectedYear': selectedYear,
+						'selectedMonth': selectedMonth
+				},
+				dataType: 'json'
+			});
+			request.done(function(data){
+		        console.log(data);
+				
+		        let tbody = $('table tbody');
+		        tbody.empty();
+		        
+		        if (data.length === 0) {
+		            tbody.append('<tr><td colspan="7">결과가 없습니다.</td></tr>');
+		            return;
+		        }
+		        
+		        data.forEach(function(item, idx) {
+		            let statusBadge = '';
+		            switch (item.mentoringProcStatus) {
+		                case '':
+		                    statusBadge = '<span class="badge rounded-pill alert-secondary">진행 전</span>';
+		                    break;
+		                case '진행 중':
+		                    statusBadge = '<span class="badge rounded-pill alert-danger">진행 중</span>';
+		                    break;
+		                case '종료':
+		                    statusBadge = '<span class="badge rounded-pill alert-success">종료</span>';
+		                    break;
+		            }
+
+		            let row = `
+		                <tr>
+		                    <td>${item.notice.noticeTitle || ''}</td>
+		                    <td>${item.noticeDetail.mentoringYmd || ''}</td>
+		                    <td>${item.noticeDetail.mentoringTime || ''}</td>
+		                    <td>${item.payId || ''}</td>
+		                    <td>${item.mentorCalAmount || 0}</td>
+		                    <td>${statusBadge}</td>
+		                    <td>
+		                        <button type="button" class="settlementApplyBtn btn btn-md rounded font-sm ${item.mentoringProcStatus !== '종료' ? 'disabled' : ''}" data-pay-code="${item.paySettlementCalCode}" data-notice-code="${item.notice.noticeCode}">신청</button>
+		                    </td>
+		                </tr>
+		            `;
+		            tbody.append(row);
+
+		        });
+		        
+			});
+			request.fail(function(jqXHR, textStatus, error){
+				console.log(error);
+			});
+	        
+	        
+	    });
+	</script>
+</th:block>
 </html>

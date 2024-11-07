@@ -6,7 +6,7 @@ import ks52team02.manager.member.dto.Member;
 @Mapper
 public interface MemberRegisterMapper {
 	
-	// 회원가입(멘티)
+	// 회원가입
 	int register(Member member);
 
 	// 아이디 중복체크

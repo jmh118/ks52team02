@@ -3,33 +3,409 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ks52team02.member.pay.mapper.MemberPayMapper">
+	<resultMap type="Pay" id="paymentListMap">
+		<id 	column="mentee_settlement_mentor_calculation_code" 	property="paySettlementCalCode"/>
+		<result column="mentor_notice_code" 						property="noticeCode"/>	
+		<result column="settlement_id" 								property="payId"/>	
+		<result column="last_amount" 								property="totalAmount"/>	
+		<result column="settlement_day" 							property="payDate"/>	
+		<result column="settlement_method" 							property="payMethod"/>	
+		<result column="fee" 										property="payFee"/>	
+		<result column="mentor_calculation_amount" 					property="mentorCalAmount"/>	
+		<result column="last_flatform_calculation_amount" 			property="flatformCalAmount"/>	
+		<result column="mentoring_progress_status" 					property="mentoringProcStatus"/>	
+		<association property="notice" javaType="Notice">
+			<id 	column="mentoring_notice_code" 					property="noticeCode"/>
+			<result column="topic_category_code" 					property="topicCode"/>
+			<result column="member_id" 								property="memberId"/>
+			<result column="mentoring_notice_title" 				property="noticeTitle"/>		
+		</association>
+		<association property="noticeDetail" javaType="NoticeDetail">
+			<id 	column="mentoring_notice_detail_code" 			property="noticeDetail"/>
+			<result column="day_mentoring_YMD" 						property="mentoringYmd"/>
+			<result column="day_mentoring_time" 					property="mentoringTime"/>
+		</association>
+	</resultMap>
+	<resultMap type="BeforePay" id="beforePayMap">
+		<id 	column="mentoring_apply_code" 				property="applyCode" />
+		<result column="mentoring_notice_code" 				property="noticeCode" />
+		<result column="mentoring_notice_detail_code" 		property="noticeDetailCode" />
+		<result column="member_id" 							property="memberId" />
+		<result column="amount" 							property="noticeUntprc" />
+		<result column="amount_status" 						property="amountStatus" />
+		<result column="update_YMD" 						property="updateYmd" />
+		<result column="honor_mentor_YN" 					property="isHonorMentor" />
+		
+		<association property="notice" javaType="Notice">
+			<id 	column="mentoring_notice_code" 					property="noticeCode"/>
+			<result column="member_id" 								property="memberId"/>
+			<result column="mentoring_notice_title" 				property="noticeTitle"/>
+			<result column="last_UNTPRC" 							property="noticeUntprc"/>
+		</association>
+		<association property="noticeDetail" javaType="NoticeDetail">
+			<id 	column="mentoring_notice_detail_code" 			property="noticeDetailCode"/>
+			<result column="day_mentoring_YMD" 						property="mentoringYmd"/>
+			<result column="day_mentoring_time" 					property="mentoringTime"/>
+		</association>
+	</resultMap>
+	<resultMap id="PaymentSettlementtMap" type="PaymentSettlement">
+	    <id 	column="mentor_calculation_demand_completion_code" 	property="paymentSettlementCode"/>
+	    <result column="mentor_notice_code" 		property="noticeCode"/>
+	    <result column="mentor_id" 					property="mentorId"/>
+	    <result column="calculation_demand_date" 	property="paymentSettlementDemandDate"/>
+	    <result column="calculation_give_date" 		property="paymentSettlementGiveDate"/>
+	    <result column="calculation_status" 		property="paymentSettlementStatus"/>
 
-	<resultMap type="ManagerMetoringNotice" id="memberPayMap">
-	
-	
+	    <association property="pay" javaType="Pay">
+	        <id column="mentee_settlement_mentor_calculation_code" 	property="paySettlementCalCode"/>
+			<result column="mentor_calculation_amount" 				property="mentorCalAmount"/>	
+			<association property="notice" javaType="Notice">
+				<id 	column="mentoring_notice_code" 					property="noticeCode"/>
+				<result column="mentoring_notice_title" 				property="noticeTitle"/>		
+			</association>
+			<association property="noticeDetail" javaType="NoticeDetail">
+				<id 	column="mentoring_notice_detail_code" 			property="noticeDetail"/>
+				<result column="day_mentoring_YMD" 						property="mentoringYmd"/>
+				<result column="day_mentoring_time" 					property="mentoringTime"/>
+			</association>
+	    </association>
 	</resultMap>
 	
+	<select id="searchSettlementHistoryList" parameterType="string" resultMap="PaymentSettlementtMap">
+		/* 멘토의 정산 내역 조회 (연, 월 필터) */
+		SELECT
+			mn.mentoring_notice_title,
+			mnd.day_mentoring_YMD, 
+			mnd.day_mentoring_time,
+			msmc.mentor_calculation_amount,
+			mcdc.calculation_demand_date,
+			mcdc.calculation_give_date,
+			mcdc.calculation_status
+		FROM
+			mentor_calculation_demand_completion mcdc INNER JOIN mentee_settlement_mentor_calculation msmc
+			ON mcdc.mentee_settlement_mentor_calculation_code = msmc.mentee_settlement_mentor_calculation_code
+			INNER JOIN mentoring_apply ma
+			ON msmc.mentoring_apply_code = ma.mentoring_apply_code
+			INNER JOIN mentoring_notice mn
+			ON msmc.mentor_notice_code = mn.mentoring_notice_code
+			INNER JOIN mentoring_notice_detail mnd
+			ON ma.mentoring_notice_detail_code = mnd.mentoring_notice_detail_code
+		WHERE
+			mcdc.mentor_id = #{memberId}
+			<if test="selectedYear != 'all'">
+            AND YEAR(mcdc.calculation_give_date) = #{selectedYear}
+	        </if>
+	        <if test="selectedMonth != 'all'">
+	        AND MONTH(mcdc.calculation_give_date) = #{selectedMonth}
+	        </if>
+	</select>
 	
-	<select id="getMenteePaymentListById" parameterType="string" resultType="MemberPay">
-		/* 결제 내역 조회 */
+	<select id="getSettlementHistoryList" parameterType="string" resultMap="PaymentSettlementtMap">
+		/* 멘토의 정산 내역 조회 */
+		SELECT
+			mn.mentoring_notice_title,
+			mnd.day_mentoring_YMD, 
+			mnd.day_mentoring_time,
+			msmc.mentor_calculation_amount,
+			mcdc.calculation_demand_date,
+			mcdc.calculation_give_date,
+			mcdc.calculation_status
+		FROM
+			mentor_calculation_demand_completion mcdc INNER JOIN mentee_settlement_mentor_calculation msmc
+			ON mcdc.mentee_settlement_mentor_calculation_code = msmc.mentee_settlement_mentor_calculation_code
+			INNER JOIN mentoring_apply ma
+			ON msmc.mentoring_apply_code = ma.mentoring_apply_code
+			INNER JOIN mentoring_notice mn
+			ON msmc.mentor_notice_code = mn.mentoring_notice_code
+			INNER JOIN mentoring_notice_detail mnd
+			ON ma.mentoring_notice_detail_code = mnd.mentoring_notice_detail_code
+		WHERE
+			mcdc.mentor_id = #{memberId};
+
+	</select>
+	
+	<select id="getFilterMentorPaymentListById" parameterType="map" resultMap="paymentListMap">
+		/* 연도와 월로 결제된 내역 검색 */
 		SELECT 
-			mn.mentoring_notice_title AS noticeTitle,
-			m.member_id AS memberId,
-		    msmc.last_amount AS payAmount,
-		    msmc.settlement_day AS paymentDate,
-			msmc.mentoring_progress_status AS mentoringStatus
+		    msmc.mentee_settlement_mentor_calculation_code,
+		    mn.mentoring_notice_code,
+		    mn.topic_category_code,
+		    ma.mentoring_apply_code,
+		    mn.mentoring_notice_title,
+		    mnd.day_mentoring_YMD,
+		    mnd.day_mentoring_time,
+		    msmc.settlement_id,
+		    msmc.mentor_calculation_amount,
+		    msmc.mentoring_progress_status
 		FROM 
-		    mentee_settlement_mentor_calculation msmc INNER JOIN mentoring_notice mn 
-		    ON msmc.mentor_notice_code = mn.mentoring_notice_code
-		    INNER JOIN `member` m
-		    ON mn.member_id = m.member_id
+		    mentee_settlement_mentor_calculation msmc INNER JOIN mentoring_apply ma 
+			ON msmc.mentoring_apply_code = ma.mentoring_apply_code
+		    INNER join mentoring_notice mn 
+			ON ma.mentoring_notice_code = mn.mentoring_notice_code
+		    INNER JOIN mentoring_notice_detail mnd 
+			ON ma.mentoring_notice_detail_code = mnd.mentoring_notice_detail_code
 		WHERE 
-		    msmc.settlement_id = #{memberId};
-			
+		    mn.member_id = #{memberId}
+			<if test="selectedYear != 'all'">
+            AND YEAR(mnd.day_mentoring_YMD) = #{selectedYear}
+	        </if>
+	        <if test="selectedMonth != 'all'">
+	        AND MONTH(mnd.day_mentoring_YMD) = #{selectedMonth}
+	        </if>
+		ORDER BY 
+		    msmc.settlement_day DESC;
+	
 	</select>
 	
 	
+	<select id="getFilterMenteePaymentListById" parameterType="map" resultMap="paymentListMap">
+		/* 연도와 월로 결제한 내역 검색 */
+		SELECT 
+		    msmc.mentee_settlement_mentor_calculation_code,
+		    ma.mentoring_apply_code,
+		    mn.mentoring_notice_code,
+		    mn.topic_category_code,
+		    mn.mentoring_notice_title,
+		    mnd.day_mentoring_YMD,
+		    mnd.day_mentoring_time,
+		    mn.member_id,
+		    msmc.last_amount,
+		    msmc.settlement_day,
+		    msmc.mentoring_progress_status
+		FROM 
+		    mentee_settlement_mentor_calculation msmc 
+		    INNER JOIN mentoring_apply ma 
+		        ON msmc.mentoring_apply_code = ma.mentoring_apply_code
+		    INNER JOIN mentoring_notice mn 
+		        ON ma.mentoring_notice_code = mn.mentoring_notice_code
+		    INNER JOIN mentoring_notice_detail mnd 
+		        ON ma.mentoring_notice_detail_code = mnd.mentoring_notice_detail_code
+		WHERE 
+		    msmc.settlement_id = #{memberId}
+		    <if test="selectedYear != 'all'">
+            AND YEAR(msmc.settlement_day) = #{selectedYear}
+	        </if>
+	        <if test="selectedMonth != 'all'">
+	            AND MONTH(msmc.settlement_day) = #{selectedMonth}
+	        </if>
+		ORDER BY 
+		    msmc.settlement_day DESC;
+	</select>
+	
+	<update id="updateMentoringDetailStatusByCode" parameterType="string">
+		UPDATE mentoring_notice_detail
+		SET
+			RSVT_status='예약 가능'
+		WHERE mentoring_notice_detail_code = #{detailCode};
+	
+	</update>
+	
+	<delete id="removeMentoringApplyByCode" parameterType="string">
+		DELETE 
+		FROM mentoring_apply 
+		WHERE mentoring_apply_code = #{applyCode};
+	</delete>
+	
+	<update id="updateMentroingDatailStatus" parameterType="list">
+		UPDATE mentoring_notice_detail
+		SET
+			RSVT_status='예약 완료(결제완료)'
+		WHERE mentoring_notice_detail_code IN
+		    <foreach item="detailCode" collection="list" open="(" separator="," close=")">
+		        #{detailCode}
+		    </foreach>
+	
+	</update>
+	
+	<select id="getNoticeDetailCodeByApplyCode" parameterType="list" resultType="string">
+		/* 공고 상세 상태 변경을 위한 공고 코드 조회 */
+		SELECT 
+			mnd.mentoring_notice_detail_code
+		FROM
+			mentoring_apply ma INNER JOIN mentoring_notice_detail mnd
+			ON ma.mentoring_notice_detail_code = mnd.mentoring_notice_detail_code
+		WHERE 
+			ma.mentoring_apply_code IN
+		    <foreach item="applyCode" collection="list" open="(" separator="," close=")">
+		        #{applyCode}
+		    </foreach>
+	</select>
+	
+	<update id="updateMentoringApplyStarus" parameterType="list">
+		/* 결제 이후 신청 상태 변경 */ 
+		UPDATE mentoring_apply
+		SET
+			amount_status='결제 후',
+			update_YMD=NOW()
+		WHERE mentoring_apply_code IN
+	    <foreach item="applyCode" collection="list" open="(" separator="," close=")">
+	        #{applyCode}
+	    </foreach>
+	
+	</update>
+	
+	<insert id="addPay" parameterType="MentoringData">
+		/* 결제 추가 */
+		INSERT INTO mentee_settlement_mentor_calculation
+			(mentee_settlement_mentor_calculation_code, 
+			 mentoring_apply_code, 
+			 mentor_notice_code, 
+			 settlement_id, 
+			 last_amount, 
+			 settlement_day, 
+			 settlement_method, 
+			 fee, 
+			 mentor_calculation_amount, 
+			 last_flatform_calculation_amount, 
+			 mentoring_progress_status)
+		VALUES (#{payCode}, 
+				#{applyCode}, 
+				#{noticeCode}, 
+				#{memberId}, 
+				${amount}, 
+				NOW(), 
+				'카드', 					 
+				#{fee}, 
+	            #{amount} - (#{amount} / #{fee}), 
+	            #{amount} / #{fee},
+				'');
+		
+	</insert>
+	
+	<select id="getBeforePayCnt" parameterType="string" resultType="int">
+		/* 멘토링 미결제건 개수 조회 */
+		SELECT 
+			COUNT(mentoring_apply_code)
+		FROM 
+			mentoring_apply
+		WHERE 
+			member_id = #{memberId}
+			AND 
+			amount_status = '결제 전';
+	</select>
+	
+	<select id="getBeforePayListById" parameterType="string" resultMap="beforePayMap">
+		/* 결제 전 멘토링 신청 내역 */
+		SELECT
+			ma.mentoring_apply_code,
+			mn.mentoring_notice_code,
+			mnd.mentoring_notice_detail_code,
+			mn.mentoring_notice_title,
+			mn.member_id,
+			maa.honor_mentor_YN,
+			mn.last_UNTPRC,
+			mnd.day_mentoring_YMD,
+			mnd.day_mentoring_time
+		FROM 
+			mentoring_apply ma INNER JOIN mentoring_notice mn
+			ON ma.mentoring_notice_code = mn.mentoring_notice_code
+			INNER JOIN mentoring_notice_detail mnd 
+			ON ma.mentoring_notice_detail_code = mnd.mentoring_notice_detail_code
+			INNER JOIN mentor_authority_approval maa
+			ON mn.member_id = maa.member_id
+		WHERE
+			ma.member_id = #{memberId}
+			AND 
+			ma.amount_status = '결제 전'
+		ORDER BY update_YMD DESC;
+			
+	</select>
+	
+	<insert id="addSettlementApply" parameterType="map">
+		/* 정산 신청 */
+		INSERT INTO mentor_calculation_demand_completion
+			(mentor_calculation_demand_completion_code, 
+			 mentor_notice_code, 
+			 mentee_settlement_mentor_calculation_code, 
+			 mentor_id, 
+			 calculation_demand_date, 
+			 calculation_give_date, 
+			 calculation_status, 
+			 manager_id)
+		VALUES 
+			(#{key}, 
+			 #{noticeCode}, 
+			 #{payCode}, 
+			 #{memberId}, 
+			 NOW(), 
+			 NULL, 
+			 '멘토가 플랫폼에 정산 요청', 
+			 NULL)
+	</insert>
 	
 	
+	<select id="getSettlementCntByPayCode" parameterType="string" resultType="int">
+		/* 정산 신청을 했는가?? */
+		SELECT
+			COUNT(mentor_calculation_demand_completion_code)
+		FROM 
+			mentor_calculation_demand_completion 
+		WHERE 
+			mentee_settlement_mentor_calculation_code = #{payCode};
+	</select>
 	
+	<select id="getPaymentListByMentorId" parameterType="string" resultMap="paymentListMap">
+		/* (멘토) 신청받은 결제 내역 조회 */
+		
+		SELECT 
+		    msmc.mentee_settlement_mentor_calculation_code,
+		    mn.mentoring_notice_code,
+		    mn.topic_category_code,
+		    ma.mentoring_apply_code,
+		    mn.mentoring_notice_title,
+		    mnd.day_mentoring_YMD,
+		    mnd.day_mentoring_time,
+		    msmc.settlement_id,
+		    msmc.mentor_calculation_amount,
+		    msmc.mentoring_progress_status
+		FROM 
+		    mentee_settlement_mentor_calculation msmc INNER JOIN mentoring_apply ma 
+			ON msmc.mentoring_apply_code = ma.mentoring_apply_code
+		    INNER join mentoring_notice mn 
+			ON ma.mentoring_notice_code = mn.mentoring_notice_code
+		    INNER JOIN mentoring_notice_detail mnd 
+			ON ma.mentoring_notice_detail_code = mnd.mentoring_notice_detail_code
+		WHERE 
+		    mn.member_id = #{memberId};
+	
+	</select>
+	
+
+	<select id="getMentoringTitleByPayCode" parameterType="string" resultType="string">
+		/* 결제한 멘토링명 조회 */
+		SELECT
+			mn.mentoring_notice_title
+		FROM	
+			mentee_settlement_mentor_calculation msmc INNER	JOIN mentoring_notice mn
+			ON msmc.mentor_notice_code = mn.mentoring_notice_code
+		WHERE 
+			msmc.mentee_settlement_mentor_calculation_code = #{payCode};
+	</select>
+	
+	
+	<select id="getMenteePaymentListById" parameterType="string" resultMap="paymentListMap">
+		/* (멘티) 결제 내역 조회 */
+		SELECT 
+		    msmc.mentee_settlement_mentor_calculation_code,
+		    ma.mentoring_apply_code,
+		    mn.mentoring_notice_code,
+		    mn.topic_category_code,
+		    mn.mentoring_notice_title,
+		    mnd.day_mentoring_YMD,
+		    mnd.day_mentoring_time,
+		    mn.member_id,
+		    msmc.last_amount,
+		    msmc.settlement_day,
+		    msmc.mentoring_progress_status
+		FROM 
+		    mentee_settlement_mentor_calculation msmc INNER JOIN mentoring_apply ma 
+			ON msmc.mentoring_apply_code = ma.mentoring_apply_code
+		    INNER join mentoring_notice mn 
+			ON ma.mentoring_notice_code = mn.mentoring_notice_code
+		    INNER JOIN mentoring_notice_detail mnd 
+			ON ma.mentoring_notice_detail_code = mnd.mentoring_notice_detail_code
+		WHERE 
+		    msmc.settlement_id = #{memberId}
+		ORDER BY msmc.settlement_day DESC;
+	</select>
 </mapper>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<div th:fragment="profileModal">
+	<div class="modal fade custom-modal" id="profileModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="profileModal" aria-hidden="true">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	            <div class="modal-body">
+		            <div class="deal">
+		                <div class="deal-top">
+		                    <h4 class="mb-15">상세보기</h4>
+		                </div>
+		                <div class="deal-content detail-info">
+		                	<table class="table table-striped">
+								<tbody>
+									<tr><td>멘토링 제목</td></tr>
+									<tr>
+										<td id="mnoticeTitle"></td>
+									</tr>
+									<tr><td>멘티 아이디</td></tr>
+									<tr>
+										<td id="mmemberId"></td>
+									</tr>
+									<tr><td>멘티명</td></tr>
+									<tr>
+										<td id="mmemberName"></td>
+									</tr>
+									<tr><td>멘티 관심분야</td></tr>
+									<tr>
+										<td id="minterestField"></td>
+									</tr>
+									<tr><td>멘티 관심분야 필요기술</td></tr>
+									<tr>
+										<td id="mfieldTechnology"></td>
+									</tr>
+									<tr><td>멘티 관심분야 경험수준</td></tr>
+									<tr>
+										<td id="mexperienceLevel"></td>
+									</tr>
+									<tr><td>멘티 관심분야 경험설명</td></tr>
+									<tr>
+										<td id="mexperienceExplanation"></td>
+									</tr>
+								</tbody>
+							</table>
+		                </div>
+		            </div>
+				</div>
+	        </div>
+	    </div>
+	</div>
+</div>
+</html>

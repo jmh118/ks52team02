@@ -11,7 +11,6 @@
         <!-- Template CSS -->
         <link href="/manager/css/main.css?v=1.1" rel="stylesheet" type="text/css" />
     </head>
-
     <body>
         <main>
             <header class="main-header style-2 navbar">
@@ -35,13 +34,17 @@
                 <div class="card mx-auto card-login">
                     <div class="card-body">
                         <h4 class="card-title mb-4 text-center">관리자 로그인</h4>
+                        <hr/>
+                        <div class="mb-10" th:if="${param.msg}">
+                            <p style="color: red;" th:text="${param.msg}"></p>
+                        </div>
                         <form id="managerLoginForm" th:action="@{/member/loginProc}" method="post">
                             <div class="mb-3">
-                                <input type="text" class="form-control" id="memberId" name="memberId" placeholder="아이디" />
+                                <input type="text" class="form-control" id="memberId" value="manager001" name="memberId" placeholder="아이디" />
                             </div>
                             <!-- form-group// -->
                             <div class="mb-3">
-                                <input type="password" class="form-control" id="memberPw" name="memberPw" placeholder="비밀번호" />
+                                <input type="password" class="form-control" id="memberPw" value="managerpw001" name="memberPw" placeholder="비밀번호" />
                             </div>
                             <!-- form-group// -->
                             <div class="mb-4">

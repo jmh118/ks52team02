@@ -5,12 +5,12 @@
 
 <head>
 	<meta charset="utf-8" />
-	<title>TTT (teach tech talk)</title>
+	<title>teach talk</title>
 	<meta http-equiv="x-ua-compatible" content="ie=edge" />
 	<meta name="description" content="" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="/common/img/favicon.png" />
+    <link rel="shortcut icon" type="image/x-icon" href="/common/img/Preview.png" />
     <!-- Template CSS -->
     <link rel="stylesheet" href="/member/css/plugins/animate.min.css" />
 	<link rel="stylesheet" href="/member/css/plugins/slider-range.css" />
@@ -30,16 +30,12 @@
 	
 	<!--Start header-->
 	<div th:replace="~{member/fragments/header :: hearderFragment}"></div>
+	<div th:replace="~{member/fragments/header :: mobileHeaderFragment}"></div>
 	<!--End header-->
 	
 	
 	<main class="main" >
 	
-		<!--/* 멘티 마이페이지 사이드바 */-->
-		<th:block layout:fragment="menteeMypageAsideFragment"></th:block>
-		
-		<!--/* 멘토 마이페이지 사이드바 */-->
-		<th:block layout:fragment="mentorMypageAsideFragment"></th:block>
 	
 		<!-- contents -->
 	    <th:block layout:fragment="customContent"></th:block>
@@ -73,6 +69,8 @@
     <!-- Template  JS -->
     <script src="/member/js/main.js?v=5.6"></script>
     <script src="/member/js/shop.js?v=5.6"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<!-- 사용자정의 js -->
    	<th:block layout:fragment="customJsFile"></th:block>
    	<th:block layout:fragment="customJs"></th:block>

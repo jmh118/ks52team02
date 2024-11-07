@@ -14,21 +14,24 @@
                 <div class="col-lg-7">
                     <div class="row">
                         <h3 class="mb-30">등록</h3>
-                        <form method="post">
+                        <form id="addProjectForm" method="post" th:action="@{/mypage/mentor/projectAdd}">
+                        		<input class="form-control" name="mentorId" type="hidden" th:value="${session.SID}"/>
                                 <div class="form-group col-lg-6">
-                                    <input type="text" required="" name="fname" placeholder="참여프로젝트명 *">
+                                    <input type="text" required="" name="mentorProjectNm" placeholder="참여프로젝트명 *">
                                 </div>
                                 <div class="form-group col-lg-6">
-                                    <input type="text" required="" name="lname" placeholder="프로젝트 담당 업무 *">
+                                    <input type="text" required="" name="mentorCn" placeholder="프로젝트 담당 업무 *">
                                 </div>
-                                <div class="form-group col-lg-6">프로젝트 시작 날짜
-                                    <input type="datetime-local" name="billing_address" required="" placeholder="프로젝트 시작 날짜 *">
+                                <div class="form-group col-lg-6">
+                                	<label for="mentorBgngYmd">프로젝트 시작 날짜</label>
+                                    <input type="date" name="mentorBgngYmd" required="" placeholder="프로젝트 시작 날짜 *">
                                 </div>
-                                <div class="form-group col-lg-6">프로젝트 완료 날짜
-                                    <input type="datetime-local" name="billing_address2" required="" placeholder="프로젝트 완료 날짜 *">
+                                <div class="form-group col-lg-6">
+                                	<label for="mentorCmptnYmd">프로젝트 완료 날짜</label>
+                                    <input type="date" name="mentorCmptnYmd" required="" placeholder="프로젝트 완료 날짜 *">
                                 </div>
                                <div class="form-group col-lg-6">
-							  <input type="file" accept="image/png, image/jpeg">
+							  <input type="file" name="mentorFileNm" accept="image/png, image/jpeg">
 							  </div>
 							<button class="submit submit-auto-width" type="submit">추가</button>
                         </form>

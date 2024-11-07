@@ -1,10 +1,5 @@
 package ks52team02.member.register.controller;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import ks52team02.manager.member.dto.Member;
+import ks52team02.member.register.dto.MentorRegisterDTO;
 import ks52team02.member.register.mapper.MemberRegisterMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +21,6 @@ import lombok.extern.slf4j.Slf4j;
 public class MemberRegisterController {
 	
 	private final MemberRegisterMapper memberRegisterMapper;
-	
 	
 	@GetMapping("/info")
 	public String moveJoinInfo() {
@@ -46,20 +41,30 @@ public class MemberRegisterController {
 		memberRegisterMapper.register(member);
 		System.out.println("멘티 회원가입");
 		
-		return  "redirect:/manager/memberInfo/membersInfoList";
+		return  "redirect:/member/memberMain";
 	}
 
 	@GetMapping("/mentor1")
-    public String registerMentor1() {
+    public String registerMentor1(Model model) {
+		model.addAttribute("MentorRegisterDTO", new MentorRegisterDTO());
     	System.out.println("멘토 회원가입 화면1");
         return  "member/register/registerMentor1Form";
     }
-
+	
 	@GetMapping("/mentor2")
-    public String registerMento2() {
+    public String registerMentor2() {
     	System.out.println("멘토 회원가입 화면2");
+    	
         return  "member/register/registerMentor2Form";
     }
+	
+	@PostMapping("/mentor")
+	public String registerMentor(Member member) {
+		memberRegisterMapper.register(member);
+		System.out.println("멘토 회원가입");
+		
+		return "redirect:/member/memberMain";
+	}
 	
 	
 	@PostMapping("/dupicatedCheckById")

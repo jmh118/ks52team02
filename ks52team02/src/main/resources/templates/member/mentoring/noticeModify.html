@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{member/layouts/layout}">
+	
+    <th:block layout:fragment="customContent">   	
+        <div class="container mb-80 mt-50">
+            <div class="row">
+                <div class="col-lg-8 mb-40">
+                    <h2 class="heading-2 mb-10">멘토링공고수정</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-7" th:object="${noticeInfo}">                   
+                    <div class="row">
+                        <h4 class="mb-30">등록 정보</h4>
+                        <form th:action="@{/mentoring/modifyNotice}" method="post">
+                        	<input type="hidden" id="noticeCode" name="noticeCode" required th:value="*{noticeCode}">
+                            <div class="row">
+                                <div class="form-group col-lg-6">
+									<label for="noticeTitle">제목</label>
+                                    <input type="text" id="noticeTitle" name="noticeTitle" required th:value="*{noticeTitle}">
+                                </div>
+                            </div>
+                            <div class="row shipping_calculator">
+                                <div class="form-group col-lg-6">
+                                    <div class="custom_select">
+                                    	<label for="topicCode">카테고리</label>
+                                        <select name="topicCode" class="form-control select-active">
+                                            <option value="">===== 카테고리를 선택해주세요 =====</option>
+                                            <th:block>
+                                            	<option th:each="t : ${topicList}" th:value="${t.topicCode}" th:text="${t.topicName}" th:selected="${t.topicCode} == *{topicCode}"></option>
+                                            </th:block>                              
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-lg-6">
+                                	<label for="noticeUntprc">멘토링 시간당 금액 </label>
+                                    <input type="text" id="noticeUntprc" name="noticeUntprc" placeholder="금액" required th:value="*{noticeUntprc}">
+                                </div>
+                            </div>
+                            <div class="row">
+	                            <div class="form-group col-lg-6">
+	                            	<label for="noticeContent">소개</label>
+	                                <textarea rows="5" id="noticeContent" name="noticeContent" placeholder="Additional information" th:text="*{noticeContent}"></textarea>
+	                            </div>
+                            </div>
+                            <div class="row">  
+                            	<p>멘토링 가능 날짜</p>                        	
+                                <div class="form-group col-lg-6">	                               									
+									<label for="noticeStartYmd">Start Date</label>
+            						<input type="date" id="noticeStartYmd" name="noticeStartYmd" required th:value="*{noticeStartYmd}" readonly>
+            					</div>
+            					<div class="form-group col-lg-6">
+            						<label for="noticeEndYmd">End Date</label>
+            						<input type="date" id="noticeEndYmd" name="noticeEndYmd" required th:value="*{noticeEndYmd}" readonly>
+                                </div>
+                            </div>			                          
+                            <button type="submit" class="btn btn-fill-out btn-block mt-30 ">수정하기<i class="fi-rs-sign-out ml-15"></i></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </th:block>
+</html>

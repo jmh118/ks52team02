@@ -12,7 +12,7 @@
                         <div class="row">
                             <div class="col-lg-9">
                                 <div class="table-responsive">
-                                    <table class="table table-hover">
+                                    <table class="table table-hover text-center">
                                         <thead>
                                             <tr>
                                                 <th>멘토 ID</th>
@@ -22,7 +22,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr th:each="pshl : ${paymentSettlementHistoryList}">
+                                            <tr th:each="pshl : ${paymentSettlementHistoryList.contents}">
                                                 <td th:text="${pshl.mentorId}"></td>
                                                 <td th:text="${pshl.noticeCode}"></td>
                                                 <td th:text="${pshl.pay.mentorCalAmount}"></td>
@@ -37,26 +37,14 @@
                             <aside class="col-lg-3">
                                 <div class="box bg-light" style="min-height: 80%">
                                     <h6 class="mt-15">정산 관련 통계</h6>
+                                    
+                                    <p>총 정산 금액</p>
+                                    <p class="h4" th:text="|${#numbers.formatInteger(totalSettlementAmount, 0, 'COMMA')}원|"></p>
                                     <hr />
-                                    <h6 class="mb-0">통계1:</h6>
-                                    <p>통계내용</p>
-                                    <br />
-                                    <h6 class="mb-0">통계2:</h6>
-                                    <p>통계내용</p>
-                                    <br />
-                                    <h6 class="mb-0">통계3:</h6>
-                                    <p>통계내용</p>
-                                    <br />
-                                    <h6 class="mb-0">통계4:</h6>
-                                    <p>통계내용</p>
-                                    <br />
-                                    <h6 class="mb-0">통계5:</h6>
-                                    <p>통계내용</p>
-                                    <br />
-                                    <br />
-                                    <p>총 플랫폼 수익</p>
-                                    <p class="h4">1000000000000000000000000000원</p>
+                                    <p>총 수익</p>
+                                    <p class="h4" th:text="|${#numbers.formatInteger(totalFlatformCalAmount, 0, 'COMMA')}원|"></p>
                                     <hr />
+                                    
                                 </div>
                             </aside>
                             <!-- col end// -->
@@ -67,19 +55,23 @@
                 </div>
                 <!-- card end// -->
                 <div class="pagination-area mt-30 mb-50">
-                    <nav aria-label="Page navigation example">
-                        <ul class="pagination justify-content-start">
-                            <li class="page-item active"><a class="page-link" href="#">01</a></li>
-                            <li class="page-item"><a class="page-link" href="#">02</a></li>
-                            <li class="page-item"><a class="page-link" href="#">03</a></li>
-                            <li class="page-item"><a class="page-link dot" href="#">...</a></li>
-                            <li class="page-item"><a class="page-link" href="#">16</a></li>
-                            <li class="page-item">
-                                <a class="page-link" href="#"><i class="material-icons md-chevron_right"></i></a>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
+					<nav aria-label="Page navigation example">
+					    <ul class="pagination justify-content-start">
+					    	<li class="page-item" th:classappend="${paymentSettlementHistoryList.currentPage < 2}? 'disabled'">
+								<a class="page-link d-flex justify-content-center align-items-center" th:href="@{/manager/pay/settlementHistoryList(currentPage=${paymentSettlementHistoryList.currentPage - 1})}"><i class="material-icons md-chevron_left"></i></a>
+							</li>
+					        <th:block th:each="num : ${#numbers.sequence(paymentSettlementHistoryList.startPageNum, paymentSettlementHistoryList.endPageNum)}">
+					            <li class="page-item"
+					                th:classappend="${paymentSettlementHistoryList.currentPage == num} ? 'active'">
+					                <a class="page-link" th:href="@{/manager/pay/settlementHistoryList(currentPage=${num})}">[[${num}]]</a>
+					            </li>
+					        </th:block>
+					        <li class="page-item" th:classappend="${paymentSettlementHistoryList.currentPage >= paymentSettlementHistoryList.lastPage} ? 'disabled'">
+					            <a class="page-link d-flex justify-content-center align-items-center" th:href="@{/manager/pay/settlementHistoryList(currentPage=${paymentSettlementHistoryList.currentPage + 1})}"><i class="material-icons md-chevron_right"></i></a>
+					        </li>
+					    </ul>
+					</nav>
+				</div>
             </section>
       </th:block>
 </html>

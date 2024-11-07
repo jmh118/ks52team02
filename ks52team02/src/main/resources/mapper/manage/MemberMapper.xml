@@ -2,7 +2,6 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
 <mapper namespace="ks52team02.manager.member.mapper.ManagerMemberMapper">
 
 	<select id="getMentorList" resultType="Member">
@@ -31,8 +30,17 @@
 			ml.member_level_code = 'member_level_mentor';
 	</select>
 	
+	<select id="getMemberListCount" resultType="int">
+		/* 관리자 - 전체 회원 수 조회 */
+		SELECT
+			COUNT(*)
+		FROM
+			member
+		WHERE
+			member_withdrawal_YN = 'N';
+	</select>
 	
-	<select id="getMemberList" resultType="Member">
+	<select id="getMemberList" parameterType="map" resultType="Member">
 		/* 관리자 - 전체 가입 회원 조회 */
 		SELECT
 			member_id AS memberId, 
@@ -51,12 +59,21 @@
 			ON
 			m.member_level_code=ml.member_level_code
 		WHERE
-			member_withdrawal_YN = 'N';
-		
-		
+			member_withdrawal_YN = 'N'
+		LIMIT #{rowPerPage} OFFSET #{offset};
 	</select>
 	
-	<select id="getWithdrawalMemberList" resultType="WithdrawalMember">
+	<select id="getWithdrawalMemberListCount" resultType="int">
+		/* 관리자 - 탈퇴 회원 수 조회 */
+		SELECT
+			COUNT(*)
+		FROM
+			member
+		WHERE
+			member_withdrawal_YN = 'Y'
+	</select>
+	
+	<select id="getWithdrawalMemberList" parameterType="map" resultType="WithdrawalMember">
 		/* 관리자 - 탈퇴 회원 조회 */
 		SELECT
 			mwa.withdrawal_apply_member_code AS withdrawalMemberCode,
@@ -65,7 +82,8 @@
 			mwa.withdrawal_member_id AS withdrawalMemberId,
 			m.member_password AS withdrawalMemberPw,
 			mwa.withdrawal_demand_YMD AS withdrawalDemandYMD,
-			mwa.withdrawal_approval_YMD AS withdrawalApprovalYMD
+			mwa.withdrawal_approval_YMD AS withdrawalApprovalYMD,
+			mwa.withdrawal_apply_manager AS withdrawalApplyManager
 		FROM
 			member m
 			INNER join
@@ -79,10 +97,24 @@
 		WHERE
 			member_withdrawal_YN = 'Y'
 		ORDER BY
-			mwa.withdrawal_approval_YMD desc;
+			mwa.withdrawal_approval_YMD desc
+		LIMIT #{rowPerPage} OFFSET #{offset};
 	</select>
 	
-	<select id="getDormantMemberList" resultType="Member">
+	<select id="getDormantMemberListCount" resultType="int">
+		SELECT
+		    COUNT(DISTINCT m.member_id) 
+		FROM
+		    member_login_log mll LEFT JOIN member m 
+			 ON mll.member_id = m.member_id
+		    LEFT JOIN member_level ml 
+			 ON ml.member_level_code = m.member_level_code
+		WHERE
+		    DATEDIFF(NOW(), mll.member_login_YMD) >= 183
+		    AND m.member_withdrawal_YN = 'N';
+	</select>
+	
+	<select id="getDormantMemberList" parameterType="map" resultType="Member">
 		/* 관리자 - 휴면 회원 조회(6개월 이상 접속 기록이 없을 시) */
 		SELECT
 			m.member_id AS memberId, 
@@ -110,10 +142,19 @@
 			DATEDIFF(NOW(), mll.member_login_YMD)>=183 AND
 			m.member_withdrawal_YN = 'N'
 		GROUP BY memberId
-		ORDER BY mll.member_login_YMD desc;
+		ORDER BY mll.member_login_YMD desc
+		LIMIT #{rowPerPage} OFFSET #{offset};
 	</select>
 	
-	<select id="getLoginLog" resultType="LoginLog">
+	<select id="getLoginLogCount" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			member_login_log mll INNER JOIN member m
+			ON mll.member_id=m.member_id
+	</select>
+	
+	<select id="getLoginLog" parameterType="map" resultType="LoginLog">
 		/* 관리자 - 로그인 로그 조회 */
 		SELECT
 			mll.login_log_code AS loginLogCode,
@@ -127,8 +168,143 @@
 			ON
 			mll.member_id=m.member_id
 			
-		ORDER BY mll.member_login_YMD desc;
+		ORDER BY mll.member_login_YMD desc
+		LIMIT #{rowPerPage} OFFSET #{offset};
 	</select>
-
-
+	
+	<select id="getMonthMemberList" resultType="Member">
+		/* 관리자 - 한 달 내 가입한 회원 목록 조회 */
+		SELECT
+			m.member_id AS memberId,
+			ml.member_level_name AS memberLevel,
+			m.member_email AS memberEmail,
+			m.member_join_YMD AS memberJoinYMD
+		FROM
+			member m
+			LEFT JOIN
+			member_level ml
+			ON
+			m.member_level_code=ml.member_level_code
+		WHERE
+			DATEDIFF(NOW(), m.member_join_YMD)&lt;=31
+		ORDER BY
+			m.member_join_YMD DESC;
+	</select>
+	
+	<select id="getWaitingForWithDrawalList" resultType="WithdrawalMember">
+		/* 관리자 - 탈퇴 요청 목록 조회 */
+		SELECT
+			mwa.withdrawal_apply_member_code AS withdrawalMemberCode,
+			mwa.withdrawal_reason AS withdrawalReason,
+			ml.member_level_name AS withdrawalMemberLevel,
+			mwa.withdrawal_member_id AS withdrawalMemberId,
+			mwa.withdrawal_demand_YMD AS withdrawalDemandYMD
+		FROM
+			member_withdrawal_apply mwa
+			LEFT JOIN
+			member_level ml
+			ON
+			mwa.member_level_code=ml.member_level_code
+		WHERE
+			mwa.withdrawal_approval_YN='N';
+	</select>
+	
+	<select id="getMemberInfoById" parameterType="String" resultType="Member">
+		/* 특정회원 조회 */
+		SELECT
+			member_id AS memberId,
+			member_password AS memberPw, 
+			search_member_password_answer AS memberPwAnswer, 
+			ml.member_level_name AS memberLevel, 
+			member_name AS memberName, 
+			member_phone_number AS memberTelNo, 
+			member_email AS memberEmail, 
+			member_join_YMD AS memberJoinYMD
+		FROM
+			member m
+			LEFT JOIN
+			member_level ml
+			ON
+			m.member_level_code=ml.member_level_code
+		WHERE
+			member_withdrawal_YN = 'N' and
+			m.member_id = #{memberId};
+	</select>
+	
+	<update id="updateMemberInfoById" parameterType="Member">
+		/* 특정회원 정보 수정 */
+		UPDATE `member`
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="newMemberPw!=null and newMemberPw!=''">
+				member_password=#{newMemberPw},
+			</if>
+			<if test="newMemberPwAnswer!=null and newMemberPwAnswer!=''">
+				search_member_password_answer=#{newMemberPwAnswer},
+			</if>
+			<if test="newMemberName!=null and newMemberName!=''">
+				member_name=#{newMemberName},
+			</if>
+			<if test="newMemberTelNo!=null and newMemberTelNo!=''">
+				member_phone_number=#{newMemberTelNo},
+			</if>
+			<if test="newMemberEmail!=null and newMemberEmail!=''">
+				member_email=#{newMemberEmail},
+			</if>
+		</trim>
+		WHERE
+			member_id = #{memberId};
+	</update>
+	
+	<select id="getWaitingForApprovalMentorList" >
+		/* 승인 요청 멘토 리스트 조회 */
+		SELECT
+			m.member_id AS memberID,
+			m.member_name AS memberName,
+			m.member_email AS memberEmail,
+			m.member_phone_number AS memberTelNo,
+			m.member_join_YMD AS memberJoinYMD,
+			maa.mentor_join_approval_YN AS mentorApprovalStatus,
+			maa.mentor_approval_or_reject_reason AS mentorApprovalReason
+		FROM
+			mentor_authority_approval maa
+			LEFT JOIN
+			member m
+			ON
+			maa.member_id=m.member_id
+		WHERE
+			maa.mentor_join_approval_YN &lt;>'승인' AND
+			m.member_withdrawal_YN = 'N';
+	</select>
+	
+	<update id="withdrawalApply" parameterType="WithdrawalMember">
+		/* 탈퇴 요청 승인 */
+		UPDATE `member_withdrawal_apply`
+		SET
+			withdrawal_approval_YMD=NOW(),
+			withdrawal_approval_YN='Y',
+			withdrawal_YMD=NOW(),
+			withdrawal_apply_manager=#{withdrawalApplyManager}
+		WHERE
+			withdrawal_member_id=#{withdrawalMemberId};
+	</update>
+	
+	<update id="managerWithdrawalApply" parameterType="WithdrawalMember">
+		/* 관리자 탈퇴 준비 */
+		INSERT INTO
+		member_withdrawal_apply
+		(withdrawal_apply_member_code, withdrawal_member_id, member_level_code, withdrawal_reason, withdrawal_demand_YMD, withdrawal_approval_YMD, withdrawal_approval_YN, withdrawal_YMD, withdrawal_apply_manager)
+		
+		VALUES
+		(#{withdrawalMemberCode}, #{withdrawalMemberId}, #{withdrawalMemberLevelCode}, #{withdrawalReason}, NOW(), NOW(), 'Y', NOW(), #{withdrawalMemberId})
+	</update>
+	
+	<update id="delMember" parameterType="WithdrawalMember">
+		/* 탈퇴처리 */
+		UPDATE `member`
+		SET
+			member_withdrawal_YN='Y'
+		WHERE
+			member_id=#{withdrawalMemberId};
+	</update>
+	
 </mapper>
