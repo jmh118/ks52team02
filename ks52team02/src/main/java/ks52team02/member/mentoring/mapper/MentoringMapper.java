@@ -64,7 +64,7 @@ public interface MentoringMapper {
 	int modifyNotice(Notice notice);
 
 	//회원정보확인
-	boolean getApplyCheck(Member member);
+	Member getApplyCheck(String searchId);
 
 	// 공고신청후 신청가능한 멘토링 시간 수정
 	int modifyNoticeDetailTime(String noticeDetailCode);
@@ -92,6 +92,8 @@ public interface MentoringMapper {
 
 	// 메인화면 공고 조회
 	List<Notice> getNoticeMainList();
+
+	
 
 
 }

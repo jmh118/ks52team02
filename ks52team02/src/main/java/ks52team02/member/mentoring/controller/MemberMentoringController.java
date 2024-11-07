@@ -74,14 +74,13 @@ public class MemberMentoringController {
 		return "member/mentoring/applyMenteeProfile";
 	}
 	
-	
 	@PostMapping("/applyCheck")
 	@ResponseBody
-	public boolean applyCheck(Member member) {
-		boolean isDuplicate = false;
-		isDuplicate = mentoringService.getApplyCheck(member);
+	public Member applyCheck(@RequestParam(value="searchId") String searchId) {
+
+		Member memberInfo = mentoringService.getApplyCheck(searchId);
 		
-		return isDuplicate; 
+		return memberInfo; 
 	}
 	
 	@PostMapping("/modifyNotice")

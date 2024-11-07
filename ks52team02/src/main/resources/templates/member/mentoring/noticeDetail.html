@@ -31,32 +31,43 @@
 	    		inputAnswerCode.val(answerCode);
 	    		inputAnswerContent.val(answerContent);
 	    	});
-	    	
-	    	
+
 	    	$('#applyBtn').click(function(){
 	    		let isSubmit = true;
-	    		const memberName = $('#memberName').val();
-	    		const memberEmail = $('#memberEmail').val();
-	    		const memberTelNo = $('#memberTelNo').val();
+	    		const searchId = $('#memberId').val();
+	    		const mName = $('#memberName').val();
+	    		const mEmail = $('#memberEmail').val();
+	    		const mTelNo = $('#memberTelNo').val();
 	    		
 	    		const request= $.ajax({
 	    			async: false,
 	    			url : "/mentoring/applyCheck",
 	    			method : 'POST',
-	    			data : {
-	    				'memberName' : memberName,
-	    				'memberEmail' : memberEmail,
-	    				'memberTelNo' : memberTelNo
-	    			},
+	    			data : {'searchId' : searchId},
 	    			dataType : 'json'
 	    		});
 	    		request.done(function(data){
-					if(!data){
-						alert('회원정보가 일치하지 않습니다.');
+	    			if(data.memberName != mName){
+						alert('회원이름이 일치하지 않습니다.');
 						isSubmit = false;
 						$('#memberName').focus();
 						return false;
+					}else {
+						if(data.memberEmail != mEmail){
+							alert('회원이메일이 일치하지 않습니다.');
+							isSubmit = false;
+							$('#memberEmail').focus();
+							return false;
+						}else{
+							if(data.memberTelNo != mTelNo){
+								alert('휴대폰번호가 일치하지 않습니다.');
+								isSubmit = false;
+								$('#memberTelNo').focus();
+								return false;
+							}
+						}
 					}
+					
 				});
 				request.fail(function(jqXHR, textStatus, error){
 					console.log(error);
@@ -202,7 +213,7 @@
 	                                                                    <p class="mb-10" th:text="${nqa.questionContent}"></p>
 		                                                                <a class="collapsed" data-bs-toggle="modal" data-bs-target="#noticeAnswer" th:attr="data-question-code=${nqa.questionCode}" th:if="${noticeDetail.memberId == session.SID}">답변하기</a>
 		                                                                <a class="collapsed me-3" data-bs-toggle="modal" data-bs-target="#noticeQuestionModify" th:attr="data-question-code=${nqa.questionCode}, data-question-content=${nqa.questionContent}" th:if="${nqa.memberId == session.SID}">수정하기</a>
-		                                                                <a class="collapsed question-del-btn" th:data-answer-code="${nqa.noticeAnswer}" th:href="@{/mentoring/removeNoticeQuestion(questionCode=${nqa.questionCode}, noticeCode=${noticeDetail.noticeCode})}">삭제 하기</a>
+		                                                                <a class="collapsed question-del-btn" th:data-answer-code="${nqa.noticeAnswer}" th:href="@{/mentoring/removeNoticeQuestion(questionCode=${nqa.questionCode}, noticeCode=${noticeDetail.noticeCode})}" th:if="${nqa.memberId == session.SID}">삭제 하기</a>
 	                                                                </div>                                                             
 	                                                            </div>                                                           
 	                                                        </div>

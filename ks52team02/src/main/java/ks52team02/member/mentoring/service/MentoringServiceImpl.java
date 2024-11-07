@@ -74,12 +74,11 @@ public class MentoringServiceImpl implements MentoringService{
 	}
 	
 	@Override
-	public boolean getApplyCheck(Member member) {
-		boolean isDuplicate = false;
-		isDuplicate = mentoringMapper.getApplyCheck(member);
-		return isDuplicate;
+	public Member getApplyCheck(String searchId) {
+		Member memberInfo = mentoringMapper.getApplyCheck(searchId);
+		return memberInfo;
 	}
-	
+
 	
 	@Override
 	public void modifyNotice(Notice notice) {
