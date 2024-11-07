@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import ks52team02.manager.member.dto.LoginLog;
 import ks52team02.manager.member.dto.Member;
+import ks52team02.manager.member.dto.MentorApproval;
 import ks52team02.manager.member.dto.WithdrawalMember;
 import ks52team02.page.Pageable;
 
@@ -36,7 +37,7 @@ public interface ManagerMemberMapper {
 	int getWithdrawalMemberListCount();
 
 	// 관리자 - 회원탈퇴 승인
-	void withdrawalApply(WithdrawalMember withdrawalMember);
+	int withdrawalApply(WithdrawalMember withdrawalMember);
 	
 	// 관리자 - 관리자 탈퇴 승인
 	int managerWithdrawalApply(WithdrawalMember withdrawalMember);
@@ -65,6 +66,10 @@ public interface ManagerMemberMapper {
 	// 승인 요청 멘토 조회
 	List<Member> getWaitingForApprovalMentorList();
 
+	// 멘토 요청 승인/반려
+	int approvalMentorLevel(MentorApproval mentorApproval);
 
-	
+	// 멘토 권한으로 변경
+	int changeMentorLevel(MentorApproval mentorApproval);
+
 }
