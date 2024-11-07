@@ -3,7 +3,25 @@
 
 <th:block th:fragment="menteeMypageAccountJs">
 	<script>
-		
+		$('#modifyBtn').click(function(){
+			console.log('click');
+			const menteePw = $('#menteePw').val();
+			const nPassword = $('#nPassword').val();
+			
+			
+			if(menteePw != nPassword){
+				
+				if(menteePw != null){
+					alert('비밀번호 확인을 정확하게 입력해주세요');
+					$('#menteePw').focus();
+					return ;
+				}
+				
+			}
+			
+			alert('수정 완료');
+			$('#modifyAccountForm').submit();
+		})
 	</script>
 
 </th:block>
@@ -15,43 +33,33 @@
 				<h5>계정 정보</h5>
 			</div>
 			<div class="card-body">
-				<p>Already have an account? <a href="page-login.html">Log in
-						instead!</a>
-				</p>
-				<form method="post" name="enq">
-					<div class="row">
-						<div class="form-group col-md-6">
-							<label>이름 <span class="required">*</span></label>
-							<input required class="form-control" name="name" type="text"
-								value="김광만" />
-						</div>
-						<div class="form-group col-md-12">
-							<label>휴대전화 <span class="required">*</span></label>
-							<input required class="form-control" name="dname" type="text"
-								value="010-6541-9873" />
-						</div>
-						<div class="form-group col-md-12">
-							<label>이메일 <span class="required">*</span></label>
-							<input required class="form-control" name="email"
-								type="email" value="kwangmin111@naver.com" />
-						</div>
-						<div class="form-group col-md-12">
-							<label>Current Password <span class="required">*</span></label>
-							<input required class="form-control" name="password"
-								type="password" value="기존 비밀번호" />
-						</div>
-						<div class="form-group col-md-12">
-							<label>New Password <span class="required">*</span></label>
-							<input required class="form-control" name="npassword"
-								type="password" value="새로운 비밀번호" />
-						</div>
-						<div class="col-md-12">
-							<button type="submit"
-								class="btn btn-fill-out submit font-weight-bold"
-								name="submit" value="Submit">Save Change</button>
-						</div>
-					</div>
-				</form>
+				<p>Already have an account? <a href="page-login.html">Log in instead!</a></p>
+				<form th:action="@{/mypage/mentee/account}" id="modifyAccountForm" method="post" th:object="${menteeInfo}">
+                   <input required class="form-control" name="menteeId" type="hidden" th:value="*{menteeId}"/>
+                   <div class="form-group col-md-6">
+                       <label>이름 <span class="required">*</span></label>
+                       <input required class="form-control" id="menteeNm" name="menteeNm" type="text" th:value="*{menteeNm}"/>
+                   </div>
+                   <div class="form-group col-md-6">
+                       <label>휴대전화 <span class="required">*</span></label>
+                       <input required class="form-control" id="menteeTelNo" name="menteeTelNo" type="text" th:value="*{menteeTelNo}"/>
+                   </div>
+                   <div class="form-group col-md-6">
+                       <label>이메일 <span class="required">*</span></label>
+                       <input required class="form-control" id="menteeEmail" name="menteeEmail" type="email" th:value="*{menteeEmail}"/>
+                   </div>
+                   <div class="form-group col-md-6">
+                       <label>비밀번호 <span class="required">*</span></label>
+                       <input required class="form-control" id="menteePw" name="menteePw" type="password" th:value="*{menteePw}"/>
+                   </div>
+                   <div class="form-group col-md-6">
+                       <label>비밀번호 확인(비밀번호를 다시한번 입력해 주세요) <span class="required">*</span></label>
+                       <input required class="form-control" id="nPassword" name="nPassword" type="password"/>
+                   </div>
+                   <div class="col-md-6">
+                       <button type="button" class="btn btn-fill-out submit font-weight-bold" id="modifyBtn">계정정보 수정</button>
+                   </div>
+                  </form>
 			</div>
 		</div>
 	</div>

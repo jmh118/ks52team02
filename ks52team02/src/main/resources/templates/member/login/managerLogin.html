@@ -34,6 +34,10 @@
                 <div class="card mx-auto card-login">
                     <div class="card-body">
                         <h4 class="card-title mb-4 text-center">관리자 로그인</h4>
+                        <hr/>
+                        <div class="mb-10" th:if="${param.msg}">
+                            <p style="color: red;" th:text="${param.msg}"></p>
+                        </div>
                         <form id="managerLoginForm" th:action="@{/member/loginProc}" method="post">
                             <div class="mb-3">
                                 <input type="text" class="form-control" id="memberId" value="manager001" name="memberId" placeholder="아이디" />

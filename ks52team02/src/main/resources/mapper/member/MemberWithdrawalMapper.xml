@@ -13,4 +13,5 @@
 		(#{withdrawalMemberCode}, #{withdrawalMemberId}, #{withdrawalMemberLevelCode}, #{withdrawalReason}, NOW());
 	</insert>
 
+
 </mapper>

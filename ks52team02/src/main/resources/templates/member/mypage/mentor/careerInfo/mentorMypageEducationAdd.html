@@ -14,30 +14,35 @@
                 <div class="col-lg-7">
                     <div class="row">
                         <h3 class="mb-30">등록</h3>
-                        <form method="post">
+                        <form id="addEducationForm" method="post" th:action="@{/mypage/mentor/educationAdd}">
+                        		<input class="form-control" name="mentorId" type="hidden" th:value="${session.SID}"/>
                                 <div class="form-group col-lg-6">
-                                    <input type="text" required="" name="fname" placeholder="학교명 *">
+                                    <input type="text" required name="mentorSchoolNm" placeholder="학교명 *">
                                 </div>
                                 <div class="form-group col-lg-6">
-                                    <input type="text" required="" name="lname" placeholder="학점 *">
+                                    <input type="text" required name="mentorCredits" placeholder="학점 *">
                                 </div>
                                 <div class="form-group col-lg-6">
-                                    <input type="text" name="billing_address2" required="" placeholder="학과(전공) *">
+                                    <input type="text" name="mentorScsbjtNm" required placeholder="학과(전공) *">
                                 </div>
-                                 <div class="form-group col-lg-6">졸업/수료 *
-	                                <select class="form-select">
+                                 <div class="form-group col-lg-6">
+                                 	<label for="mentorSection">졸업/수료 *</label>
+	                                <select class="form-select" name="mentorSection">
 										<option> 졸업 </option>
 										<option> 수료 </option>
 									</select>
 								</div>
-								<div class="form-group col-lg-6">입학날짜
-                                    <input type="datetime-local" name="billing_address" required="" placeholder="입학날짜 *">
+								<div class="form-group col-lg-6">
+									<label for="mentorMtctYmd">입학날짜 *</label>
+                                    <input type="date" name="mentorMtctYmd" required placeholder="입학날짜 *">
                                 </div>
-                                <div class="form-group col-lg-6">졸업날짜
-                                    <input type="datetime-local" name="billing_address2" required="" placeholder="졸업날짜 *">
+                                <div class="form-group col-lg-6">
+                                	<label for="mentorGdtYmd">졸업날짜 *</label>
+                                    <input type="date" name="mentorGdtYmd" required placeholder="졸업날짜 *">
                                 </div>
-                               <div class="form-group col-lg-6">학력파일
-							  <input type="file" accept="image/png, image/jpeg">
+                               <div class="form-group col-lg-6">
+                               <label for="mentorFileNm">학력파일 *</label>
+							  <input type="file" name="mentorFileNm" accept="image/png, image/jpeg">
 							  </div>
 							<button class="submit submit-auto-width" type="submit">추가</button>
                         </form>
