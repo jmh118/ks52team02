@@ -34,9 +34,9 @@ public class MemberPortfolioController {
     }
 	
 	@GetMapping("/detail")
-    public String MovePortfolioDetail(@RequestParam(name="portfolioId") String portfolioId, Model model) {
+    public String MovePortfolioDetail(@RequestParam(name="portfolioCode") String portfolioCode, Model model) {
     	System.out.println("포트폴리오 상세 조회 화면");
-    	Portfolio portfolioDetail = portfolioMapper.getPortfolioDetailById(portfolioId);
+    	Portfolio portfolioDetail = portfolioMapper.getPortfolioDetailByCode(portfolioCode);
     	log.info("portfolioDetail : {}", portfolioDetail);
     	
     	model.addAttribute("portfolioDetail", portfolioDetail);

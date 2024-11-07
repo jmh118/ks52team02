@@ -5,17 +5,19 @@
   <mapper namespace="ks52team02.member.portfolio.mapper.PortfolioMapper">
   
   <resultMap type="Portfolio" id="portfolioDetailMap">
-		<id 	column="member_id" 						property="portfolioId"/>
-		<result column="portfolio_title" 				property="portfolioTitle"/>
-		<result column="portfolio_content" 				property="portfolioContent"/>
-		<result column="portfolio_register_date" 		property="portfolioDate"/>
-		<result column="portfolio_release_YN" 			property="portfolioYn"/>
-		<result column="upload_portfolio_file_name" 	property="portfolioFile"/>
+		<id 	column="mentee_portfolio_registration_details_code" property="portfolioCode"/>
+		<result column="member_id" 									property="portfolioId"/>
+		<result column="portfolio_title" 							property="portfolioTitle"/>
+		<result column="portfolio_content" 							property="portfolioContent"/>
+		<result column="portfolio_register_date" 					property="portfolioDate"/>
+		<result column="portfolio_release_YN" 						property="portfolioYn"/>
+		<result column="upload_portfolio_file_name" 				property="portfolioFile"/>
 	</resultMap>
   
   <select id="getPortfolioList" resultMap="portfolioDetailMap">
   	/* 포트폴리오 리스트 조회 */
   	SELECT 
+  		mentee_portfolio_registration_details_code,
 		member_id, 
 		portfolio_title,
 		portfolio_register_date
@@ -26,9 +28,10 @@
   	
   </select>
   
-  <select id="getPortfolioDetailById" parameterType="string" resultMap="portfolioDetailMap">
+  <select id="getPortfolioDetailByCode" parameterType="string" resultMap="portfolioDetailMap">
 	  /* 포트폴리오 선택 조회 */
 	  SELECT 
+	  		mentee_portfolio_registration_details_code,
 			member_id, 
 			portfolio_title, 
 			portfolio_content, 
@@ -36,7 +39,7 @@
 		FROM 
 			mentee_portfolio_registration_details
 		WHERE
-			member_id=#{portfolioId};
+			mentee_portfolio_registration_details_code = #{portfolioCode};
   </select>
   
   

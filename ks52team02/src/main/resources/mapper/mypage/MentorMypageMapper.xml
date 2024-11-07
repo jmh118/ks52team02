@@ -217,7 +217,6 @@
 	  		/* 프로젝트 경력 수정 */
 	  		UPDATE 
 				mentor_tech_career_detail
-				SET
 				<trim prefix="SET" suffixOverrides=",">
 					<if test="mentorProjectNm != null and mentorProjectNm != ''">
 					mentor_project_NM=#{mentorProjectNm},
