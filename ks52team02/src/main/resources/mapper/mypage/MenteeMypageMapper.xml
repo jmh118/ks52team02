@@ -1,0 +1,463 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="ks52team02.member.mypage.mapper.MenteeMypageMapper">
+  <!-- 계정 정보 관리 쿼리문 -->
+  
+	  <resultMap type="MenteeInfo" id="menteeInfoMap">
+	  		<id column="member_id" property="menteeId"/>
+	  		<result column="member_name" property="menteeNm"/>
+	  		<result column="member_phone_number" property="menteeTelNo"/>
+	  		<result column="member_email" property="menteeEmail"/>
+	  		<result column="member_password" property="menteePw"/>
+	  	</resultMap>
+	  	
+	  
+	  	<select id="getMenteeInfoById" parameterType="string" resultMap="menteeInfoMap">
+	  		/* 로그인 되어있는 회원의 계정 정보 조회 */
+		   	SELECT 
+				member_id, 
+				member_password, 
+				member_name, 
+				member_phone_number, 
+				member_email
+			FROM 
+				member
+			WHERE 
+				member_id = #{menteeId}; 
+	  	</select>
+  
+  		<update id="modifyMentee" parameterType="MenteeInfo">
+	  		/* 로그인 되어있는 회원의 계정 정보 수정 */
+	  		UPDATE 
+				member
+			<trim prefix="SET" suffixOverrides=",">
+				<if test="menteePw != null and menteePw != ''">
+				member_password = #{menteePw},
+				</if>
+				<if test="menteeNm != null and menteeNm != ''">
+				member_name = #{menteeNm},
+				</if>
+				<if test="menteeTelNo != null and menteeTelNo != ''">
+				member_phone_number = #{menteeTelNo},
+				</if>
+				<if test="menteeEmail != null and menteeEmail != ''">
+				member_email = #{menteeEmail},
+				</if>
+			</trim>
+			WHERE 
+				member_id = #{menteeId};
+  		</update>
+  
+  
+  <!-- 계정 정보 관리 쿼리문/ -->
+  
+  
+  <!-- 자기 소개글 쿼리문 -->
+  
+  		<resultMap type="MenteeProfile" id="menteeProfileMap">
+	  		<id column="mentee_profile_code" property="profileCode"/>
+	  		<result column="member_id" property="memberId"/>
+	  		<result column="mentee_interest_field" property="interestField"/>
+	  		<result column="mentee_interest_field_technology" property="fieldTechnology"/>
+	  		<result column="mentee_interest_field_experience_level" property="experienceLevel"/>
+	  		<result column="mentee_interest_field_experience_explanation" property="experienceExplanation"/>
+	  		<result column="mentee_profile_release_YN" property="releaseYN"/>
+	  	</resultMap>
+  
+  
+  		<select id="getIntroduceById" parameterType="string" resultMap="menteeProfileMap">
+	  		/* 로그인 되어있는 회원의 소개글 조회 */
+		   	SELECT 
+		   		mentee_profile_code, 
+		   		member_id,
+				mentee_interest_field, 
+				mentee_interest_field_technology, 
+				mentee_interest_field_experience_level, 
+				mentee_interest_field_experience_explanation, 
+				mentee_profile_release_YN
+			FROM 
+				mentee_profile
+			WHERE
+				member_id=#{memberId};
+	  	</select>
+  
+  		<update id="modifyIntroduce" parameterType="MenteeProfile">
+	  		/* 로그인 되어있는 회원의 소개글 수정 */
+	  		UPDATE 
+				mentee_profile
+			<trim prefix="SET" suffixOverrides=",">
+				<if test="profileCode != null and profileCode != ''">
+				mentee_profile_code=#{profileCode},
+				</if>
+				mentee_interest_field=#{interestField},
+				mentee_interest_field_technology=#{fieldTechnology},
+				mentee_interest_field_experience_level=#{experienceLevel},
+				mentee_interest_field_experience_explanation=#{experienceExplanation},
+				<if test="releaseYN != null and releaseYN != ''">
+				mentee_profile_release_YN=#{releaseYN},
+				</if>
+			</trim>
+				WHERE 
+					member_id = #{memberId};
+  		</update>
+  
+  <!-- 자기 소개글 쿼리문/ -->
+  
+  		
+  <!-- 학력 관리 쿼리문 -->
+  		<resultMap type="MenteeEducation" id="menteeEducationMap">
+	  		<id column="mentee_ACBG_details_code" property="menteeAcbgCode"/>
+	  		<result column="member_id" property="menteeId"/>
+	  		<result column="mentee_school_name" property="menteeSchoolNm"/>
+	  		<result column="mentee_major_name" property="menteeMajorNm"/>
+	  		<result column="mentee_school_credits" property="menteeSchoolCd"/>
+	  		<result column="mentee_graduation_credits" property="menteeGdtCd"/>
+	  		<result column="mentee_ACBG_release_YN" property="menteeReleaseYn"/>
+	  		<result column="mentee_ACBG_REG_date" property="menteeRegDate"/>
+	  		<result column="mentee_matriculation_date" property="menteeMtcltDate"/>
+	  		<result column="mentee_graduation_date" property="menteeGdtDate"/>
+	  	</resultMap>
+  		
+  		
+  		<select id="getMenteeEducationById" parameterType="string" resultMap="menteeEducationMap">
+	  		/*아이디로 학력 조회 */
+		   	SELECT
+				mentee_ACBG_details_code, 
+				member_id, 
+				mentee_school_name, 
+				mentee_major_name, 
+				mentee_school_credits, 
+				mentee_graduation_credits, 
+				mentee_ACBG_release_YN, 
+				mentee_ACBG_REG_date, 
+				mentee_matriculation_date, 
+				mentee_graduation_date
+			FROM 
+				mentee_acbg_details
+			WHERE
+				member_id=#{menteeId};
+	  	</select>
+	  	
+	  	<select id="getEducationByCode" parameterType="string" resultMap="menteeEducationMap">
+	  		/*코드로 학력 조회 */
+		   	SELECT
+				mentee_ACBG_details_code, 
+				member_id, 
+				mentee_school_name, 
+				mentee_major_name, 
+				mentee_school_credits, 
+				mentee_graduation_credits, 
+				mentee_ACBG_release_YN, 
+				mentee_ACBG_REG_date, 
+				mentee_matriculation_date, 
+				mentee_graduation_date
+			FROM 
+				mentee_acbg_details
+			WHERE
+				mentee_ACBG_details_code=#{menteeAcbgCode};
+	  	</select>
+	  	
+	  	<update id="modifyEducationInfo" parameterType="MenteeEducation">
+	  		/* 학력 수정 */
+	  		UPDATE 
+				mentee_acbg_details
+				<trim prefix="SET" suffixOverrides=",">
+					<if test="menteeAcbgCode != null and menteeAcbgCode != ''">
+					mentee_ACBG_details_code=#{menteeAcbgCode},
+					</if>
+					<if test="menteeId != null and menteeId != ''">
+					member_id=#{menteeId},
+					</if>
+					<if test="menteeSchoolNm != null and menteeSchoolNm != ''">
+					mentee_school_name=#{menteeSchoolNm},
+					</if>
+					<if test="menteeMajorNm != null and menteeMajorNm != ''">
+					mentee_major_name=#{menteeMajorNm},
+					</if>
+					<if test="menteeSchoolCd != null and menteeSchoolCd != ''">
+					mentee_school_credits=#{menteeSchoolCd},
+					</if>
+					<if test="menteeGdtCd != null and menteeGdtCd != ''">
+					mentee_graduation_credits=#{menteeGdtCd},
+					</if>
+					<if test="menteeReleaseYn != null and menteeReleaseYn != ''">
+					mentee_ACBG_release_YN=#{menteeReleaseYn},
+					</if>
+					<if test="menteeRegDate != null and menteeRegDate != ''">
+					mentee_ACBG_REG_date=#{menteeRegDate},
+					</if>
+					<if test="menteeMtcltDate != null and menteeMtcltDate != ''">
+					mentee_matriculation_date=#{menteeMtcltDate},
+					</if>
+					<if test="menteeGdtDate != null and menteeGdtDate != ''">
+					mentee_graduation_date=#{menteeGdtDate},
+					</if>
+				</trim>
+			WHERE 
+				mentee_ACBG_details_code = #{menteeAcbgCode};
+				
+				
+		
+	  	</update>
+	  	
+	  	<insert id="addEducationInfo" parameterType="MenteeEducation">
+	  	/* 학력 등록 */
+ 		INSERT INTO mentee_acbg_details
+			(
+			mentee_ACBG_details_code, 
+			member_id, 
+			mentee_school_name, 
+			mentee_major_name, 
+			mentee_school_credits, 
+			mentee_graduation_credits, 
+			mentee_ACBG_release_YN, 
+			mentee_ACBG_REG_date, 
+			mentee_matriculation_date, 
+			mentee_graduation_date
+			)
+		VALUES (#{menteeAcbgCode}, #{menteeId}, #{menteeSchoolNm}, #{menteeMajorNm}, #{menteeSchoolCd}, #{menteeGdtCd}, 'Y', NOW(), #{menteeMtcltDate}, #{menteeGdtDate})
+	  	</insert>
+	  	
+	  	
+	  	
+  <!-- 학력 관리 쿼리문/ -->
+  
+  
+  
+  
+  <!-- 자격증 관리 쿼리문 -->
+  		<resultMap type="MenteeCertificate" id="menteeCertificateMap">
+	  		<id column="mentee_certificate_details_code" property="menteeCtfcCode"/>
+	  		<result column="member_id" property="menteeId"/>
+	  		<result column="certification_name" property="menteeCtfcNm"/>
+	  		<result column="certifications_issue_institution" property="menteeCtfcIstt"/>
+	  		<result column="certifications_issue_date" property="menteeCtfcDate"/>
+	  		<result column="mentee_certificate_release_YN" property="menteeCtfcReleaseYn"/>
+	  		<result column="mentee_certificate_grade" property="menteeCtfcGrade"/>
+	  		
+	  		<association property="certificateName" javaType="CertificateName">
+	  			<id column="certificate_name_code" property="nameCode"/>
+	  			<result column="issue_certificate_name" property="certificateNm"/>
+	  			<result column="certificate_classification" property="certificateCf"/>
+	  			<result column="issue_institution_name" property="institutionNm"/>
+	  		</association>
+	  		
+	  	</resultMap>
+	  	
+	  	<select id="getCertificateInfoCode" resultType="CertificateName">
+  		/* 자격증 이름,발급기관 select박스 */
+  		
+  		SELECT 
+			certificate_name_code AS nameCode,
+			issue_certificate_name AS certificateNm, 
+			issue_institution_code AS institutionCode, 
+			issue_institution_name AS institutionNm
+		FROM 
+			certificate_name
+  		
+  		</select>
+	  	
+	  	
+	  	<select id="getMenteeCertificateById" parameterType="string" resultMap="menteeCertificateMap">
+	  	/* 자격증 조회 */
+	  	SELECT 
+			mcd.mentee_certificate_details_code, 
+			mcd.member_id, 
+			mcd.certification_name, 
+			mcd.certifications_issue_institution, 
+			mcd.certifications_issue_date, 
+			mcd.mentee_certificate_release_YN, 
+			mcd.mentee_certificate_grade,
+			cn.issue_certificate_name,
+			cn.issue_institution_name
+		FROM 
+			mentee_certificate_details mcd
+			INNER join
+			certificate_name cn
+			on
+			mcd.certification_name=cn.certificate_name_code
+		WHERE
+			member_id=#{menteeId};
+	  	</select>
+	  	
+	  	<select id="getCertificateCode" parameterType="string" resultMap="menteeCertificateMap">
+	  	/* 자격증 조회 */
+	  	SELECT 
+			mcd.mentee_certificate_details_code, 
+			mcd.member_id, 
+			mcd.certification_name, 
+			mcd.certifications_issue_institution, 
+			mcd.certifications_issue_date, 
+			mcd.mentee_certificate_release_YN, 
+			mcd.mentee_certificate_grade,
+			cn.issue_certificate_name,
+			cn.issue_institution_name
+		FROM 
+			mentee_certificate_details mcd
+			INNER join
+			certificate_name cn
+			on
+			mcd.certification_name=cn.certificate_name_code
+		WHERE
+			mentee_certificate_details_code = #{menteeCtfcCode};
+	  	</select>
+	  	
+	  	<update id="modifyCertificateInfo" parameterType="MenteeCertificate">
+	  		/* 자격증 수정 */
+	  		UPDATE 
+				mentee_certificate_details
+				<trim prefix="SET" suffixOverrides=",">
+					<if test="menteeCtfcCode != null and menteeCtfcCode != ''">
+					mentee_certificate_details_code=#{menteeCtfcCode},
+					</if>
+					<if test="menteeId != null and menteeId != ''">
+					member_id=#{menteeId},
+					</if>
+					<if test="menteeCtfcNm != null and menteeCtfcNm != ''">
+					certification_name=#{menteeCtfcNm},
+					</if>
+					<if test="menteeCtfcIstt != null and menteeCtfcIstt != ''">
+					certifications_issue_institution=#{menteeCtfcIstt},
+					</if>
+					<if test="menteeCtfcDate != null and menteeCtfcDate != ''">
+					certifications_issue_date=#{menteeCtfcDate},
+					</if>
+					<if test="menteeCtfcReleaseYn != null and menteeCtfcReleaseYn != ''">
+					mentee_certificate_release_YN=#{menteeCtfcReleaseYn},
+					</if>
+					<if test="menteeCtfcGrade != null and menteeCtfcGrade != ''">
+					mentee_certificate_grade=#{menteeCtfcGrade},
+					</if>
+				</trim>
+			WHERE 
+				mentee_certificate_details_code = #{menteeCtfcCode};
+				
+	  	</update>
+	  	
+	  	
+	  	<insert id="addCertificateInfo" parameterType="MenteeCertificate">
+	  	/* 자격증 등록 */
+ 		INSERT INTO mentee_certificate_details
+			(
+			mentee_certificate_details_code, 
+			member_id, 
+			certification_name, 
+			certifications_issue_institution, 
+			certifications_issue_date, 
+			mentee_certificate_release_YN, 
+			mentee_certificate_grade
+			)
+		VALUES (#{menteeCtfcCode}, #{menteeId}, #{menteeCtfcNm}, #{menteeCtfcIstt}, #{menteeCtfcDate}, 'Y', #{menteeCtfcGrade})
+ 		
+	  	</insert>
+	  	
+	  	
+  <!-- 자격증 관리 쿼리문/ -->
+  
+  
+  
+  
+  <!-- 포트폴리오 관리 쿼리문 -->
+  
+  		<resultMap type="MenteePortfolio" id="menteePortfolioMap">
+	  		<id column="mentee_portfolio_registration_details_code" property="menteePtflCode"/>
+	  		<result column="member_id" property="menteeId"/>
+	  		<result column="portfolio_title" property="menteePtflTitle"/>
+	  		<result column="portfolio_content" property="menteePtflCtnt"/>
+	  		<result column="portfolio_upload_YN" property="menteePtflUlYn"/>
+	  		<result column="portfolio_register_date" property="menteePtflRgstDate"/>
+	  		<result column="portfolio_release_YN" property="menteePtflReleaseYn"/>
+	  		<result column="upload_portfolio_file_name" property="menteePtflFileNm"/>
+	  	</resultMap>
+  		
+  		<select id="getPortfolioCode" parameterType="string" resultMap="menteePortfolioMap">
+	  		/* 코드로 포트폴리오 조회 */
+		   	SELECT 
+				mentee_portfolio_registration_details_code, 
+				member_id, 
+				portfolio_title, 
+				portfolio_content, 
+				portfolio_upload_YN, 
+				portfolio_register_date, 
+				portfolio_release_YN, 
+				upload_portfolio_file_name
+			FROM 
+				mentee_portfolio_registration_details
+			WHERE
+				mentee_portfolio_registration_details_code=#{menteePtflCode};
+	  	</select>
+  		
+  		<select id="getMenteePortfolioById" parameterType="string" resultMap="menteePortfolioMap">
+	  		/* 포트폴리오 조회 */
+		   	SELECT 
+				mentee_portfolio_registration_details_code, 
+				member_id, 
+				portfolio_title, 
+				portfolio_content, 
+				portfolio_upload_YN, 
+				portfolio_register_date, 
+				portfolio_release_YN, 
+				upload_portfolio_file_name
+			FROM 
+				mentee_portfolio_registration_details
+			WHERE
+				member_id=#{menteeId};
+	  	</select>
+  
+  		<update id="modifyPortfolioInfo" parameterType="MenteePortfolio">
+	  		/* 포트폴리오 수정 */
+	  		UPDATE 
+				mentee_portfolio_registration_details
+				SET
+					<if test="menteePtflCode != null and menteePtflCode != ''">
+					mentee_portfolio_registration_details_code=#{menteePtflCode},
+					</if>
+					<if test="menteeId != null and menteeId != ''">
+					member_id=#{menteeId},
+					</if>
+					<if test="menteePtflTitle != null and menteePtflTitle != ''">
+					portfolio_title=#{menteePtflTitle},
+					</if>
+					<if test="menteePtflCtnt != null and menteePtflCtnt != ''">
+					portfolio_content=#{menteePtflCtnt},
+					</if>
+					<if test="menteePtflUlYn != null and menteePtflUlYn != ''">
+					portfolio_upload_YN=#{menteePtflUlYn},
+					</if>
+					<if test="menteePtflReleaseYn != null and menteePtflReleaseYn != ''">
+					portfolio_release_YN=#{menteePtflReleaseYn},
+					</if>
+					<if test="menteePtflFileNm != null and menteePtflFileNm != ''">
+					upload_portfolio_file_name='file_code_01',
+					</if>
+					portfolio_register_date='now()'
+			WHERE 
+				mentee_portfolio_registration_details_code = #{menteePtflCode};
+				
+	  	</update>
+  
+  
+  		<insert id="addPortfolioInfo" parameterType="MenteePortfolio">
+	  	/* 포트폴리오 등록 */
+ 		INSERT INTO mentee_portfolio_registration_details
+			(
+			mentee_portfolio_registration_details_code, 
+			member_id,
+			portfolio_title, 
+			portfolio_content, 
+			portfolio_upload_YN, 
+			portfolio_register_date, 
+			portfolio_release_YN, 
+			upload_portfolio_file_name
+			)
+		VALUES (#{menteePtflCode}, #{menteeId}, #{menteePtflTitle}, #{menteePtflCtnt}, 'N', NOW(), 'Y', 'file_code_01')
+ 		
+	  	</insert>
+  
+  
+  <!-- 포트폴리오 관리 쿼리문/ -->
+  
+  
+  </mapper>
