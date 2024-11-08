@@ -123,15 +123,20 @@
 		LIMIT #{rowPerPage} OFFSET #{offset};
 	</select>
 	
-	<select id="getManagerNoticeQuestionCount">
+	<select id="getManagerNoticeQuestionCount" parameterType="string" resultType="int">
 		/* 공고 질문 수 조회 */
 		SELECT
 			COUNT(*)
 		FROM
-			mentoring_notice_question;
+			mentoring_notice_question
+		<where>
+			<if test="searchId != null and searchId != ''">
+				member_id LIKE CONCAT('%', #{searchId}, '%')
+			</if>
+		</where>
 	</select>
 	
-	<select id="getManagerNoticeQuestionList" parameterType="ks52team02.page.Pageable" resultMap="noticeQuestionMap">
+	<select id="getManagerNoticeQuestionList" parameterType="map" resultMap="noticeQuestionMap">
 		/* 멘토링공고 질문 조회 */
 		SELECT
 			mentoring_notice_question_code, 
@@ -141,19 +146,29 @@
 			question_writing_YMD
 		FROM
 			mentoring_notice_question
+		<where>
+			<if test="searchId != null and searchId != ''">
+				member_id LIKE CONCAT('%', #{searchId}, '%')
+			</if>
+		</where>
 		ORDER BY question_writing_YMD DESC
 		LIMIT #{rowPerPage} OFFSET #{offset};
 	</select>
 	
-	<select id="getManagerNoticeAnswerCount">
+	<select id="getManagerNoticeAnswerCount" parameterType="string" resultType="int">
 		/* 멘토링 공고 답변 수 조회 */
 		SELECT
 			COUNT(*)
 		FROM
-			mentoring_notice_question_answer;
+			mentoring_notice_question_answer
+		<where>
+			<if test="searchId != null and searchId != ''">
+				mentor_id LIKE CONCAT('%', #{searchId}, '%')
+			</if>
+		</where>
 	</select>
 	
-	<select id="getManagerNoticeAnswerList" parameterType="ks52team02.page.Pageable" resultMap="noticeAnswerMap">
+	<select id="getManagerNoticeAnswerList" parameterType="map" resultMap="noticeAnswerMap">
 		/* 멘토링공고 답변 조회 */
 		SELECT 
 			mentoring_notice_question_answer_code,
@@ -163,6 +178,11 @@
 			answer_writing_YMD
 		FROM 
 			mentoring_notice_question_answer
+		<where>
+			<if test="searchId != null and searchId != ''">
+				mentor_id LIKE CONCAT('%', #{searchId}, '%')
+			</if>
+		</where>
 		ORDER BY answer_writing_YMD DESC
 		LIMIT #{rowPerPage} OFFSET #{offset};
 	</select>

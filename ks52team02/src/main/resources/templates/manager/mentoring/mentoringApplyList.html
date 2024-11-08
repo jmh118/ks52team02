@@ -6,7 +6,7 @@
 	<th:block layout:fragment="customJs">
 		<script th:inline="javascript">
 	            $('a.search-list').each(function() {
-		            let searchId = [[${searchId}]];  // Thymeleaf로 searchId 값 가져오기
+		            let searchId = [[${searchId}]];  
 	                let href = $(this).attr('href');
 	                
 	                if (searchId && searchId.trim() !== '') {
