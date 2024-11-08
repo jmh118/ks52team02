@@ -21,16 +21,16 @@ public interface ManagerMentoringMapper {
 	int getNoticeListCount(String searchId);
 
 	// 공고 질문 수 조회
-	int getManagerNoticeQuestionCount();
+	int getManagerNoticeQuestionCount(String searchId);
 
 	// 멘토링공고 질문 조회
-	List<NoticeQuestion> getManagerNoticeQuestionList(Pageable pageable);
+	List<NoticeQuestion> getManagerNoticeQuestionList(Map<String, Object> paramMap);
 
 	// 멘토링 공고 답변 수 조회
-	int getManagerNoticeAnswerCount();
+	int getManagerNoticeAnswerCount(String searchId);
 
 	// 멘토링공고 답변 조회
-	List<NoticeAnswer> getManagerNoticeAnswerList(Pageable pageable);
+	List<NoticeAnswer> getManagerNoticeAnswerList(Map<String, Object> paramMap);
 
 	// 멘토링공고 답변 삭제
 	int removeAnswer(String answerCode);
