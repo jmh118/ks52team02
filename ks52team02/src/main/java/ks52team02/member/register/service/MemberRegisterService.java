@@ -2,6 +2,7 @@ package ks52team02.member.register.service;
 
 import ks52team02.manager.member.dto.Member;
 import ks52team02.manager.member.dto.MentorApproval;
+import ks52team02.member.mypage.dto.MentorWork;
 
 public interface MemberRegisterService {
 	
@@ -10,5 +11,8 @@ public interface MemberRegisterService {
 	
 	// 멘토 회원가입 요청
 	int mentorPreRegister(MentorApproval mentorApproval);
+
+	// 멘토 회원가입시 근무경력 등록
+	void registerAddWorkInfo(MentorWork mentorWork);
 
 }

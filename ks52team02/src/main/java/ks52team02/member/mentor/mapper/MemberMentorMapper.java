@@ -1,6 +1,8 @@
 package ks52team02.member.mentor.mapper;
 
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Mapper;
 import ks52team02.manager.member.dto.Member;
 
@@ -8,8 +10,11 @@ import ks52team02.manager.member.dto.Member;
 public interface MemberMentorMapper {
 	
 	// 멘토 조회
-	List<Member> getMentorList();
+	// 멘토 권한 멤버수 조회
+	List<Member> getMentorList(Map<String, Object> paramMap);
+	int getMentorListCount();
 	
 	// 명예멘토 조회
 	List<Member> getHonorMentorList();
+
 }
