@@ -129,7 +129,7 @@
 	</update>
 	
 	<update id="modifyNoticeDetailTime" parameterType="String">
-		/* 공고신청후 신청가능한 멘토링 시간 수정 */
+		/* 멘토링 신청 후 신청가능한 멘토링 시간 수정 */
 		UPDATE mentoring_notice_detail
 		<trim prefix="SET" suffixOverrides=",">
 			<if test="noticeDetailCode != null and noticeDetailCode != ''">
