@@ -24,8 +24,6 @@ public class MentorMypageServiceImpl implements MentorMypageService{
 	private final CommonMapper commonMapper;
 	
 	
-	
-	
 	@Override
 	public void modifyMentor(MentorInfo mentorInfo) {
 		mentorMypageMapper.modifyMentor(mentorInfo);

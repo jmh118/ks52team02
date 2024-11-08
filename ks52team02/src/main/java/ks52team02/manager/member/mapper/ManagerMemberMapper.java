@@ -16,8 +16,10 @@ import ks52team02.page.Pageable;
 public interface ManagerMemberMapper {
 	
 	// 멘토 권한 멤버 조회
-	List<Member> getMentorList();
-
+	// 멘토 권한 멤버수 조회
+	List<Member> getMentorList(Map<String, Object> paramMap);
+	int getMentorListCount();
+	
 	// 관리자 - 전체 회원 조회
 	// 관리자 - 전체 회원 수 조회
 	List<Member> getMemberList(Map<String, Object> paramMap);
@@ -82,6 +84,7 @@ public interface ManagerMemberMapper {
 	
 	// 멘토 권한으로 변경
 	int changeMentorLevel(MentorApproval mentorApproval);
+
 
 
 }

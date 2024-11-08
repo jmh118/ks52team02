@@ -74,11 +74,16 @@ public class ManagerMemberServiceImpl implements ManagerMemberService {
 	}
 
 	@Override
-	public List<Member> getMentorList() {
-		List<Member> mentorList = managerMemberMapper.getMentorList();
+	public PageInfo<Member> getMentorList(Pageable pageable) {
+		int rowCnt = managerMemberMapper.getMentorListCount();
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("rowPerPage", pageable.getRowPerPage());
+		paramMap.put("offset", pageable.getOffset());
+		List<Member> contents = managerMemberMapper.getMentorList(paramMap);
 		
-		return mentorList;
+		return new PageInfo<>(contents, pageable, rowCnt);
 	}
+
 
 	@Override
 	public PageInfo<Member> getMonthMemberList(Pageable pageable) {
@@ -174,7 +179,8 @@ public class ManagerMemberServiceImpl implements ManagerMemberService {
 		return managerMemberMapper.changeMentorLevel(mentorApproval);
 		
 	}
-	
+
+
 
 }
 

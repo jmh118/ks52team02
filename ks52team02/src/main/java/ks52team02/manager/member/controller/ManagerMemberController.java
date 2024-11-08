@@ -216,10 +216,4 @@ public class ManagerMemberController {
 	}
 
 	
-	/*
-	 * @GetMapping("/memberLevelManage") public String memberLevelManage(Model
-	 * model) { System.out.println("회원 등급 수정 페이지 이동"); List<Member> mentorList =
-	 * memberMapperService.getMentorList(); model.addAttribute("mentorList",
-	 * mentorList); return "manager/memberInfo/memberLevelManagement"; }
-	 */
 }

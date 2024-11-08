@@ -28,6 +28,7 @@
 		WHERE
 			m.member_withdrawal_YN = 'N' AND 
 			ml.member_level_code = 'member_level_mentor';
+		LIMIT #{rowPerPage} OFFSET #{offset};
 	</select>
 	
 	<select id="getMemberListCount" resultType="int">

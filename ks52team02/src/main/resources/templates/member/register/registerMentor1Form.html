@@ -56,14 +56,15 @@
 				$('#registerMentorModal')[0].dataset.targetIdx = this.closest('.careerRows').dataset.idx;
 				$('#registerMentorModal').modal('show');
 			});
-			
+
 			$('#careerSubmitBtn').on('click', function(){
 				
 				const idx = Number($('#registerMentorModal')[0].dataset.targetIdx);
 				const careerCorporateName = $('#careerCorporateName').val();				
 				const careerWork = $('#careerWork').val();
+				const careerState = $('#careerState').val();
 				const joinCareer = $('#joinCareer').val();			
-				const quiteCareer = $('#quiteCareer').val();			
+				const quiteCareer = $('#quiteCareer').val();		
 				
 				const getCareerDays = function(joinCareer, quiteCareer){
 					let startDate = new Date(joinCareer);
@@ -75,6 +76,7 @@
 					
 				    return diffDays;
 				};
+				
 				
 				// 기존 일수 제거
 				const existingDays = Number($('.careerRows').eq(idx).find('input[name="carrerTime"]').val());
@@ -111,12 +113,13 @@
 					    $continueBtn.disabled = true;
 						$('#continueBtn').css('background-color', 'gray');
 					}
-				
+
 				 
 				// 각자의 빈칸에 값 할당
 				$('.careerRows').eq(idx).find('input[name="careerCorporateName"]').val(careerCorporateName);
 				$('.careerRows').eq(idx).find('input[name="careerWork"]').val(careerWork);
-				$('.careerRows').eq(idx).find('input[name="carrerTime"]').val(getCareerDays(joinCareer, quiteCareer));
+				$('.careerRows').eq(idx).find('input[name="careerState"]').val(careerState);
+				$('.careerRows').eq(idx).find('input[name="carrerTime"]').val(getCareerDays(joinCareer, quiteCareer)+'일');
 				
 				$('#registerMentorModal').find('input, select').val('');
 				$('#registerMentorModal').modal('hide');
@@ -134,7 +137,7 @@
 	</th:block>
 	<th:block layout:fragment="customContent">
 		<section class="content-main mt-40 mb-40 my-2">
-          <div class="card-body container col-5 my-2">
+          <div class="card-body container col-6 my-2">
             <h3 class="mb-20 mt-40 text-brand justify-content-center text-center">멘토 권한으로 계정 생성</h3>
 				<div>
 				    <p class="text-center mb-2">이미 계정을 가지고 있으신가요? <a href="/member/login"> &nbsp; 로그인하러 가기</a></p>
@@ -143,6 +146,7 @@
 						 <div class="careerRows d-flex justify-content-center align-items-center mt-20" data-idx="0">
 							<input name="careerCorporateName" type="text" class="ml-10 career-corporate-name" readonly/>
 							<input name="careerWork" type="text" class="ml-10 career-work" readonly/>
+							<input name="careerState" type="text" class="ml-10 carrer-state" readonly/>
 							<input name="carrerTime" type="text" class="ml-10 carrer-time" readonly/>
 								<button type="button" class="btn btn-block w-90 ml-20 modal-btn" style="background-color: #3BB77E;">enter</button>
 								<button type="button" class="btn btn-block w-90 ml-10 del-btn" style="background-color: #cc7171;">delete</button>
