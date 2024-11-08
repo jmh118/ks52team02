@@ -81,10 +81,16 @@ public class ManagerMemberServiceImpl implements ManagerMemberService {
 	}
 
 	@Override
-	public List<Member> getMonthMemberList() {
-		List<Member> monthMemberList = managerMemberMapper.getMonthMemberList();
+	public PageInfo<Member> getMonthMemberList(Pageable pageable) {
+		int rowCnt = managerMemberMapper.getMonthMemberListCount();
+		pageable.setRowPerPage(12);
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("rowPerPage", pageable.getRowPerPage());
+		paramMap.put("offset", pageable.getOffset());
+		
+		List<Member> contents = managerMemberMapper.getMonthMemberList(paramMap);
 
-		return monthMemberList;
+		return new PageInfo<>(contents, pageable, rowCnt);
 	}
 
 	@Override

@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -59,7 +59,7 @@ public class ManagerMemberController {
     }
 	
 	@GetMapping("/loginLog")
-    public String loginLog(Pageable pageable,Model model) {
+    public String loginLog(Pageable pageable, Model model) {
     	System.out.println("멤버 로그인 로그 조회 페이지 이동");
     	PageInfo<LoginLog> loginLogList = managerMemberService.getLoginLog(pageable);
     	model.addAttribute("loginLogList", loginLogList);
@@ -68,9 +68,9 @@ public class ManagerMemberController {
 	
 	
 	@GetMapping("/registeredMembers")
-    public String managerNewmemberSearch(Model model) {
+    public String getMonthMember(Pageable pageable, Model model) {
     	System.out.println("한 달 내 신규회원 조회 페이지 이동");
-    	List<Member> monthMemberList = managerMemberService.getMonthMemberList();
+    	PageInfo<Member> monthMemberList = managerMemberService.getMonthMemberList(pageable);
     	model.addAttribute("monthMemberList", monthMemberList);
     	
         return  "manager/memberInfo/registeredMembers";
@@ -90,16 +90,22 @@ public class ManagerMemberController {
 	
 	
 	@PostMapping("/mentorApproval")
-	public int mentorApproval(@RequestParam(name="memberId") String memberId,
-								@RequestParam(name="actionType") String actionType,
-								MentorApproval mentorApproval, HttpSession session) {
-		System.out.println("멘토 권한 변경 요청");
-		String mentorApprovalManager = (String) session.getAttribute("SID");
-		mentorApproval.setMentorApprovalManager(mentorApprovalManager);
-		
-		int result = managerMemberService.approvalMentorLevel(mentorApproval, actionType);
-		
-		return result;
+	@ResponseBody
+	public int mentorApproval(
+	    @RequestParam(name="memberId") String memberId,
+	    @RequestParam(name="actionType") String actionType,
+	    @RequestParam(name="mentorApprovalReason", required=false) String mentorApprovalReason,
+	    MentorApproval mentorApproval, 
+	    HttpSession session) {
+	    System.out.println("멘토 권한 변경 요청");
+
+	    String mentorApprovalManager = (String) session.getAttribute("SID");
+	    mentorApproval.setMentorApprovalManager(mentorApprovalManager);
+	    mentorApproval.setMentorApprovalReason(mentorApprovalReason);  // DTO에 값 설정
+
+	    int result = managerMemberService.approvalMentorLevel(mentorApproval, actionType);
+
+	    return result;
 	}
 	
 	
@@ -182,7 +188,6 @@ public class ManagerMemberController {
                 session.invalidate(); // 세션이 null이 아닐 때만 무효화
             }
         }
-        
         return isapprove;
 	}
 	

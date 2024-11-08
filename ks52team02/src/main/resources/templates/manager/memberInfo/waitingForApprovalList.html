@@ -12,146 +12,126 @@
 			        dataType: 'json'
 			    });
 			}
-			
-			function approvalMentor(memberId){
-				return $.ajax({
-		            type: 'POST',
-		            url: '/manager/member/mentorApproval',
-		            data: { 'memberId': memberId },
-		            dataType: 'text'
+
+			function approvalMentor(memberId, actionType) {
+			    const mentorApprovalReason = $("select[name='mentorApprovalReason']").val();
+			    
+			    return $.ajax({
+			        type: 'POST',
+			        url: '/manager/member/mentorApproval',
+			        data: {
+			            'memberId': memberId,
+			            'actionType': actionType,
+			            'mentorApprovalReason': mentorApprovalReason
+			        },
+			        dataType: 'text'
 			    });
 			}
-			
-			function submitForm(actionType) {
-				let memberId = $(event.target).data('member-id');
+
+			$('.applyDenyBtn').click(function(event) {
+			    const actionType = $(this).data("action-type");
+			    const memberId = $(this).data('member-id');
 				
-			    $("#actionType").val(actionType);
-			    $("#withdrawalApproveForm").submit();
-			}
-			
-			
-			$('.applyDenyBtn').click(function(){
-				let memberPw = prompt("관리자 비밀번호를 입력하세요 : ");
+				const mentorApprovalReason = $("select[name='mentorApprovalReason']").val();
 
-				if (memberPw === null || memberPw === "") {
-		            alert("비밀번호를 입력해 주세요.");
-		            return;
-		        }
-				
-				let memberId = $(this).data('member-id');
-					console.log("선택된 member-id:", member-id);
+				if (!mentorApprovalReason) {
+				    alert("승인/반려 사유를 선택해 주세요.");
+				    return;
+				}
 
-					checkPassword(memberPw).done(function(isCheck){
-					console.log("isCheck 1 :", isCheck);
 
-					 if (isCheck) {
-				 
-						console.log("isCheck 2 : 비밀번호 맞음");
-						approvalMentor(memberId).done(function(isApprove) {
+			    const memberPw = prompt("관리자 비밀번호를 입력하세요 : ");
+			    if (!memberPw) {
+			        alert("비밀번호를 입력해 주세요.");
+			        return;
+			    }
 
-						console.log("승인여부 : " + isApprove);
-
-					if(isApprove == '1') {
-						submitForm();
-				        alert('멘토 승인 및 반려 완료.');
-						location.reload();
-						} else {
-						alert("멘토 승인 오류입니다.");
-						}
-				            }).fail(function(jqXHR, textStatus, error) {
-				                alert('멘토 승인 시 ERROR');
-				            });
-					            } else {
-					                alert("비밀번호가 잘못되었습니다.");
-					            }
-					})
-					.fail(function(jqXHR, textStatus, error) {
-					alert('검증 ERROR');
-					});
-				
+			    checkPassword(memberPw).done(function(isCheck) {
+			        if (isCheck) {
+			            approvalMentor(memberId, actionType).done(function(isApprove) {
+			                if (isApprove === '1') {
+			                    alert('멘토 승인 및 반려 완료.');
+			                    location.reload();
+			                } else {
+			                    alert("멘토 승인 오류입니다.");
+			                }
+			            }).fail(function() {
+			                alert('멘토 승인 시 ERROR');
+			            });
+			        } else {
+			            alert("비밀번호가 잘못되었습니다.");
+			        }
+			    }).fail(function() {
+			        alert('검증 ERROR');
+			    });
 			});
-			
 		</script>
 	</th:block>
+
 	<th:block layout:fragment="customContent">
-            <section class="content-main">
-                <div class="content-header">
-                    <h2 class="content-title">신규 멘토 승인</h2>
-                </div>s
-                <div class="card mb-4">
-                    <header class="card-header">
-                        <div class="row gx-3">
-                            <div class="col-lg-4 col-md-6 me-auto">
-                                <input type="text" placeholder="Search..." class="form-control" />
-                            </div>
-                        </div>
-                    </header>
-                    <!-- card-header end// -->
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table thead-light text-center table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>회원정보</th>
-                                        <th>이메일</th>
-                                        <th>연락처</th>
-                                        <th>가입일자</th>
-                                        <th>첨부파일</th>
-                                        <th>승인/반려 사유</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-									<input type="hidden" name="actionType" id="actionType" value="" />
-									<input type="hidden" name="memberId" id="memberId" value="" />
-	                                    <tr th:each="wfam:${waitingForApprovalMentorList}">
-	                                        <td>
-	                                            <a href="#">
-	                                            	<img src="/manager/imgs/people/user-avatar.png" class="img-sm img-avatar" alt="Userpic" />
-		                                                <div>
-		                                                    <h6 class="mb-0 title" th:text="${wfam.memberId}"></h6>
-		                                                    <small class="text-muted" th:text="${wfam.memberName}"></small>
-		                                                </div>
-	                                            </a>
-	                                        </td>
-	                                        <td th:text="${wfam.memberEmail}"></td>
-	                                        <td th:text="${wfam.memberTelNo}"></td>
-	                                        <td th:text="${wfam.memberJoinYMD}"></td>
-	                                        <td>파일.png</td>
-											<td>
-												<div class="d-flex justify-content-center">
-													<select class="w-75 text-center p-1" name="mentorApprovalReason" >
-														<option value="">--- 사유 선택 ---</option>												
-														<option value="플랫폼 내부 기준 만족">승인 : 플랫폼 내부 기준 만족</option>												
-														<option value="경력 미달">거부 : 경력 미달</option>												
-														<option value="기타 사유">기타 사유</option>												
-													</select>
-												</div>
-											</td>
-	                                        <td>
-	                                        	<button type="button" class="btn btn-sm btn-brand rounded font-sm applyDenyBtn" onclick="submitForm('approve')" th:data-member-id="${wfam.memberId}">승인</button>
-	                                        	<button type="button" class="btn btn-sm btn-brand rounded font-sm applyDenyBtn" onclick="submitForm('deny')" th:data-member-id="${wfam.memberId}">거부</button>
-	                                        </td>
-	                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                <!-- card end// -->
-                <div class="pagination-area mt-15 mb-50">
-                    <nav aria-label="Page navigation example">
-                        <ul class="pagination justify-content-start">
-                            <li class="page-item active"><a class="page-link" href="#">01</a></li>
-                            <li class="page-item"><a class="page-link" href="#">02</a></li>
-                            <li class="page-item"><a class="page-link" href="#">03</a></li>
-                            <li class="page-item"><a class="page-link dot" href="#">...</a></li>
-                            <li class="page-item"><a class="page-link" href="#">16</a></li>
-                                <a class="page-link" href="#"><i class="material-icons md-chevron_right"></i></a>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
-            </section>
+		<section class="content-main">
+			<div class="content-header">
+				<h2 class="content-title">신규 멘토 승인</h2>
+			</div>
+			<div class="card mb-4">
+				<header class="card-header">
+					<div class="row gx-3">
+						<div class="col-lg-4 col-md-6 me-auto">
+							<input type="text" placeholder="Search..." class="form-control" />
+						</div>
+					</div>
+				</header>
+				<div class="card-body">
+					<div class="table-responsive">
+						<table class="table thead-light text-center table-hover">
+							<thead>
+								<tr>
+									<th>회원정보</th>
+									<th>이메일</th>
+									<th>연락처</th>
+									<th>가입일자</th>
+									<th>첨부파일</th>
+									<th>승인/반려 사유</th>
+									<th>Action</th>
+								</tr>
+							</thead>
+							<tbody>
+								<input type="hidden" name="actionType" id="actionType" value="" />
+								<input type="hidden" name="memberId" id="memberId" value="" />
+								<tr th:each="wfam : ${waitingForApprovalMentorList}">
+									<td>
+										<a href="#">
+											<img src="/manager/imgs/people/user-avatar.png" class="img-sm img-avatar" alt="Userpic" />
+											<div>
+												<h6 class="mb-0 title" th:text="${wfam.memberId}"></h6>
+												<small class="text-muted" th:text="${wfam.memberName}"></small>
+											</div>
+										</a>
+									</td>
+									<td th:text="${wfam.memberEmail}"></td>
+									<td th:text="${wfam.memberTelNo}"></td>
+									<td th:text="${wfam.memberJoinYMD}"></td>
+									<td>파일.png</td>
+									<td>
+										<div class="d-flex justify-content-center">
+											<select class="w-75 text-center p-1" name="mentorApprovalReason">
+												<option value="">--- 사유 선택 ---</option>
+												<option value="플랫폼 내부 기준 만족">승인 : 플랫폼 내부 기준 만족</option>
+												<option value="경력 미달">거부 : 경력 미달</option>
+												<option value="기타 사유">기타 사유</option>
+											</select>
+										</div>
+									</td>
+									<td>
+										<button type="button" class="btn btn-sm btn-brand rounded font-sm applyDenyBtn" th:data-member-id="${wfam.memberId}" data-action-type="approve">승인</button>
+										<button type="button" class="btn btn-sm btn-brand rounded font-sm applyDenyBtn" th:data-member-id="${wfam.memberId}" data-action-type="deny">거부</button>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</section>
 	</th:block>
 </html>
