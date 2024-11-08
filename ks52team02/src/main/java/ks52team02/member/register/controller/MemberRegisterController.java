@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import ks52team02.manager.member.dto.Member;
+import ks52team02.manager.member.dto.MentorApproval;
 import ks52team02.member.register.dto.MentorRegisterDTO;
 import ks52team02.member.register.mapper.MemberRegisterMapper;
+import ks52team02.member.register.service.MemberRegisterService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -21,6 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 public class MemberRegisterController {
 	
 	private final MemberRegisterMapper memberRegisterMapper;
+	private final MemberRegisterService memberRegisterService;
 	
 	@GetMapping("/info")
 	public String moveJoinInfo() {
@@ -41,7 +44,7 @@ public class MemberRegisterController {
 		memberRegisterMapper.register(member);
 		System.out.println("멘티 회원가입");
 		
-		return  "redirect:/member/memberMain";
+		return  "redirect:/member";
 	}
 
 	@GetMapping("/mentor1")
@@ -59,11 +62,12 @@ public class MemberRegisterController {
     }
 	
 	@PostMapping("/mentor")
-	public String registerMentor(Member member) {
+	public String registerMentor(MentorApproval mentorApproval, Member member) {
+		memberRegisterService.mentorPreRegister(mentorApproval);
 		memberRegisterMapper.register(member);
 		System.out.println("멘토 회원가입");
 		
-		return "redirect:/member/memberMain";
+		return "redirect:/member";
 	}
 	
 	

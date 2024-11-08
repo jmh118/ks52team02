@@ -102,6 +102,7 @@
 	</select>
 	
 	<select id="getDormantMemberListCount" resultType="int">
+		/* 휴면일수 */
 		SELECT
 		    COUNT(DISTINCT m.member_id) 
 		FROM
@@ -150,8 +151,11 @@
 		SELECT
 			COUNT(*)
 		FROM
-			member_login_log mll INNER JOIN member m
-			ON mll.member_id=m.member_id
+			member_login_log mll
+			INNER JOIN
+			member m
+			ON
+			mll.member_id=m.member_id
 	</select>
 	
 	<select id="getLoginLog" parameterType="map" resultType="LoginLog">
@@ -188,8 +192,23 @@
 		WHERE
 			DATEDIFF(NOW(), m.member_join_YMD)&lt;=31
 		ORDER BY
-			m.member_join_YMD DESC;
+			m.member_join_YMD DESC
+		LIMIT #{rowPerPage} OFFSET #{offset};
 	</select>
+	
+	<select id="getMonthMemberListCount" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			member m
+			LEFT JOIN
+			member_level ml
+			ON
+			m.member_level_code=ml.member_level_code
+		WHERE
+			DATEDIFF(NOW(), m.member_join_YMD)&lt;=31
+	</select>
+	
 	
 	<select id="getWaitingForWithDrawalList" resultType="WithdrawalMember">
 		/* 관리자 - 탈퇴 요청 목록 조회 */
@@ -255,7 +274,7 @@
 			member_id = #{memberId};
 	</update>
 	
-	<select id="getWaitingForApprovalMentorList" >
+	<select id="getWaitingForApprovalMentorList">
 		/* 승인 요청 멘토 리스트 조회 */
 		SELECT
 			m.member_id AS memberID,
@@ -272,7 +291,7 @@
 			ON
 			maa.member_id=m.member_id
 		WHERE
-			maa.mentor_join_approval_YN &lt;>'승인' AND
+			maa.mentor_join_approval_YN = '승인요청상태' AND
 			m.member_withdrawal_YN = 'N';
 	</select>
 	
@@ -295,7 +314,7 @@
 		(withdrawal_apply_member_code, withdrawal_member_id, member_level_code, withdrawal_reason, withdrawal_demand_YMD, withdrawal_approval_YMD, withdrawal_approval_YN, withdrawal_YMD, withdrawal_apply_manager)
 		
 		VALUES
-		(#{withdrawalMemberCode}, #{withdrawalMemberId}, #{withdrawalMemberLevelCode}, #{withdrawalReason}, NOW(), NOW(), 'Y', NOW(), #{withdrawalMemberId})
+		(#{withdrawalMemberCode}, #{withdrawalMemberId}, #{withdrawalMemberLevelCode}, #{withdrawalReason}, NOW(), NOW(), 'Y', NOW(), #{withdrawalMemberId});
 	</update>
 	
 	<update id="delMember" parameterType="WithdrawalMember">
@@ -306,5 +325,31 @@
 		WHERE
 			member_id=#{withdrawalMemberId};
 	</update>
+
+	<update id="approvalMentorLevel" parameterType="MentorApproval">
+		/* 멘토 요청 승인/반려 */
+	    UPDATE `mentor_authority_approval`
+	    SET
+	        mentor_approval_or_reject_YMD = NOW(),
+	        mentor_join_apply_manager = #{mentorApprovalManager},
+	        mentor_approval_or_reject_reason = #{mentorApprovalReason},
+	        mentor_join_approval_YN = 
+	        <choose>
+	            <when test="actionType == 'approve'">'승인'</when>
+	            <otherwise>'반려'</otherwise>
+	        </choose>
+	    WHERE
+	        member_id = #{memberId};
+	</update>
+
+	<update id="changeMentorLevel" parameterType="MentorApproval">
+		/* 멘토 권한으로 변경 */
+		UPDATE `member`
+		SET
+			member_level_code = 'member_level_mentor'
+		WHERE
+			member_id = #{memberId};
+	</update>
+	
 	
 </mapper>

@@ -38,7 +38,7 @@ public class MemberWithdrawalController {
 		if(result>0) {
 			session.invalidate();
 		}
-		return "redirect:/manager";
+		return "redirect:/member";
 	}
 	
 	@GetMapping("/form")

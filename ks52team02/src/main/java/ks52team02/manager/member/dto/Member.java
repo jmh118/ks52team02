@@ -28,5 +28,7 @@ public class Member {
 	private String dormantDays;
 	private String isHonorMentor;
 	
+	private MentorApproval mentorApproval;
+	
 
 }

@@ -13,44 +13,55 @@
 		        });
 		    }
 
-			const delMember = function(withdrawalMemberId){
+		function delMember(withdrawalMemberId){
 				return $.ajax({
 					type: 'POST',
 					url: '/manager/member/withdrawalApprove',
-					data: {'withdrawalMemberId': withdrawalMemberId},
+					data: {'withdrawalMemberId': withdrawalMemberId },
 					dataType: 'json'
 				});
 			};
-			
-			
-		    $('.memberDelBtn').click(function(){
-		        let memberPw = prompt("관리자 비밀번호를 입력하세요:");
 
-		        if (memberPw === null || memberPw === "") {
+		$('.memberDelBtn').click(function(){
+		let memberPw = prompt("관리자 비밀번호를 입력하세요 : ");
+
+		if (memberPw === null || memberPw === "") {
 		            alert("비밀번호를 입력해 주세요.");
 		            return;
 		        }
 
-		    	let withdrawalMemberId = $(this).data('member-id');
-				console.log("선택된 withdrawalMemberId:", withdrawalMemberId);
-				
-		        checkPassword(memberPw).done(function(data) {
-		            if (data) {
-						delMember(withdrawalMemberId).done(function() {
-		                    alert('회원 탈퇴 완료.');
-		                    location.reload(); 
-		                }).fail(function() {
-		                    alert('ERROR');
-		                });
-		            } else {
-		                alert("비밀번호가 잘못되었습니다.");
-		            }
-		        }).fail(function() {
-		            alert('검증 ERROR');
-		        });
-				
-		    });
-		    	
+		let withdrawalMemberId = $(this).data('member-id');
+			console.log("선택된 withdrawalMemberId:", withdrawalMemberId);
+
+			checkPassword(memberPw).done(function(isCheck){
+			console.log("isCheck 1 :", isCheck);
+
+			 if (isCheck) {
+		 
+				console.log("isCheck 2 : 비밀번호 맞음");
+				delMember(withdrawalMemberId).done(function(isApprove) {
+
+				console.log("승인여부??? : " + isApprove);
+
+			if(isApprove == true) {
+		                    alert('회원 탈퇴 승인 완료.');
+				location.reload();
+				} else {
+				alert("회원탈퇴 승인 오류입니다.");
+				}
+	                }).fail(function(jqXHR, textStatus, error) {
+	                    alert('회원 탈퇴 승인 시 ERROR');
+	                });
+			            } else {
+			                alert("비밀번호가 잘못되었습니다.");
+			            }
+			})
+			.fail(function(jqXHR, textStatus, error) {
+			alert('검증 ERROR');
+			        });
+
+		});
+
 		</script>
 	</th:block>
 	<th:block layout:fragment="customContent">
@@ -64,22 +75,6 @@
                             <div class="col-lg-4 col-md-6 me-auto">
                                 <input type="text" placeholder="Search..." class="form-control" />
                             </div>
-                            <div class="col-lg-2 col-md-3 col-6">
-                                <select class="form-select">
-                                    <option>Status</option>
-                                    <option>Active</option>
-                                    <option>Disabled</option>
-                                    <option>Show all</option>
-                                </select>
-                            </div>
-                            <div class="col-lg-2 col-md-3 col-6">
-                                <select class="form-select">
-                                    <option>Show 20</option>
-                                    <option>Show 30</option>
-                                    <option>Show 40</option>
-                                </select>
-                            </div>
-                        </div>
                     </header>
                     <!-- card-header end// -->
 					<div class="card-body">

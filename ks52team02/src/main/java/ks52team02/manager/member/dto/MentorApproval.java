@@ -13,4 +13,5 @@ public class MentorApproval {
 	private String hornorMentorYN;
 	private String mentorApprovalReason;
 	
+	private String actionType;
 }

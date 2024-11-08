@@ -25,11 +25,15 @@ public class ManagerMentoringController {
 	private final ManagerMentoringService managerMentoringService;
 	
 	@GetMapping("/applyList")
-	public String getManagerMentoringApplyList(Pageable pageable, Model model) {
+	public String getManagerMentoringApplyList(@RequestParam(name="searchId",required = false) String searchId, Pageable pageable, Model model) {
 		
-		PageInfo<MentoringApply> applyList = managerMentoringService.getManagerMentoringApplyList(pageable);
-		model.addAttribute("applyList", applyList);
-		return "manager/mentoring/noticeApplyList";
+			PageInfo<MentoringApply> applyList = managerMentoringService.getManagerMentoringApplyList(pageable, searchId);
+			
+			model.addAttribute("applyList", applyList);
+			if (searchId != null && !searchId.isEmpty()) {				
+				model.addAttribute("searchId", searchId);
+			}
+		return "manager/mentoring/mentoringApplyList";
 	}
 	
 	@GetMapping("/removeQuestion")
@@ -46,32 +50,44 @@ public class ManagerMentoringController {
 	}
 	
 	@GetMapping("/noticeList")
-    public String moveManagerNoticeList(Pageable pageable,Model model) {
+    public String moveManagerNoticeList(@RequestParam(name="searchId",required = false) String searchId, Pageable pageable,Model model) {
 		
-		PageInfo<ManagerMetoringNotice> noticeList = managerMentoringService.getManagerNoticeList(pageable);
+		PageInfo<ManagerMetoringNotice> noticeList = managerMentoringService.getManagerNoticeList(pageable,searchId);
 		
     	model.addAttribute("noticeList", noticeList);
+    	if (searchId != null && !searchId.isEmpty()) {				
+			model.addAttribute("searchId", searchId);
+		}
 		
 		System.out.println("멘토링 공고 조회 페이지 이동");
         return  "manager/mentoring/noticeList";
     }
 
 	@GetMapping("/questionList")
-	public String moveManagerNoticeQuestionList(Pageable pageable, Model model) {
+	public String moveManagerNoticeQuestionList(@RequestParam(name="searchId",required = false) String searchId, Pageable pageable, Model model) {
 		
-		PageInfo<NoticeQuestion> questionList = managerMentoringService.getManagerNoticeQuestionList(pageable);
+		PageInfo<NoticeQuestion> questionList = managerMentoringService.getManagerNoticeQuestionList(pageable, searchId);
 		
 		model.addAttribute("questionList", questionList);
+		
+		if (searchId != null && !searchId.isEmpty()) {				
+			model.addAttribute("searchId", searchId);
+		}
 		
 		return "manager/mentoring/noticeQuestionList";
 	}
 	
 	@GetMapping("/answerList")
-	public String moveManagerNoticeAnswerList(Pageable pageable, Model model) {
+	public String moveManagerNoticeAnswerList(@RequestParam(name="searchId",required = false) String searchId, Pageable pageable, Model model) {
 		
-		PageInfo<NoticeAnswer> answerList = managerMentoringService.getManagerNoticeAnswerList(pageable);
+		PageInfo<NoticeAnswer> answerList = managerMentoringService.getManagerNoticeAnswerList(pageable, searchId);
 		
 		model.addAttribute("answerList", answerList);
+		
+		if (searchId != null && !searchId.isEmpty()) {				
+			model.addAttribute("searchId", searchId);
+		}
+		
 		return "manager/mentoring/noticeAnswerList";
 	}
 	

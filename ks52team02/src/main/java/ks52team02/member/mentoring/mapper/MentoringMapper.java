@@ -21,23 +21,14 @@ public interface MentoringMapper {
 	// 공고관련답변 등록
 	int addNoticeAnswer(NoticeAnswer noticeAnswer);
 	
-	// 공고관련답변 코드 추가
-	String getNextNoticeAnswerCode();
-	
 	// 공고관련질문 등록
 	int addNoticeQuestion(NoticeQuestion NoticeQuestion);
-	
-	// 공고관련질문 코드 추가
-	String getNextNoticeQuestionCode();
 	
 	// 공고관련질문답변 조회
 	List<NoticeQuestion> getNoticeQuestionByCode(String noticeCode);
 	
 	// 신청가능한 요일 조회
 	List<NoticeDetail> getNoticeApplyYmdByCode(String noticeCode);
-	
-	// 공고 코드 추가
-	String getNextNoticeCode();
 	
 	// 공고등록
 	int addNotice(Notice notice);
@@ -66,7 +57,7 @@ public interface MentoringMapper {
 	//회원정보확인
 	Member getApplyCheck(String searchId);
 
-	// 공고신청후 신청가능한 멘토링 시간 수정
+	// 멘토링 신청 후 신청가능한 멘토링 시간 수정
 	int modifyNoticeDetailTime(String noticeDetailCode);
 
 	// 공고질문 수정
@@ -75,7 +66,7 @@ public interface MentoringMapper {
 	// 신청한 멘티 프로필조회
 	List<MenteeProfile> getApplyMenteeProfileById(String memberId);
 
-	//카테고리 조회
+	// 카테고리 조회
 	List<Topic> getCategoryCountList();
 
 	// 공고상세등록을위한 마지막 공고코드조회

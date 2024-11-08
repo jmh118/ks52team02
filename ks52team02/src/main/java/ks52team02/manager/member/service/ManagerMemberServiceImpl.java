@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import ks52team02.common.mapper.CommonMapper;
 import ks52team02.manager.member.dto.LoginLog;
 import ks52team02.manager.member.dto.Member;
+import ks52team02.manager.member.dto.MentorApproval;
 import ks52team02.manager.member.dto.WithdrawalMember;
 import ks52team02.manager.member.mapper.ManagerMemberMapper;
 import ks52team02.page.PageInfo;
@@ -80,10 +81,16 @@ public class ManagerMemberServiceImpl implements ManagerMemberService {
 	}
 
 	@Override
-	public List<Member> getMonthMemberList() {
-		List<Member> monthMemberList = managerMemberMapper.getMonthMemberList();
+	public PageInfo<Member> getMonthMemberList(Pageable pageable) {
+		int rowCnt = managerMemberMapper.getMonthMemberListCount();
+		pageable.setRowPerPage(12);
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("rowPerPage", pageable.getRowPerPage());
+		paramMap.put("offset", pageable.getOffset());
+		
+		List<Member> contents = managerMemberMapper.getMonthMemberList(paramMap);
 
-		return monthMemberList;
+		return new PageInfo<>(contents, pageable, rowCnt);
 	}
 
 	@Override
@@ -111,19 +118,32 @@ public class ManagerMemberServiceImpl implements ManagerMemberService {
 		
 		return waitingForApprovalMentorList;
 	}
-
+	
 
 	@Override
-	public void withdrawalApply(WithdrawalMember withdrawalMember) {
-		managerMemberMapper.withdrawalApply(withdrawalMember);
-	}
+    public int withdrawalApply(WithdrawalMember withdrawalMember) {
+        int delResult = 0;
+        int applyResult = managerMemberMapper.withdrawalApply(withdrawalMember);
+
+        if(applyResult > 0) {
+            delResult = managerMemberMapper.delMember(withdrawalMember);
+        } 
+        return delResult;
+    }
 
 	@Override
 	public int managerWithdrawalApply(WithdrawalMember withdrawalManager) {
 		String withdrawalManagerNextCode = withdrawalCommonMapper.getPrimaryKey("member_withdrawal_apply", "withdrawal_apply_member_code", "withdrawal_apply_member_code_");
 		withdrawalManager.setWithdrawalMemberCode(withdrawalManagerNextCode);
 		
-		return managerMemberMapper.managerWithdrawalApply(withdrawalManager);
+		int delResult = 0;
+		int applyResult = managerMemberMapper.managerWithdrawalApply(withdrawalManager);
+		
+		if(applyResult>0) {
+			delResult = managerMemberMapper.delMember(withdrawalManager);
+		}
+		
+		return delResult;
 	}
 
 	@Override
@@ -132,13 +152,28 @@ public class ManagerMemberServiceImpl implements ManagerMemberService {
 		return managerMemberMapper.delMember(withdrawalMember);
 	}
 
-	
-	/*
-	 * @Override public int managerWithdrawal(WithdrawalMember withdrawalMember) {
-	 * String withdrawalNextCode =
-	 * withdrawalCommonMapper.getPrimaryKey("member_withdrawal_apply",
-	 * "withdrawal_apply_member_code", "withdrawal_apply_member_code_"); }
-	 */
+	@Override
+	public int approvalMentorLevel(MentorApproval mentorApproval, String actionType) {
+		
+		int finalRes = 0;
+		
+		if("approve".equals(actionType)) {
+			int res = managerMemberMapper.approvalMentorLevel(mentorApproval);
+			if(res>0) {
+				finalRes = managerMemberMapper.changeMentorLevel(mentorApproval);
+			}
+		} else if ("deny".equals(actionType)) {
+			finalRes = managerMemberMapper.approvalMentorLevel(mentorApproval);
+	    }
+		
+		return finalRes;
+	}
+
+	@Override
+	public int changeMentorLevel(MentorApproval mentorApproval) {
+		return managerMemberMapper.changeMentorLevel(mentorApproval);
+		
+	}
 	
 
 }
