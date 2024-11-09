@@ -8,4 +8,5 @@ public class Education {
 	private String mentorSchlnm;
 	private String mentorYn;
 	private String mentorDate;
+	private String mentorFileNm;
 }

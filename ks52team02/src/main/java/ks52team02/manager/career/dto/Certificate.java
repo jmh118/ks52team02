@@ -9,5 +9,6 @@ public class Certificate {
 	private String mentorCertificatenm;
 	private String mentorYn;
 	private String mentorDate;
+	private String mentorFileNm;
 	
 }

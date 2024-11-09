@@ -9,5 +9,6 @@ public class Work {
 	private String mentorPowk;
 	private String mentorYn;
 	private String mentorDate;
+	private String mentorFileNm;
 	
 }

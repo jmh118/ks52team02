@@ -48,43 +48,43 @@ public class MemberPortfolioController {
 	
 	
 	//다운로드 버튼
-		@GetMapping("/download")
-		@ResponseBody
-		public ResponseEntity<Object> archiveDownload(@RequestParam(value="portfolioFile", required = false) String fileIdx,
-								HttpServletRequest request,HttpServletResponse response) throws URISyntaxException{
-			log.info("fileIdx : {}", fileIdx);
+	@GetMapping("/download")
+	@ResponseBody
+	public ResponseEntity<Object> archiveDownload(@RequestParam(value="portfolioFile", required = false) String fileIdx,
+							HttpServletRequest request,HttpServletResponse response) throws URISyntaxException{
+		log.info("fileIdx : {}", fileIdx);
+		
+		if(fileIdx != null) {
+			FileDto fileDto = fileMapper.getFileInfoByCode(fileIdx);
 			
-			if(fileIdx != null) {
-				FileDto fileDto = fileMapper.getFileInfoByCode(fileIdx);
-				
-				File file = new File("/home/teamproject" + fileDto.getFilePath());
-			
-				Path path = Paths.get(file.getAbsolutePath());
-		        Resource resource;
-				try {
-					resource = new UrlResource(path.toUri());
-					String contentType = null;
-					contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
-					if(contentType == null) {
-						contentType = "application/octet-stream";
-					}
-					return ResponseEntity.ok()
-							.contentType(MediaType.parseMediaType(contentType))
-							.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + URLEncoder.encode(fileDto.getFileNm(),"UTF-8").replaceAll("\\+", "%20") + "\";")
-							.body(resource);
-				} catch (MalformedURLException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
+			File file = new File("/home/teamproject" + fileDto.getFilePath());
+		
+			Path path = Paths.get(file.getAbsolutePath());
+	        Resource resource;
+			try {
+				resource = new UrlResource(path.toUri());
+				String contentType = null;
+				contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
+				if(contentType == null) {
+					contentType = "application/octet-stream";
 				}
+				return ResponseEntity.ok()
+						.contentType(MediaType.parseMediaType(contentType))
+						.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + URLEncoder.encode(fileDto.getFileNm(),"UTF-8").replaceAll("\\+", "%20") + "\";")
+						.body(resource);
+			} catch (MalformedURLException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
-			
-			URI redirectUri = new URI("/");
-			HttpHeaders httpHeaders = new HttpHeaders();
-			httpHeaders.setLocation(redirectUri);
-			
-	        return new ResponseEntity<>(httpHeaders, HttpStatus.SEE_OTHER);
 		}
+		
+		URI redirectUri = new URI("/");
+		HttpHeaders httpHeaders = new HttpHeaders();
+		httpHeaders.setLocation(redirectUri);
+		
+        return new ResponseEntity<>(httpHeaders, HttpStatus.SEE_OTHER);
+	}
 	
 	@GetMapping("/list")
     public String MovePortfolio(Pageable pageable, Model model) {

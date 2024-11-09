@@ -17,7 +17,8 @@
 			m.member_id 					 AS mentorId,
 			mwhd.mentor_POWK_NM 			 AS mentorPowk,
 			mwhd.mentor_career_apply_manager AS mentorYn,
-			mwhd.FRST_REG_DT 				 AS mentorDate
+			mwhd.FRST_REG_DT 				 AS mentorDate,
+			mwhd.upload_file_work_history_name AS mentorFileNm
 		FROM
 			member m
 			INNER join
@@ -43,7 +44,8 @@
 		SELECT
 		 	m.member_id 								AS mentorId,
 		 	mtcd.mentor_project_NM 						AS mentorProjectNm,
-		 	mtcd.TECH_career_DATA_REG_approval_manager  AS mentorYn
+		 	mtcd.TECH_career_DATA_REG_approval_manager  AS mentorYn,
+		 	mtcd.mentor_upload_career_file_name			AS mentorFileNm
 		from
 			member m
 			INNER join
@@ -66,7 +68,8 @@
 		SELECT
 			m.member_id AS mentorId,
 			mad.mentor_SCHL_NM AS mentorSchlnm,
-			mad.mentor_CRTFCT_NM_approval_manager AS mentorYn
+			mad.mentor_CRTFCT_NM_approval_manager AS mentorYn,
+			mad.mentor_upload_ACBG_file_name AS mentorFileNm
 		FROM
 			member m
 			INNER join
@@ -90,8 +93,8 @@
 		SELECT
 			mcd.member_id AS mentorId,
 			cn.issue_certificate_name AS mentorCertificatenm,
-			mcd.mentor_certificate_approval_manager AS mentorYn
-			
+			mcd.mentor_certificate_approval_manager AS mentorYn,
+			mcd.mentor_upload_certificate_file_name AS mentorFileNm
 		FROM
 		 	mentor_certificate_detail mcd
 		 	INNER join
