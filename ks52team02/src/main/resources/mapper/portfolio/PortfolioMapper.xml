@@ -41,7 +41,8 @@
 			member_id, 
 			portfolio_title, 
 			portfolio_content, 
-			portfolio_register_date
+			portfolio_register_date,
+			upload_portfolio_file_name
 		FROM 
 			mentee_portfolio_registration_details
 		WHERE
