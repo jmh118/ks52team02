@@ -21,6 +21,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -31,6 +32,7 @@ import ks52team02.manager.career.dto.Certificate;
 import ks52team02.manager.career.dto.Education;
 import ks52team02.manager.career.dto.Project;
 import ks52team02.manager.career.dto.Work;
+import ks52team02.manager.career.mapper.CareerMapper;
 import ks52team02.manager.career.service.CareerService;
 import ks52team02.page.PageInfo;
 import ks52team02.page.Pageable;
@@ -45,6 +47,7 @@ public class ManagerCareerController {
 
 	private final CareerService careerService;
 	private final FileMapper fileMapper;
+	private final CareerMapper careerMapper;
 	
 	//다운로드 버튼
 	@GetMapping("/download")
@@ -95,6 +98,16 @@ public class ManagerCareerController {
         
         return  "manager/career/workApprove";
     }
+	
+	@GetMapping("/workCheck")
+	@ResponseBody
+    public String workCheck(@RequestParam(name="mentorFileNm") String mentorFileNm,
+    						@RequestParam(name="managerId") String managerId) {
+		careerMapper.checkWorkByFileNm(mentorFileNm, managerId);
+        
+        return "작업 확인이 완료되었습니다";
+    }
+	
 
     @GetMapping("/project")
     public String mentorCareerProject(Pageable pageable, Model model) {

@@ -17,6 +17,8 @@ public interface CareerMapper {
 	
 	int getWorkCareerCount();
 	
+	int checkWorkByFileNm(String mentorFileNm, String managerId);
+	
 	
 	
 	List<Project> getProjectCareer(Pageable pageable);

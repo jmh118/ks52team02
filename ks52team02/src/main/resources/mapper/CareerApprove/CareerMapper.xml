@@ -30,6 +30,14 @@
 		LIMIT #{rowPerPage} OFFSET #{offset};
 	</select>
 	
+	<update id="checkWorkByFileNm" parameterType="Work">
+  		UPDATE mentor_work_history_details
+			SET
+				mentor_career_apply_manager=#{managerId}
+		WHERE 
+			upload_file_work_history_name=#{mentorFileNm};
+  	</update>
+	
 	
 	<select id="getProjectCareerCount" resultType="int">
 	  	SELECT 
