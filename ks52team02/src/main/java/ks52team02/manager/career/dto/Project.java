@@ -11,4 +11,5 @@ public class Project {
 	private String mentorDate;
 	private String mentorFileNm;
 	
+	private String managerId;
 }

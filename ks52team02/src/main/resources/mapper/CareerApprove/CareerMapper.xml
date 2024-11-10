@@ -39,6 +39,9 @@
   	</update>
 	
 	
+	
+	
+	
 	<select id="getProjectCareerCount" resultType="int">
 	  	SELECT 
 			COUNT(*)
@@ -62,6 +65,16 @@
 			m.member_id=mtcd.mentor_id
 		LIMIT #{rowPerPage} OFFSET #{offset};
 	</select>
+  
+  	<update id="checkProjectByFileNm" parameterType="Project">
+  		UPDATE mentor_tech_career_detail
+			SET
+				TECH_career_DATA_REG_approval_manager=#{managerId}
+		WHERE 
+			mentor_upload_career_file_name=#{mentorFileNm};
+  	</update>
+  
+  
   
   	<select id="getEducationCareerCount" resultType="int">
 	  	SELECT 
@@ -87,6 +100,12 @@
 		LIMIT #{rowPerPage} OFFSET #{offset};
 		
 	</select>
+  
+  
+  
+  
+  
+  
   
   	<select id="getCertificateCareerCount" resultType="int">
 	  	SELECT 

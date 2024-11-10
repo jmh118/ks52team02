@@ -119,6 +119,15 @@ public class ManagerCareerController {
         
         return  "manager/career/projectApprove";
     }
+    
+    @GetMapping("/projectCheck")
+	@ResponseBody
+    public String projectCheck(@RequestParam(name="mentorFileNm") String mentorFileNm,
+    						@RequestParam(name="managerId") String managerId) {
+		careerMapper.checkProjectByFileNm(mentorFileNm, managerId);
+        
+        return "작업 확인이 완료되었습니다";
+    }
 
     @GetMapping("/education")
     public String mentorCareerEducation(Pageable pageable, Model model) {
