@@ -109,13 +109,11 @@ public class MemberPayController {
 	}
 	
 	@GetMapping("/settlementList")
-	public String getsettlementList(HttpSession session, Model model) {
+	public String getsettlementList(HttpSession session, Model model, Pageable pageable) {
 		
 		String memberId = (String) session.getAttribute("SID");
-		List<Pay> paymentList = memberPayService.getPaymentListByMentorId(memberId);
+		PageInfo<Pay> paymentList = memberPayService.getPaymentListByMentorId(memberId, pageable);
 		List<Boolean> isCheck = memberPayService.isCheckSettlement(paymentList);
-		
-		log.info("isCheck : {}", isCheck);
 		
 		model.addAttribute("activeMenu", "settlementList");
 		model.addAttribute("paymentList", paymentList);

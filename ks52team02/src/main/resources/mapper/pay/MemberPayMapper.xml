@@ -363,7 +363,22 @@
 			mentee_settlement_mentor_calculation_code = #{payCode};
 	</select>
 	
-	<select id="getPaymentListByMentorId" parameterType="string" resultMap="paymentListMap">
+	<select id="getPaymentListCntByMentorId" parameterType="string" resultType="int">
+		/* (멘토) 신청받은 결제 내역 행 개수 조회 */
+		SELECT 
+		    COUNT(msmc.mentee_settlement_mentor_calculation_code)
+		FROM 
+		    mentee_settlement_mentor_calculation msmc INNER JOIN mentoring_apply ma 
+			ON msmc.mentoring_apply_code = ma.mentoring_apply_code
+		    INNER join mentoring_notice mn 
+			ON ma.mentoring_notice_code = mn.mentoring_notice_code
+		    INNER JOIN mentoring_notice_detail mnd 
+			ON ma.mentoring_notice_detail_code = mnd.mentoring_notice_detail_code
+		WHERE 
+		    mn.member_id = #{memberId};
+	</select>
+	
+	<select id="getPaymentListByMentorId" parameterType="map" resultMap="paymentListMap">
 		/* (멘토) 신청받은 결제 내역 조회 */
 		
 		SELECT 
@@ -385,8 +400,9 @@
 		    INNER JOIN mentoring_notice_detail mnd 
 			ON ma.mentoring_notice_detail_code = mnd.mentoring_notice_detail_code
 		WHERE 
-		    mn.member_id = #{memberId};
-	
+		    mn.member_id = #{memberId}
+		ORDER BY msmc.settlement_day DESC
+		LIMIT #{rowPerPage} OFFSET #{offset};
 	</select>
 	
 

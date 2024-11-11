@@ -191,11 +191,11 @@ public class MemberPayServiceImpl implements MemberPayService {
 	}
 	
 	@Override
-	public List<Boolean> isCheckSettlement(List<Pay> paymentList) {
+	public List<Boolean> isCheckSettlement(PageInfo<Pay> paymentList) {
 		
 		List<Boolean> isCheck = new ArrayList<>();
 
-		for (Pay pay : paymentList) {
+		for (Pay pay : paymentList.getContents()) {
             String payCode = pay.getPaySettlementCalCode();
             boolean isSettlementExist = isSettlementCntByPayCode(payCode);
             isCheck.add(isSettlementExist);
@@ -217,11 +217,21 @@ public class MemberPayServiceImpl implements MemberPayService {
 	}
 	
 	@Override
-	public List<Pay> getPaymentListByMentorId(String memberId) {
+	public PageInfo<Pay> getPaymentListByMentorId(String memberId, Pageable pageable) {
 		
-		List<Pay> paymentList = memberPayMapper.getPaymentListByMentorId(memberId);
+		int rowCnt = memberPayMapper.getPaymentListCntByMentorId(memberId);
 		
-		for (Pay pay : paymentList) {
+		pageable.setRowPerPage(5);
+		
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("rowPerPage", pageable.getRowPerPage());
+		params.put("offset", pageable.getOffset());
+		params.put("memberId", memberId);
+		
+		
+		List<Pay> contents = memberPayMapper.getPaymentListByMentorId(params);
+		
+		for (Pay pay : contents) {
 	        String formattedDate = dateFormatterUtil.formatDate(pay.getNoticeDetail().getMentoringYmd());
 	        String formattedTime = dateFormatterUtil.formatTime(pay.getNoticeDetail().getMentoringTime());
 
@@ -229,7 +239,7 @@ public class MemberPayServiceImpl implements MemberPayService {
 	        pay.getNoticeDetail().setMentoringTime(formattedTime);
 	    }	
 		
-		return paymentList;
+		return new PageInfo<>(contents, pageable, rowCnt);
 	}
 	
 	@Override

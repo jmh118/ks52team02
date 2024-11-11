@@ -37,13 +37,13 @@ public interface MemberPayService {
 	boolean addSettlementApply(String payCode, String noticeCode, String memberId);
 	
 	// 신청한 정산 내역이 있는지 조회 
-	List<Boolean> isCheckSettlement(List<Pay> paymentList);
+	List<Boolean> isCheckSettlement(PageInfo<Pay> paymentList);
 	
 	// 정산신청 내역 개수로 true, false 판단
 	boolean isSettlementCntByPayCode(String payCode);
 	
 	// (멘토) 신청받은 결제 내역 조회 
-	List<Pay> getPaymentListByMentorId(String memberId);
+	PageInfo<Pay> getPaymentListByMentorId(String memberId, Pageable pageable);
 	
 	// 결제한 멘토링명 조회
 	String getMentoringTitleByPayCode(String payCode);
