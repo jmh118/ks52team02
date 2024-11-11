@@ -36,25 +36,21 @@
 	       });
 
 	       
-	       $(document).ready(function() {
-	    	   
-	    	   $('.form-select').change(function() {
-	    		   
-	    		   const selectedFilter = $(this).val();
-	    		   const request = $.ajax({
-	    			   url : '/manager/career/workYn',
-	    			   method : 'GET',
-	    			   data : {'selectedFilter' : selectedFilter},
-	    			   dataType : 'json'
-	    		   });
-	    		   request.done(function(data) {
-	            	   console.log(data);
-	                   alert('작업 확인이 완료되었습니다');   // 서버에서 전달된 응답 메시지 표시
-	                   location.reload();
-	               })
-	    		   
-	    	   }
-	       )}
+	       $('.form-select').change(function() {
+	    	    const selectedFilter = $(this).val();
+	    	    const request = $.ajax({
+	    	        url: '/manager/career/workYn',
+	    	        method: 'GET',
+	    	        data: { 'selectedFilter': selectedFilter },
+	    	        dataType: 'json'
+	    	    });
+	    	    
+	    	    request.done(function(data) {
+	    	        console.log(data);
+	    	        alert('작업 확인이 완료되었습니다'); // 서버에서 전달된 응답 메시지 표시
+	    	        location.reload();
+	    	    });
+	    	});
 	       
 	       
 	</script>
