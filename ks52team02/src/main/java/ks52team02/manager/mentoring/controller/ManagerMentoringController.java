@@ -37,13 +37,13 @@ public class ManagerMentoringController {
 	}
 	
 	@GetMapping("/removeQuestion")
-	public String removeQuestions(@RequestParam(name="questionCode") String questionCode, Model model) {
+	public String removeQuestions(@RequestParam(name="questionCode") String questionCode ) {
 		managerMentoringService.removeQuestion(questionCode);
 		return "redirect:/manager/mentoring/questionList";
 	}
 	
 	@GetMapping("/removeAnswer")
-	public String removeAnswers(@RequestParam(name="answerCode") String answerCode, Model model) {
+	public String removeAnswers(@RequestParam(name="answerCode") String answerCode ) {
 		managerMentoringService.removeAnswer(answerCode);
 		
 		return "redirect:/manager/mentoring/answerList";
