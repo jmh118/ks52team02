@@ -5,6 +5,7 @@ import java.util.List;
 import ks52team02.manager.review.dto.Review;
 import ks52team02.member.pay.dto.Pay;
 import ks52team02.page.PageInfo;
+import ks52team02.page.Pageable;
 
 public interface MemberReviewService {
 	
@@ -24,7 +25,7 @@ public interface MemberReviewService {
 	Review getReviewByReviewCode(String reviewCode, String memberId);
 	
 	// 작성한 후기 목록 조회
-	List<Review> getReviewListById(String memberId);
+	PageInfo<Review> getReviewListById(String memberId, Pageable pageable);
 	
 	// 등록한 후기가 있는지 조회
 	List<Boolean> isCheckReview(PageInfo<Pay> paymentList);

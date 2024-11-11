@@ -1,11 +1,16 @@
 package ks52team02.home.controller;
 
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import ks52team02.manager.member.mapper.ManagerMemberMapper;
+import ks52team02.manager.mentoring.mapper.ManagerMentoringMapper;
+import ks52team02.manager.pay.mapper.ManagerPayMapper;
 import ks52team02.member.honor.dto.hornorMentor;
 import ks52team02.member.honor.service.MemberHonorService;
 import ks52team02.member.mentoring.dto.Notice;
@@ -20,6 +25,9 @@ public class HomeController {
 	
 	private final MemberHonorService memberHonorService; 
 	private final MentoringService mentoringService;
+	private final ManagerMemberMapper managerMemberMapper; 
+	private final ManagerMentoringMapper managerMentoringMapper;
+	private final ManagerPayMapper managerPayMapper;
 	
 	@GetMapping("/")
 	public String indexMove() {
@@ -30,7 +38,6 @@ public class HomeController {
 	public String MemberPageMove(Model model) {
 		
 		List<hornorMentor> honorMentorList = memberHonorService.getHonorMentorList();
-		
 		model.addAttribute("honorMentorList", honorMentorList);
 		
 		List<Notice> noticeList = mentoringService.getNoticeMainList();
@@ -40,7 +47,22 @@ public class HomeController {
 	}
 	
 	@GetMapping("/manager")
-    public String managerPageMove() {
+    public String managerPageMove(Model model) {
+		
+		int memberCnt = managerMemberMapper.getAllMemberCnt();
+		int mentoringCnt = managerMentoringMapper.getMentoringCnt();
+		int totalPaymentAmount = managerPayMapper.getTotalPayAmount();
+		int flatformCalAmount = managerPayMapper.getFlatformCalAmount();
+		
+		NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
+	    String formattedTotalPaymentAmount = numberFormat.format(totalPaymentAmount);
+	    String formattedFlatformCalAmount = numberFormat.format(flatformCalAmount);
+		
+		model.addAttribute("memberCnt", memberCnt);
+		model.addAttribute("mentoringCnt", mentoringCnt);
+		model.addAttribute("totalPaymentAmount", formattedTotalPaymentAmount);
+	    model.addAttribute("flatformCalAmount", formattedFlatformCalAmount);
+		
         return  "manager/managerMain";
     }
 

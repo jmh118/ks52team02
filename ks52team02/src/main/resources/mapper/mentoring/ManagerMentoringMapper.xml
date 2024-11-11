@@ -30,6 +30,15 @@
 		<result column="question_writing_YMD" property="questionYmd"/>
 	</resultMap>
 	
+	<select id="getMentoringCnt" resultType="int">
+		SELECT
+			COUNT(mentee_settlement_mentor_calculation_code)
+		FROM 
+			mentee_settlement_mentor_calculation
+		WHERE 
+			mentoring_progress_status = '종료';
+	</select>
+	
 	<select id="getManagerMentoringApplyList" parameterType="map" resultMap="mentoringApplyMap">
 		/* 멘토링 신청 조회 */
 		SELECT 

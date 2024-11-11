@@ -17,8 +17,11 @@ public interface MemberPayMapper {
 	// (멘토) 정산 내역 - 연도, 월 검색로 조회
 	List<PaymentSettlement> searchSettlementHistoryList(Map<String, Object> filterParams);
 
+	// (멘토) 정산 내역 행 개수 조회
+	int getSettlementHistoryListCnt(String memberId);
+	
 	// (멘토) 정산 내역 조회
-	List<PaymentSettlement> getSettlementHistoryList(String memeberId);
+	List<PaymentSettlement> getSettlementHistoryList(Map<String, Object> params);
 
 	// 연도,월 검색 결제된 조회
 	List<Pay> getFilterMentorPaymentListById(Map<String, Object> filterParams);
@@ -56,8 +59,11 @@ public interface MemberPayMapper {
 	// 정산신청을 했는지 조회
 	int getSettlementCntByPayCode(String payCode);
 	
+	// (멘토) 신청받은 결제 내역 행 개수 조회
+	int getPaymentListCntByMentorId(String memberId);
+	
 	// (멘토) 신청받은 결제 내역 조회 
-	List<Pay> getPaymentListByMentorId(String memberId);
+	List<Pay> getPaymentListByMentorId(Map<String, Object> params);
 
 	// 결제한 멘토링명 조회
 	String getMentoringTitleByPayCode(String payCode);
