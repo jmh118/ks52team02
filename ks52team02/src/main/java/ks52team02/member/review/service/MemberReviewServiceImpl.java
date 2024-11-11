@@ -13,6 +13,7 @@ import ks52team02.manager.member.service.ManagerMemberService;
 import ks52team02.manager.review.dto.Review;
 import ks52team02.member.pay.dto.Pay;
 import ks52team02.member.review.mapper.MemberReviewMapper;
+import ks52team02.page.PageInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -98,10 +99,10 @@ public class MemberReviewServiceImpl implements MemberReviewService {
 	}
 	
 	@Override
-	public List<Boolean> isCheckReview(List<Pay> paymentList) {
+	public List<Boolean> isCheckReview(PageInfo<Pay> paymentList) {
 		List<Boolean> isCheck = new ArrayList<>();
 		
-		for (Pay pay : paymentList) {
+		for (Pay pay : paymentList.getContents()) {
             String payCode = pay.getPaySettlementCalCode();
             boolean isReviewExist = isReviewCntPayCode(payCode);
             isCheck.add(isReviewExist);
