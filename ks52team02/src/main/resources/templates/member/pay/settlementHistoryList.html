@@ -44,7 +44,7 @@
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                <tr th:each="sl : ${settlementList}">
+                                                                <tr th:each="sl : ${settlementList.contents}">
                                                                     <td th:text="${sl.pay.notice.noticeTitle}"></td>
                                                                     <td th:text="${sl.pay.noticeDetail.mentoringYmd}"></td>
                                                                     <td th:text="${sl.pay.noticeDetail.mentoringTime}"></td>
@@ -58,21 +58,21 @@
                                                                 </tr>
                                                             </tbody>
                                                         </table>
-                                                        <!-- <div class="pagination-area mt-20 mb-20">
+                                                        <div class="pagination-area mt-20 mb-20">
 									                        <nav aria-label="Page navigation example">
 									                            <ul class="pagination justify-content-start">
-									                                <th:block th:each="num : ${#numbers.sequence(reviewList.startPageNum, reviewList.endPageNum)}">
+									                                <th:block th:each="num : ${#numbers.sequence(settlementList.startPageNum, settlementList.endPageNum)}">
 															            <li class="page-item"
-															                th:classappend="${reviewList.currentPage == num} ? 'active'">
-															                <a class="page-link" th:href="@{/review/list(currentPage=${num})}" th:if ="${num} != 0">[[${num}]]</a>
+															                th:classappend="${settlementList.currentPage == num} ? 'active'">
+															                <a class="page-link" th:href="@{/pay/settlementHistoryList(currentPage=${num})}" th:if ="${num} != 0">[[${num}]]</a>
 															            </li>
 														       		</th:block>
-									                                <li class="page-item" th:classappend="${reviewList.currentPage >= reviewList.lastPage} ? 'disabled'">
-									                                    <a class="page-link" th:href="@{/review/list(currentPage=${reviewList.currentPage + 1})}"><i class="fi-rs-arrow-small-right"></i></a>
+									                                <li class="page-item" th:classappend="${settlementList.currentPage >= settlementList.lastPage} ? 'disabled'">
+									                                    <a class="page-link" th:href="@{/pay/settlementHistoryList(currentPage=${settlementList.currentPage + 1})}"><i class="fi-rs-arrow-small-right"></i></a>
 									                                </li>
 									                            </ul>
 									                        </nav>
-									                    </div> -->
+									                    </div>
                                                     </div>
                                                 </div>
                                             </div>

@@ -16,7 +16,7 @@ public interface MemberPayService {
 	List<PaymentSettlement> searchSettlementHistoryList(String memberId, SearchFilter searchFilter);
 	
 	// (멘토) 정산 내역 조회
-	List<PaymentSettlement> getSettlementHistoryList(String memberId);
+	PageInfo<PaymentSettlement> getSettlementHistoryList(String memberId, Pageable pageable);
 	
 	// 연도,월 검색 결제 내역 조회
 	List<Pay> getFilterMemberPaymentListById(String memberId, String memberLevel, SearchFilter searchFilter);

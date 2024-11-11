@@ -54,10 +54,10 @@ public class MemberPayController {
 	
 	
 	@GetMapping("/settlementHistoryList")
-	public String getSettlementHistoryListById(Model model, HttpSession session) {
+	public String getSettlementHistoryListById(Model model, HttpSession session, Pageable pageable) {
 		
 		String memberId = (String) session.getAttribute("SID");
-		List<PaymentSettlement> settlementList = memberPayService.getSettlementHistoryList(memberId);
+		PageInfo<PaymentSettlement> settlementList = memberPayService.getSettlementHistoryList(memberId, pageable);
 		
 		model.addAttribute("activeMenu", "settlementHistoryList");
 		model.addAttribute("settlementList", settlementList);
@@ -172,14 +172,6 @@ public class MemberPayController {
 	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("결제 검증 실패");
 	    }
 	}
-	
-	@GetMapping("/success")
-	public String paymentStatusIsSuccessView() {
-		
-		
-		return "member/pay/payStatusSuccess";
-	}
-	
 	
 
 }

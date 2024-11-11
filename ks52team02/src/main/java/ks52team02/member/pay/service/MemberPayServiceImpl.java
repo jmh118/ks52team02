@@ -50,11 +50,19 @@ public class MemberPayServiceImpl implements MemberPayService {
 	}
 	
 	@Override
-	public List<PaymentSettlement> getSettlementHistoryList(String memberId) {
+	public PageInfo<PaymentSettlement> getSettlementHistoryList(String memberId, Pageable pageable) {
 		
-		List<PaymentSettlement> settlementList = memberPayMapper.getSettlementHistoryList(memberId);
+		int rowCnt = memberPayMapper.getSettlementHistoryListCnt(memberId);
+		pageable.setRowPerPage(5);
 		
-		for (PaymentSettlement paymentSettlement : settlementList) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("rowPerPage", pageable.getRowPerPage());
+		params.put("offset", pageable.getOffset());
+		params.put("memberId", memberId);
+		
+		List<PaymentSettlement> contents = memberPayMapper.getSettlementHistoryList(params);
+		
+		for (PaymentSettlement paymentSettlement : contents) {
 	        String formattedDate = dateFormatterUtil.formatDate(paymentSettlement.getPay().getNoticeDetail().getMentoringYmd());
 	        String formattedTime = dateFormatterUtil.formatTime(paymentSettlement.getPay().getNoticeDetail().getMentoringTime());
 
@@ -62,7 +70,7 @@ public class MemberPayServiceImpl implements MemberPayService {
 	        paymentSettlement.getPay().getNoticeDetail().setMentoringTime(formattedTime);
 	    }	
 		
-		return settlementList;
+		return new PageInfo<>(contents, pageable, rowCnt);
 	}
 	
 	
