@@ -31,6 +31,7 @@
 	</resultMap>
 	
 	<select id="getManagerMentoringApplyList" parameterType="map" resultMap="mentoringApplyMap">
+		/* 멘토링 신청 조회 */
 		SELECT 
 			mentoring_apply_code, 
 			mentoring_notice_code, 

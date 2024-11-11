@@ -14,7 +14,7 @@
                 <div class="col-lg-7">
                     <div class="row">
                         <h3 class="mb-30">등록</h3>
-                        <form id="addCertificateForm" method="post" th:action="@{/mypage/mentor/certificateAdd}">
+                        <form id="addCertificateForm" method="post" th:action="@{/mypage/mentor/certificateAdd}" enctype="multipart/form-data">
                         	<input class="form-control" name="mentorId" type="hidden" th:value="${session.SID}"/>
 		                        <div class="form-group col-lg-6">자격증명*
 	                                <select class="form-select" name="mentorCertificateNm">
@@ -40,7 +40,7 @@
                                 </div>
                                 
                                <div class="form-group col-lg-6">자격증 증빙 자료*
-							  <input type="file" name="mentorFileNm" accept="image/png, image/jpeg">
+							  <input type="file" name="files" multiple>
 							  </div>
 							<button class="submit submit-auto-width" type="submit">추가</button>
                         </form>

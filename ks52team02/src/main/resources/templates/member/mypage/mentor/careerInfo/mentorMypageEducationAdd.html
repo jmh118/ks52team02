@@ -14,7 +14,7 @@
                 <div class="col-lg-7">
                     <div class="row">
                         <h3 class="mb-30">등록</h3>
-                        <form id="addEducationForm" method="post" th:action="@{/mypage/mentor/educationAdd}">
+                        <form id="addEducationForm" method="post" th:action="@{/mypage/mentor/educationAdd}" enctype="multipart/form-data">
                         		<input class="form-control" name="mentorId" type="hidden" th:value="${session.SID}"/>
                                 <div class="form-group col-lg-6">
                                     <input type="text" required name="mentorSchoolNm" placeholder="학교명 *">
@@ -42,7 +42,7 @@
                                 </div>
                                <div class="form-group col-lg-6">
                                <label for="mentorFileNm">학력파일 *</label>
-							  <input type="file" name="mentorFileNm" accept="image/png, image/jpeg">
+							  <input type="file" name="files" multiple>
 							  </div>
 							<button class="submit submit-auto-width" type="submit">추가</button>
                         </form>

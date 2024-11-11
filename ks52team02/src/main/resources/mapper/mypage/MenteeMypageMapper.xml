@@ -430,9 +430,9 @@
 					portfolio_release_YN=#{menteePtflReleaseYn},
 					</if>
 					<if test="menteePtflFileNm != null and menteePtflFileNm != ''">
-					upload_portfolio_file_name='file_code_01',
+					upload_portfolio_file_name=#{menteePtflFileNm},
 					</if>
-					portfolio_register_date='now()'
+					portfolio_register_date= CURDATE()
 			WHERE 
 				mentee_portfolio_registration_details_code = #{menteePtflCode};
 				
@@ -452,7 +452,7 @@
 			portfolio_release_YN, 
 			upload_portfolio_file_name
 			)
-		VALUES (#{menteePtflCode}, #{menteeId}, #{menteePtflTitle}, #{menteePtflCtnt}, 'N', NOW(), 'Y', 'file_code_01')
+		VALUES (#{menteePtflCode}, #{menteeId}, #{menteePtflTitle}, #{menteePtflCtnt}, 'N', NOW(), 'Y', #{menteePtflFileNm})
  		
 	  	</insert>
   

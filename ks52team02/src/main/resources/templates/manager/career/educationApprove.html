@@ -2,6 +2,42 @@
 <html xmlns:th="http://www.thymeleaf.org" 
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{manager/layouts/layout}">
+	<th:block layout:fragment="customJs">
+	<script>
+	
+	    
+	// 링크 클릭 이벤트 처리
+    $('.workCheck').click(function(event) {
+
+        // 링크의 data-* 속성에서 파라미터 값 추출
+        const mentorCode = $(this).data('mentor-work-code');
+        const managerId = $(this).data('manager-id');
+
+        // Ajax 요청 전송
+        const request = $.ajax({
+            url: '/manager/career/educationCheck',  // 요청할 URL
+            type: 'GET',        // GET 방식으로 전송
+            data: {
+                'mentorCode': mentorCode,
+                'managerId': managerId
+            }
+        });
+            request.done(function(data) {
+         	   console.log(data);
+                // 요청이 성공했을 때 실행할 작업
+                alert('작업 확인이 완료되었습니다');   // 서버에서 전달된 응답 메시지 표시
+                location.reload();
+                //$(".table-responsive").load(window.location.href + " .table-responsive");//해당 div만 새로고침
+            })
+            request.fail(function(xhr, status, error) {
+                console.error("오류 발생:", error);
+                alert("작업 확인 중 오류가 발생했습니다.");
+            });
+    });
+	     
+
+	</script>
+	</th:block>
 	<th:block layout:fragment="customContent">
             <section class="content-main">
                 <div class="content-header">
@@ -37,16 +73,16 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                     <tr th:each="m : ${memberList}">
+                                     <tr th:each="m : ${memberList.contents}">
                                         <td th:text="${m.mentorId}"></td>
                                         <td class="text-muted" th:text="${m.mentorSchlnm}"></td>
                                         <td th:unless="${m.mentorYn == 'N'}"><span class="rounded-pill alert-success">승인</span></td>
                                         <td th:if="${m.mentorYn == 'N'}"><span class="rounded-pill alert-danger">대기</span></td>
                                         <td th:text="${m.mentorDate}"></td>
-                                        <td th:text="${m.mentorDate}"></td>
+                                        <td><a th:href="@{/manager/career/download(mentorFileNm=${m.mentorFileNm})}" class="btn btn-sm btn-brand rounded font-sm mt-15">다운로드</a></td>
                                         <td class="text-end">
-                                            <a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15" th:if="${m.mentorYn == 'N'}">승인</a>
-                                            <a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15">거부</a>
+                                            <button type="button" th:data-mentor-work-code="${m.mentorCode}" th:data-manager-id="${session.SID}" class="btn btn-sm btn-brand rounded font-sm mt-15 workCheck" th:if="${m.mentorYn == 'N'}">승인</button>
+                                            <button type="button" th:data-mentor-work-code="${m.mentorCode}" data-manager-id="N" class="btn btn-sm btn-brand rounded font-sm mt-15 workCheck">취소</button>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -60,14 +96,19 @@
                 <div class="pagination-area mt-15 mb-50">
                     <nav aria-label="Page navigation example">
                         <ul class="pagination justify-content-start">
-                            <li class="page-item 승인"><a class="page-link" href="#">01</a></li>
-                            <li class="page-item"><a class="page-link" href="#">02</a></li>
-                            <li class="page-item"><a class="page-link" href="#">03</a></li>
-                            <li class="page-item"><a class="page-link dot" href="#">...</a></li>
-                            <li class="page-item"><a class="page-link" href="#">16</a></li>
-                                <a class="page-link" href="#"><i class="material-icons md-chevron_right"></i></a>
-                            </li>
-                        </ul>
+					    	<li class="page-item" th:classappend="${memberList.currentPage < 2}? 'disabled'">
+								<a class="page-link d-flex justify-content-center align-items-center" th:href="@{/manager/career/education(currentPage=${memberList.currentPage - 1})}"><i class="material-icons md-chevron_left"></i></a>
+							</li>
+					        <th:block th:each="num : ${#numbers.sequence(memberList.startPageNum, memberList.endPageNum)}">
+					            <li class="page-item"
+					                th:classappend="${memberList.currentPage == num} ? 'active'">
+					                <a class="page-link" th:href="@{/manager/career/education(currentPage=${num})}">[[${num}]]</a>
+					            </li>
+					        </th:block>
+					        <li class="page-item" th:classappend="${memberList.currentPage >= memberList.lastPage} ? 'disabled'">
+					            <a class="page-link d-flex justify-content-center align-items-center" th:href="@{/manager/career/education(currentPage=${memberList.currentPage + 1})}"><i class="material-icons md-chevron_right"></i></a>
+					        </li>
+					    </ul>
                     </nav>
                 </div>
             </section>
