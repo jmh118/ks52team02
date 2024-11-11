@@ -7,6 +7,8 @@ import ks52team02.member.pay.dto.BeforePay;
 import ks52team02.member.pay.dto.MentoringData;
 import ks52team02.member.pay.dto.Pay;
 import ks52team02.member.pay.dto.SearchFilter;
+import ks52team02.page.PageInfo;
+import ks52team02.page.Pageable;
 
 public interface MemberPayService {
 	
@@ -47,5 +49,5 @@ public interface MemberPayService {
 	String getMentoringTitleByPayCode(String payCode);
 	
 	// (멘티) 결제 내역 조회
-	List<Pay> getMenteePaymentListById(String memberId);
+	PageInfo<Pay> getMenteePaymentListById(String memberId, Pageable pageable);
 }

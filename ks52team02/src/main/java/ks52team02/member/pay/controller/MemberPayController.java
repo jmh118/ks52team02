@@ -23,9 +23,10 @@ import ks52team02.member.pay.dto.BeforePay;
 import ks52team02.member.pay.dto.Pay;
 import ks52team02.member.pay.dto.PaymentRequest;
 import ks52team02.member.pay.dto.SearchFilter;
-import ks52team02.member.pay.mapper.MemberPayMapper;
 import ks52team02.member.pay.service.MemberPayService;
 import ks52team02.member.review.service.MemberReviewService;
+import ks52team02.page.PageInfo;
+import ks52team02.page.Pageable;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -47,7 +48,6 @@ public class MemberPayController {
 		String memberId = (String) session.getAttribute("SID");
 		List<PaymentSettlement> settlementList = memberPayService.searchSettlementHistoryList(memberId, searchFilter);
 		
-		log.info("32-42-0=340-2=3 : {}", settlementList);
 		
 		return settlementList;
 	}
@@ -125,17 +125,17 @@ public class MemberPayController {
 	}
 	
 	@GetMapping("/list")
-	public String getPayList(HttpSession session, Model model) {
+	public String getPayList(HttpSession session, Model model, Pageable pageable) {
 		
 		String memberId = (String) session.getAttribute("SID");
-		List<Pay> paymentList = memberPayService.getMenteePaymentListById(memberId);
+		PageInfo<Pay> paymentList = memberPayService.getMenteePaymentListById(memberId, pageable);
 		List<Boolean> isCheck = memberReviewService.isCheckReview(paymentList);
 		
 		model.addAttribute("activeMenu", "payList");
 		model.addAttribute("paymentList", paymentList);
 		model.addAttribute("reviewCheck", isCheck);
 		
-		return "member/pay/payList.html";
+		return "member/pay/payList";
 	}
 	
 	@PostMapping("/process")

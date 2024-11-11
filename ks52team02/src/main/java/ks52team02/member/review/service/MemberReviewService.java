@@ -4,6 +4,7 @@ import java.util.List;
 
 import ks52team02.manager.review.dto.Review;
 import ks52team02.member.pay.dto.Pay;
+import ks52team02.page.PageInfo;
 
 public interface MemberReviewService {
 	
@@ -26,7 +27,7 @@ public interface MemberReviewService {
 	List<Review> getReviewListById(String memberId);
 	
 	// 등록한 후기가 있는지 조회
-	List<Boolean> isCheckReview(List<Pay> paymentList);
+	List<Boolean> isCheckReview(PageInfo<Pay> paymentList);
 	
 	// 후기 내역 개수로 true, false 판단
 	boolean isReviewCntPayCode(String payCode);

@@ -16,6 +16,8 @@ import ks52team02.member.pay.dto.MentoringData;
 import ks52team02.member.pay.dto.Pay;
 import ks52team02.member.pay.dto.SearchFilter;
 import ks52team02.member.pay.mapper.MemberPayMapper;
+import ks52team02.page.PageInfo;
+import ks52team02.page.Pageable;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -236,11 +238,19 @@ public class MemberPayServiceImpl implements MemberPayService {
 	}
 	
 	@Override
-	public List<Pay> getMenteePaymentListById(String memberId) {
+	public PageInfo<Pay> getMenteePaymentListById(String memberId, Pageable pageable) {
 		
-		List<Pay> paymentList = memberPayMapper.getMenteePaymentListById(memberId);
+		int rowCnt = memberPayMapper.getPaymentListCnt(memberId);
+		pageable.setRowPerPage(5);
 		
-		for (Pay pay : paymentList) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("rowPerPage", pageable.getRowPerPage());
+		params.put("offset", pageable.getOffset());
+		params.put("memberId", memberId);
+		
+		List<Pay> contents = memberPayMapper.getMenteePaymentListById(params);
+		
+		for (Pay pay : contents) {
 	        String formattedDate = dateFormatterUtil.formatDate(pay.getNoticeDetail().getMentoringYmd());
 	        String formattedTime = dateFormatterUtil.formatTime(pay.getNoticeDetail().getMentoringTime());
 
@@ -248,6 +258,7 @@ public class MemberPayServiceImpl implements MemberPayService {
 	        pay.getNoticeDetail().setMentoringTime(formattedTime);
 	    }	
 		
-		return paymentList;
+		
+		return new PageInfo<>(contents, pageable, rowCnt);
 	}
 }

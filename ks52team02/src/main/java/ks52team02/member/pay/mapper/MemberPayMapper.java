@@ -9,6 +9,7 @@ import ks52team02.manager.pay.dto.PaymentSettlement;
 import ks52team02.member.pay.dto.BeforePay;
 import ks52team02.member.pay.dto.MentoringData;
 import ks52team02.member.pay.dto.Pay;
+import ks52team02.page.PageInfo;
 
 @Mapper
 public interface MemberPayMapper {
@@ -61,6 +62,9 @@ public interface MemberPayMapper {
 	// 결제한 멘토링명 조회
 	String getMentoringTitleByPayCode(String payCode);
 	
+	// 결제 내역 행 조회
+	int getPaymentListCnt(String memberId);
+	
 	// (멘티) 결제 내역
-	List<Pay> getMenteePaymentListById(String memberId);
+	List<Pay> getMenteePaymentListById(Map<String, Object> params);
 }
