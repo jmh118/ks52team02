@@ -113,7 +113,6 @@ public class MemberPayServiceImpl implements MemberPayService {
 		List<String> applyCodeList = new ArrayList<>();
 		
 		int result = 0;
-		log.info("impl mentoringData: {}", mentoringDataList);
 		for (MentoringData mentoringData : mentoringDataList) {
 			String newReviewCode = commonMapper.getPrimaryKey("mentee_settlement_mentor_calculation", "mentee_settlement_mentor_calculation_code", "mentee_settlement_mentor_calculation_code_");
             mentoringData.setPayCode(newReviewCode);
@@ -130,13 +129,9 @@ public class MemberPayServiceImpl implements MemberPayService {
 		if(result == 0) return result; 
 		
 		int upre = memberPayMapper.updateMentoringApplyStarus(applyCodeList);
-		log.info("신청 상태 업데이트 결과 : {}", upre);
-		
+
 		List<String> detailCodeList = memberPayMapper.getNoticeDetailCodeByApplyCode(applyCodeList);
 		int updre = memberPayMapper.updateMentroingDatailStatus(detailCodeList);
-		log.info("공고 상세 코드 목록 : {}", detailCodeList);
-		log.info("공고 상세 업데이트 결과 : {}", updre);
-		
 		
 		return result;
 	}

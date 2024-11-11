@@ -2,6 +2,7 @@ package ks52team02.member.review.mapper;
 
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -26,8 +27,11 @@ public interface MemberReviewMapper {
 	// 특정 후기 조회 (후기 수정을 위한...)
 	Review getReviewByReviewCode(String reviewCode, String memberId);
 	
+	// 등록한 후기 개수 조회
+	int getReviewListCntById(String memberId);
+	
 	// 등록한 후기 조회
-	List<Review> getReviewListById(String memberId);
+	List<Review> getReviewListById(Map<String, Object> params);
 	
 	// 등록한 후기가 있는지 조회
 	int getReviewCntByPayCode(String payCode);

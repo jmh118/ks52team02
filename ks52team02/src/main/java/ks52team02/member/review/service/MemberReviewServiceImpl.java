@@ -1,7 +1,9 @@
 package ks52team02.member.review.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +16,7 @@ import ks52team02.manager.review.dto.Review;
 import ks52team02.member.pay.dto.Pay;
 import ks52team02.member.review.mapper.MemberReviewMapper;
 import ks52team02.page.PageInfo;
+import ks52team02.page.Pageable;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -83,11 +86,19 @@ public class MemberReviewServiceImpl implements MemberReviewService {
 	}
 	
 	@Override
-	public List<Review> getReviewListById(String memberId) {
+	public PageInfo<Review> getReviewListById(String memberId, Pageable pageable) {
 		
-		List<Review> reviewList = memberReviewMapper.getReviewListById(memberId);
+		int rowCnt = memberReviewMapper.getReviewListCntById(memberId);
+		pageable.setRowPerPage(5);
+		
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("rowPerPage", pageable.getRowPerPage());
+		params.put("offset", pageable.getOffset());
+		params.put("memberId", memberId);
+		
+		List<Review> contents = memberReviewMapper.getReviewListById(params);
 		  
-		  for (Review review : reviewList) {
+		  for (Review review : contents) {
 		        String formattedDate = dateFormatterUtil.formatDate(review.getNoticeDetail().getMentoringYmd());
 		        String formattedTime = dateFormatterUtil.formatTime(review.getNoticeDetail().getMentoringTime());
 
@@ -95,7 +106,7 @@ public class MemberReviewServiceImpl implements MemberReviewService {
 		        review.getNoticeDetail().setMentoringTime(formattedTime);
 		    }	
 		
-		return reviewList;
+		return new PageInfo<>(contents, pageable, rowCnt);
 	}
 	
 	@Override
