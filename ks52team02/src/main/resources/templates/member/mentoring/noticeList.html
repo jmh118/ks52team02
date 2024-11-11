@@ -3,7 +3,7 @@
 	layout:decorate="~{member/layouts/layout}">
 	
 	<th:block layout:fragment="customJs">
-		<script type="text/javascript">
+		<script th:inline="javascript">
 			$('.add-notice-btn').click(function(e){
 				let isSubmit = true;
 				e.preventDefault();
@@ -20,7 +20,25 @@
 	
 	    		if(isSubmit) location.href = $(this).attr('href');
 			});
-		
+
+			    $('a.cate-list').click(function(e) {
+			    	e.preventDefault();
+			        let category = [[${category}]];  // Thymeleaf에서 category 값 가져오기
+			        let href = $(this).attr('href');  // 기존 href 가져오기
+
+			        if (category && category.trim() !== '') {
+			            // category가 있을 때만 &category= 추가
+			            if (href.includes('?')) {
+			                // 기존에 query 파라미터가 있을 경우
+			                href = `${href}&category=${category}`;
+			            } else {
+			                // 기존에 query 파라미터가 없을 경우
+			                href = `${href}?category=${category}`;
+			            }
+			        }
+					location.href = href;
+			    });
+
 		</script>
 	</th:block>
 	
@@ -68,17 +86,16 @@
                     <!--product grid-->
                     <div class="pagination-area mt-20 mb-20">
                         <nav aria-label="Page navigation example">
-                            <ul class="pagination justify-content-start">
+                           <ul class="pagination justify-content-start">
                                 <th:block th:each="num : ${#numbers.sequence(noticeList.startPageNum, noticeList.endPageNum)}">
 						            <li class="page-item"
 						                th:classappend="${noticeList.currentPage == num} ? 'active'">
-						                <a class="page-link" th:href="@{/mentoring/notice(currentPage=${num})}" th:if ="${num} != 0">[[${num}]]</a>
+						                <a class="page-link cate-list" th:href="@{/mentoring/notice(currentPage=${num})}" th:if ="${num} != 0">[[${num}]]</a>
 						            </li>
 					       		</th:block>
                                 <li class="page-item" th:classappend="${noticeList.currentPage >= noticeList.lastPage} ? 'disabled'">
-                                    <a class="page-link" th:href="@{/mentoring/notice(currentPage=${noticeList.currentPage + 1})}"><i class="fi-rs-arrow-small-right"></i></a>
+                                    <a class="page-link cate-list" th:href="@{/mentoring/notice(currentPage=${noticeList.currentPage + 1})}"><i class="fi-rs-arrow-small-right"></i></a>
                                 </li>
-                                
                             </ul>
                         </nav>
                     </div>
