@@ -4,7 +4,10 @@ import lombok.Data;
 
 @Data
 public class Portfolio {
-
+	
+	
+	
+	private String portfolioCode; 
 	private String portfolioId; //포폴 작성자 아이디
 	private String portfolioTitle;
 	private String portfolioContent;

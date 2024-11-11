@@ -1,15 +1,39 @@
 package ks52team02.member.register.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URLEncoder;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import ks52team02.files.dto.FileDto;
+import ks52team02.files.mapper.FileMapper;
+import ks52team02.files.service.FileService;
 import ks52team02.manager.member.dto.Member;
 import ks52team02.manager.member.dto.MentorApproval;
+import ks52team02.member.mypage.dto.MentorWork;
+import ks52team02.member.mypage.service.MentorMypageService;
 import ks52team02.member.register.dto.MentorRegisterDTO;
 import ks52team02.member.register.mapper.MemberRegisterMapper;
 import ks52team02.member.register.service.MemberRegisterService;
@@ -24,6 +48,49 @@ public class MemberRegisterController {
 	
 	private final MemberRegisterMapper memberRegisterMapper;
 	private final MemberRegisterService memberRegisterService;
+	
+	private final FileMapper fileMapper;
+	private final FileService fileService;
+	
+	@GetMapping("/download")
+	@ResponseBody
+	public ResponseEntity<Object> archiveDownload(@RequestParam(value="mentorFileNm", required = false) String fileIdx,
+							HttpServletRequest request,HttpServletResponse response) throws URISyntaxException{
+		
+		
+		if(fileIdx != null) {
+			FileDto fileDto = fileMapper.getFileInfoByCode(fileIdx);
+			
+			File file = new File("/home/teamproject" + fileDto.getFilePath());
+		
+			Path path = Paths.get(file.getAbsolutePath());
+	        Resource resource;
+			try {
+				resource = new UrlResource(path.toUri());
+				String contentType = null;
+				contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
+				if(contentType == null) {
+					contentType = "application/octet-stream";
+				}
+				return ResponseEntity.ok()
+						.contentType(MediaType.parseMediaType(contentType))
+						.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + URLEncoder.encode(fileDto.getFileNm(),"UTF-8").replaceAll("\\+", "%20") + "\";")
+						.body(resource);
+			} catch (MalformedURLException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		URI redirectUri = new URI("/");
+		HttpHeaders httpHeaders = new HttpHeaders();
+		httpHeaders.setLocation(redirectUri);
+		
+        return new ResponseEntity<>(httpHeaders, HttpStatus.SEE_OTHER);
+	}
+	
+	
 	
 	@GetMapping("/info")
 	public String moveJoinInfo() {
@@ -62,9 +129,17 @@ public class MemberRegisterController {
     }
 	
 	@PostMapping("/mentor")
-	public String registerMentor(MentorApproval mentorApproval, Member member) {
+	public String registerMentor(@RequestPart(name="files", required = false) MultipartFile multipartFile, 
+								MentorApproval mentorApproval, 
+								Member member, 
+								MentorWork mentorWork) {
+		String fileCode = fileService.addFile(multipartFile);
 		memberRegisterService.mentorPreRegister(mentorApproval);
 		memberRegisterMapper.register(member);
+
+		mentorWork.setMentorFileNm(fileCode);
+		memberRegisterService.registerAddWorkInfo(mentorWork);
+		
 		System.out.println("멘토 회원가입");
 		
 		return "redirect:/member";

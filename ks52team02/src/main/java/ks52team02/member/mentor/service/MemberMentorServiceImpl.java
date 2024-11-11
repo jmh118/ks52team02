@@ -1,12 +1,16 @@
 package ks52team02.member.mentor.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ks52team02.manager.member.dto.Member;
 import ks52team02.member.mentor.mapper.MemberMentorMapper;
+import ks52team02.page.PageInfo;
+import ks52team02.page.Pageable;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -19,10 +23,16 @@ public class MemberMentorServiceImpl implements MemberMentorService {
 	private final MemberMentorMapper memberMentorMapper;
 	
 	@Override
-	public List<Member> getMentorList() {
-		List<Member> mentorList = memberMentorMapper.getMentorList();
+	public PageInfo<Member> getMentorList(Pageable pageable) {
+		int rowCnt = memberMentorMapper.getMentorListCount();
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		pageable.setRowPerPage(20);
+		paramMap.put("rowPerPage", pageable.getRowPerPage());
+		paramMap.put("offset", pageable.getOffset());
 		
-		return mentorList;
+		List<Member> contents = memberMentorMapper.getMentorList(paramMap);
+		
+		return new PageInfo<>(contents, pageable, rowCnt);
 	}
 
 	@Override
@@ -31,6 +41,7 @@ public class MemberMentorServiceImpl implements MemberMentorService {
 		
 		return honorMentorList;
 	}
+
 	
 	
 }
