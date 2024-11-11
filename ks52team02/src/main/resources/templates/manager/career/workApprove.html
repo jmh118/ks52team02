@@ -5,36 +5,36 @@
 	
 	<th:block layout:fragment="customJs">
 	<script>
-	$(document).ready(function() {
+	
 	       // 링크 클릭 이벤트 처리
-	       $('#workCheck').click(function(event) {
+	       $('.workCheck').click(function(event) {
 
 	           // 링크의 data-* 속성에서 파라미터 값 추출
-	           const mentorFileNm = $(this).data('mentor-file-nm');
+	           const mentorCode = $(this).data('mentor-work-code');
 	           const managerId = $(this).data('manager-id');
 
 	           // Ajax 요청 전송
-	           $.ajax({
+	           const request = $.ajax({
 	               url: '/manager/career/workCheck',  // 요청할 URL
 	               type: 'GET',        // GET 방식으로 전송
 	               data: {
-	                   mentorFileNm: mentorFileNm,
-	                   managerId: managerId
-	               },
-	               success: function(response) {
-	                   // 요청이 성공했을 때 실행할 작업
-	                   console.log("작업 확인 완료");
-	                   alert(response); // 서버에서 전달된 응답 메시지 표시
-	                   window.location.reload();//페이지 새로고침
-	                   //$(".table-responsive").load(window.location.href + " .table-responsive");//해당 div만 새로고침
-	               },
-	               error: function(xhr, status, error) {
-	                   console.error("오류 발생:", error);
-	                   alert("작업 확인 중 오류가 발생했습니다.");
+	                   'mentorCode': mentorCode,
+	                   'managerId': managerId
 	               }
 	           });
+	               request.done(function(data) {
+	            	   console.log(data);
+	                   // 요청이 성공했을 때 실행할 작업
+	                   alert('작업 확인이 완료되었습니다');   // 서버에서 전달된 응답 메시지 표시
+	                   location.reload();
+	                   //$(".table-responsive").load(window.location.href + " .table-responsive");//해당 div만 새로고침
+	               })
+	               request.fail(function(xhr, status, error) {
+	                   console.error("오류 발생:", error);
+	                   alert("작업 확인 중 오류가 발생했습니다.");
+	               });
 	       });
-	   });
+
 	</script>
 	</th:block>
 	
@@ -81,8 +81,8 @@
                                         <td th:text="${m.mentorDate}"></td>
                                         <td><a th:href="@{/manager/career/download(mentorFileNm=${m.mentorFileNm})}" class="btn btn-sm btn-brand rounded font-sm mt-15">다운로드</a></td>
                                         <td class="text-end">
-                                            <a id="workCheck" th:data-mentor-file-nm="${m.mentorFileNm}" th:data-manager-id="${session.SID}" class="btn btn-sm btn-brand rounded font-sm mt-15" th:if="${m.mentorYn == 'N'}">승인</a>
-                                            <a id="workCheck" th:data-mentor-file-nm="${m.mentorFileNm}" data-manager-id="N" class="btn btn-sm btn-brand rounded font-sm mt-15">거부</a>
+                                            <button type="button" th:data-mentor-work-code="${m.mentorCode}" th:data-manager-id="${session.SID}" class="btn btn-sm btn-brand rounded font-sm mt-15 workCheck" th:if="${m.mentorYn == 'N'}">승인</button>
+                                            <button type="button" th:data-mentor-work-code="${m.mentorCode}" data-manager-id="N" class="btn btn-sm btn-brand rounded font-sm mt-15 workCheck">취소</button>
                                         </td>
                                     </tr>
                                 </tbody>

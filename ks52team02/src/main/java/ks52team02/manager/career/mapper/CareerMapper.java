@@ -17,7 +17,7 @@ public interface CareerMapper {
 	
 	int getWorkCareerCount();
 	
-	int checkWorkByFileNm(String mentorFileNm, String managerId);
+	int checkWorkByFileNm(Work work);
 	
 	
 	
@@ -25,7 +25,7 @@ public interface CareerMapper {
 	
 	int getProjectCareerCount();
 	
-	int checkProjectByFileNm(String mentorFileNm, String managerId);
+	int checkProjectByFileNm(Project project);
 	
 	
 	
@@ -33,11 +33,14 @@ public interface CareerMapper {
 	
 	int getEducationCareerCount();
 	
+	int checkEducationByFileNm(Education education);
+	
 	
 	
 	List<Certificate> getCertificateCareer(Pageable pageable);
 
 	int getCertificateCareerCount();
 	
+	int checkCertificateByFileNm(Certificate certificate);
 	
 }

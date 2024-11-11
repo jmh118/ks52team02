@@ -100,13 +100,15 @@ public class ManagerCareerController {
     }
 	
 	@GetMapping("/workCheck")
-	@ResponseBody
-    public String workCheck(@RequestParam(name="mentorFileNm") String mentorFileNm,
-    						@RequestParam(name="managerId") String managerId) {
-		careerMapper.checkWorkByFileNm(mentorFileNm, managerId);
+    public String workCheck(@RequestParam(value="mentorCode") String mentorCode,
+    						@RequestParam(value="managerId") String managerId) {
+		Work workCheck = new Work();
+		workCheck.setMentorCode(mentorCode);
+		workCheck.setManagerId(managerId);
+		careerMapper.checkWorkByFileNm(workCheck);
         
-        return "작업 확인이 완료되었습니다";
-    }
+        return "redirect:/manager/career/work";
+	}
 	
 
     @GetMapping("/project")
@@ -121,12 +123,14 @@ public class ManagerCareerController {
     }
     
     @GetMapping("/projectCheck")
-	@ResponseBody
-    public String projectCheck(@RequestParam(name="mentorFileNm") String mentorFileNm,
+    public String projectCheck(@RequestParam(name="mentorCode") String mentorCode,
     						@RequestParam(name="managerId") String managerId) {
-		careerMapper.checkProjectByFileNm(mentorFileNm, managerId);
+    	Project projectCheck = new Project();
+    	projectCheck.setMentorCode(mentorCode);
+    	projectCheck.setManagerId(managerId);
+		careerMapper.checkProjectByFileNm(projectCheck);
         
-        return "작업 확인이 완료되었습니다";
+        return "redirect:/manager/career/project";
     }
 
     @GetMapping("/education")
@@ -140,6 +144,17 @@ public class ManagerCareerController {
         return  "manager/career/educationApprove";
     }
 
+    @GetMapping("/educationCheck")
+    public String educationCheck(@RequestParam(name="mentorCode") String mentorCode,
+    						@RequestParam(name="managerId") String managerId) {
+    	Education educationCheck = new Education();
+    	educationCheck.setMentorCode(mentorCode);
+    	educationCheck.setManagerId(managerId);
+		careerMapper.checkEducationByFileNm(educationCheck);
+        
+        return "redirect:/manager/career/education";
+    }
+    
     @GetMapping("/certificate")
     public String mentorCareerCertificate(Pageable pageable, Model model) {
         System.out.println("멘토 자격증 승인 페이지 이동");
@@ -151,4 +166,15 @@ public class ManagerCareerController {
         return  "manager/career/certificateApprove";
     }
 	
+    @GetMapping("/certificateCheck")
+    public String certificateCheck(@RequestParam(name="mentorCode") String mentorCode,
+    								@RequestParam(name="managerId") String managerId) {
+    	Certificate certificateCheck = new Certificate();
+    	certificateCheck.setMentorCode(mentorCode);
+    	certificateCheck.setManagerId(managerId);
+		careerMapper.checkCertificateByFileNm(certificateCheck);
+        
+        return "redirect:/manager/career/certificate";
+    }
+    
 }

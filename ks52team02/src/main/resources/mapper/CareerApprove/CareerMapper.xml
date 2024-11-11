@@ -14,6 +14,7 @@
   
 		/* 멘토 근무경력승인 목록조회 */
 		SELECT
+			mwhd.mentor_work_career_details_code AS mentorCode,
 			m.member_id 					 AS mentorId,
 			mwhd.mentor_POWK_NM 			 AS mentorPowk,
 			mwhd.mentor_career_apply_manager AS mentorYn,
@@ -35,7 +36,7 @@
 			SET
 				mentor_career_apply_manager=#{managerId}
 		WHERE 
-			upload_file_work_history_name=#{mentorFileNm};
+			mentor_work_career_details_code=#{mentorCode};
   	</update>
 	
 	
@@ -53,6 +54,7 @@
 		/* 멘토 프로젝트경력승인 목록조회 */
 		
 		SELECT
+			mtcd.mentor_TECH_career_detail_code 		AS mentorCode,
 		 	m.member_id 								AS mentorId,
 		 	mtcd.mentor_project_NM 						AS mentorProjectNm,
 		 	mtcd.TECH_career_DATA_REG_approval_manager  AS mentorYn,
@@ -71,7 +73,7 @@
 			SET
 				TECH_career_DATA_REG_approval_manager=#{managerId}
 		WHERE 
-			mentor_upload_career_file_name=#{mentorFileNm};
+			mentor_TECH_career_detail_code=#{mentorCode};
   	</update>
   
   
@@ -87,6 +89,7 @@
 		/* 멘토 학력승인 목록조회 */
 		
 		SELECT
+			mad.mentor_ACBG_detail_code AS mentorCode,
 			m.member_id AS mentorId,
 			mad.mentor_SCHL_NM AS mentorSchlnm,
 			mad.mentor_CRTFCT_NM_approval_manager AS mentorYn,
@@ -101,7 +104,13 @@
 		
 	</select>
   
-  
+  	<update id="checkEducationByFileNm" parameterType="Education">
+  		UPDATE mentor_acbg_detail
+			SET
+				mentor_CRTFCT_NM_approval_manager=#{managerId}
+		WHERE 
+			mentor_ACBG_detail_code=#{mentorCode};
+  	</update>
   
   
   
@@ -118,6 +127,7 @@
 		/* 멘토 자격증승인 목록조회 */
 		
 		SELECT
+			mcd.mentor_certificate_detail_code AS mentorCode,
 			mcd.member_id AS mentorId,
 			cn.issue_certificate_name AS mentorCertificatenm,
 			mcd.mentor_certificate_approval_manager AS mentorYn,
@@ -130,7 +140,15 @@
 		 	mcd.certificate_name_code=cn.certificate_name_code
 		LIMIT #{rowPerPage} OFFSET #{offset};
 		
-		</select>
+	</select>
+  
+	  <update id="checkCertificateByFileNm" parameterType="Certificate">
+	  		UPDATE mentor_certificate_detail
+				SET
+					mentor_certificate_approval_manager=#{managerId}
+			WHERE 
+				mentor_certificate_detail_code=#{mentorCode};
+	  	</update>
   
   </mapper>
   
