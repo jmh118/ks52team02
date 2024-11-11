@@ -35,6 +35,20 @@ public class MemberMentoringController {
 	private final MentoringService mentoringService;
 	private final MentoringMapper mentoringMapper;
 	
+	@GetMapping("/removeNoticeQuestion")
+	public String removeNoticeQuestion(@RequestParam(name="questionCode") String questionCode, @RequestParam(name="noticeCode") String noticeCode) {
+		mentoringService.removeNoticeQuestion(questionCode);
+		
+		return "redirect:/mentoring/noticeDetail?noticeCode=" + noticeCode;
+	}
+	
+	@GetMapping("/removeNoticeAnswer")
+	public String removeNoticeAnswer(@RequestParam(name="answerCode") String answerCode, @RequestParam(name="noticeCode") String noticeCode) {
+		mentoringService.removeNoticeAnswer(answerCode);
+		
+		return "redirect:/mentoring/noticeDetail?noticeCode=" + noticeCode;
+	}
+	
 	@PostMapping("/modifyAnswer")
 	public String getmodifyAnswer(NoticeAnswer noticeAnswer, @RequestParam(name="noticeCode")String noticeCode) {
 		mentoringService.modifyAnswer(noticeAnswer);
@@ -60,14 +74,13 @@ public class MemberMentoringController {
 		return "member/mentoring/applyMenteeProfile";
 	}
 	
-	
 	@PostMapping("/applyCheck")
 	@ResponseBody
-	public boolean applyCheck(Member member) {
-		boolean isDuplicate = false;
-		isDuplicate = mentoringService.getApplyCheck(member);
+	public Member applyCheck(@RequestParam(value="searchId") String searchId) {
+
+		Member memberInfo = mentoringService.getApplyCheck(searchId);
 		
-		return isDuplicate; 
+		return memberInfo; 
 	}
 	
 	@PostMapping("/modifyNotice")
@@ -161,8 +174,8 @@ public class MemberMentoringController {
 		List<Topic> categoryCount = mentoringService.getCategoryCountList();
 		PageInfo<Notice> noticeList = mentoringService.getNoticeList(category, pageable);
 		
-		model.addAttribute("noticeList", noticeList);
 		log.info("noticeList :{}",noticeList);
+		model.addAttribute("noticeList", noticeList);
 		model.addAttribute("categoryCount", categoryCount);
 		
     	System.out.println("멘토링 | 멘토링 공고 조회 화면");

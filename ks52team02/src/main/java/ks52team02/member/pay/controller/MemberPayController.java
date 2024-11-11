@@ -139,7 +139,7 @@ public class MemberPayController {
 	}
 	
 	@PostMapping("/process")
-	public ResponseEntity<String> handlePaymentSuccess(@RequestBody PaymentRequest paymentRequest, HttpSession session) {
+	public ResponseEntity<String> handlePayment(@RequestBody PaymentRequest paymentRequest, HttpSession session) {
 		
 		log.info("Received impUid: {}", paymentRequest.getImpUid());
 	    log.info("Received totalAmount: {}", paymentRequest.getTotalAmount());

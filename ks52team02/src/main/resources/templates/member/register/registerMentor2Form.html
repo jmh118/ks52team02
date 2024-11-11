@@ -112,7 +112,10 @@
 						}
 						
 				// 모든 조건이 true일 때(isSubmit) 폼 제출
-						if(isSubmit) $('#registerMentorForm').submit();
+						if(isSubmit) {
+							$('#registerMentorForm').submit();
+							alert('멘티로 회원가입 완료. 자료 확인 후 멘토 권한으로 변경됩니다.');
+							}
 					});
 					
 			</script>
@@ -124,7 +127,7 @@
 				<div>
 					<p class="text-center mb-2">이미 계정을 가지고 있으신가요? <a href="/member/login"> &nbsp; 로그인하러 가기</a></p>
 				</div>
-				<form class="member container mt-40" th:action="@{/register/mentor}" method="post" id="registerMentorForm" name="registerMentorForm">
+				<form class="member container mt-40" th:action="@{/register/mentor}" method="post" id="registerMentorForm" name="registerMentorForm" enctype="multipart/form-data >
 					<div class="mb-4">
 						<label class="form-label" for="memberId">회원 아이디 (영문 및 숫자) *</label>
 							<div class="row gx-2">									
@@ -172,6 +175,10 @@
 						        <label class="form-label" for="memberEmail">이메일 *</label>
 						        <input class="form-control" id="memberEmail" name="memberEmail" placeholder="E-mail" type="email" disabled="disabled" />
 						    </div>
+							<div class="mb-4">
+								<label class="form-label text-center" for="careerFile">경력 인증 파일 *</label>
+								<input type="file" id="careerFile" multiple name="careerFile" disabled="disabled" />
+							</div>
 							<!-- form-group// -->
 						    <div class="mb-4">
 						       	<label class="form-label"><span>개인정보 이용 약관 전체 동의</span></label>
@@ -181,7 +188,7 @@
 						                <label class="form-check-label" for="registerBasicTermCheckbox"><span>회원가입 기본 약관(필수)</span></label>
 						            </div>
 									<div class="custome-checkbox">
-										<input class="form-check-input" type="checkbox" name="registerPersonalDataCheckbox" id="registerPersonalDataCheckbox" value="checked" />
+										<input class="form-check-input" type="checkbox" name="registerPersonalDataCheckbox" id="registerPersonalDataCheckbox" value="checked"/>
 										<label class="form-check-label" for="registerPersonalDataCheckbox"><span>개인정보 수집 및 이용(선택)</span></label>
 									</div>
 						        </div>
@@ -192,7 +199,6 @@
 						    </div>
 						    <!-- form-group  .// -->
 						    <div class="mb-10 d-flex justify-content-center">
-								<input type="hidden" id="memberJoinYMD" name="memberJoinYMD" value="${memberJoinYMD}">
 						        <button type="button" class="btn btn-block w-80" id="registerBtn" name="registerBtn">REGISTER</button>
 						    </div>
 						    <!-- form-group// -->

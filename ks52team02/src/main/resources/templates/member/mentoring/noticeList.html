@@ -1,6 +1,29 @@
 ﻿<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{member/layouts/layout}">
+	
+	<th:block layout:fragment="customJs">
+		<script type="text/javascript">
+			$('.add-notice-btn').click(function(e){
+				let isSubmit = true;
+				e.preventDefault();
+				const grade = $(this).data('grade');
+				if(grade == null){
+	    			alert('로그인이 필요한 서비스입니다.');
+	    			isSubmit = false;
+	    			return ;
+	    		}else if(grade != 'member_level_mentor'){
+	    			alert('멘토만 등록 수 있습니다.');
+	    			isSubmit = false;
+	    			return ;
+	    			}
+	
+	    		if(isSubmit) location.href = $(this).attr('href');
+			});
+		
+		</script>
+	</th:block>
+	
 	<th:block layout:fragment="customContent">
         <div class="page-header mt-30 mb-50"></div>
         <div class="container mb-30">
@@ -12,7 +35,7 @@
                         </div>
                         <div class="sort-by-product-area">
 							<div class="sort-by-cover mr-10">
-								<a th:href="@{/mentoring/noticeAdd}" class="btn btn-fill-out btn-block mt-30" th:if="${session.SLEVEL == 'member_level_mentor'}">등록하기</a>                            
+								<a th:href="@{/mentoring/noticeAdd}" class="btn btn-fill-out btn-block mt-30 add-notice-btn" th:data-grade="${session.SLEVEL}">등록하기</a>                           
                         	</div>
                         </div>
                     </div>
@@ -46,7 +69,6 @@
                     <div class="pagination-area mt-20 mb-20">
                         <nav aria-label="Page navigation example">
                             <ul class="pagination justify-content-start">
-                                
                                 <th:block th:each="num : ${#numbers.sequence(noticeList.startPageNum, noticeList.endPageNum)}">
 						            <li class="page-item"
 						                th:classappend="${noticeList.currentPage == num} ? 'active'">

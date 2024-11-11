@@ -46,7 +46,7 @@ public interface MentoringService {
 	void modifyNotice(Notice notice);
 
 	// 신청확인
-	boolean getApplyCheck(Member member);
+	Member getApplyCheck(String searchId);
 
 	// 공고질문 수정
 	void modifyQuestion(NoticeQuestion noticeQuestion);
@@ -65,6 +65,14 @@ public interface MentoringService {
 
 	// 메인화면 공고 조회
 	List<Notice> getNoticeMainList();
+
+	// 공고답변 삭제
+	void removeNoticeAnswer(String answerCode);
+
+	// 공고질문 삭제
+	void removeNoticeQuestion(String questionCode);
+
+	
 
 
 

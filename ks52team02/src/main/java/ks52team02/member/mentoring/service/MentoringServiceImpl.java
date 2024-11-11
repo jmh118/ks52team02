@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ks52team02.common.mapper.CommonMapper;
 import ks52team02.manager.member.dto.Member;
+import ks52team02.manager.mentoring.mapper.ManagerMentoringMapper;
 import ks52team02.member.mentoring.dto.MentoringApply;
 import ks52team02.member.mentoring.dto.Notice;
 import ks52team02.member.mentoring.dto.NoticeAnswer;
@@ -30,7 +31,18 @@ import lombok.extern.slf4j.Slf4j;
 public class MentoringServiceImpl implements MentoringService{
 	
 	private final MentoringMapper mentoringMapper;
+	private final ManagerMentoringMapper managerMentoringMapper;
 	private final CommonMapper commonMapper;
+	
+	@Override
+	public void removeNoticeQuestion(String questionCode) {
+		managerMentoringMapper.removeQuestion(questionCode);
+	}
+	
+	@Override
+	public void removeNoticeAnswer(String answerCode) {
+		managerMentoringMapper.removeAnswer(answerCode);
+	}
 	
 	@Override
 	public List<Notice> getNoticeMainList() {
@@ -62,12 +74,11 @@ public class MentoringServiceImpl implements MentoringService{
 	}
 	
 	@Override
-	public boolean getApplyCheck(Member member) {
-		boolean isDuplicate = false;
-		isDuplicate = mentoringMapper.getApplyCheck(member);
-		return isDuplicate;
+	public Member getApplyCheck(String searchId) {
+		Member memberInfo = mentoringMapper.getApplyCheck(searchId);
+		return memberInfo;
 	}
-	
+
 	
 	@Override
 	public void modifyNotice(Notice notice) {

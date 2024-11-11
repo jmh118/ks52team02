@@ -14,13 +14,13 @@ import ks52team02.page.Pageable;
 public interface ManagerMentoringService {
 	
 	// 멘토링공고 조회
-	PageInfo<ManagerMetoringNotice> getManagerNoticeList(Pageable pageable);
+	PageInfo<ManagerMetoringNotice> getManagerNoticeList(Pageable pageable, String searchId);
 
 	// 멘토링공고 질문 조회
-	PageInfo<NoticeQuestion> getManagerNoticeQuestionList(Pageable pageable);
+	PageInfo<NoticeQuestion> getManagerNoticeQuestionList(Pageable pageable, String searchId);
 
 	// 멘토링공고 답변 조회
-	PageInfo<NoticeAnswer> getManagerNoticeAnswerList(Pageable pageable);
+	PageInfo<NoticeAnswer> getManagerNoticeAnswerList(Pageable pageable, String searchId);
 
 	// 멘토링공고 답변 삭제
 	void removeAnswer(String answerCode);
@@ -29,6 +29,6 @@ public interface ManagerMentoringService {
 	void removeQuestion(String questionCode);
 	
 	// 멘토링 신청 조회
-	PageInfo<MentoringApply> getManagerMentoringApplyList(Pageable pageable);
+	PageInfo<MentoringApply> getManagerMentoringApplyList(Pageable pageable, String searchId);
 
 }

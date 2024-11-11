@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{manager/layouts/layout}">
+	  
+	<th:block layout:fragment="customJs">
+		<script th:inline="javascript">
+	            $('a.search-list').each(function() {
+		            let searchId = [[${searchId}]];  
+	                let href = $(this).attr('href');
+	                
+	                if (searchId && searchId.trim() !== '') {
+	                    // 기존 href에 searchId 추가
+	                    let newHref = href.includes('?') ? `${href}&searchId=${searchId}` : `${href}?searchId=${searchId}`;
+	                    $(this).attr('href', newHref);
+	                }
+	            });
+		</script>
+	</th:block>
+	  
+	  <th:block layout:fragment="customContent">
+            <section class="content-main">
+                <div class="content-header">
+                    <div>
+                        <h2 class="content-title card-title">멘토링 신청 조회</h2>
+                        <p>멘토링 신청 조회</p>
+                    </div>
+                </div>
+                <div class="card mb-4">
+                	<header class="card-header">
+                        <div class="row gx-3">
+                            <div class="col-lg-4 col-md-6 me-auto">
+                            	<form class="searchform" th:action="@{/manager/mentoring/applyList}" method="get" >
+			                        <div class="input-group">
+			                            <input list="search_terms" name="searchId" type="text" class="form-control" placeholder="멘토 ID 검색" />
+			                            <button class="btn btn-light bg search-btn" type="submit"><i class="material-icons md-search"></i></button>
+			                        </div>
+		                        </form>
+                            </div>
+                            
+                        </div>
+                    </header>
+                    <!-- card-header end// -->
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>회원(멘티)ID</th>
+                                        <th>멘토링 신청 코드</th>
+                                        <th>멘토링 공고 코드</th>
+                                        <th>멘토링 상세공고 코드</th>
+                                        <th>멘토링 금액</th>
+                                        <th>멘토링 신청 상태</th>
+                                        <th>멘토링 신청일</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:if="${applyList != null}"
+                                    	th:each="al : ${applyList.contents}">
+									    <td th:text="${al.memberId}"></td>
+									    <td th:text="${al.applyCode}"></td>
+									    <td th:text="${al.noticeCode}"></td>
+									    <td th:text="${al.noticeDetailCode}"></td>
+									    <td th:text="${al.noticeUntprc}"></td>
+									    <td th:text="${al.amountStatus}"></td>
+									    <td th:text="${al.updateYmd}"></td>
+									</tr>
+									<tr th:if="${applyList != null && applyList.contents.size() == 0}">
+								        <td colspan="7" class="text-center">결과가 없습니다.</td>
+								    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- table-responsive//end -->
+                    </div>
+                    <!-- card-body end// -->
+                </div>
+			<div class="pagination-area mt-30 mb-50">
+				<nav aria-label="Page navigation example">
+					<ul class="pagination justify-content-start">
+						<li class="page-item" th:classappend="${applyList.currentPage < 2}? 'disabled'">
+							<a class="page-link d-flex justify-content-center align-items-center search-list" th:href="@{/manager/mentoring/applyList(currentPage=${applyList.currentPage - 1})}"><i class="material-icons md-chevron_left"></i></a>
+						</li>		
+						<th:block th:each="num : ${#numbers.sequence(applyList.startPageNum, applyList.endPageNum)}">
+							<li class="page-item" th:classappend="${applyList.currentPage == num} ? 'active'">
+								<a class="page-link search-list" th:href="@{/manager/mentoring/applyList(currentPage=${num})}" th:if ="${num} != 0">[[${num}]]</a>
+							</li>
+						</th:block>
+						<li class="page-item" th:classappend="${applyList.currentPage >= applyList.lastPage} ? 'disabled'">
+							<a class="page-link d-flex justify-content-center align-items-center search-list" th:href="@{/manager/mentoring/applyList(currentPage=${applyList.currentPage + 1})}"><i class="material-icons md-chevron_right"></i></a>
+						</li>
+					</ul>
+				</nav>
+			</div>
+		</section>
+      <!-- content-main end//  -->
+      </th:block>
+</html>
