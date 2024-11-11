@@ -19,6 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -33,8 +34,7 @@ import ks52team02.files.service.FileService;
 import ks52team02.manager.member.dto.Member;
 import ks52team02.manager.member.dto.MentorApproval;
 import ks52team02.member.mypage.dto.MentorWork;
-import ks52team02.member.mypage.service.MentorMypageService;
-import ks52team02.member.register.dto.MentorRegisterDTO;
+import ks52team02.member.register.dto.MentorRegisterData;
 import ks52team02.member.register.mapper.MemberRegisterMapper;
 import ks52team02.member.register.service.MemberRegisterService;
 import lombok.RequiredArgsConstructor;
@@ -116,10 +116,17 @@ public class MemberRegisterController {
 
 	@GetMapping("/mentor1")
     public String registerMentor1(Model model) {
-		model.addAttribute("MentorRegisterDTO", new MentorRegisterDTO());
+		model.addAttribute("title", "회원가입");
     	System.out.println("멘토 회원가입 화면1");
         return  "member/register/registerMentor1Form";
     }
+	
+	@PostMapping("/mentor1")
+    public String registerMentor1(Member member) {
+		memberRegisterService.register(member);
+    	System.out.println("멘토 - 멘티 권한으로 회원가입");
+    	return "redirect:/register/mentor2";
+	}
 	
 	@GetMapping("/mentor2")
     public String registerMentor2() {
@@ -128,22 +135,23 @@ public class MemberRegisterController {
         return  "member/register/registerMentor2Form";
     }
 	
-	@PostMapping("/mentor")
-	public String registerMentor(@RequestPart(name="files", required = false) MultipartFile multipartFile, 
-								MentorApproval mentorApproval, 
-								Member member, 
-								MentorWork mentorWork) {
-		String fileCode = fileService.addFile(multipartFile);
-		memberRegisterService.mentorPreRegister(mentorApproval);
-		memberRegisterMapper.register(member);
 
-		mentorWork.setMentorFileNm(fileCode);
-		memberRegisterService.registerAddWorkInfo(mentorWork);
-		
-		System.out.println("멘토 회원가입");
-		
-		return "redirect:/member";
-	}
+	  @PostMapping("/mentor")
+	  public String registerMentor(@RequestPart(name="files", required = false) 
+	  								MultipartFile multipartFile, 
+	  								MentorApproval mentorApproval, 
+	  								Member member, 
+	  								MentorWork mentorWork) { 
+		  // log.info("mentorRegisterData ################ : {}", mentorRegisterData);
+		  String fileCode = fileService.addFile(multipartFile);
+		  memberRegisterService.mentorPreRegister(mentorApproval);
+		  memberRegisterService.registerAddWorkInfo(mentorWork);
+		  memberRegisterMapper.register(member); mentorWork.setMentorFileNm(fileCode);
+		  
+//		  System.out.println("멘토 회원가입");
+		  
+		  return "redirect:/member"; 
+	  }
 	
 	
 	@PostMapping("/dupicatedCheckById")

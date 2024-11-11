@@ -1,169 +1,205 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{member/layouts/layout}">
-	<!--<th:block layout:fragment="registerMentorModalFragment" th:replace="~{member/fragments/registerMentorModal :: registerMentorModalFragment}"></th:block>-->
-	<th:block layout:fragment="customJs">
-		<script>
-			let totalCareerDays = 0;
-			
-			/* 커리어 항목 추가 --------------------------------------------------------------------------------- */
-			let rowCount = 1;
-			$(document).on('click', '.add-btn', function(){
-				if(rowCount <= 10 && rowCount>=1){
-					rowCount ++;
-					
-					const $copyCareerRow = $('.careerRows').last().clone(true);
-					$copyCareerRow.find('input').val('');
-					const idx = Number($copyCareerRow[0].dataset.idx);
-					$copyCareerRow[0].dataset.idx = idx + 1; 
-					
-					$copyCareerRow.hide();
-					$('.careerRows').last().after($copyCareerRow);
-					$copyCareerRow.fadeIn(300);
-				
-				}else{
-					alert("항목은 10개까지 등록할 수 있습니다.");
-				return ;
-				}
-			});
-
-			
-			/* 커리어 삭제 --------------------------------------------------------------------------------- */
-			$(document).on('click', '.del-btn', function(){
-				if(rowCount <= 1){
-					alert("첫 항목은 삭제할 수 없습니다.");
-					return ;
-				}else{
-					rowCount --;
-					
-					// 삭제할 항목의 일수 빼기
-					const daysToRemove = Number($(this).closest('.careerRows').find('input[name="carrerTime"]').val());
-					totalCareerDays -= daysToRemove;
-
-					// 총 일수 표시 업데이트
-					updateTotalCareerDaysDisplay();
-					
-					// 사라짐 효과
-					$(this).closest('.careerRows').fadeOut(200, function(){
-					$(this).remove();
-					});
-					}
-				});			
-				
-			
-			/* 모달값 가져오기 ---------------------------------------------------------------------------------  */
-			$(document).on('click', '.modal-btn', function(){
-				$('#registerMentorModal')[0].dataset.targetIdx = this.closest('.careerRows').dataset.idx;
-				$('#registerMentorModal').modal('show');
-			});
-
-			$('#careerSubmitBtn').on('click', function(){
-				
-				const idx = Number($('#registerMentorModal')[0].dataset.targetIdx);
-				const careerCorporateName = $('#careerCorporateName').val();				
-				const careerWork = $('#careerWork').val();
-				const careerState = $('#careerState').val();
-				const joinCareer = $('#joinCareer').val();			
-				const quiteCareer = $('#quiteCareer').val();		
-				
-				const getCareerDays = function(joinCareer, quiteCareer){
-					let startDate = new Date(joinCareer);
-					let endDate = new Date(quiteCareer);
-					let diffTime = endDate.getTime() - startDate.getTime();
-					    
-				    // 밀리초 일 단위로 변환
-				    let diffDays = diffTime / (1000 * 60 * 60 * 24);
-					
-				    return diffDays;
-				};
-				
-				
-				// 기존 일수 제거
-				const existingDays = Number($('.careerRows').eq(idx).find('input[name="carrerTime"]').val());
-				totalCareerDays -= existingDays;
-				
-				
-				// 근무일수 계산		
-				const calculatedCareerDays = getCareerDays(joinCareer, quiteCareer);
-				
-
-				// 누적 일수에 추가
-				totalCareerDays += calculatedCareerDays;
-				
-				// 누적일수 업데이트
-				updateTotalCareerDaysDisplay();
-				
-				// 누적 일수를 Number로 변경
-				const numCareerDays = Number(totalCareerDays);
-				console.log(numCareerDays);
-				
-
-				/*근무 경력 730일 이상 검증*/
-				const $continueBtn = document.getElementById('continueBtn');
-
-					if (numCareerDays >= 730) {
-						// console.log("730 이상");
-						$('#continueBtn').text('회원가입 계속하기');
-				    	$continueBtn.disabled = false;
-						$('#continueBtn').css('background-color', '#3BB77E');
+	
+	<th:block layout:fragment="customJs">		
+	 	<script>	
 						
-					} else if (numCareerDays <730) {
-						// console.log("730 미만");
-						$('#continueBtn').text('경력이 충분하지 않습니다.');
-					    $continueBtn.disabled = true;
-						$('#continueBtn').css('background-color', 'gray');
-					}
-
-				 
-				// 각자의 빈칸에 값 할당
-				$('.careerRows').eq(idx).find('input[name="careerCorporateName"]').val(careerCorporateName);
-				$('.careerRows').eq(idx).find('input[name="careerWork"]').val(careerWork);
-				$('.careerRows').eq(idx).find('input[name="careerState"]').val(careerState);
-				$('.careerRows').eq(idx).find('input[name="carrerTime"]').val(getCareerDays(joinCareer, quiteCareer)+'일');
+				// 회원 ID 중복여부 검사
+				$('#memberId').change(function(){
+						$('#registerMentorForm input').not('#memberId').prop('disabled', true);
+						$('#registerMentorForm select').prop('disabled', false);
+						$('#registerMentorForm button').not('#duplicateIdCheckBtn').prop('disabled', true);	
+					});
 				
-				$('#registerMentorModal').find('input, select').val('');
-				$('#registerMentorModal').modal('hide');
+					$('#duplicateIdCheckBtn').click(function(){
+						
+						const memberId = $('#memberId').val();
+						const denyChar = /[^A-Za-z0-9]/;
+						
+						// 영문 및 숫자만 아이디로 설정할 수 있도록 함.
+						if(denyChar.test(memberId)){
+							alert('아이디는 영문 및 숫자만 입력 가능합니다.');
+							$('#memberId').focus();
+							return ;
+						}
+						
+						if(!memberId) {
+							alert('회원의 아이디를 입력해주세요');
+							$('#memberId').focus();
+							return ;
+						}
+						
+						const request = $.ajax({
+							url : "/register/dupicatedCheckById",
+							method : 'POST',
+							data : {'memberId' : memberId},
+							dataType : 'json'
+						});
+						request.done(function(data){
+							console.log('연결?');
+							console.log(typeof data);
+							if(data){
+								alert('이미 사용중인 회원 ID입니다.');
+								$('#memberId').val('');
+								$('#memberId').focus();
+								return ;
+							}
+							else{
+								alert('사용할 수 있는 ID입니다.');
+								$('#registerMentorForm input').prop('disabled', data);
+								$('#registerMentorForm select').prop('disabled', data);
+								$('#registerMentorForm button').prop('disabled', data);
+							}
 
-			});
-			
-			/*누적 근무경력 일수 합계 계산 --------------------------------------------------------------------------------- */
-			function updateTotalCareerDaysDisplay() {
-			    return $('#careerDays').text(totalCareerDays);
-			}
-
+						});
+						request.fail(function(jqXHR, textStatus, error){
+							console.log(error);
+						});	
+						
+					});		
 					
-		</script>
-		<th:block th:insert="~{member/register/modal/registerMentorModal :: modalJs}"></th:block>
-	</th:block>
-	<th:block layout:fragment="customContent">
+					$('#continueBtn').click(function(){
+						let isSubmit = true;
+						const $formControl = $('#registerMentorForm input, #registerMentorForm select');
+				
+						
+				// 필수 항목 점검
+						$formControl.each((index, item)=>{
+							const value = $(item).val();
+							if(!value){
+								const cate = $(item).attr('placeholder');
+								const msg = `${cate}는 필수 입력항목입니다.`;
+								alert(msg);
+								$(item).focus();
+								isSubmit = false;
+								return false;
+							}
+						});
+						
+						
+				// 비밀번호 확인
+						const $memberPw = $('#memberPw').val();
+						const $checkMemberPw = $('#checkMemberPw').val();
+						
+						// 최소 비밀번호 길이 충족
+						const memberPwLength = $('#memberPw').val().length;
+						if (memberPwLength < 6) {
+							alert('비밀번호는 최소 6자리 이상입니다.');
+						    $('#checkMemberPw').focus();
+							
+						    isSubmit = false;
+						    return false;
+						}
+						
+						// 비밀번호 확인 란 불일치
+						if ($memberPw !== $checkMemberPw) {
+						    alert('비밀번호 확인 란이 일치하지 않습니다.');
+						    $('#checkMemberPw').focus();
+							
+						    isSubmit = false;
+						    return false;
+						}
+						
+				// 필수 동의 항목 체크
+						const $registerBasicTermCheckbox = $('#registerBasicTermCheckbox').prop('checked');
+						
+						if(!$registerBasicTermCheckbox) {
+							alert('회원가입 기본 약관은 필수 항목입니다. 체크해 주세요.');
+							
+							isSubmit = false;
+							return false;
+						}
+						
+				// 모든 조건이 true일 때(isSubmit) 폼 제출
+						if(isSubmit) {
+							$('#registerMentorForm').submit();
+							alert('자료 확인 후 멘토 권한으로 변경됩니다.');
+							}
+					});
+					
+			</script>
+		</th:block>
+    <th:block layout:fragment="customContent">
 		<section class="content-main mt-40 mb-40 my-2">
-          <div class="card-body container col-6 my-2">
-            <h3 class="mb-20 mt-40 text-brand justify-content-center text-center">멘토 권한으로 계정 생성</h3>
+			<div class="card-body container col-3 my-2">
+				<h3 class="mb-20 mt-40 text-brand d-flex justify-content-center">멘토 권한으로 계정 생성</h3>
 				<div>
-				    <p class="text-center mb-2">이미 계정을 가지고 있으신가요? <a href="/member/login"> &nbsp; 로그인하러 가기</a></p>
+					<p class="text-center mb-2">이미 계정을 가지고 있으신가요? <a href="/member/login"> &nbsp; 로그인하러 가기</a></p>
 				</div>
-				     <h5 class="mb-20 mt-50">Step 1. 근무 경력을 등록해 주세요</h5>
-						 <div class="careerRows d-flex justify-content-center align-items-center mt-20" data-idx="0">
-							<input name="careerCorporateName" type="text" class="ml-10 career-corporate-name" readonly/>
-							<input name="careerWork" type="text" class="ml-10 career-work" readonly/>
-							<input name="careerState" type="text" class="ml-10 carrer-state" readonly/>
-							<input name="carrerTime" type="text" class="ml-10 carrer-time" readonly/>
-								<button type="button" class="btn btn-block w-90 ml-20 modal-btn" style="background-color: #3BB77E;">enter</button>
-								<button type="button" class="btn btn-block w-90 ml-10 del-btn" style="background-color: #cc7171;">delete</button>
-				                <button type="button" class="btn ml-10 add-btn" style="background-color: darkgray;">+</button>
-						 </div>
-					 	<div class="d-flex justify-content-center align-items-center p-40">
-							<span>총 근무 경력 : </span>
-							<h4 id="careerDays" class="text-brand mb-5 d-inline mb-0 ml-10"></h4>
-							<span>days</span>
-						</div>
-               	<div id="continue" class="mb-10 d-flex justify-content-center">
-					<div>
-    	              	<button id="continueBtn" type="button" class="btn btn-block w-80" th:onclick="|location.href='@{/register/mentor2}'|" disabled>회원가입 계속하기</button>
+				<form class="member container mt-40" th:action="@{/register/mentor1}" method="post" id="registerMentorForm" name="registerMentorForm">
+					<div class="mb-4">
+						<label class="form-label" for="memberId">회원 아이디 (영문 및 숫자) *</label>
+							<div class="row gx-2">									
+                                <div class="col-7"><input class="form-control" id="memberId" name="memberId" placeholder="ID" type="text" /></div>
+								<div class="col-5 "><button type="button" class="btn btn-block w-20" id="duplicateIdCheckBtn" name="duplicateIdCheckBtn" >중복확인</button></div>
+                           	</div>
 					</div>
+                           <!-- form-group// -->
+						<div class="mb-4">
+                               <label class="form-label" for="memberPw">회원 비밀번호 (6자리 이상으로 설정해주세요) *</label>
+                               <input class="form-control" id="memberPw" name="memberPw" placeholder="Password" type="text" disabled="disabled" />
+                           </div>
+                           <!-- form-group// -->
+						<div class="mb-4">
+                               <label class="form-label" for="checkMemberPw">비밀번호 확인 *</label>
+                               <input class="form-control" id="checkMemberPw" name="checkMemberPw" placeholder="비밀번호 확인" type="text" disabled="disabled"/>
+                           </div>
+                           <!-- form-group// -->
+						<div class="mb-4">
+                               <label class="form-label" for="findPasswordQnA">비밀번호 찾기 질문/답변 *</label>
+							<select class="mb-10 form-control" name="findPasswordQ">
+								<option value="pwQuestion1" id="pwQuestion1">Q. 내가 태어난 고향은 어디인가?</option>
+								<option value="pwQuestion2" id="pwQuestion2">Q. 내가 가장 좋아하는 색깔은?</option>
+								<option value="pwQuestion3" id="pwQuestion3">Q. 내가 가장 처음 산 물건은?</option>
+								<option value="pwQuestion4" id="pwQuestion4">Q. 여행 가기 좋다고 생각하는 장소는?</option>
+								<option value="pwQuestion5" id="pwQuestion5">Q. 내가 가장 좋아하는 캐릭터 이름은?</option>
+							</select>
+                               <input class="form-control" id="memberPwAnswer" name="memberPwAnswer" placeholder="Answer" type="text"  disabled="disabled"/>
+                           </div>
+					<!-- form-group// -->
+					<div class="mb-4">
+						<label class="form-label">회원 이름 *</label>
+						      <label class="form-label" for="memberName">회원 이름 *</label>
+						        <input class="form-control" id="memberName" name="memberName" placeholder="Name" type="text" disabled="disabled" />
+						    </div>
+						    <!-- form-group// -->									
+						    <div class="mb-4">
+						        <label class="form-label" for="memberTelNo">연락처 *</label>
+						        <div class="row gx-2">
+						            <div class="col-12"><input class="form-control" id="memberTelNo" name="memberTelNo" placeholder="Phone" type="text" disabled="disabled" /></div>
+						        </div>
+						    </div>
+						    <!-- form-group// -->
+						    <div class="mb-4">
+						        <label class="form-label" for="memberEmail">이메일 *</label>
+						        <input class="form-control" id="memberEmail" name="memberEmail" placeholder="E-mail" type="email" disabled="disabled" />
+						    </div>
+							<!-- form-group// -->
+						    <div class="mb-4">
+						       	<label class="form-label"><span>개인정보 이용 약관 전체 동의</span></label>
+								<div class="chek-form">
+						            <div class="custome-checkbox">
+						                <input class="form-check-input" type="checkbox" name="registerBasicTermCheckbox" id="registerBasicTermCheckbox" value="checked" />
+						                <label class="form-check-label" for="registerBasicTermCheckbox"><span>회원가입 기본 약관(필수)</span></label>
+						            </div>
+									<div class="custome-checkbox">
+										<input class="form-check-input" type="checkbox" name="registerPersonalDataCheckbox" id="registerPersonalDataCheckbox" value="checked"/>
+										<label class="form-check-label" for="registerPersonalDataCheckbox"><span>개인정보 수집 및 이용(선택)</span></label>
+									</div>
+						        </div>
+						    </div>
+						    <!-- form-group// -->
+						    <div class="mb-4 d-flex justify-content-center">
+						        <p class="small text-center text-muted">By signing up, you confirm that you’ve read and accepted our User Notice and Privacy Policy.</p>
+						    </div>
+						    <!-- form-group  .// -->
+						    <div class="mb-10 d-flex justify-content-center">
+						        <button type="button" class="btn btn-block w-80" id="continueBtn" name="continueBtn" th:onclick="|location.href='@{/register/mentor2}'|">회원가입 계속하기</button>
+						    </div>
+						    <!-- form-group// -->
+					</form>
 				</div>
-           </div>
-		</section>
-		<th:block th:insert="~{member/register/modal/registerMentorModal :: registerMentorModalFragment}"></th:block>
+			</section>
 	</th:block>
 </html>
