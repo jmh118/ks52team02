@@ -129,10 +129,7 @@ public class MemberMentoringController {
 	@PostMapping("/noticeAdd")
 	public String addNotice(Notice notice, NoticeDetail noticeDetail) {
 		
-		
-		log.info("notice: {}", notice);
 		mentoringService.addNotice(notice);
-		log.info("noticeDetail {}",noticeDetail);
 		mentoringService.addNoticeDetail(noticeDetail);
 		return "redirect:/mentoring/notice";
 	}
@@ -161,7 +158,6 @@ public class MemberMentoringController {
     	log.info("noticeQnA : {}",noticeQnA);
     	model.addAttribute("noticeQnA", noticeQnA);
 
-    	
     	List<NoticeDetail> noticeDetailYmd = mentoringMapper.getNoticeApplyYmdByCode(noticeCode);
     	model.addAttribute("noticeDetailYmd", noticeDetailYmd);
 
