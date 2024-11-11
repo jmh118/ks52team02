@@ -15,6 +15,10 @@ import ks52team02.page.Pageable;
 @Mapper
 public interface ManagerMemberMapper {
 	
+	// 전체 회원 수 조회
+	int getAllMemberCnt();
+	
+	
 	// 멘토 권한 멤버 조회
 	// 멘토 권한 멤버수 조회
 	List<Member> getMentorList(Map<String, Object> paramMap);
