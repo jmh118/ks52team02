@@ -27,7 +27,7 @@ public interface ManagerMemberMapper {
 	// 관리자 - 전체 회원 조회
 	// 관리자 - 전체 회원 수 조회
 	List<Member> getMemberList(Map<String, Object> paramMap);
-	int getMemberListCount();
+	int getMemberListCount(String keyword);
 	
 	
 	// 관리자 - 휴면 회원 정보 조회

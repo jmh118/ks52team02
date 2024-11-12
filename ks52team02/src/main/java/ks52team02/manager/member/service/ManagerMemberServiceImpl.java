@@ -30,13 +30,13 @@ public class ManagerMemberServiceImpl implements ManagerMemberService {
 	
 	 
 	@Override
-	public PageInfo<Member> getMemberList(Pageable pageable) {
-		int rowCnt = managerMemberMapper.getMemberListCount();
+	public PageInfo<Member> getMemberList(Pageable pageable, String keyword) {
+		int rowCnt = managerMemberMapper.getMemberListCount(keyword);
 		pageable.setRowPerPage(15);
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("rowPerPage", pageable.getRowPerPage());
 		paramMap.put("offset", pageable.getOffset());
-		// paramMap.put("category",category); <- 검색기능 추가
+		paramMap.put("keyword", keyword);
 		List<Member> contents = managerMemberMapper.getMemberList(paramMap);
 		return new PageInfo<>(contents, pageable, rowCnt);
 	}
