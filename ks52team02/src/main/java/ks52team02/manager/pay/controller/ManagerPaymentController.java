@@ -1,12 +1,13 @@
 package ks52team02.manager.pay.controller;
 
-import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import jakarta.servlet.http.HttpSession;
 import ks52team02.manager.pay.dto.PaymentSettlement;
@@ -27,14 +28,20 @@ public class ManagerPaymentController {
 	private final ManagerPayMapper managerPayMapper;
 	private final ManagerPayService managerPayService;
 	
-	@GetMapping("/approve")
-	public String managerPayApprove(@RequestParam(name="settlementCode") String settlementCode, HttpSession session) {
+	@PostMapping("/approve")
+	@ResponseBody
+	public boolean managerPayApprove(@RequestParam(name="settlementCode") String settlementCode, HttpSession session) {
 		
+		boolean isApprove = false; 
 		String managerId = (String) session.getAttribute("SID");
 		
-		managerPayService.managerPayApproveById(settlementCode, managerId);
+		int result = managerPayService.managerPayApproveById(settlementCode, managerId);
 		
-		return "redirect:/manager/pay/settlementList";
+		if(result > 0) {
+			isApprove = true;
+		}
+		
+		return isApprove;
 	}
 	
 	@GetMapping("/list")
@@ -56,7 +63,7 @@ public class ManagerPaymentController {
 		PageInfo<PaymentSettlement> paymentSettlementList = managerPayService.getPaymentSettlementList(pageable);
 		int settlementCnt = managerPayMapper.getPaymentSettlementCnt();
 
-		model.addAttribute("title", "멘토링 신청 내역 조회");
+		model.addAttribute("title", "멘토링 정산 신청 내역 조회");
 		model.addAttribute("paymentSettlementList", paymentSettlementList);
 		model.addAttribute("settlementCnt", settlementCnt);
 		

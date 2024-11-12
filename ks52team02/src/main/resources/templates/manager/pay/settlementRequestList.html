@@ -19,8 +19,8 @@
                                     <table class="table table-hover text-center">
                                         <thead>
                                             <tr>
+                                                <th>정산 관리 코드</th>
                                                 <th>신청(멘토) ID</th>
-                                                <th>멘토링 공지 코드</th>
                                                 <th>멘티 결제 금액</th>
                                                 <th>정산 금액</th>
                                                 <th>정산 요청 날짜</th>
@@ -29,16 +29,15 @@
                                         </thead>
                                         <tbody>
                                             <tr th:unless="${#lists.isEmpty(paymentSettlementList.contents)}" th:each="psl : ${paymentSettlementList.contents}">
-                                            	<th:block>
-                                            		<input type="hidden" th:value=${psl.paymentSettlementCode} />
-                                            	</th:block>
+                                            	
+                                                <td th:text="${psl.paymentSettlementCode}"></td>
                                                 <td th:text="${psl.mentorId}"></td>
-                                                <td th:text="${psl.noticeCode}"></td>
                                                 <td th:text="${psl.pay.totalAmount}"></td>
                                                 <td th:text="${psl.pay.mentorCalAmount}"></td>
                                                 <td th:text="${psl.paymentSettlementDemandDate}"></td>
                                                 <td>
-		                                            <a th:href="@{/manager/pay/approve(settlementCode=${psl.paymentSettlementCode})}" class="btn btn-md rounded font-sm">정산</a>
+		                                            <!-- <a th:href="@{/manager/pay/approve(settlementCode=${psl.paymentSettlementCode})}" class="btn btn-md rounded font-sm">정산</a> -->
+		                                        	<button type="button" class="btn btn-md rounded font-sm approveBtn" th:data-settlement-code="${psl.paymentSettlementCode}">정산</button>
 		                                        </td>
 		                                    </tr>
 		                                    <tr th:if="${#lists.isEmpty(paymentSettlementList.contents)}" class="text-center">
@@ -75,5 +74,38 @@
 					</nav>
 				</div>
             </section>
+      </th:block>
+      <th:block layout:fragment="customJs">
+      	<script>
+	      	$('.approveBtn').click(function(){
+		    	
+		        let settlementCode = $(this).data('settlement-code');
+	
+		        const request = $.ajax({
+					url : '/manager/pay/approve',
+					method : 'post',
+					data : { 
+							'settlementCode': settlementCode
+					},
+					dataType: 'json'
+				}); 
+		        request.done(function(data){
+			        console.log(data);
+					
+			        if(data){
+			        	alert('정산승인 완료!');
+			        	location.reload();
+			        } else {
+			        	alert('정산승인 실패..');
+			        	
+			        }
+			
+				});
+				request.fail(function(jqXHR, textStatus, error){
+					console.log(error);
+				});
+		       
+		    });
+      	</script>
       </th:block>
 </html>
