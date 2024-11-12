@@ -35,14 +35,19 @@
 				
 				checkPassword(memberPw).done(function(data){
 					if(data){
-						deleteAnswer(answerCode).done(function(isDel){
-							if(isDel){
-								alert('공고 답변이 삭제되었습니다.');
-								location.reload();								
-							}
-						}).fail(function(){
-							alert('공고 답변 삭제 중 오류가 발생했습니다.');
-						});
+						isDelYn = confirm('해당 답변을 정말 삭제하시겠습니까?');
+						if(isDelYn){
+							deleteAnswer(answerCode).done(function(isDel){
+								if(isDel){
+									alert('공고 답변이 삭제되었습니다.');
+									location.reload();								
+								}
+							}).fail(function(){
+								alert('공고 답변 삭제 중 오류가 발생했습니다.');
+							});
+						}else{
+							location.reload();
+						}
 					}else{
 						alert("비밀번호가 잘못되었습니다.");
 					}

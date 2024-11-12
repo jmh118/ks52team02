@@ -140,7 +140,7 @@
 		WHERE mentoring_notice_detail_code=#{noticeDetailCode};
 	</update>
 	
-	<select id="getApplyCheck" parameterType="string" resultType="ks52team02.manager.member.dto.Member">
+	<select id="checkApply" parameterType="string" resultType="ks52team02.manager.member.dto.Member">
 		/* 공고신청 조회 */
 		SELECT
 			member_name AS memberName, 
