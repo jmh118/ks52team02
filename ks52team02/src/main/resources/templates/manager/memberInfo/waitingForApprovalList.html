@@ -13,30 +13,33 @@
 			    });
 			}
 
-			function approvalMentor(memberId, actionType) {
-			    const mentorApprovalReason = $("select[name='mentorApprovalReason']").val();
-			    
-			    return $.ajax({
-			        type: 'POST',
-			        url: '/manager/member/mentorApproval',
-			        data: {
-			            'memberId': memberId,
-			            'actionType': actionType,
-			            'mentorApprovalReason': mentorApprovalReason
-			        },
-			        dataType: 'text'
-			    });
-			}
 
 			$('.applyDenyBtn').click(function(event) {
 			    const actionType = $(this).data("action-type");
 			    const memberId = $(this).data('member-id');
-				
-				const mentorApprovalReason = $("select[name='mentorApprovalReason']").val();
+				// const mentorApprovalReason = $(this).closest('tr').find("select[name='mentorApprovalReason']").val();
+				const mentorApprovalReason = $(this).closest('tr').find("select[name='mentorApprovalReason']").val();
 
-				if (!mentorApprovalReason) {
+				if (!mentorApprovalReason || "") {
 				    alert("승인/반려 사유를 선택해 주세요.");
 				    return;
+					
+					}else{
+						
+					function approvalMentor(memberId, actionType, mentorApprovalReason) {
+						console.log(mentorApprovalReason);
+					    
+					    return $.ajax({
+					        type: 'POST',
+					        url: '/manager/member/mentorApproval',
+					        data: {
+					            'memberId': memberId,
+					            'actionType': actionType,
+					            'mentorApprovalReason': mentorApprovalReason
+					        },
+					        dataType: 'text'
+					    });
+					}
 				}
 
 
@@ -48,7 +51,7 @@
 
 			    checkPassword(memberPw).done(function(isCheck) {
 			        if (isCheck) {
-			            approvalMentor(memberId, actionType).done(function(isApprove) {
+			            approvalMentor(memberId, actionType, mentorApprovalReason).done(function(isApprove) {
 			                if (isApprove === '1') {
 			                    alert('멘토 승인 및 반려 완료.');
 			                    location.reload();
@@ -125,7 +128,7 @@
 										</div>
 									</td>
 									<td>
-										<button type="button" class="btn btn-sm btn-brand rounded font-sm applyDenyBtn" th:data-member-id="${wfam.memberId}" data-action-type="approve">승인</button>
+										<button type="button" class="btn btn-sm btn-brand rounded font-sm applyDenyBtn" th:data-member-id="${wfam.memberId}" data-action-type="approve" >승인</button>
 										<button type="button" class="btn btn-sm btn-brand rounded font-sm applyDenyBtn" th:data-member-id="${wfam.memberId}" data-action-type="deny">거부</button>
 									</td>
 								</tr>

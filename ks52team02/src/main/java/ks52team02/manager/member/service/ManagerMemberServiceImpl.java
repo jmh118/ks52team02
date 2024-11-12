@@ -32,6 +32,7 @@ public class ManagerMemberServiceImpl implements ManagerMemberService {
 	@Override
 	public PageInfo<Member> getMemberList(Pageable pageable) {
 		int rowCnt = managerMemberMapper.getMemberListCount();
+		pageable.setRowPerPage(15);
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("rowPerPage", pageable.getRowPerPage());
 		paramMap.put("offset", pageable.getOffset());
@@ -65,6 +66,7 @@ public class ManagerMemberServiceImpl implements ManagerMemberService {
 	@Override
 	public PageInfo<LoginLog> getLoginLog(Pageable pageable){
 		int rowCnt = managerMemberMapper.getLoginLogCount();
+		pageable.setRowPerPage(15);
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("rowPerPage", pageable.getRowPerPage());
 		paramMap.put("offset", pageable.getOffset());

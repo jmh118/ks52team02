@@ -13,9 +13,10 @@
                 <div class="card mb-4">
                     <header class="card-header">
                         <div class="row gx-3">
-                            <div class="col-lg-4 col-md-6 me-auto">
-                                <input type="text" placeholder="Search..." class="form-control" />
-                            </div>
+							<div class="col-ml-3 col-md-3 d-flex">
+							   <input type="text" placeholder="회원 ID로 검색" class="form-control" />
+							   <button class="btn btn-light bg" type="button"><i class="material-icons md-search"></i></button>
+							</div>
                         </div>
                     </header>
                     <!-- card-header end// -->
@@ -24,11 +25,6 @@
                            <table class="table thead-light text-center table-hover">
                                 <thead>
                                     <tr>
-                                        <th>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="" />
-                                            </div>
-                                        </th>
                                         <th>회원ID</th>
                                         <th>회원이메일</th>
                                         <th>회원비밀번호</th>
@@ -37,16 +33,10 @@
                                         <th>회원이름</th>
                                         <th>회원연락처</th>
                                         <th>가입일자</th>
-                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr th:each="ml:${memberList.contents}">
-                                        <td>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="" />
-                                            </div>
-                                        </td>
                                         <td th:text="${ml.memberId}"></td>
                                         <td th:text="${ml.memberEmail}"></td>
 										<td th:text="${ml.memberPw}"></td>
@@ -59,9 +49,6 @@
                                         <td th:text="${ml.memberName}"></td>
                                         <td th:text="${ml.memberTelNo}"></td>
 										<td th:text="${ml.memberJoinYMD}"></td>
-                                        <td>
-                                            <a href="#" class="btn btn-md rounded font-sm">게시 상세</a>
-                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
