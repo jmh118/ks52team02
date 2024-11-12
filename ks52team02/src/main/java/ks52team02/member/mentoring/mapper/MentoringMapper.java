@@ -33,7 +33,7 @@ public interface MentoringMapper {
 	// 공고등록
 	int addNotice(Notice notice);
 	
-	//공고조회
+	// 공고조회
 	List<Notice> getNoticeList(Map<String, Object> paramMap);
 	
 	// 공고카테고리조회
@@ -45,7 +45,7 @@ public interface MentoringMapper {
 	// 공고 상세 멘토링 시간
 	List<NoticeDetail> getNoticeDetailTimeByCode(String noticeCode);
 
-	//멘토링 신청
+	// 멘토링 신청
 	int addMentoringApply(MentoringApply mentoringApply);
 
 	// 특정공고 조회
@@ -55,7 +55,7 @@ public interface MentoringMapper {
 	int modifyNotice(Notice notice);
 
 	//회원정보확인
-	Member getApplyCheck(String searchId);
+	Member checkApply(String searchId);
 
 	// 멘토링 신청 후 신청가능한 멘토링 시간 수정
 	int modifyNoticeDetailTime(String noticeDetailCode);
