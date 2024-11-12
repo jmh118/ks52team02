@@ -100,8 +100,8 @@ public class ManagerCareerController {
     }
 	
 	@GetMapping("/workCheck")
-    public String workCheck(@RequestParam(value="mentorCode") String mentorCode,
-    						@RequestParam(value="managerId") String managerId) {
+    public String workCheck(@RequestParam(name="mentorCode") String mentorCode,
+    						@RequestParam(name="managerId") String managerId) {
 		Work workCheck = new Work();
 		workCheck.setMentorCode(mentorCode);
 		workCheck.setManagerId(managerId);
@@ -109,15 +109,16 @@ public class ManagerCareerController {
         
         return "redirect:/manager/career/work";
 	}
-	@GetMapping("/workYn")
-	public String workYn(@RequestParam(value="selectedFilter") String selectedFilter,
-						Pageable pageable,Model model) {
-		 PageInfo<Work> memberList = careerService.getMemberWorkCareer(pageable, selectedFilter);
-	       
-	        model.addAttribute("memberList", memberList);
-	        
-	        return "redirect:/manager/career/workYn";
-	}
+	/*
+	 * @GetMapping("/workYn") public String
+	 * workYn(@RequestParam(value="selectedFilter") String selectedFilter, Pageable
+	 * pageable,Model model) { PageInfo<Work> memberList =
+	 * careerService.getMemberWorkCareer(pageable, selectedFilter);
+	 * 
+	 * model.addAttribute("memberList", memberList);
+	 * 
+	 * return "redirect:/manager/career/workYn"; }
+	 */
 
     @GetMapping("/project")
     public String mentorCareerProject(Pageable pageable, Model model) {

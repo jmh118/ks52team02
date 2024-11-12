@@ -12,7 +12,7 @@ import ks52team02.page.Pageable;
 public interface CareerService {
 
 	PageInfo<Work> getMemberWorkCareer(Pageable pageable);
-	PageInfo<Work> getMemberWorkCareer(Pageable pageable, String selectedFilter);
+	//PageInfo<Work> getMemberWorkCareer(Pageable pageable, String selectedFilter);
 	
 	PageInfo<Project> getMemberProjectCareer(Pageable pageable);
 	

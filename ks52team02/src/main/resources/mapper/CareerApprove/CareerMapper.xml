@@ -26,19 +26,13 @@
 			mentor_work_history_details mwhd
 			on
 			m.member_id=mwhd.member_id
-			<where>
-				<if test="selectedFilter =='N'">
-					mwhd.mentor_career_apply_manager ='N'
-				</if>
-				<if test="selectedFilter == 'Y'">
-					mwhd.mentor_career_apply_manager !='N'
-				</if>
-			</where>
+			
 		ORDER BY 
 			mwhd.FRST_REG_DT desc
 		
 		LIMIT #{rowPerPage} OFFSET #{offset};
 	</select>
+	
 	
 	<update id="checkWorkByFileNm" parameterType="Work">
   		UPDATE mentor_work_history_details

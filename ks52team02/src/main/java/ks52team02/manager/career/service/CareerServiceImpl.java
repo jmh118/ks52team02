@@ -29,6 +29,7 @@ public class CareerServiceImpl implements CareerService {
 		
 		return new PageInfo<>(contents, pageable, rowCnt);
 	}
+	/*
 	@Override
 	public PageInfo<Work> getMemberWorkCareer(Pageable pageable, String selectedFilter) {
 		int rowCnt = careerMapper.getWorkCareerCount();
@@ -36,7 +37,7 @@ public class CareerServiceImpl implements CareerService {
 		
 		return new PageInfo<>(contents, pageable, rowCnt);
 	}
-	
+	*/
 	@Override
 	public PageInfo<Project> getMemberProjectCareer(Pageable pageable) {
 		int rowCnt = careerMapper.getProjectCareerCount();
