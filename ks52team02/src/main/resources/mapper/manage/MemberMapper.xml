@@ -41,7 +41,7 @@
 		LIMIT #{rowPerPage} OFFSET #{offset};
 	</select>
 	
-	<select id="getMemberListCount" resultType="int">
+	<select id="getMemberListCount" parameterType="map" resultType="int">
 		/* 관리자 - 전체 회원 수 조회 */
 		SELECT
 			COUNT(*)
@@ -71,6 +71,9 @@
 			m.member_level_code=ml.member_level_code
 		WHERE
 			member_withdrawal_YN = 'N'
+	    <if test="keyword != null and keyword != ''">
+    		AND (member_id LIKE CONCAT('%', #{keyword}, '%'))
+		</if>
 		LIMIT #{rowPerPage} OFFSET #{offset};
 	</select>
 	

@@ -34,7 +34,6 @@ import ks52team02.manager.member.dto.Member;
 import ks52team02.manager.member.dto.MentorApproval;
 import ks52team02.manager.member.dto.WithdrawalMember;
 import ks52team02.manager.member.service.ManagerMemberService;
-import ks52team02.member.mypage.dto.MentorWork;
 import ks52team02.member.mypage.mapper.MentorMypageMapper;
 import ks52team02.page.PageInfo;
 import ks52team02.page.Pageable;
@@ -97,12 +96,24 @@ public class ManagerMemberController {
 // 조회 only ▼ ---------------------------------------------------------------------------
 	
 	@GetMapping("/list")
-    public String allMembers(Pageable pageable, Model model) {
+    public String allMembers(Pageable pageable, Model model, String keyword) {
     	System.out.println("전체 회원 조회 페이지 이동");
-    	PageInfo<Member> memberList = managerMemberService.getMemberList(pageable);
+    	PageInfo<Member> memberList = managerMemberService.getMemberList(pageable, keyword);
     	model.addAttribute("memberList", memberList);
     	
     	return  "manager/memberInfo/membersInfoList";
+	}
+	
+	@GetMapping("/listIdSearch")
+	public String getMemberList(@RequestParam(value = "keyword", required = false) String keyword,
+	                            Pageable pageable, Model model) {
+		System.out.println("전체 회원 조회 - ID 검색");
+	    PageInfo<Member> memberPage = managerMemberService.getMemberList(pageable, keyword);
+	    PageInfo<Member> memberList = managerMemberService.getMemberList(pageable, keyword);
+	    model.addAttribute("memberList", memberPage.getContents());
+	    model.addAttribute("pageInfo", memberPage);
+	    model.addAttribute("memberList", memberList);
+	    return "manager/memberInfo/membersInfoList";
 	}
 	
 	@GetMapping("/withdrawalList")
@@ -265,9 +276,9 @@ public class ManagerMemberController {
 	
 	@GetMapping("/infoModify")
 	public String membersInfoModify(@RequestParam(name="memberId", required=false) String memberId,
-									Pageable pageable, Model model){
+									Pageable pageable, Model model, String keyword){
 		System.out.println("전체 회원 정보 수정 페이지 이동");
-		PageInfo<Member> memberList = managerMemberService.getMemberList(pageable);
+		PageInfo<Member> memberList = managerMemberService.getMemberList(pageable, keyword);
 		model.addAttribute("memberList", memberList);
 	
 		if(memberId != null) {
