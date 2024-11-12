@@ -39,16 +39,19 @@ public class ManagerMentoringServiceImpl implements ManagerMentoringService{
 	}
 	
 	@Override
-	public void removeQuestion(String questionCode) {
+	public int removeQuestion(String questionCode) {
 		String answerCode = managerMentoringMapper.getManagerAnswerCodeByCode(questionCode);
-		managerMentoringMapper.removeAnswer(answerCode);
-		managerMentoringMapper.removeQuestion(questionCode);
+		int result = 0;
+		result += managerMentoringMapper.removeAnswer(answerCode);
+		result += managerMentoringMapper.removeQuestion(questionCode);
+		return result;
 	}
 	
 	@Override
-	public void removeAnswer(String answerCode) {
-		
-		managerMentoringMapper.removeAnswer(answerCode);
+	public int removeAnswer(String answerCode) {
+		int result = 0;
+		result += managerMentoringMapper.removeAnswer(answerCode);
+		return result;
 	}
 	
 	@Override

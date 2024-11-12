@@ -23,10 +23,10 @@ public interface ManagerMentoringService {
 	PageInfo<NoticeAnswer> getManagerNoticeAnswerList(Pageable pageable, String searchId);
 
 	// 멘토링공고 답변 삭제
-	void removeAnswer(String answerCode);
+	int removeAnswer(String answerCode);
 
 	// 멘토링공고 질문 삭제(답변있을시 답변도삭제)
-	void removeQuestion(String questionCode);
+	int removeQuestion(String questionCode);
 	
 	// 멘토링 신청 조회
 	PageInfo<MentoringApply> getManagerMentoringApplyList(Pageable pageable, String searchId);

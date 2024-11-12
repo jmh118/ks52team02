@@ -14,6 +14,9 @@ import ks52team02.page.Pageable;
 @Mapper
 public interface ManagerMentoringMapper {
 	
+	// 진행한 멘토링 수 조회
+	int getMentoringCnt();
+	
 	// 멘토링공고 조회
 	List<ManagerMetoringNotice> getManagerNoticeList(Map<String, Object> paramMap);
 

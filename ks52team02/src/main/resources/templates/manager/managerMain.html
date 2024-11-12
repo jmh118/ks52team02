@@ -4,13 +4,6 @@
 	  layout:decorate="~{manager/layouts/layout}">
 	  <th:block layout:fragment="customContent">
             <section class="content-main">
-                <div class="content-header">
-                    <div>
-                        <h2 class="content-title card-title">대시보드</h2>
-                        <p>일에 관련한 모든 데이터가 여기에 있음!</p>
-                    </div>
-                    
-                </div>
                 <div class="row">
                 	<div class="col-lg-3">
                         <div class="card card-body mb-4">
@@ -18,7 +11,7 @@
                                 <span class="icon icon-sm rounded-circle bg-warning-light"><i class="text-warning material-icons md-qr_code"></i></span>
                                 <div class="text">
                                     <h6 class="mb-1 card-title">전체 회원 수</h6>
-                                    <span>9.856</span>
+                                    <span th:text="${memberCnt}"></span>
                                     <span class="text-sm"> 가입 중인 멘토 및 멘티 회원 수입니다. </span>
                                 </div>
                             </article>
@@ -30,7 +23,7 @@
                                 <span class="icon icon-sm rounded-circle bg-success-light"><i class="text-warning material-icons md-qr_code"></i></span>
                                 <div class="text">
                                     <h6 class="mb-1 card-title">진행한 멘토링 수</h6>
-                                    <span>53.668</span>
+                                    <span th:text="${mentoringCnt}"></span>
                                     <span class="text-sm"> 진행 중인 멘토링은 제외한 데이터입니다. </span>
                                 </div>
                             </article>
@@ -42,7 +35,7 @@
                                 <span class="icon icon-sm rounded-circle bg-primary-light"><i class="text-primary material-icons md-monetization_on"></i></span>
                                 <div class="text">
                                     <h6 class="mb-1 card-title">전체 결제 금액</h6>
-                                    <span>13,456.5</span>
+                                    <span th:text="${totalPaymentAmount}"></span>
                                     <span class="text-sm"> 수수료는 포함되지 않은 데이터입니다. </span>
                                 </div>
                             </article>
@@ -54,8 +47,8 @@
                                 <span class="icon icon-sm rounded-circle bg-info-light"><i class="text-primary material-icons md-monetization_on"></i></span>
                                 <div class="text">
                                     <h6 class="mb-1 card-title"> 수익</h6>
-                                    <span>6,982</span>
-                                    <span class="text-sm">전체 수익 금액</span>
+                                    <span th:text="${flatformCalAmount}"></span>
+                                    <span class="text-sm">플랫폼 정체 수익 금액입니다.</span>
                                 </div>
                             </article>
                         </div>
@@ -65,70 +58,9 @@
                     <div class="col-xl-12 col-lg-12">
                         <div class="card mb-4">
                             <article class="card-body">
-                                <h5 class="card-title">매출 통계</h5>
                                 <canvas id="myChart" height="120px"></canvas>
                             </article>
                         </div>
-                        
-                    </div>
-                    
-                </div>
-                <div class="card mb-4">
-                    <header class="card-header">
-                        <h4 class="card-title">Latest orders</h4>
-                        <div class="row align-items-center">
-                            <div class="col-md-3 col-12 me-auto mb-md-0 mb-3">
-                                
-                            </div>
-                            
-                            <div class="col-md-2 col-6">
-                                <div class="custom_select">
-                                    <select class="form-select select-nice">
-                                        <option selected>Status</option>
-                                        <option>All</option>
-                                        <option>Paid</option>
-                                        <option>Chargeback</option>
-                                        <option>Refund</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                    </header>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <div class="table-responsive">
-                                <table class="table align-middle table-nowrap mb-0 text-center">
-                                    <thead class="table-light">
-                                        <tr>
-                                            
-                                            <th class="align-middle" scope="col">Order ID</th>
-                                            <th class="align-middle" scope="col">Date</th>
-                                            <th class="align-middle" scope="col">Total</th>
-                                            <th class="align-middle" scope="col">Payment Status</th>
-                                            <th class="align-middle" scope="col">Payment Method</th>
-                                        </tr>
-                                    </thead>
-                                    <!-- 
-                                    		<span class="badge badge-pill badge-soft-danger">Chargeback</span>
-                                    		<span class="badge badge-pill badge-soft-warning">Refund</span>
-                                     -->
-                                    <tbody>
-                                        <tr>
-                                            
-                                            <td><a href="#" class="fw-bold">#SK2540</a></td>
-                                            <td>07 Oct, 2021</td>
-                                            <td>$400</td>
-                                            <td>
-                                                <span class="badge badge-pill badge-soft-success">Paid</span>
-                                            </td>
-                                            <td><i class="material-icons md-payment font-xxl text-muted mr-5"></i> Mastercard</td>
-                                            
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <!-- table-responsive end// -->
                     </div>
                 </div>
             </section>

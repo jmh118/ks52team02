@@ -23,9 +23,10 @@ import ks52team02.member.pay.dto.BeforePay;
 import ks52team02.member.pay.dto.Pay;
 import ks52team02.member.pay.dto.PaymentRequest;
 import ks52team02.member.pay.dto.SearchFilter;
-import ks52team02.member.pay.mapper.MemberPayMapper;
 import ks52team02.member.pay.service.MemberPayService;
 import ks52team02.member.review.service.MemberReviewService;
+import ks52team02.page.PageInfo;
+import ks52team02.page.Pageable;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -47,17 +48,16 @@ public class MemberPayController {
 		String memberId = (String) session.getAttribute("SID");
 		List<PaymentSettlement> settlementList = memberPayService.searchSettlementHistoryList(memberId, searchFilter);
 		
-		log.info("32-42-0=340-2=3 : {}", settlementList);
 		
 		return settlementList;
 	}
 	
 	
 	@GetMapping("/settlementHistoryList")
-	public String getSettlementHistoryListById(Model model, HttpSession session) {
+	public String getSettlementHistoryListById(Model model, HttpSession session, Pageable pageable) {
 		
 		String memberId = (String) session.getAttribute("SID");
-		List<PaymentSettlement> settlementList = memberPayService.getSettlementHistoryList(memberId);
+		PageInfo<PaymentSettlement> settlementList = memberPayService.getSettlementHistoryList(memberId, pageable);
 		
 		model.addAttribute("activeMenu", "settlementHistoryList");
 		model.addAttribute("settlementList", settlementList);
@@ -109,13 +109,11 @@ public class MemberPayController {
 	}
 	
 	@GetMapping("/settlementList")
-	public String getsettlementList(HttpSession session, Model model) {
+	public String getsettlementList(HttpSession session, Model model, Pageable pageable) {
 		
 		String memberId = (String) session.getAttribute("SID");
-		List<Pay> paymentList = memberPayService.getPaymentListByMentorId(memberId);
+		PageInfo<Pay> paymentList = memberPayService.getPaymentListByMentorId(memberId, pageable);
 		List<Boolean> isCheck = memberPayService.isCheckSettlement(paymentList);
-		
-		log.info("isCheck : {}", isCheck);
 		
 		model.addAttribute("activeMenu", "settlementList");
 		model.addAttribute("paymentList", paymentList);
@@ -125,17 +123,17 @@ public class MemberPayController {
 	}
 	
 	@GetMapping("/list")
-	public String getPayList(HttpSession session, Model model) {
+	public String getPayList(HttpSession session, Model model, Pageable pageable) {
 		
 		String memberId = (String) session.getAttribute("SID");
-		List<Pay> paymentList = memberPayService.getMenteePaymentListById(memberId);
+		PageInfo<Pay> paymentList = memberPayService.getMenteePaymentListById(memberId, pageable);
 		List<Boolean> isCheck = memberReviewService.isCheckReview(paymentList);
 		
 		model.addAttribute("activeMenu", "payList");
 		model.addAttribute("paymentList", paymentList);
 		model.addAttribute("reviewCheck", isCheck);
 		
-		return "member/pay/payList.html";
+		return "member/pay/payList";
 	}
 	
 	@PostMapping("/process")
@@ -172,14 +170,6 @@ public class MemberPayController {
 	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("결제 검증 실패");
 	    }
 	}
-	
-	@GetMapping("/success")
-	public String paymentStatusIsSuccessView() {
-		
-		
-		return "member/pay/payStatusSuccess";
-	}
-	
 	
 
 }

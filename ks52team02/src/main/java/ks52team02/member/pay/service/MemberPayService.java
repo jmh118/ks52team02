@@ -7,6 +7,8 @@ import ks52team02.member.pay.dto.BeforePay;
 import ks52team02.member.pay.dto.MentoringData;
 import ks52team02.member.pay.dto.Pay;
 import ks52team02.member.pay.dto.SearchFilter;
+import ks52team02.page.PageInfo;
+import ks52team02.page.Pageable;
 
 public interface MemberPayService {
 	
@@ -14,7 +16,7 @@ public interface MemberPayService {
 	List<PaymentSettlement> searchSettlementHistoryList(String memberId, SearchFilter searchFilter);
 	
 	// (멘토) 정산 내역 조회
-	List<PaymentSettlement> getSettlementHistoryList(String memberId);
+	PageInfo<PaymentSettlement> getSettlementHistoryList(String memberId, Pageable pageable);
 	
 	// 연도,월 검색 결제 내역 조회
 	List<Pay> getFilterMemberPaymentListById(String memberId, String memberLevel, SearchFilter searchFilter);
@@ -35,17 +37,17 @@ public interface MemberPayService {
 	boolean addSettlementApply(String payCode, String noticeCode, String memberId);
 	
 	// 신청한 정산 내역이 있는지 조회 
-	List<Boolean> isCheckSettlement(List<Pay> paymentList);
+	List<Boolean> isCheckSettlement(PageInfo<Pay> paymentList);
 	
 	// 정산신청 내역 개수로 true, false 판단
 	boolean isSettlementCntByPayCode(String payCode);
 	
 	// (멘토) 신청받은 결제 내역 조회 
-	List<Pay> getPaymentListByMentorId(String memberId);
+	PageInfo<Pay> getPaymentListByMentorId(String memberId, Pageable pageable);
 	
 	// 결제한 멘토링명 조회
 	String getMentoringTitleByPayCode(String payCode);
 	
 	// (멘티) 결제 내역 조회
-	List<Pay> getMenteePaymentListById(String memberId);
+	PageInfo<Pay> getMenteePaymentListById(String memberId, Pageable pageable);
 }

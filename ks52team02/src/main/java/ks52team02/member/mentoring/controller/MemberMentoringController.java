@@ -129,10 +129,7 @@ public class MemberMentoringController {
 	@PostMapping("/noticeAdd")
 	public String addNotice(Notice notice, NoticeDetail noticeDetail) {
 		
-		
-		log.info("notice: {}", notice);
 		mentoringService.addNotice(notice);
-		log.info("noticeDetail {}",noticeDetail);
 		mentoringService.addNoticeDetail(noticeDetail);
 		return "redirect:/mentoring/notice";
 	}
@@ -161,7 +158,6 @@ public class MemberMentoringController {
     	log.info("noticeQnA : {}",noticeQnA);
     	model.addAttribute("noticeQnA", noticeQnA);
 
-    	
     	List<NoticeDetail> noticeDetailYmd = mentoringMapper.getNoticeApplyYmdByCode(noticeCode);
     	model.addAttribute("noticeDetailYmd", noticeDetailYmd);
 
@@ -169,7 +165,7 @@ public class MemberMentoringController {
     }
 	
 	@GetMapping("/notice")
-	public String movenoticeList(@RequestParam(required = false) String category, Model model,Pageable pageable) {
+	public String movenoticeList(@RequestParam(name="category",required = false) String category, Model model,Pageable pageable) {
 	
 		List<Topic> categoryCount = mentoringService.getCategoryCountList();
 		PageInfo<Notice> noticeList = mentoringService.getNoticeList(category, pageable);
@@ -177,6 +173,10 @@ public class MemberMentoringController {
 		log.info("noticeList :{}",noticeList);
 		model.addAttribute("noticeList", noticeList);
 		model.addAttribute("categoryCount", categoryCount);
+		
+		if (category != null && !category.isEmpty()) {				
+			model.addAttribute("category", category);
+		}
 		
     	System.out.println("멘토링 | 멘토링 공고 조회 화면");
         return  "member/mentoring/noticeList";

@@ -19,7 +19,8 @@
 				return $.ajax({
 					type : 'GET',
 					url : '/manager/mentoring/removeAnswer',
-					data: {'answerCode': answerCode}
+					data: {'answerCode': answerCode},
+					dataType: 'json'
 				});
 			}
 			
@@ -34,9 +35,11 @@
 				
 				checkPassword(memberPw).done(function(data){
 					if(data){
-						deleteAnswer(answerCode).done(function(){
-							alert('공고 답변이 삭제되었습니다.');
-							location.reload();
+						deleteAnswer(answerCode).done(function(isDel){
+							if(isDel){
+								alert('공고 답변이 삭제되었습니다.');
+								location.reload();								
+							}
 						}).fail(function(){
 							alert('공고 답변 삭제 중 오류가 발생했습니다.');
 						});
