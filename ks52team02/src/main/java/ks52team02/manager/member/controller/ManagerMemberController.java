@@ -157,7 +157,7 @@ public class ManagerMemberController {
 	public int mentorApproval(
 	    @RequestParam(name="memberId") String memberId,
 	    @RequestParam(name="actionType") String actionType,
-	    @RequestParam(name="mentorApprovalReason", required=false) String mentorApprovalReason,
+	    @RequestParam(name="mentorApprovalReason") String mentorApprovalReason,
 	    MentorApproval mentorApproval, 
 	    HttpSession session) {
 	    System.out.println("멘토 권한 변경 요청");
