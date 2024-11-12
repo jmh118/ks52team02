@@ -14,6 +14,7 @@ import ks52team02.page.Pageable;
 public interface CareerMapper {
 	
 	List<Work> getWorkCareer(Pageable pageable);
+	//List<Work> getWorkCareer(Pageable pageable, String selectedFilter);
 	
 	int getWorkCareerCount();
 	

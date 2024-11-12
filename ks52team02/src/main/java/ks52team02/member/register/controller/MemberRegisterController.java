@@ -137,18 +137,15 @@ public class MemberRegisterController {
 	
 
 	  @PostMapping("/mentor")
-	  public String registerMentor(@RequestPart(name="files", required = false) 
+	  public String registerMentor(@RequestPart(name="registerFiles", required = false) 
 	  								MultipartFile multipartFile, 
 	  								MentorApproval mentorApproval, 
-	  								Member member, 
-	  								MentorWork mentorWork) { 
-		  // log.info("mentorRegisterData ################ : {}", mentorRegisterData);
-		  String fileCode = fileService.addFile(multipartFile);
+	  								@RequestParam(name="hiddenMemberId") String memberId) { 
+		  System.out.println("멘토 회원가입");
+
+		  mentorApproval.setMemberId(memberId);
+		  fileService.addFile(multipartFile);
 		  memberRegisterService.mentorPreRegister(mentorApproval);
-		  memberRegisterService.registerAddWorkInfo(mentorWork);
-		  memberRegisterMapper.register(member); mentorWork.setMentorFileNm(fileCode);
-		  
-//		  System.out.println("멘토 회원가입");
 		  
 		  return "redirect:/member"; 
 	  }
