@@ -35,6 +35,28 @@
 	               });
 	       });
 
+
+	      /*  $(document).ready(function() {
+	    	   
+	    	   $('.form-select').change(function() {
+	    		   
+	    		   const selectedFilter = $(this).val();
+	    		   const request = $.ajax({
+	    			   url : '/manager/career/workYn',
+	    			   method : 'GET',
+	    			   data : {'selectedFilter' : selectedFilter},
+	    			   dataType : 'json'
+	    		   });
+	    		   request.done(function(data) {
+	            	   console.log(data);
+	                   alert('작업 확인이 완료되었습니다');   // 서버에서 전달된 응답 메시지 표시
+	                   location.reload();
+	               })
+	    		   
+	    	   }
+	       )} */
+	       
+	       
 	</script>
 	</th:block>
 	
@@ -46,14 +68,11 @@
                 <div class="card mb-4">
                     <header class="card-header">
                         <div class="row gx-3">
-                            <div class="col-lg-4 col-md-6 me-auto">
-                                <input type="text" placeholder="Search..." class="form-control" />
-                            </div>
                             <div class="col-lg-2 col-md-3 col-6">
                                 <select class="form-select">
-                                    <option>상태</option>
-                                    <option>승인</option>
-                                    <option>대기</option>
+                                    <option value="all">상태</option>
+                                    <option value="Y">승인</option>
+                                    <option value="N">대기</option>
                                 </select>
                             </div>
                         </div>
