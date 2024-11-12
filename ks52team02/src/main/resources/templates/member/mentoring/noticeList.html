@@ -23,8 +23,8 @@
 
 			    $('a.cate-list').click(function(e) {
 			    	e.preventDefault();
-			        let category = [[${category}]];  // Thymeleaf에서 category 값 가져오기
-			        let href = $(this).attr('href');  // 기존 href 가져오기
+			        let category = [[${category}]]; 
+			        let href = $(this).attr('href');  
 
 			        if (category && category.trim() !== '') {
 			            // category가 있을 때만 &category= 추가
