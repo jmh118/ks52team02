@@ -32,5 +32,15 @@
 		(#{mentorApprovalCode}, #{memberId}, '승인요청상태', 'N');
 	</insert>
 	
+	<insert id="registerAddWorkInfo" parameterType="MentorWork">
+		/* 멘토 회원가입시 근무경력 업로드 */
+		INSERT INTO mentor_work_history_details
+		(mentor_work_career_details_code, member_id, mentor_POWK_NM, mentor_TKCG_TASK, mentor_JNCMP_YMD, mentor_RSGNTN_YMD, FRST_REG_DT, mentor_WRKDY_CNT, mentor_ACML_WRKDY_CNT, mentor_career_DATA_REG_upload_YN, mentor_career_apply_manager, mentor_employment_status)
+		
+		VALUES
+		(#{mentorWorkCode}, #{mentorId}, #{mentorPowkNm}, #{mentorTask}, #{mentorJncmpYmp}, #{mentorRsgntnYmp}, NOW(), #{mentorCnt}, #{totalMentorCnt}, 'Y', #{mentorCareerApplyManager}, #{mentorStatus});
+	
+	</insert>
+	
 	
 </mapper>

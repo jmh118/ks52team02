@@ -19,14 +19,14 @@
 				return $.ajax({
 					type : 'GET',
 					url : '/manager/mentoring/removeQuestion',
-					data: {'questionCode': questionCode}
+					data: {'questionCode': questionCode},
+					dataType: 'json'
 				});
 			}
 			
 			$('.questionDelBtn').click(function(){
 				const questionCode = $(this).data('question-code');
 				isDel = confirm('해당 질문을 정말 삭제하시겠습니까? 삭제 시 질문에 해당하는 답변도 삭제됩니다.');
-				/* let delMSG = '취소하셨습니다.' */
 				if(isDel){
 					let memberPw = prompt("관리자 비밀번호를 입력하세요");
 					if(memberPw === null || memberPw === ""){
@@ -36,9 +36,11 @@
 					
 					checkPassword(memberPw).done(function(data){
 						if(data){
-							deleteQuestion(questionCode).done(function(){
-								alert('공고 질문이 삭제되었습니다.');
-								location.reload();
+							deleteQuestion(questionCode).done(function(isDel){
+								if(isDel){									
+									alert('공고 질문이 삭제되었습니다.');
+									location.reload();
+								}
 							}).fail(function(){
 								alert('공고 질문 삭제 중 오류가 발생했습니다.');
 							});

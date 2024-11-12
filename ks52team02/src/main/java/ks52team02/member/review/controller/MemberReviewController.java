@@ -16,6 +16,8 @@ import ks52team02.manager.review.dto.Review;
 import ks52team02.member.pay.service.MemberPayService;
 import ks52team02.member.review.mapper.MemberReviewMapper;
 import ks52team02.member.review.service.MemberReviewService;
+import ks52team02.page.PageInfo;
+import ks52team02.page.Pageable;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -89,10 +91,10 @@ public class MemberReviewController {
 	}
 
 	@GetMapping("/list")
-	public String getReviewListByMentee(Model model, HttpSession session) {
+	public String getReviewListByMentee(Model model, HttpSession session, Pageable pageable) {
 		
 		String memberId = (String) session.getAttribute("SID");
-		List<Review> reviewList = memberReviewService.getReviewListById(memberId);
+		PageInfo<Review> reviewList = memberReviewService.getReviewListById(memberId, pageable);
 		
 		model.addAttribute("activeMenu", "reviewList");
 		model.addAttribute("reviewList", reviewList);

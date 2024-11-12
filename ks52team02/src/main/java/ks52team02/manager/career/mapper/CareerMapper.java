@@ -8,18 +8,40 @@ import ks52team02.manager.career.dto.Certificate;
 import ks52team02.manager.career.dto.Education;
 import ks52team02.manager.career.dto.Project;
 import ks52team02.manager.career.dto.Work;
+import ks52team02.page.Pageable;
 
 @Mapper
 public interface CareerMapper {
 	
-	List<Work> getWorkCareer();
+	List<Work> getWorkCareer(Pageable pageable);
+	//List<Work> getWorkCareer(Pageable pageable, String selectedFilter);
 	
-	List<Project> getProjectCareer();
+	int getWorkCareerCount();
+	
+	int checkWorkByFileNm(Work work);
 	
 	
-	List<Education> getEducationCareer();
 	
-	List<Certificate> getCertificateCareer();
+	List<Project> getProjectCareer(Pageable pageable);
 	
+	int getProjectCareerCount();
+	
+	int checkProjectByFileNm(Project project);
+	
+	
+	
+	List<Education> getEducationCareer(Pageable pageable);
+	
+	int getEducationCareerCount();
+	
+	int checkEducationByFileNm(Education education);
+	
+	
+	
+	List<Certificate> getCertificateCareer(Pageable pageable);
+
+	int getCertificateCareerCount();
+	
+	int checkCertificateByFileNm(Certificate certificate);
 	
 }

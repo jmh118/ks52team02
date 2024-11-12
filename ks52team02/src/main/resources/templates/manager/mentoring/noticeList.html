@@ -5,16 +5,16 @@
 	  
 	<th:block layout:fragment="customJs">
 		<script th:inline="javascript">
-	            $('a.search-list').each(function() {
-		            let searchId = [[${searchId}]];  // Thymeleaf로 searchId 값 가져오기
-	                let href = $(this).attr('href');
-	                
-	                if (searchId && searchId.trim() !== '') {
-	                    // 기존 href에 searchId 추가
-	                    let newHref = href.includes('?') ? `${href}&searchId=${searchId}` : `${href}?searchId=${searchId}`;
-	                    $(this).attr('href', newHref);
-	                }
-	            });
+            $('a.search-list').each(function() {
+	            let searchId = [[${searchId}]];  // Thymeleaf로 searchId 값 가져오기
+                let href = $(this).attr('href');
+                
+                if (searchId && searchId.trim() !== '') {
+                    // 기존 href에 searchId 추가
+                    let newHref = href.includes('?') ? `${href}&searchId=${searchId}` : `${href}?searchId=${searchId}`;
+                    $(this).attr('href', newHref);
+                }
+            });
 		</script>
 	</th:block>
 	  

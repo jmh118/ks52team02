@@ -13,7 +13,7 @@
                         <h3 class="mb-30">포트폴리오</h3>
                         <div class="table-responsive">
                             <table class="table">
-                                <thead>
+                                <thead class="table-success">
                                     <tr>
                                         <th>아이디</th>
                                         <th>제목</th>
@@ -22,14 +22,32 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr th:each="p : ${PortfolioList}">
+                                    <tr th:each="p : ${PortfolioList.contents}">
                                         <td th:text="${p.portfolioId}"></td>
                                         <td th:text="${p.portfolioTitle}"></td>
 										<td th:text="${p.portfolioDate}"></td>
-                                        <td><a th:href="@{/portfolio/detail(portfolioId=${p.portfolioId})}" class="btn-small d-block">View</a></td>
+                                        <td><a th:href="@{/portfolio/detail(portfolioCode=${p.portfolioCode})}" class="btn-small d-block">View</a></td>
                                     </tr>
                                 </tbody>
                             </table>
+                            <div class="pagination-area mt-15 mb-50">
+			                    <nav aria-label="Page navigation example">
+			                        <ul class="pagination justify-content-start">
+								    	<li class="page-item" th:classappend="${PortfolioList.currentPage < 2}? 'disabled'">
+											<a class="page-link d-flex justify-content-center align-items-center" th:href="@{/portfolio/list(currentPage=${PortfolioList.currentPage - 1})}"><i class="fi-rs-arrow-small-left"></i></a>
+										</li>
+								        <th:block th:each="num : ${#numbers.sequence(PortfolioList.startPageNum, PortfolioList.endPageNum)}">
+								            <li class="page-item"
+								                th:classappend="${PortfolioList.currentPage == num} ? 'active'">
+								                <a class="page-link" th:href="@{/portfolio/list(currentPage=${num})}">[[${num}]]</a>
+								            </li>
+								        </th:block>
+								        <li class="page-item" th:classappend="${PortfolioList.currentPage >= PortfolioList.lastPage} ? 'disabled'">
+								            <a class="page-link d-flex justify-content-center align-items-center" th:href="@{/portfolio/list(currentPage=${PortfolioList.currentPage + 1})}"><i class="fi-rs-arrow-small-right"></i></a>
+								        </li>
+								    </ul>
+			                    </nav>
+			                </div>
                         </div>
                     </div>
                 </div>

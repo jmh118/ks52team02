@@ -4,78 +4,154 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="ks52team02.manager.career.mapper.CareerMapper">
   
-  <select id="getWorkCareer" resultType="Work">
+  <select id="getWorkCareerCount" resultType="int">
+	  	SELECT 
+			COUNT(*)
+		FROM mentor_work_history_details
+  </select>
+  
+  <select id="getWorkCareer" parameterType="ks52team02.page.Pageable" resultType="Work">
   
 		/* 멘토 근무경력승인 목록조회 */
 		SELECT
+			mwhd.mentor_work_career_details_code AS mentorCode,
 			m.member_id 					 AS mentorId,
 			mwhd.mentor_POWK_NM 			 AS mentorPowk,
 			mwhd.mentor_career_apply_manager AS mentorYn,
-			mwhd.FRST_REG_DT 				 AS mentorDate
+			mwhd.FRST_REG_DT 				 AS mentorDate,
+			mwhd.upload_file_work_history_name AS mentorFileNm
 		FROM
 			member m
 			INNER join
 			mentor_work_history_details mwhd
 			on
 			m.member_id=mwhd.member_id
+			
 		ORDER BY 
-			mwhd.FRST_REG_DT desc;
+			mwhd.FRST_REG_DT desc
+		
+		LIMIT #{rowPerPage} OFFSET #{offset};
 	</select>
 	
 	
-  <select id="getProjectCareer" resultType="Project">
+	<update id="checkWorkByFileNm" parameterType="Work">
+  		UPDATE mentor_work_history_details
+			SET
+				mentor_career_apply_manager=#{managerId}
+		WHERE 
+			mentor_work_career_details_code=#{mentorCode};
+  	</update>
+	
+	
+	
+	
+	
+	<select id="getProjectCareerCount" resultType="int">
+	  	SELECT 
+			COUNT(*)
+		FROM mentor_tech_career_detail
+  	</select>
+	
+  <select id="getProjectCareer" parameterType="ks52team02.page.Pageable" resultType="Project">
   
 		/* 멘토 프로젝트경력승인 목록조회 */
 		
 		SELECT
+			mtcd.mentor_TECH_career_detail_code 		AS mentorCode,
 		 	m.member_id 								AS mentorId,
 		 	mtcd.mentor_project_NM 						AS mentorProjectNm,
-		 	mtcd.TECH_career_DATA_REG_approval_manager  AS mentorYn
+		 	mtcd.TECH_career_DATA_REG_approval_manager  AS mentorYn,
+		 	mtcd.mentor_upload_career_file_name			AS mentorFileNm
 		from
 			member m
 			INNER join
 			mentor_tech_career_detail mtcd
 			on
-			m.member_id=mtcd.mentor_id;
-		
+			m.member_id=mtcd.mentor_id
+		LIMIT #{rowPerPage} OFFSET #{offset};
 	</select>
   
+  	<update id="checkProjectByFileNm" parameterType="Project">
+  		UPDATE mentor_tech_career_detail
+			SET
+				TECH_career_DATA_REG_approval_manager=#{managerId}
+		WHERE 
+			mentor_TECH_career_detail_code=#{mentorCode};
+  	</update>
   
-  <select id="getEducationCareer" resultType="Education">
+  
+  
+  	<select id="getEducationCareerCount" resultType="int">
+	  	SELECT 
+			COUNT(*)
+		FROM mentor_acbg_detail
+  	</select>
+  
+  	<select id="getEducationCareer" parameterType="ks52team02.page.Pageable" resultType="Education">
   
 		/* 멘토 학력승인 목록조회 */
 		
 		SELECT
+			mad.mentor_ACBG_detail_code AS mentorCode,
 			m.member_id AS mentorId,
 			mad.mentor_SCHL_NM AS mentorSchlnm,
-			mad.mentor_CRTFCT_NM_approval_manager AS mentorYn
+			mad.mentor_CRTFCT_NM_approval_manager AS mentorYn,
+			mad.mentor_upload_ACBG_file_name AS mentorFileNm
 		FROM
 			member m
 			INNER join
 			mentor_acbg_detail mad
 			on
-			m.member_id=mad.member_id;	
+			m.member_id=mad.member_id
+		LIMIT #{rowPerPage} OFFSET #{offset};
 		
 	</select>
   
-  <select id="getCertificateCareer" resultType="Certificate">
+  	<update id="checkEducationByFileNm" parameterType="Education">
+  		UPDATE mentor_acbg_detail
+			SET
+				mentor_CRTFCT_NM_approval_manager=#{managerId}
+		WHERE 
+			mentor_ACBG_detail_code=#{mentorCode};
+  	</update>
+  
+  
+  
+  
+  
+  	<select id="getCertificateCareerCount" resultType="int">
+	  	SELECT 
+			COUNT(*)
+		FROM mentor_certificate_detail
+  	</select>
+  
+  	<select id="getCertificateCareer" resultType="Certificate">
   
 		/* 멘토 자격증승인 목록조회 */
 		
 		SELECT
+			mcd.mentor_certificate_detail_code AS mentorCode,
 			mcd.member_id AS mentorId,
 			cn.issue_certificate_name AS mentorCertificatenm,
-			mcd.mentor_certificate_approval_manager AS mentorYn
-			
+			mcd.mentor_certificate_approval_manager AS mentorYn,
+			mcd.mentor_upload_certificate_file_name AS mentorFileNm
 		FROM
 		 	mentor_certificate_detail mcd
 		 	INNER join
 		 	certificate_name cn
 		 	on
-		 	mcd.certificate_name_code=cn.certificate_name_code;
-		
+		 	mcd.certificate_name_code=cn.certificate_name_code
+		LIMIT #{rowPerPage} OFFSET #{offset};
 		
 	</select>
+  
+	  <update id="checkCertificateByFileNm" parameterType="Certificate">
+	  		UPDATE mentor_certificate_detail
+				SET
+					mentor_certificate_approval_manager=#{managerId}
+			WHERE 
+				mentor_certificate_detail_code=#{mentorCode};
+	  	</update>
   
   </mapper>
   

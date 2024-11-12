@@ -10,6 +10,8 @@ import ks52team02.manager.career.dto.Education;
 import ks52team02.manager.career.dto.Project;
 import ks52team02.manager.career.dto.Work;
 import ks52team02.manager.career.mapper.CareerMapper;
+import ks52team02.page.PageInfo;
+import ks52team02.page.Pageable;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -20,36 +22,43 @@ public class CareerServiceImpl implements CareerService {
 	private final CareerMapper careerMapper;
 	
 
-	
 	@Override
-	public List<Work> getMemberWorkCareer() {
+	public PageInfo<Work> getMemberWorkCareer(Pageable pageable) {
+		int rowCnt = careerMapper.getWorkCareerCount();
+		List<Work> contents = careerMapper.getWorkCareer(pageable);
 		
-		List<Work> memberList = careerMapper.getWorkCareer();
+		return new PageInfo<>(contents, pageable, rowCnt);
+	}
+	/*
+	@Override
+	public PageInfo<Work> getMemberWorkCareer(Pageable pageable, String selectedFilter) {
+		int rowCnt = careerMapper.getWorkCareerCount();
+		List<Work> contents = careerMapper.getWorkCareer(pageable, selectedFilter);
 		
-		return memberList;
+		return new PageInfo<>(contents, pageable, rowCnt);
+	}
+	*/
+	@Override
+	public PageInfo<Project> getMemberProjectCareer(Pageable pageable) {
+		int rowCnt = careerMapper.getProjectCareerCount();
+		List<Project> contents = careerMapper.getProjectCareer(pageable);
+		
+		return new PageInfo<>(contents, pageable, rowCnt);
 	}
 	
 	@Override
-	public List<Project> getMemberProjectCareer() {
+	public PageInfo<Education> getMemberEducationCareer(Pageable pageable) {
+		int rowCnt = careerMapper.getEducationCareerCount();
+		List<Education> contents = careerMapper.getEducationCareer(pageable);
 		
-		List<Project> memberList = careerMapper.getProjectCareer();
-		
-		return memberList;
+		return new PageInfo<>(contents, pageable, rowCnt);
 	}
 	
 	@Override
-	public List<Education> getMemberEducationCareer() {
+	public PageInfo<Certificate> getMemberCertificateCareer(Pageable pageable) {
+		int rowCnt = careerMapper.getCertificateCareerCount();
+		List<Certificate> contents = careerMapper.getCertificateCareer(pageable);
 		
-		List<Education> memberList = careerMapper.getEducationCareer();
-		
-		return memberList;
-	}
-	
-	@Override
-	public List<Certificate> getMemberCertificateCareer() {
-		
-		List<Certificate> memberList = careerMapper.getCertificateCareer();
-		
-		return memberList;
+		return new PageInfo<>(contents, pageable, rowCnt);
 	}
 }

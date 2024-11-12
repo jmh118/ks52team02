@@ -28,8 +28,29 @@
 			m.member_id=maa.member_id
 		WHERE
 			m.member_withdrawal_YN = 'N' AND 
-			ml.member_level_code = 'member_level_mentor';
+			ml.member_level_code = 'member_level_mentor'
+		LIMIT #{rowPerPage} OFFSET #{offset};
 	</select>
+	
+	<select id="getMentorListCount" resultType="int">
+		/* 관리자 - 명예멘토 포함 멘토수 조회 */
+		SELECT
+			COUNT(*)
+		FROM
+			member m
+			LEFT JOIN
+			member_level ml
+			ON
+			m.member_level_code=ml.member_level_code
+			LEFT JOIN
+			mentor_authority_approval maa
+			ON
+			m.member_id=maa.member_id
+		WHERE
+			m.member_withdrawal_YN = 'N' AND 
+			ml.member_level_code = 'member_level_mentor'
+	</select>
+	
 	
 	<select id="getHonorMentorList" resultType="Member">
 		/* 명예멘토만 조회 */

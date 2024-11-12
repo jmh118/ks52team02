@@ -6,16 +6,21 @@ import ks52team02.manager.career.dto.Certificate;
 import ks52team02.manager.career.dto.Education;
 import ks52team02.manager.career.dto.Project;
 import ks52team02.manager.career.dto.Work;
+import ks52team02.page.PageInfo;
+import ks52team02.page.Pageable;
 
 public interface CareerService {
 
-	List<Work> getMemberWorkCareer();
+	PageInfo<Work> getMemberWorkCareer(Pageable pageable);
+	//PageInfo<Work> getMemberWorkCareer(Pageable pageable, String selectedFilter);
 	
-	List<Project> getMemberProjectCareer();
+	PageInfo<Project> getMemberProjectCareer(Pageable pageable);
 	
-	List<Education> getMemberEducationCareer();
+	PageInfo<Education> getMemberEducationCareer(Pageable pageable);
 	
-	List<Certificate> getMemberCertificateCareer();
+	PageInfo<Certificate> getMemberCertificateCareer(Pageable pageable);
+
+	
 	
 	
 	

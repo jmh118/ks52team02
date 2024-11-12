@@ -55,6 +55,7 @@ public class MentorMypageController {
 	private final FileMapper fileMapper;
 	
 	
+	//다운로드 버튼
 	@GetMapping("/download")
 	@ResponseBody
 	public ResponseEntity<Object> archiveDownload(@RequestParam(value="mentorFileNm", required = false) String fileIdx,
@@ -172,12 +173,13 @@ public class MentorMypageController {
         System.out.println("mypage Work 수정 페이지 이동");
         MentorWork workInfo = mentorMypageMapper.getMentorWorkByCode(mentorWorkCode);
         model.addAttribute("workInfo", workInfo);
-       
         return  "member/mypage/mentor/careerInfo/mentorMypageWorkModify";
     }
     
     @PostMapping("/projectAdd")
-    public String AddProjectInfo(MentorProject mentorProject) {
+    public String AddProjectInfo(@RequestPart(name="files", required = false)MultipartFile multipartFile, MentorProject mentorProject) {
+    	String fileCode = fileService.addFile(multipartFile);
+    	mentorProject.setMentorFileNm(fileCode);
     	mentorMypageService.addProjectInfo(mentorProject);
     	return "redirect:/mypage/mentor/account";
     }
@@ -189,8 +191,17 @@ public class MentorMypageController {
     }
     
     @PostMapping("/projectModify")
-    public String ModifyProjectInfo(MentorProject mentorProject) {
-    	mentorMypageService.modifyProjectInfo(mentorProject);
+    public String ModifyProjectInfo(@RequestPart(name="files", required = false)MultipartFile multipartFile, MentorProject mentorProject) {
+    	if(!multipartFile.isEmpty()) { 
+			String fileCodeForRemove = new String (mentorProject.getMentorFileNm());
+			String fileCode = fileService.addFile(multipartFile);
+			mentorProject.setMentorFileNm(fileCode);
+			mentorMypageService.modifyProjectInfo(mentorProject);
+			fileService.removeFileByCode(fileCodeForRemove);
+		}else {
+			mentorMypageService.modifyProjectInfo(mentorProject);
+		}
+    	
     	return "redirect:/mypage/mentor/account";
     }
     
@@ -203,7 +214,9 @@ public class MentorMypageController {
     }
     
     @PostMapping("/educationAdd")
-    public String AddEducationInfo(MentorEducation mentorEducation) {
+    public String AddEducationInfo(@RequestPart(name="files", required = false)MultipartFile multipartFile, MentorEducation mentorEducation) {
+    	String fileCode = fileService.addFile(multipartFile);
+    	mentorEducation.setMentorFileNm(fileCode);
     	mentorMypageService.addEducationInfo(mentorEducation);
     	return "redirect:/mypage/mentor/account";
     }
@@ -215,8 +228,16 @@ public class MentorMypageController {
     }
     
     @PostMapping("/educationModify")
-    public String ModifyEducationInfo(MentorEducation mentorEducation) {
-    	mentorMypageService.modifyEducationInfo(mentorEducation);
+    public String ModifyEducationInfo(@RequestPart(name="files", required = false)MultipartFile multipartFile, MentorEducation mentorEducation) {
+    	if(!multipartFile.isEmpty()) { 
+			String fileCodeForRemove = new String (mentorEducation.getMentorFileNm());
+			String fileCode = fileService.addFile(multipartFile);
+			mentorEducation.setMentorFileNm(fileCode);
+			mentorMypageService.modifyEducationInfo(mentorEducation);
+			fileService.removeFileByCode(fileCodeForRemove);
+		}else {
+			mentorMypageService.modifyEducationInfo(mentorEducation);
+		}
     	
     	return "redirect:/mypage/mentor/account";
     }
@@ -230,7 +251,9 @@ public class MentorMypageController {
     }
     
     @PostMapping("/certificateAdd")
-    public String AddCertificateInfo(MentorCertificate mentorCertificate) {
+    public String AddCertificateInfo(@RequestPart(name="files", required = false)MultipartFile multipartFile, MentorCertificate mentorCertificate) {
+    	String fileCode = fileService.addFile(multipartFile);
+    	mentorCertificate.setMentorFileNm(fileCode);
     	mentorMypageService.addCertificateInfo(mentorCertificate);
     	return "redirect:/mypage/mentor/account";
     }
@@ -245,8 +268,16 @@ public class MentorMypageController {
     }
     
     @PostMapping("/certificateModify")
-    public String ModifyCertificateInfo(MentorCertificate mentorCertificate) {
-    	mentorMypageService.modifyCertificateInfo(mentorCertificate);
+    public String ModifyCertificateInfo(@RequestPart(name="files", required = false)MultipartFile multipartFile, MentorCertificate mentorCertificate) {
+    	if(!multipartFile.isEmpty()) { 
+			String fileCodeForRemove = new String (mentorCertificate.getMentorFileNm());
+			String fileCode = fileService.addFile(multipartFile);
+			mentorCertificate.setMentorFileNm(fileCode);
+			mentorMypageService.modifyCertificateInfo(mentorCertificate);
+			fileService.removeFileByCode(fileCodeForRemove);
+		}else {
+			mentorMypageService.modifyCertificateInfo(mentorCertificate);
+		}
     	
     	return "redirect:/mypage/mentor/account";
     }

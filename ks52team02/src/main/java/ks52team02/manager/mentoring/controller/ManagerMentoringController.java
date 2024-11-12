@@ -5,6 +5,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import ks52team02.manager.mentoring.dto.ManagerMetoringNotice;
 import ks52team02.manager.mentoring.service.ManagerMentoringService;
@@ -37,16 +38,23 @@ public class ManagerMentoringController {
 	}
 	
 	@GetMapping("/removeQuestion")
-	public String removeQuestions(@RequestParam(name="questionCode") String questionCode, Model model) {
-		managerMentoringService.removeQuestion(questionCode);
-		return "redirect:/manager/mentoring/questionList";
+	@ResponseBody
+	public boolean removeQuestions(@RequestParam(name="questionCode") String questionCode ) {
+		boolean isDel = false;
+	
+		int result = managerMentoringService.removeQuestion(questionCode);
+		if(result > 0) isDel = true;
+		return isDel;
 	}
 	
 	@GetMapping("/removeAnswer")
-	public String removeAnswers(@RequestParam(name="answerCode") String answerCode, Model model) {
-		managerMentoringService.removeAnswer(answerCode);
+	@ResponseBody
+	public boolean removeAnswers(@RequestParam(name="answerCode") String answerCode ) {
+		boolean isDel = false;
 		
-		return "redirect:/manager/mentoring/answerList";
+		int result = managerMentoringService.removeAnswer(answerCode);
+		if (result > 0) isDel = true;
+		return isDel;
 	}
 	
 	@GetMapping("/noticeList")

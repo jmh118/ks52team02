@@ -15,7 +15,7 @@ import ks52team02.page.Pageable;
 public interface ManagerMemberService {
 
 	// 멘토 권한 멤버 조회
-	List<Member> getMentorList();
+	PageInfo<Member> getMentorList(Pageable pageable);
 
 	// 관리자 - 전체 회원 조회
 	PageInfo<Member> getMemberList(Pageable pageable);
