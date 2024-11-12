@@ -58,7 +58,7 @@ public class ManagerMentoringController {
 	}
 	
 	@GetMapping("/noticeList")
-    public String moveManagerNoticeList(@RequestParam(name="searchId",required = false) String searchId, Pageable pageable,Model model) {
+    public String getManagerNoticeList(@RequestParam(name="searchId",required = false) String searchId, Pageable pageable,Model model) {
 		
 		PageInfo<ManagerMetoringNotice> noticeList = managerMentoringService.getManagerNoticeList(pageable,searchId);
 		
@@ -72,7 +72,7 @@ public class ManagerMentoringController {
     }
 
 	@GetMapping("/questionList")
-	public String moveManagerNoticeQuestionList(@RequestParam(name="searchId",required = false) String searchId, Pageable pageable, Model model) {
+	public String getManagerNoticeQuestionList(@RequestParam(name="searchId",required = false) String searchId, Pageable pageable, Model model) {
 		
 		PageInfo<NoticeQuestion> questionList = managerMentoringService.getManagerNoticeQuestionList(pageable, searchId);
 		
@@ -86,7 +86,7 @@ public class ManagerMentoringController {
 	}
 	
 	@GetMapping("/answerList")
-	public String moveManagerNoticeAnswerList(@RequestParam(name="searchId",required = false) String searchId, Pageable pageable, Model model) {
+	public String getManagerNoticeAnswerList(@RequestParam(name="searchId",required = false) String searchId, Pageable pageable, Model model) {
 		
 		PageInfo<NoticeAnswer> answerList = managerMentoringService.getManagerNoticeAnswerList(pageable, searchId);
 		

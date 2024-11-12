@@ -50,14 +50,14 @@ public class MemberMentoringController {
 	}
 	
 	@PostMapping("/modifyAnswer")
-	public String getmodifyAnswer(NoticeAnswer noticeAnswer, @RequestParam(name="noticeCode")String noticeCode) {
+	public String modifyAnswer(NoticeAnswer noticeAnswer, @RequestParam(name="noticeCode")String noticeCode) {
 		mentoringService.modifyAnswer(noticeAnswer);
 		
 		return "redirect:/mentoring/noticeDetail?noticeCode=" + noticeCode;
 	}
 	
 	@PostMapping("/modifyQuestion")
-	public String getmodifyQuestion(NoticeQuestion noticeQuestion, @RequestParam(name="noticeCode")String noticeCode) {
+	public String modifyQuestion(NoticeQuestion noticeQuestion, @RequestParam(name="noticeCode")String noticeCode) {
 		mentoringService.modifyQuestion(noticeQuestion);
 		
 		return "redirect:/mentoring/noticeDetail?noticeCode=" + noticeCode;
@@ -78,7 +78,7 @@ public class MemberMentoringController {
 	@ResponseBody
 	public Member applyCheck(@RequestParam(value="searchId") String searchId) {
 
-		Member memberInfo = mentoringService.getApplyCheck(searchId);
+		Member memberInfo = mentoringService.checkApply(searchId);
 		
 		return memberInfo; 
 	}
@@ -135,8 +135,7 @@ public class MemberMentoringController {
 	}
 	
 	@GetMapping("/noticeAdd")
-	public String movenoticeAdd(Model model) {
-    	System.out.println("멘토링 | 멘토링 공고 등록");
+	public String addMentoringNotice(Model model) {
     	
     	List<Topic> topicList = mentoringService.getTopicList();
     	model.addAttribute("topicList", topicList);
@@ -145,8 +144,8 @@ public class MemberMentoringController {
     }
 	
 	@GetMapping("/noticeDetail")
-    public String MoveNoticeDetail(@RequestParam(name="noticeCode")String noticeCode, HttpSession session, Model model) {
-    	System.out.println("멘토링 | 멘토링 공고 조회 | 멘토링 공고 상세 조회 화면");
+    public String getNoticeDetail(@RequestParam(name="noticeCode")String noticeCode, HttpSession session, Model model) {
+
     	// 공고상세내용
     	Notice noticeDetail = mentoringMapper.getNoticeDetailByCode(noticeCode);
     	List<NoticeDetail> mentoringTime = mentoringService.getNoticeDetailTimeByCode(noticeCode);
@@ -165,7 +164,7 @@ public class MemberMentoringController {
     }
 	
 	@GetMapping("/notice")
-	public String movenoticeList(@RequestParam(name="category",required = false) String category, Model model,Pageable pageable) {
+	public String getNoticeList(@RequestParam(name="category",required = false) String category, Model model,Pageable pageable) {
 	
 		List<Topic> categoryCount = mentoringService.getCategoryCountList();
 		PageInfo<Notice> noticeList = mentoringService.getNoticeList(category, pageable);
@@ -178,7 +177,6 @@ public class MemberMentoringController {
 			model.addAttribute("category", category);
 		}
 		
-    	System.out.println("멘토링 | 멘토링 공고 조회 화면");
         return  "member/mentoring/noticeList";
     }
 
