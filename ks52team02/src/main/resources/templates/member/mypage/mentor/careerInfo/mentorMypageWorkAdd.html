@@ -6,6 +6,7 @@
 		<script>
 			
 		 	$('.submitBtn').click(function(){
+		 		let isSubmit = true;
 				const $formVlue = $('#addWorkForm input') ;
 				
 				$formVlue.each((index, item)=>{
@@ -18,8 +19,8 @@
 						isSubmit = false;
 						return false;
 					}
-				})
-				
+				});
+				if(isSubmit) $('#addWorkForm').submit();
 				/*  if($('.file')[0].files.length===0){
 					alert('증명 파일을 등록해주세요');
 					$('.file').focus();

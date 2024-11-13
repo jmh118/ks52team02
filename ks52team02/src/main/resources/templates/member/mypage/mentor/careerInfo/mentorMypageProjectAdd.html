@@ -5,6 +5,7 @@
 		<script>
 			
 		 	$('.submitBtn').click(function(){
+		 		let isSubmit = true;
 				const $formVlue = $('#addProjectForm input') ;
 				
 				$formVlue.each((index, item)=>{
@@ -17,8 +18,9 @@
 						isSubmit = false;
 						return false;
 					}
-				})
-				
+					
+				});
+				if(isSubmit) $('#addProjectForm').submit();
 				/*  if($('.file')[0].files.length===0){
 					alert('증명 파일을 등록해주세요');
 					$('.file').focus();
@@ -51,11 +53,11 @@
                                 </div>
                                 <div class="form-group col-lg-6">
                                 	<label for="mentorBgngYmd">프로젝트 시작 날짜</label>
-                                    <input type="date" class="mentorBgngYmd" placeholder="프로젝트 시작 날짜 *">
+                                    <input type="date" name="mentorBgngYmd" placeholder="프로젝트 시작 날짜 *">
                                 </div>
                                 <div class="form-group col-lg-6">
                                 	<label for="mentorCmptnYmd">프로젝트 완료 날짜</label>
-                                    <input type="date" class="mentorCmptnYmd" placeholder="프로젝트 완료 날짜 *">
+                                    <input type="date" name="mentorCmptnYmd" placeholder="프로젝트 완료 날짜 *">
                                 </div>
                                <div class="form-group col-lg-6">
 							  <input class="file" type="file" name="files" placeholder="증명파일" multiple>
