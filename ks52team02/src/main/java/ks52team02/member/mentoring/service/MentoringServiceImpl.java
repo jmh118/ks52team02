@@ -74,8 +74,8 @@ public class MentoringServiceImpl implements MentoringService{
 	}
 	
 	@Override
-	public Member getApplyCheck(String searchId) {
-		Member memberInfo = mentoringMapper.getApplyCheck(searchId);
+	public Member checkApply(String searchId) {
+		Member memberInfo = mentoringMapper.checkApply(searchId);
 		return memberInfo;
 	}
 

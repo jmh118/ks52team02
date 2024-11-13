@@ -18,13 +18,13 @@ public interface ManagerMemberService {
 	PageInfo<Member> getMentorList(Pageable pageable);
 
 	// 관리자 - 전체 회원 조회
-	PageInfo<Member> getMemberList(Pageable pageable);
+	PageInfo<Member> getMemberList(Pageable pageable, String keyword);
 	
 	// 관리자 - 휴면 회원 조회
-	PageInfo<Member> getDormantMemberList(Pageable pageable);
+	PageInfo<Member> getDormantMemberList(Pageable pageable, String keyword);
 	
 	// 관리자 - 탈퇴 회원 조회
-	PageInfo<WithdrawalMember> getWithdrawalMemberList(Pageable pageable);
+	PageInfo<WithdrawalMember> getWithdrawalMemberList(Pageable pageable, String keyword);
 	
 	// 관리자 - 회원탈퇴 승인
 	int withdrawalApply(WithdrawalMember withdrawalMember);
@@ -36,7 +36,7 @@ public interface ManagerMemberService {
 	int delMember(WithdrawalMember withdrawalMember);
 
 	// 관리자 - 멤버 로그인 로그 조회
-	PageInfo<LoginLog> getLoginLog(Pageable pageable);
+	PageInfo<LoginLog> getLoginLog(Pageable pageable, String keyId, String keyLoginCode, String memberLevelCate, String loginLogStartDate, String loginLogEndDate);
 
 	// 관리자 - 한 달 내 가입 회원 조회
 	PageInfo<Member> getMonthMemberList(Pageable pageable);

@@ -39,13 +39,5 @@ public class MemberRegisterServiceImpl implements MemberRegisterService {
 		return memberRegisterMapper.mentorPreRegister(mentorApproval);
 	}
 
-	@Override
-	public void registerAddWorkInfo(MentorWork mentorWork) {
-		String nextCode = commonMapper.getPrimaryKey("mentor_work_history_details", "mentor_work_career_details_code", "mentor_work_career_details_code_");
-		mentorWork.setMentorWorkCode(nextCode);
-		
-		memberRegisterMapper.registerAddWorkInfo(mentorWork);
-		
-	}
 
 }

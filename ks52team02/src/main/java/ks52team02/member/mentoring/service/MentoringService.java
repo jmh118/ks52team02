@@ -46,7 +46,7 @@ public interface MentoringService {
 	void modifyNotice(Notice notice);
 
 	// 신청확인
-	Member getApplyCheck(String searchId);
+	Member checkApply(String searchId);
 
 	// 공고질문 수정
 	void modifyQuestion(NoticeQuestion noticeQuestion);

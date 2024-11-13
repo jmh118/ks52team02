@@ -41,7 +41,7 @@
 		LIMIT #{rowPerPage} OFFSET #{offset};
 	</select>
 	
-	<select id="getMemberListCount" resultType="int">
+	<select id="getMemberListCount" parameterType="map" resultType="int">
 		/* 관리자 - 전체 회원 수 조회 */
 		SELECT
 			COUNT(*)
@@ -71,6 +71,9 @@
 			m.member_level_code=ml.member_level_code
 		WHERE
 			member_withdrawal_YN = 'N'
+	    <if test="keyword != null and keyword != ''">
+    		AND (member_id LIKE CONCAT('%', #{keyword}, '%'))
+		</if>
 		LIMIT #{rowPerPage} OFFSET #{offset};
 	</select>
 	
@@ -107,6 +110,9 @@
 			mwa.member_level_code=ml.member_level_code
 		WHERE
 			member_withdrawal_YN = 'Y'
+		<if test="keyword != null and keyword != ''">
+    		AND (withdrawal_member_id LIKE CONCAT('%', #{keyword}, '%'))
+		</if>
 		ORDER BY
 			mwa.withdrawal_approval_YMD desc
 		LIMIT #{rowPerPage} OFFSET #{offset};
@@ -153,6 +159,9 @@
 		WHERE
 			DATEDIFF(NOW(), mll.member_login_YMD)>=183 AND
 			m.member_withdrawal_YN = 'N'
+		<if test="keyword != null and keyword != ''">
+    		AND (m.member_id LIKE CONCAT('%', #{keyword}, '%'))
+		</if>
 		GROUP BY memberId
 		ORDER BY mll.member_login_YMD desc
 		LIMIT #{rowPerPage} OFFSET #{offset};
@@ -182,7 +191,23 @@
 			member m
 			ON
 			mll.member_id=m.member_id
-			
+		<where>
+	        <if test="keyId != null and keyId != ''">
+	          AND m.member_id LIKE CONCAT('%', #{keyId}, '%')
+	        </if>
+	        <if test="keyLoginCode != null and keyLoginCode != ''">
+	          AND mll.login_log_code LIKE CONCAT('%', #{keyLoginCode}, '%')
+	        </if>
+	        <if test="memberLevelCate != null and memberLevelCate != ''">
+	          AND m.member_level_code LIKE CONCAT('%', #{memberLevelCate}, '%')
+	        </if>
+	        <if test="loginLogStartDate != null and loginLogStartDate != ''">
+	          AND mll.member_login_YMD >= #{loginLogStartDate}
+	        </if>
+	        <if test="loginLogEndDate != null and loginLogEndDate != ''">
+	          AND mll.member_login_YMD &lt;= #{loginLogEndDate}
+	        </if>
+	    </where>
 		ORDER BY mll.member_login_YMD desc
 		LIMIT #{rowPerPage} OFFSET #{offset};
 	</select>

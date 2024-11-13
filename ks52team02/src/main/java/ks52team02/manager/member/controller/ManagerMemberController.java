@@ -34,7 +34,6 @@ import ks52team02.manager.member.dto.Member;
 import ks52team02.manager.member.dto.MentorApproval;
 import ks52team02.manager.member.dto.WithdrawalMember;
 import ks52team02.manager.member.service.ManagerMemberService;
-import ks52team02.member.mypage.dto.MentorWork;
 import ks52team02.member.mypage.mapper.MentorMypageMapper;
 import ks52team02.page.PageInfo;
 import ks52team02.page.Pageable;
@@ -49,7 +48,6 @@ public class ManagerMemberController {
 
 	private final ManagerMemberService managerMemberService;
 	private final FileMapper fileMapper;
-	private final MentorMypageMapper mentorMypageMapper;
 	
 
 // 파일 다운로드 ▼ ---------------------------------------------------------------------------	
@@ -97,35 +95,92 @@ public class ManagerMemberController {
 // 조회 only ▼ ---------------------------------------------------------------------------
 	
 	@GetMapping("/list")
-    public String allMembers(Pageable pageable, Model model) {
+    public String allMembers(Pageable pageable, Model model, String keyword) {
     	System.out.println("전체 회원 조회 페이지 이동");
-    	PageInfo<Member> memberList = managerMemberService.getMemberList(pageable);
+    	PageInfo<Member> memberList = managerMemberService.getMemberList(pageable, keyword);
     	model.addAttribute("memberList", memberList);
     	
     	return  "manager/memberInfo/membersInfoList";
 	}
 	
+	@GetMapping("/listIdSearch")
+	public String getMemberList(@RequestParam(value = "keyword", required = false) String keyword,
+	                            Pageable pageable, Model model) {
+		System.out.println("전체 회원 조회 - ID 검색");
+	    PageInfo<Member> memberPage = managerMemberService.getMemberList(pageable, keyword);
+	    PageInfo<Member> memberList = managerMemberService.getMemberList(pageable, keyword);
+	    model.addAttribute("memberList", memberPage.getContents());
+	    model.addAttribute("pageInfo", memberPage);
+	    model.addAttribute("memberList", memberList);
+	    return "manager/memberInfo/membersInfoList";
+	}
+	
 	@GetMapping("/withdrawalList")
-    public String withdrawalMembers(Pageable pageable, Model model) {
+    public String withdrawalMembers(Pageable pageable, Model model, String keyword) {
     	System.out.println("탈퇴 회원 조회 페이지 이동");
-    	PageInfo<WithdrawalMember> withdrawalmemberList = managerMemberService.getWithdrawalMemberList(pageable);
+    	PageInfo<WithdrawalMember> withdrawalmemberList = managerMemberService.getWithdrawalMemberList(pageable, keyword);
     	model.addAttribute("withdrawalmemberList", withdrawalmemberList);
     	return  "manager/memberInfo/withdrawalMembersList";
     }
 	
+	@GetMapping("/withdrawalListIdSearch")
+	public String withdrawalMembersIdSearch(@RequestParam(value = "keyword", required = false) String keyword,
+	                            Pageable pageable, Model model) {
+		System.out.println("탈퇴 회원 조회 - ID 검색");
+	    PageInfo<WithdrawalMember> memberPage = managerMemberService.getWithdrawalMemberList(pageable, keyword);
+	    PageInfo<WithdrawalMember> withdrawalmemberList = managerMemberService.getWithdrawalMemberList(pageable, keyword);
+	    model.addAttribute("withdrawalmemberList", memberPage.getContents());
+	    model.addAttribute("pageInfo", memberPage);
+	    model.addAttribute("withdrawalmemberList", withdrawalmemberList);
+	    return "manager/memberInfo/withdrawalMembersList";
+	}
+	
 	@GetMapping("/dormantList")
-    public String dormantMembers(Pageable pageable, Model model) {
+    public String dormantMembers(Pageable pageable, Model model, String keyword) {
     	System.out.println("휴면 회원 조회 페이지 이동");
-    	PageInfo<Member> dormantMemberList = managerMemberService.getDormantMemberList(pageable);
+    	PageInfo<Member> dormantMemberList = managerMemberService.getDormantMemberList(pageable, keyword);
     	model.addAttribute("dormantMemberList", dormantMemberList);
         return  "manager/memberInfo/dormantMembersList";
     }
 	
+	@GetMapping("/dormantListIdSearch")
+	public String dormantListIdSearch(@RequestParam(value = "keyword", required = false) String keyword,
+	                            Pageable pageable, Model model) {
+		System.out.println("휴면 회원 조회 - ID 검색");
+		PageInfo<Member> memberPage = managerMemberService.getDormantMemberList(pageable, keyword);
+	    PageInfo<Member> dormantMemberList = managerMemberService.getDormantMemberList(pageable, keyword);
+	    model.addAttribute("dormantMemberList", memberPage.getContents());
+	    model.addAttribute("pageInfo", memberPage);
+	    model.addAttribute("dormantMemberList", dormantMemberList);
+		
+		return "manager/memberInfo/dormantMembersList";
+	}
+	
 	@GetMapping("/loginLog")
-    public String loginLog(Pageable pageable, Model model) {
+    public String loginLog(Pageable pageable, Model model, String keyId, String keyLoginCode, String memberLevelCate, String loginLogStartDate, String loginLogEndDate) {
     	System.out.println("멤버 로그인 로그 조회 페이지 이동");
-    	PageInfo<LoginLog> loginLogList = managerMemberService.getLoginLog(pageable);
+    	PageInfo<LoginLog> loginLogList = managerMemberService.getLoginLog(pageable, keyId, keyLoginCode, memberLevelCate, loginLogStartDate, loginLogEndDate);
     	model.addAttribute("loginLogList", loginLogList);
+        return  "manager/memberInfo/memberLoginLogList";
+    }
+	
+	@GetMapping("/loginLogSearch")
+    public String loginLogSearch(Pageable pageable, Model model, 
+    							@RequestParam(value = "keyId", required = false) String keyId, 
+    							@RequestParam(value = "keyLoginCode", required = false) String keyLoginCode, 
+    							@RequestParam(value = "memberLevelCate", required = false) String memberLevelCate, 
+    							@RequestParam(value = "loginLogStartDate", required = false) String loginLogStartDate, 
+    							@RequestParam(value = "loginLogEndDate", required = false) String loginLogEndDate) {
+    	System.out.println("멤버 로그인 로그 검색");
+    	PageInfo<LoginLog> memberPage = managerMemberService.getLoginLog(pageable, keyId, keyLoginCode, memberLevelCate, loginLogStartDate, loginLogEndDate);
+    	PageInfo<LoginLog> loginLogList = managerMemberService.getLoginLog(pageable, keyId, keyLoginCode, memberLevelCate, loginLogStartDate, loginLogEndDate);
+	    model.addAttribute("loginLogList", memberPage.getContents());
+	    model.addAttribute("pageInfo", memberPage);
+	    model.addAttribute("loginLogList", loginLogList);
+	    model.addAttribute("memberLevelCate", memberLevelCate);
+	    model.addAttribute("loginLogStartDate", loginLogStartDate);
+	    model.addAttribute("loginLogEndDate", loginLogEndDate);
+    	
         return  "manager/memberInfo/memberLoginLogList";
     }
 	
@@ -157,7 +212,7 @@ public class ManagerMemberController {
 	public int mentorApproval(
 	    @RequestParam(name="memberId") String memberId,
 	    @RequestParam(name="actionType") String actionType,
-	    @RequestParam(name="mentorApprovalReason", required=false) String mentorApprovalReason,
+	    @RequestParam(name="mentorApprovalReason") String mentorApprovalReason,
 	    MentorApproval mentorApproval, 
 	    HttpSession session) {
 	    System.out.println("멘토 권한 변경 요청");
@@ -263,11 +318,13 @@ public class ManagerMemberController {
         return "redirect:/manager/member/infoModify";
     }
 	
+	
+	
 	@GetMapping("/infoModify")
 	public String membersInfoModify(@RequestParam(name="memberId", required=false) String memberId,
-									Pageable pageable, Model model){
+									Pageable pageable, Model model, String keyword){
 		System.out.println("전체 회원 정보 수정 페이지 이동");
-		PageInfo<Member> memberList = managerMemberService.getMemberList(pageable);
+		PageInfo<Member> memberList = managerMemberService.getMemberList(pageable, keyword);
 		model.addAttribute("memberList", memberList);
 	
 		if(memberId != null) {
@@ -278,5 +335,19 @@ public class ManagerMemberController {
 		return "manager/memberInfo/membersInfoModifyForm";
 	}
 
+
+	
+	@GetMapping("/infoModifyIdSearch")
+	public String getInfoModifySearchList(@RequestParam(value = "keyword", required = false) String keyword,
+	                            Pageable pageable, Model model) {
+		System.out.println("전체 회원 정보 수정 ID로 검색");
+		PageInfo<Member> memberPage = managerMemberService.getMemberList(pageable, keyword);
+		PageInfo<Member> memberList = managerMemberService.getMemberList(pageable, keyword);
+		model.addAttribute("memberList", memberPage.getContents());
+	    model.addAttribute("pageInfo", memberPage);
+	    model.addAttribute("memberList", memberList);
+	    
+	    return "manager/memberInfo/membersInfoModifyForm";
+		}
 	
 }

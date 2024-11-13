@@ -31,17 +31,17 @@
 		        }
 
 		let withdrawalMemberId = $(this).data('member-id');
-			console.log("선택된 withdrawalMemberId:", withdrawalMemberId);
+			// console.log("선택된 withdrawalMemberId:", withdrawalMemberId);
 
 			checkPassword(memberPw).done(function(isCheck){
-			console.log("isCheck 1 :", isCheck);
+			// console.log("isCheck 1 :", isCheck);
 
 			 if (isCheck) {
 		 
-				console.log("isCheck 2 : 비밀번호 맞음");
+				// console.log("isCheck 2 : 비밀번호 맞음");
 				delMember(withdrawalMemberId).done(function(isApprove) {
 
-				console.log("승인여부??? : " + isApprove);
+				// console.log("승인여부??? : " + isApprove);
 
 			if(isApprove == true) {
 		                    alert('회원 탈퇴 승인 완료.');

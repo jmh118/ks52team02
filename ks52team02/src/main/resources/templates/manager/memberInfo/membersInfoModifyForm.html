@@ -4,17 +4,54 @@
 	  layout:decorate="~{manager/layouts/layout}">
 	  <th:block layout:fragment="customJs">
 		   <script>
-			  	 $('.modify-target').click(function(){
-					const $tds = $(this).closest('tr').find('td');
-					$tds.each((idx, item)=>{
-						const field = $(item).data('field');
-						if(field) {
-							$(`#${field}`).val($(item).text());
-							if(field == 'memberId') $('#infoModifyForm').attr('action', `/manager/member/infoModify?memberId=${$(item).text()}`)
-						}
-					});
-					
-				 });			
+			function checkPassword(memberPw) {
+			    return $.ajax({
+			        type: 'POST',
+			        url: '/member/checkPw',
+			        data: { 'memberPw': memberPw },
+			        dataType: 'json'
+			    });
+			}
+			
+			// 정보 옮기기
+		  	 $('.modify-target').click(function(){
+				const $tds = $(this).closest('tr').find('td');
+				$tds.each((idx, item)=>{
+					const field = $(item).data('field');
+					if(field) {
+						$(`#${field}`).val($(item).text());
+						if(field == 'memberId') $('#infoModifyForm').attr('action', `/manager/member/infoModify?memberId=${$(item).text()}`)
+					}
+				});
+			 });			
+			 
+			 
+			 // 비밀번호 검증
+			 $('#infoModify').click(function(){
+			 let memberPw = prompt("관리자 비밀번호를 입력하세요 : ");
+
+			 if (memberPw === null || memberPw === "") {
+			             alert("비밀번호를 입력해 주세요.");
+			             return;
+			         }
+
+			 	checkPassword(memberPw).done(function(isCheck){
+
+			 	 if (isCheck) {
+				 	if(isApprove == true) {
+				 		location.reload();
+				 		} else {
+				 		alert("회원수정 승인 오류입니다.");
+				 		}
+			 	            } else {
+			 	                alert("비밀번호가 잘못되었습니다.");
+			 	            }
+			 	})
+			 	.fail(function(jqXHR, textStatus, error) {
+			 	alert('검증 ERROR');
+			 	        });
+
+			 });
 		   </script>
 	  </th:block>
 	  <th:block layout:fragment="customContent">
@@ -29,14 +66,14 @@
                     <div class="col-md-7">
                         <div class="card mb-4">
                             <header class="card-header d-flex">
-                                <div class="col-10">
-                        			<div class= "d-flex">
-		                                <div class="col-ml-4 col-6 col-md-6 d-flex">
-		                                   <input type="text" placeholder="회원 ID로 검색" class="form-control" />
-		                                   <button class="btn btn-light bg" type="button"><i class="material-icons md-search"></i></button>
-		                                </div>
-                        			</div>
-                                </div>
+								<div class="col-6">
+								    <form class="d-flex" method="get" th:action="@{/manager/member/infoModifyIdSearch}">
+								        <input type="text" placeholder="회원 ID로 검색" class="form-control me-2" name="keyword" />
+								        <button class="btn btn-light" type="submit">
+								            <i class="material-icons md-search"></i>
+								        </button>
+								    </form>
+								</div>
                             </header>
                             <!-- card-header end// -->
                             <div class="card-body">
