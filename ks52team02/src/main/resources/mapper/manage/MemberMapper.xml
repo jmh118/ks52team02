@@ -191,7 +191,23 @@
 			member m
 			ON
 			mll.member_id=m.member_id
-			
+		<where>
+	        <if test="keyId != null and keyId != ''">
+	          AND m.member_id LIKE CONCAT('%', #{keyId}, '%')
+	        </if>
+	        <if test="keyLoginCode != null and keyLoginCode != ''">
+	          AND mll.login_log_code LIKE CONCAT('%', #{keyLoginCode}, '%')
+	        </if>
+	        <if test="memberLevelCate != null and memberLevelCate != ''">
+	          AND m.member_level_code LIKE CONCAT('%', #{memberLevelCate}, '%')
+	        </if>
+	        <if test="loginLogStartDate != null and loginLogStartDate != ''">
+	          AND mll.member_login_YMD >= #{loginLogStartDate}
+	        </if>
+	        <if test="loginLogEndDate != null and loginLogEndDate != ''">
+	          AND mll.member_login_YMD &lt;= #{loginLogEndDate}
+	        </if>
+	    </where>
 		ORDER BY mll.member_login_YMD desc
 		LIMIT #{rowPerPage} OFFSET #{offset};
 	</select>

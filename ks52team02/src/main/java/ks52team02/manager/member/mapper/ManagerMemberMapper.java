@@ -57,7 +57,7 @@ public interface ManagerMemberMapper {
 	// 관리자 - 로그인 로그 조회
 	// 관리자 - 로그인 로그 수 조회
 	List<LoginLog> getLoginLog(Map<String, Object> paramMap);
-	int getLoginLogCount();
+	int getLoginLogCount(String keyId, String keyLoginCode, String memberLevelCate, String loginLogStartDate, String loginLogEndDate);
 
 	
 	// 관리자 - 한 달 내 가입한 멤버 조회
