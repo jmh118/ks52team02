@@ -48,7 +48,6 @@ public class ManagerMemberController {
 
 	private final ManagerMemberService managerMemberService;
 	private final FileMapper fileMapper;
-	private final MentorMypageMapper mentorMypageMapper;
 	
 
 // 파일 다운로드 ▼ ---------------------------------------------------------------------------	
@@ -158,10 +157,30 @@ public class ManagerMemberController {
 	}
 	
 	@GetMapping("/loginLog")
-    public String loginLog(Pageable pageable, Model model) {
+    public String loginLog(Pageable pageable, Model model, String keyId, String keyLoginCode, String memberLevelCate, String loginLogStartDate, String loginLogEndDate) {
     	System.out.println("멤버 로그인 로그 조회 페이지 이동");
-    	PageInfo<LoginLog> loginLogList = managerMemberService.getLoginLog(pageable);
+    	PageInfo<LoginLog> loginLogList = managerMemberService.getLoginLog(pageable, keyId, keyLoginCode, memberLevelCate, loginLogStartDate, loginLogEndDate);
     	model.addAttribute("loginLogList", loginLogList);
+        return  "manager/memberInfo/memberLoginLogList";
+    }
+	
+	@GetMapping("/loginLogSearch")
+    public String loginLogSearch(Pageable pageable, Model model, 
+    							@RequestParam(value = "keyId", required = false) String keyId, 
+    							@RequestParam(value = "keyLoginCode", required = false) String keyLoginCode, 
+    							@RequestParam(value = "memberLevelCate", required = false) String memberLevelCate, 
+    							@RequestParam(value = "loginLogStartDate", required = false) String loginLogStartDate, 
+    							@RequestParam(value = "loginLogEndDate", required = false) String loginLogEndDate) {
+    	System.out.println("멤버 로그인 로그 검색");
+    	PageInfo<LoginLog> memberPage = managerMemberService.getLoginLog(pageable, keyId, keyLoginCode, memberLevelCate, loginLogStartDate, loginLogEndDate);
+    	PageInfo<LoginLog> loginLogList = managerMemberService.getLoginLog(pageable, keyId, keyLoginCode, memberLevelCate, loginLogStartDate, loginLogEndDate);
+	    model.addAttribute("loginLogList", memberPage.getContents());
+	    model.addAttribute("pageInfo", memberPage);
+	    model.addAttribute("loginLogList", loginLogList);
+	    model.addAttribute("memberLevelCate", memberLevelCate);
+	    model.addAttribute("loginLogStartDate", loginLogStartDate);
+	    model.addAttribute("loginLogEndDate", loginLogEndDate);
+    	
         return  "manager/memberInfo/memberLoginLogList";
     }
 	

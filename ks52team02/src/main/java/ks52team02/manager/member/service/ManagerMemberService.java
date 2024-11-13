@@ -36,7 +36,7 @@ public interface ManagerMemberService {
 	int delMember(WithdrawalMember withdrawalMember);
 
 	// 관리자 - 멤버 로그인 로그 조회
-	PageInfo<LoginLog> getLoginLog(Pageable pageable);
+	PageInfo<LoginLog> getLoginLog(Pageable pageable, String keyId, String keyLoginCode, String memberLevelCate, String loginLogStartDate, String loginLogEndDate);
 
 	// 관리자 - 한 달 내 가입 회원 조회
 	PageInfo<Member> getMonthMemberList(Pageable pageable);

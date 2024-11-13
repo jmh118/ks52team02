@@ -68,12 +68,17 @@ public class ManagerMemberServiceImpl implements ManagerMemberService {
 	}
 	
 	@Override
-	public PageInfo<LoginLog> getLoginLog(Pageable pageable){
-		int rowCnt = managerMemberMapper.getLoginLogCount();
+	public PageInfo<LoginLog> getLoginLog(Pageable pageable, String keyId, String keyLoginCode, String memberLevelCate, String loginLogStartDate, String loginLogEndDate){
+		int rowCnt = managerMemberMapper.getLoginLogCount(keyId, keyLoginCode, memberLevelCate, loginLogStartDate, loginLogEndDate);
 		pageable.setRowPerPage(15);
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("rowPerPage", pageable.getRowPerPage());
 		paramMap.put("offset", pageable.getOffset());
+		paramMap.put("keyId", keyId);
+		paramMap.put("keyLoginCode", keyLoginCode);
+		paramMap.put("memberLevelCate", memberLevelCate);
+		paramMap.put("loginLogStartDate", loginLogStartDate);
+		paramMap.put("loginLogEndDate", loginLogEndDate);
 		List<LoginLog> contents = managerMemberMapper.getLoginLog(paramMap);
 		
 		return new PageInfo<>(contents, pageable, rowCnt);
