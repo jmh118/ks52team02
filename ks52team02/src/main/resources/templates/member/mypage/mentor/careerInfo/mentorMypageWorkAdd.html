@@ -1,6 +1,35 @@
 ﻿<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{member/layouts/layout}">
+	
+	<th:block layout:fragment="customJs">
+		<script>
+			
+		 	$('.submitBtn').click(function(){
+				const $formVlue = $('#addWorkForm input') ;
+				
+				$formVlue.each((index, item)=>{
+					const value = $(item).val();
+					if(!value){
+						const cate = $(item).attr('placeholder');
+						const msg = `${cate} <- 필수 입력항목입니다.`;
+						alert(msg);
+						$(item).focus();
+						isSubmit = false;
+						return false;
+					}
+				})
+				
+				/*  if($('.file')[0].files.length===0){
+					alert('증명 파일을 등록해주세요');
+					$('.file').focus();
+					return ;
+				} 
+				$('#addProjectForm').submit(); */
+			}) 
+		</script>
+	</th:block>
+	
     <!--/* 기존 class는 main pages...  pages 누락 시 문제 없음
     	<main class="main pages"layout:fragment="content"> */-->	
     <th:block layout:fragment="customContent">
@@ -17,30 +46,30 @@
                         <form id="addWorkForm" method="post" th:action="@{/mypage/mentor/workAdd}" enctype="multipart/form-data">
                         	<input class="form-control" name="mentorId" type="hidden" th:value="${session.SID}"/>
                                 <div class="form-group col-lg-6">
-                                    <input type="text" name="mentorPowkNm" placeholder="회사명 *">
+                                    <input type="text" required name="mentorPowkNm" placeholder="회사명 *">
                                 </div>
                                 <div class="form-group col-lg-6">
-                                    <input type="text" name="mentorTask" placeholder="담당 업무 *">
+                                    <input type="text" required name="mentorTask" placeholder="담당 업무 *">
                                 </div>
                                 <div class="form-group col-lg-6">
                                 <label for="mentorJncmpYmp">입사날짜</label>
-                                    <input class="form-control" id="mentorJncmpYmp" type="date" name="mentorJncmpYmp" >
+                                    <input class="form-control" required id="mentorJncmpYmp" type="date" name="mentorJncmpYmp" placeholder="입사날짜 *">
                                 </div>
                                 <div class="form-group col-lg-6">
                                 <label for="mentorRsgntnYmp">퇴사날짜</label>
-                                    <input class="form-control" type="date" name="mentorRsgntnYmp">
+                                    <input class="form-control" required type="date" name="mentorRsgntnYmp" placeholder="퇴사날짜 *">
                                 </div>
                                 <div class="form-group col-lg-6">
                                 	<label for="mentorStatus">재직 여부 *</label>
-	                                <select class="form-select" name="mentorStatus">
+	                                <select class="form-select" required name="mentorStatus">
 										<option> 재직 중 </option>
 										<option> 퇴사 </option>
 									</select>
 								</div>
                                <div class="form-group col-lg-6">
-							  <input type="file" class="form-control" name="files" multiple />
+							  <input type="file" class="form-control"  name="files" placeholder="자료파일" multiple />
 							  </div>
-							<button class="submit submit-auto-width" type="submit">추가</button>
+							<button class="submit submit-auto-width submitBtn" type="button">추가</button>
                         </form>
                     </div>
                 </div>

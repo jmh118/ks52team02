@@ -1,6 +1,33 @@
 ﻿<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{member/layouts/layout}">
+	<th:block layout:fragment="customJs">
+		<script>
+			
+		 	$('.submitBtn').click(function(){
+				const $formVlue = $('#addProjectForm input') ;
+				
+				$formVlue.each((index, item)=>{
+					const value = $(item).val();
+					if(!value){
+						const cate = $(item).attr('placeholder');
+						const msg = `${cate} <- 필수 입력항목입니다.`;
+						alert(msg);
+						$(item).focus();
+						isSubmit = false;
+						return false;
+					}
+				})
+				
+				/*  if($('.file')[0].files.length===0){
+					alert('증명 파일을 등록해주세요');
+					$('.file').focus();
+					return ;
+				} 
+				$('#addProjectForm').submit(); */
+			}) 
+		</script>
+	</th:block>
     <!--/* 기존 class는 main pages...  pages 누락 시 문제 없음
     	<main class="main pages"layout:fragment="content"> */-->	
     <th:block layout:fragment="customContent">
@@ -17,23 +44,23 @@
                         <form id="addProjectForm" method="post" th:action="@{/mypage/mentor/projectAdd}" enctype="multipart/form-data">
                         		<input class="form-control" name="mentorId" type="hidden" th:value="${session.SID}"/>
                                 <div class="form-group col-lg-6">
-                                    <input type="text" required name="mentorProjectNm" placeholder="참여프로젝트명 *">
+                                    <input type="text" class="mentorProjectNm" name="mentorProjectNm" placeholder="참여프로젝트명 *">
                                 </div>
                                 <div class="form-group col-lg-6">
-                                    <input type="text" required name="mentorCn" placeholder="프로젝트 담당 업무 *">
+                                    <input type="text" name="mentorCn" placeholder="프로젝트 담당 업무 *">
                                 </div>
                                 <div class="form-group col-lg-6">
                                 	<label for="mentorBgngYmd">프로젝트 시작 날짜</label>
-                                    <input type="date" name="mentorBgngYmd" required placeholder="프로젝트 시작 날짜 *">
+                                    <input type="date" class="mentorBgngYmd" placeholder="프로젝트 시작 날짜 *">
                                 </div>
                                 <div class="form-group col-lg-6">
                                 	<label for="mentorCmptnYmd">프로젝트 완료 날짜</label>
-                                    <input type="date" name="mentorCmptnYmd" required placeholder="프로젝트 완료 날짜 *">
+                                    <input type="date" class="mentorCmptnYmd" placeholder="프로젝트 완료 날짜 *">
                                 </div>
                                <div class="form-group col-lg-6">
-							  <input type="file" name="files" multiple>
+							  <input class="file" type="file" name="files" placeholder="증명파일" multiple>
 							  </div>
-							<button class="submit submit-auto-width" type="submit">추가</button>
+							<button class="submit submit-auto-width submitBtn" type="button">추가</button>
                         </form>
                     </div>
                 </div>
