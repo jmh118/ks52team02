@@ -104,7 +104,7 @@ public class ManagerMemberController {
 	}
 	
 	@GetMapping("/listIdSearch")
-	public String getMemberList(@RequestParam(value = "keyword", required = false) String keyword,
+	public String allMembersIdSearch(@RequestParam(value = "keyword", required = false) String keyword,
 	                            Pageable pageable, Model model) {
 		System.out.println("전체 회원 조회 - ID 검색");
 	    PageInfo<Member> memberPage = managerMemberService.getMemberList(pageable, keyword);
@@ -215,7 +215,7 @@ public class ManagerMemberController {
 	    @RequestParam(name="mentorApprovalReason") String mentorApprovalReason,
 	    MentorApproval mentorApproval, 
 	    HttpSession session) {
-	    System.out.println("멘토 권한 변경 요청");
+	    System.out.println("멘토 - 멘티로 회원가입 승인 및 권한 변경 요청");
 
 	    String mentorApprovalManager = (String) session.getAttribute("SID");
 	    mentorApproval.setMentorApprovalManager(mentorApprovalManager);

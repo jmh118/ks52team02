@@ -38,7 +38,8 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr th:each="ml:${memberList.contents}">
+                                    <tr th:unless = "${#lists.isEmpty(memberList.contents)}" 
+										th:each="ml:${memberList.contents}">
                                         <td th:text="${ml.memberId}"></td>
                                         <td th:text="${ml.memberEmail}"></td>
 										<td th:text="${ml.memberPw}"></td>
@@ -52,6 +53,9 @@
                                         <td th:text="${ml.memberTelNo}"></td>
 										<td th:text="${ml.memberJoinYMD}"></td>
                                     </tr>
+									<tr th:if="${#lists.isEmpty(memberList.contents)}">
+										<td class="text-center" colspan="10">조회 결과가 없습니다.</td>
+									</tr>
                                 </tbody>
                             </table>
                         </div>
