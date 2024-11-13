@@ -78,10 +78,13 @@
 			</div>
 			<div class="card mb-4">
 				<header class="card-header">
-					<div class="row gx-3">
-						<div class="col-lg-4 col-md-6 me-auto">
-							<input type="text" placeholder="Search..." class="form-control" />
-						</div>
+					<div class="col-3">
+					    <form class="d-flex" method="get" th:action="@{/manager/member/4444444}">
+					        <input type="text" placeholder="회원 ID로 검색" class="form-control me-2" name="" />
+					        <button class="btn btn-light" type="submit">
+					            <i class="material-icons md-search"></i>
+					        </button>
+					    </form>
 					</div>
 				</header>
 				<div class="card-body">
@@ -101,7 +104,8 @@
 							<tbody>
 								<input type="hidden" name="actionType" id="actionType" value="" />
 								<input type="hidden" name="memberId" id="memberId" value="" />
-								<tr th:each="wfam : ${waitingForApprovalMentorList}">
+								<tr th:unless="${#lists.isEmpty(waitingForApprovalMentorList)}"
+									th:each="wfam : ${waitingForApprovalMentorList}">
 									<td>
 										<a href="#">
 											<img src="/manager/imgs/people/user-avatar.png" class="img-sm img-avatar" alt="Userpic" />
@@ -131,6 +135,9 @@
 										<button type="button" class="btn btn-sm btn-brand rounded font-sm applyDenyBtn" th:data-member-id="${wfam.memberId}" data-action-type="approve" >승인</button>
 										<button type="button" class="btn btn-sm btn-brand rounded font-sm applyDenyBtn" th:data-member-id="${wfam.memberId}" data-action-type="deny">거부</button>
 									</td>
+								</tr>
+								<tr th:if="${#lists.isEmpty(waitingForApprovalMentorList)}">
+									<td class="text-center" colspan="10">조회 결과가 없습니다.</td>
 								</tr>
 							</tbody>
 						</table>

@@ -71,10 +71,14 @@
                 </div>
                 <div class="card mb-4">
                     <header class="card-header">
-                        <div class="row gx-3">
-                            <div class="col-lg-4 col-md-6 me-auto">
-                                <input type="text" placeholder="Search..." class="form-control" />
-                            </div>
+						<div class="col-3">
+						    <form class="d-flex" method="get" th:action="@{/manager/member/4444444}">
+						        <input type="text" placeholder="회원 ID로 검색" class="form-control me-2" name="" />
+						        <button class="btn btn-light" type="submit">
+						            <i class="material-icons md-search"></i>
+						        </button>
+						    </form>
+						</div>
                     </header>
                     <!-- card-header end// -->
 					<div class="card-body">
@@ -91,7 +95,8 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-	                                    <tr th:each="wwl : ${waitingForWithDrawalList}">
+	                                    <tr th:unless="${#lists.isEmpty(waitingForWithDrawalList)}"
+											th:each="wwl : ${waitingForWithDrawalList}">
 	                                       	<td th:text="${wwl.withdrawalMemberCode}"></td>
 											<td th:text="${wwl.withdrawalMemberId}"></td>
 	                                        <td>	
@@ -105,6 +110,9 @@
 	                                            <button type="button" name="memberDelBtn" class="btn btn-sm btn-brand rounded font-sm mt-15 memberDelBtn" th:data-member-id="${wwl.withdrawalMemberId}">탈퇴승인</button>
 	                                        </td>
 	                                    </tr>
+										<tr th:if="${#lists.isEmpty(waitingForWithDrawalList)}">
+											<td class="text-center" colspan="10">조회 결과가 없습니다.</td>
+										</tr>
                                 </tbody>
                             </table>
                             <!-- table-responsive.// -->
