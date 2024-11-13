@@ -6,9 +6,9 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.Model;
 
 import ks52team02.common.mapper.CommonMapper;
+import ks52team02.common.util.MonthlyCountUtil;
 import ks52team02.manager.member.dto.LoginLog;
 import ks52team02.manager.member.dto.Member;
 import ks52team02.manager.member.dto.MentorApproval;
@@ -27,7 +27,19 @@ public class ManagerMemberServiceImpl implements ManagerMemberService {
 
 	private final ManagerMemberMapper managerMemberMapper;
 	private final CommonMapper withdrawalCommonMapper;
+	private final MonthlyCountUtil monthlyCountUtil;
 	
+	@Override
+	public List<Integer> getMonthlyLoginCounts() {
+		List<Map<String, Object>> resultList = managerMemberMapper.getMonthlyLoginCnt();
+		return monthlyCountUtil.getMonthlyCounts(resultList, "month", "loginCnt");
+	}
+	
+	@Override
+	public List<Integer> getMonthlyRegisterCounts() {
+		 List<Map<String, Object>> resultList = managerMemberMapper.getMonthlyRegisterCnt();
+		 return monthlyCountUtil.getMonthlyCounts(resultList, "month", "memberCnt");
+	}
 	 
 	@Override
 	public PageInfo<Member> getMemberList(Pageable pageable, String keyword) {
