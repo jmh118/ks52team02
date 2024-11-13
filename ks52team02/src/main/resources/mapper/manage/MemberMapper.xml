@@ -110,6 +110,9 @@
 			mwa.member_level_code=ml.member_level_code
 		WHERE
 			member_withdrawal_YN = 'Y'
+		<if test="keyword != null and keyword != ''">
+    		AND (withdrawal_member_id LIKE CONCAT('%', #{keyword}, '%'))
+		</if>
 		ORDER BY
 			mwa.withdrawal_approval_YMD desc
 		LIMIT #{rowPerPage} OFFSET #{offset};
@@ -156,6 +159,9 @@
 		WHERE
 			DATEDIFF(NOW(), mll.member_login_YMD)>=183 AND
 			m.member_withdrawal_YN = 'N'
+		<if test="keyword != null and keyword != ''">
+    		AND (m.member_id LIKE CONCAT('%', #{keyword}, '%'))
+		</if>
 		GROUP BY memberId
 		ORDER BY mll.member_login_YMD desc
 		LIMIT #{rowPerPage} OFFSET #{offset};

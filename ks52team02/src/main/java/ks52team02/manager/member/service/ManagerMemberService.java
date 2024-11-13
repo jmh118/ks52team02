@@ -21,10 +21,10 @@ public interface ManagerMemberService {
 	PageInfo<Member> getMemberList(Pageable pageable, String keyword);
 	
 	// 관리자 - 휴면 회원 조회
-	PageInfo<Member> getDormantMemberList(Pageable pageable);
+	PageInfo<Member> getDormantMemberList(Pageable pageable, String keyword);
 	
 	// 관리자 - 탈퇴 회원 조회
-	PageInfo<WithdrawalMember> getWithdrawalMemberList(Pageable pageable);
+	PageInfo<WithdrawalMember> getWithdrawalMemberList(Pageable pageable, String keyword);
 	
 	// 관리자 - 회원탈퇴 승인
 	int withdrawalApply(WithdrawalMember withdrawalMember);
