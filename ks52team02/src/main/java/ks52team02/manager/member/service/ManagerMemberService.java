@@ -1,8 +1,7 @@
 package ks52team02.manager.member.service;
 
 import java.util.List;
-
-import org.springframework.ui.Model;
+import java.util.Map;
 
 import ks52team02.manager.member.dto.LoginLog;
 import ks52team02.manager.member.dto.Member;
@@ -13,6 +12,12 @@ import ks52team02.page.Pageable;
 
 
 public interface ManagerMemberService {
+	
+	// 월별 로그인 건수 조회
+	List<Integer> getMonthlyLoginCounts();
+	
+	// 월별 회원가입 건수 조회
+	List<Integer> getMonthlyRegisterCounts();
 
 	// 멘토 권한 멤버 조회
 	PageInfo<Member> getMentorList(Pageable pageable);

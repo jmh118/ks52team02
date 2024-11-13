@@ -1,12 +1,17 @@
 package ks52team02.manager.pay.service;
 
 
+import java.util.List;
+
 import ks52team02.manager.pay.dto.PaymentSettlement;
 import ks52team02.member.pay.dto.Pay;
 import ks52team02.page.PageInfo;
 import ks52team02.page.Pageable;
 
 public interface ManagerPayService {
+	
+	// 월별 결제 건수 조회
+	List<Integer> getMonthlyPaymentCounts(); 
 	
 	// 멘토 정산 승인
 	int managerPayApproveById(String settlementCode, String managerId);

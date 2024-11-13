@@ -9,8 +9,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import ks52team02.manager.member.mapper.ManagerMemberMapper;
+import ks52team02.manager.member.service.ManagerMemberService;
 import ks52team02.manager.mentoring.mapper.ManagerMentoringMapper;
 import ks52team02.manager.pay.mapper.ManagerPayMapper;
+import ks52team02.manager.pay.service.ManagerPayService;
 import ks52team02.member.honor.dto.hornorMentor;
 import ks52team02.member.honor.service.MemberHonorService;
 import ks52team02.member.mentoring.dto.Notice;
@@ -28,6 +30,8 @@ public class HomeController {
 	private final ManagerMemberMapper managerMemberMapper; 
 	private final ManagerMentoringMapper managerMentoringMapper;
 	private final ManagerPayMapper managerPayMapper;
+	private final ManagerPayService managerPayService; 
+	private final ManagerMemberService managerMemberService; 
 	
 	@GetMapping("/")
 	public String indexMove() {
@@ -54,14 +58,22 @@ public class HomeController {
 		int totalPaymentAmount = managerPayMapper.getTotalPayAmount();
 		int flatformCalAmount = managerPayMapper.getFlatformCalAmount();
 		
+		
 		NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
 	    String formattedTotalPaymentAmount = numberFormat.format(totalPaymentAmount);
 	    String formattedFlatformCalAmount = numberFormat.format(flatformCalAmount);
+	    
+	    List<Integer> monthlyPaymentCounts = managerPayService.getMonthlyPaymentCounts();
+	    List<Integer> monthlyRegisterCounts = managerMemberService.getMonthlyRegisterCounts();
+	    List<Integer> monthlyLoginCounts = managerMemberService.getMonthlyLoginCounts();
 		
 		model.addAttribute("memberCnt", memberCnt);
 		model.addAttribute("mentoringCnt", mentoringCnt);
 		model.addAttribute("totalPaymentAmount", formattedTotalPaymentAmount);
 	    model.addAttribute("flatformCalAmount", formattedFlatformCalAmount);
+	    model.addAttribute("monthlyPaymentCounts", monthlyPaymentCounts);
+	    model.addAttribute("monthlyRegisterCounts", monthlyRegisterCounts);
+	    model.addAttribute("monthlyLoginCounts", monthlyLoginCounts);
 		
         return  "manager/managerMain";
     }
