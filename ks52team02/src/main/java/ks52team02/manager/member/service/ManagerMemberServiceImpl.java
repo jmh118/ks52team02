@@ -42,22 +42,26 @@ public class ManagerMemberServiceImpl implements ManagerMemberService {
 	}
 
 	@Override
-	public PageInfo<WithdrawalMember> getWithdrawalMemberList(Pageable pageable) {
-		int rowCnt = managerMemberMapper.getWithdrawalMemberListCount();
+	public PageInfo<WithdrawalMember> getWithdrawalMemberList(Pageable pageable, String keyword) {
+		int rowCnt = managerMemberMapper.getWithdrawalMemberListCount(keyword);
+		pageable.setRowPerPage(15);
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("rowPerPage", pageable.getRowPerPage());
 		paramMap.put("offset", pageable.getOffset());
+		paramMap.put("keyword", keyword);
 		List<WithdrawalMember> contents = managerMemberMapper.getWithdrawalMemberList(paramMap);
 		
 		return new PageInfo<>(contents, pageable, rowCnt);
 	}
 
 	@Override
-	public PageInfo<Member> getDormantMemberList(Pageable pageable) {
-		int rowCnt  = managerMemberMapper.getDormantMemberListCount();
+	public PageInfo<Member> getDormantMemberList(Pageable pageable, String keyword) {
+		int rowCnt  = managerMemberMapper.getDormantMemberListCount(keyword);
+		pageable.setRowPerPage(15);
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("rowPerPage", pageable.getRowPerPage());
 		paramMap.put("offset", pageable.getOffset());
+		paramMap.put("keyword", keyword);
 		List<Member> contents = managerMemberMapper.getDormantMemberList(paramMap);
 		
 		return new PageInfo<>(contents, pageable, rowCnt);

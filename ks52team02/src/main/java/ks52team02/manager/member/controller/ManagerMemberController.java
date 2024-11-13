@@ -117,20 +117,45 @@ public class ManagerMemberController {
 	}
 	
 	@GetMapping("/withdrawalList")
-    public String withdrawalMembers(Pageable pageable, Model model) {
+    public String withdrawalMembers(Pageable pageable, Model model, String keyword) {
     	System.out.println("탈퇴 회원 조회 페이지 이동");
-    	PageInfo<WithdrawalMember> withdrawalmemberList = managerMemberService.getWithdrawalMemberList(pageable);
+    	PageInfo<WithdrawalMember> withdrawalmemberList = managerMemberService.getWithdrawalMemberList(pageable, keyword);
     	model.addAttribute("withdrawalmemberList", withdrawalmemberList);
     	return  "manager/memberInfo/withdrawalMembersList";
     }
 	
+	@GetMapping("/withdrawalListIdSearch")
+	public String withdrawalMembersIdSearch(@RequestParam(value = "keyword", required = false) String keyword,
+	                            Pageable pageable, Model model) {
+		System.out.println("탈퇴 회원 조회 - ID 검색");
+	    PageInfo<WithdrawalMember> memberPage = managerMemberService.getWithdrawalMemberList(pageable, keyword);
+	    PageInfo<WithdrawalMember> withdrawalmemberList = managerMemberService.getWithdrawalMemberList(pageable, keyword);
+	    model.addAttribute("withdrawalmemberList", memberPage.getContents());
+	    model.addAttribute("pageInfo", memberPage);
+	    model.addAttribute("withdrawalmemberList", withdrawalmemberList);
+	    return "manager/memberInfo/withdrawalMembersList";
+	}
+	
 	@GetMapping("/dormantList")
-    public String dormantMembers(Pageable pageable, Model model) {
+    public String dormantMembers(Pageable pageable, Model model, String keyword) {
     	System.out.println("휴면 회원 조회 페이지 이동");
-    	PageInfo<Member> dormantMemberList = managerMemberService.getDormantMemberList(pageable);
+    	PageInfo<Member> dormantMemberList = managerMemberService.getDormantMemberList(pageable, keyword);
     	model.addAttribute("dormantMemberList", dormantMemberList);
         return  "manager/memberInfo/dormantMembersList";
     }
+	
+	@GetMapping("/dormantListIdSearch")
+	public String dormantListIdSearch(@RequestParam(value = "keyword", required = false) String keyword,
+	                            Pageable pageable, Model model) {
+		System.out.println("휴면 회원 조회 - ID 검색");
+		PageInfo<Member> memberPage = managerMemberService.getDormantMemberList(pageable, keyword);
+	    PageInfo<Member> dormantMemberList = managerMemberService.getDormantMemberList(pageable, keyword);
+	    model.addAttribute("dormantMemberList", memberPage.getContents());
+	    model.addAttribute("pageInfo", memberPage);
+	    model.addAttribute("dormantMemberList", dormantMemberList);
+		
+		return "manager/memberInfo/dormantMembersList";
+	}
 	
 	@GetMapping("/loginLog")
     public String loginLog(Pageable pageable, Model model) {
@@ -274,6 +299,8 @@ public class ManagerMemberController {
         return "redirect:/manager/member/infoModify";
     }
 	
+	
+	
 	@GetMapping("/infoModify")
 	public String membersInfoModify(@RequestParam(name="memberId", required=false) String memberId,
 									Pageable pageable, Model model, String keyword){
@@ -289,5 +316,19 @@ public class ManagerMemberController {
 		return "manager/memberInfo/membersInfoModifyForm";
 	}
 
+
+	
+	@GetMapping("/infoModifyIdSearch")
+	public String getInfoModifySearchList(@RequestParam(value = "keyword", required = false) String keyword,
+	                            Pageable pageable, Model model) {
+		System.out.println("전체 회원 정보 수정 ID로 검색");
+		PageInfo<Member> memberPage = managerMemberService.getMemberList(pageable, keyword);
+		PageInfo<Member> memberList = managerMemberService.getMemberList(pageable, keyword);
+		model.addAttribute("memberList", memberPage.getContents());
+	    model.addAttribute("pageInfo", memberPage);
+	    model.addAttribute("memberList", memberList);
+	    
+	    return "manager/memberInfo/membersInfoModifyForm";
+		}
 	
 }

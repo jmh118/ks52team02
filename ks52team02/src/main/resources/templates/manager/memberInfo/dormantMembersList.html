@@ -7,17 +7,19 @@
                 <div class="content-header">
                     <div>
                         <h2 class="content-title card-title">휴면 회원 정보 조회</h2>
-                        <p>6개월(기준 183일) 이상 로그인하지 않은 회원의 정보를 조회합니다.</p>
+                        <p>탈퇴하지 않은 회원 중 6개월(기준 183일) 이상 로그인하지 않은 회원의 정보를 조회합니다.</p>
                     </div>
                 </div>
                 <div class="card mb-4">
                     <header class="card-header">
-                        <div class="row gx-3">
-                            <div class="col-lg-4 col-md-6 me-auto">
-                                <input type="text" placeholder="Search..." class="form-control" />
-                            </div>
-                            
-                        </div>
+						<div class="col-3">
+						    <form class="d-flex" method="get" th:action="@{/manager/member/dormantListIdSearch}">
+						        <input type="text" placeholder="회원 ID로 검색" class="form-control me-2" name="keyword" />
+						        <button class="btn btn-light" type="submit">
+						            <i class="material-icons md-search"></i>
+						        </button>
+						    </form>
+						</div>
                     </header>
                     <!-- card-header end// -->
                     <div class="card-body">
@@ -65,16 +67,16 @@
                     <nav aria-label="Page navigation example">
                         <ul class="pagination justify-content-start">
 					    	<li class="page-item" th:classappend="${dormantMemberList.currentPage < 2}? 'disabled'">
-								<a class="page-link d-flex justify-content-center align-items-center" th:href="@{/manager/member/dormantList(currentPage=${dormantMemberList.currentPage - 1})}"><i class="material-icons md-chevron_left"></i></a>
+								<a class="page-link d-flex justify-content-center align-items-center" th:href="@{/manager/member/dormantList(currentPage=${dormantMemberList.currentPage - 1}, keyword=${keyword})}"><i class="material-icons md-chevron_left"></i></a>
 							</li>
 					        <th:block th:each="num : ${#numbers.sequence(dormantMemberList.startPageNum, dormantMemberList.endPageNum)}">
 					            <li class="page-item"
 					                th:classappend="${dormantMemberList.currentPage == num} ? 'active'">
-					                <a class="page-link" th:href="@{/manager/member/dormantList(currentPage=${num})}">[[${num}]]</a>
+					                <a class="page-link" th:href="@{/manager/member/dormantList(currentPage=${num}, keyword=${keyword})}">[[${num}]]</a>
 					            </li>
 					        </th:block>
 					        <li class="page-item" th:classappend="${dormantMemberList.currentPage >= dormantMemberList.lastPage} ? 'disabled'">
-					            <a class="page-link d-flex justify-content-center align-items-center" th:href="@{/manager/member/dormantList(currentPage=${dormantMemberList.currentPage + 1})}"><i class="material-icons md-chevron_right"></i></a>
+					            <a class="page-link d-flex justify-content-center align-items-center" th:href="@{/manager/member/dormantList(currentPage=${dormantMemberList.currentPage + 1}, keyword=${keyword})}"><i class="material-icons md-chevron_right"></i></a>
 					        </li>
 					    </ul>
                     </nav>

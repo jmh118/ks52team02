@@ -33,13 +33,13 @@ public interface ManagerMemberMapper {
 	// 관리자 - 휴면 회원 정보 조회
 	// 관리자 - 휴면 회원 수 조회
 	List<Member> getDormantMemberList(Map<String, Object> paramMap);
-	int getDormantMemberListCount();
+	int getDormantMemberListCount(String keyword);
 
 	
 	// 관리자 - 탈퇴 회원 조회
 	// 관리자 - 탈퇴 회원 수 조회
 	List<WithdrawalMember> getWithdrawalMemberList(Map<String, Object> paramMap);
-	int getWithdrawalMemberListCount();
+	int getWithdrawalMemberListCount(String keyword);
 
 	
 	// 관리자 - 회원탈퇴 승인
