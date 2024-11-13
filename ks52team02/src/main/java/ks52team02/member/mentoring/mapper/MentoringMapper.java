@@ -27,7 +27,7 @@ public interface MentoringMapper {
 	// 공고관련질문답변 조회
 	List<NoticeQuestion> getNoticeQuestionByCode(String noticeCode);
 	
-	// 신청가능한 요일 조회
+	// 신청가능한 요일 시간 조회
 	List<NoticeDetail> getNoticeApplyYmdByCode(String noticeCode);
 	
 	// 공고등록
