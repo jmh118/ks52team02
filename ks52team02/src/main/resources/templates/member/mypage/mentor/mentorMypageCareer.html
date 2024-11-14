@@ -22,6 +22,7 @@
                                                                 <th>회사 명</th>
                                                                 <th>담당업무</th>
                                                                 <th>재직 여부</th>
+                                                                <th>수정&삭제</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -29,7 +30,7 @@
                                                                 <td th:text="${w.mentorPowkNm}"></td>
                                                                 <td th:text="${w.mentorTask}"></td>
                                                                 <td th:text="${w.mentorStatus}"></td>
-                                                                <td><a th:href="@{/mypage/mentor/workModify(mentorWorkCode=${w.mentorWorkCode})}" class="btn-small d-block">수정</a></td>
+                                                                <td><a th:href="@{/mypage/mentor/workModify(mentorWorkCode=${w.mentorWorkCode})}" class="btn-small d-block">수정&삭제</a></td>
                                                             </tr>
                                                         </tbody>
                                                     </table>
@@ -48,13 +49,14 @@
                                                         <tr>
                                                             <th>프로젝트 명</th>
                                                             <th>수행업무</th>
+                                                            <th>수정&삭제</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         <tr th:each="p : ${mentorProjectInfo}">
                                                             <td th:text="${p.mentorProjectNm}"></td>
                                                             <td th:text="${p.mentorCn}"></td>
-                                                            <td><a th:href="@{/mypage/mentor/projectModify(mentorProjectCode=${p.mentorProjectCode})}" class="btn-small d-block">수정</a></td>
+                                                            <td><a th:href="@{/mypage/mentor/projectModify(mentorProjectCode=${p.mentorProjectCode})}" class="btn-small d-block">수정&삭제</a></td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -75,6 +77,7 @@
                                                             <th>학점</th>
                                                             <th>학과(전공)</th>
                                                             <th>졸업/수료</th>
+                                                            <th>수정&삭제</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -83,7 +86,7 @@
                                                             <td th:text="${e.mentorCredits}"></td>
                                                             <td th:text="${e.mentorScsbjtNm}"></td>
                                                             <td th:text="${e.mentorSection}"></td>
-                                                            <td><a th:href="@{/mypage/mentor/educationModify(mentorEducationCode=${e.mentorEducationCode})}" class="btn-small d-block">수정</a></td>
+                                                            <td><a th:href="@{/mypage/mentor/educationModify(mentorEducationCode=${e.mentorEducationCode})}" class="btn-small d-block">수정&삭제</a></td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -104,6 +107,7 @@
 	                                                        <th>발급기관</th>
 	                                                        <th>자격증 등급</th>
 	                                                        <th>자격증 발급일</th>
+	                                                        <th>수정&삭제</th>
 	                                                    </tr>
 	                                                </thead>
 	                                                <tbody>
@@ -112,7 +116,7 @@
 	                                                        <td th:text="${c.certificateName.institutionNm}"></td>
 	                                                        <td th:text="${c.mentorGrade}"></td>
 	                                                        <td th:text="${c.mentorIssuYmd}"></td>
-	                                                        <td><a th:href="@{/mypage/mentor/certificateModify(mentorCertificateCode=${c.mentorCertificateCode})}" class="btn-small d-block">수정</a></td>
+	                                                        <td><a th:href="@{/mypage/mentor/certificateModify(mentorCertificateCode=${c.mentorCertificateCode})}" class="btn-small d-block">수정&삭제</a></td>
 	                                                    </tr>
 	                                                </tbody>
 	                                            </table>

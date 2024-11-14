@@ -1,6 +1,30 @@
 ﻿<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{member/layouts/layout}">
+	
+	<th:block layout:fragment="customJs">
+		<script>
+			
+		 	$('.submitBtn').click(function(){
+		 		let isSubmit = true;
+				const $formVlue = $('#addPortfolio input') ;
+				
+				$formVlue.each((index, item)=>{
+					const value = $(item).val();
+					if(!value){
+						const cate = $(item).attr('placeholder');
+						const msg = `${cate} <- 필수 입력항목입니다.`;
+						alert(msg);
+						$(item).focus();
+						isSubmit = false;
+						return false;
+					}
+				});
+				if(isSubmit) $('#addPortfolio').submit();
+			}) 
+		</script>
+	</th:block>
+	
     <!--/* 기존 class는 main pages...  pages 누락 시 문제 없음
     	<main class="main pages"layout:fragment="content"> */-->	
     <th:block layout:fragment="customContent">
@@ -14,7 +38,7 @@
                 <div class="col-lg-7">
                     <div class="row">
                         <h3 class="mb-30">등록</h3>
-                        <form method="post" th:action="@{/mypage/mentee/portfolioAdd}" enctype="multipart/form-data">
+                        <form id="addPortfolio" method="post" th:action="@{/mypage/mentee/portfolioAdd}" enctype="multipart/form-data">
                         		<input class="form-control" name="menteeId" type="hidden" th:value="${session.SID}"/>
                                 <div class="form-group col-lg-6">
                                     <input type="text" required name="menteePtflTitle" placeholder="포트폴리오 제목 *">
@@ -23,9 +47,9 @@
                                 	<textarea name="menteePtflCtnt"></textarea>
                                 </div>
                                 <div class="form-group col-lg-6">포트폴리오 업로드*
-							  		<input type="file" name="files" multiple>
+							  		<input type="file" name="files" placeholder="자료파일" multiple>
 							  </div>
-							<button class="submit submit-auto-width" type="submit">추가</button>
+							<button class="submit submit-auto-width submitBtn"  type="button">추가</button>
                         </form>
                     </div>
                 </div>

@@ -112,12 +112,17 @@
 	
 		        checkPassword(memberPw).done(function(data) {
 		            if (data) {
-		                deleteReview(reviewCode).done(function() {
-		                    alert('후기가 성공적으로 삭제되었습니다.');
+		            	isDelYn = confirm('해당 답변을 정말 삭제하시겠습니까?');
+		            	if(isDelYn){
+			                deleteReview(reviewCode).done(function() {
+			                    alert('후기가 성공적으로 삭제되었습니다.');
+			                    location.reload(); 
+			                }).fail(function() {
+			                    alert('후기 삭제 중 오류가 발생했습니다.~~');
+			                });
+		            	}else{
 		                    location.reload(); 
-		                }).fail(function() {
-		                    alert('후기 삭제 중 오류가 발생했습니다.~~');
-		                });
+		            	}
 		            } else {
 		                alert("비밀번호가 잘못되었습니다.");
 		            }

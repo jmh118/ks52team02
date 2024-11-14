@@ -220,7 +220,14 @@
 		VALUES (#{menteeAcbgCode}, #{menteeId}, #{menteeSchoolNm}, #{menteeMajorNm}, #{menteeSchoolCd}, #{menteeGdtCd}, 'Y', NOW(), #{menteeMtcltDate}, #{menteeGdtDate})
 	  	</insert>
 	  	
-	  	
+	  	<delete id="removeEducationByCode" parameterType="String">
+	  	/* 학력 삭제 */
+	  	DELETE 
+		FROM 
+			mentee_acbg_details 
+		WHERE 
+			mentee_ACBG_details_code=#{menteeAcbgCode}
+  		</delete>
 	  	
   <!-- 학력 관리 쿼리문/ -->
   
@@ -353,6 +360,14 @@
  		
 	  	</insert>
 	  	
+	  	<delete id="removeCertificateByCode" parameterType="String">
+	  	/* 자격증 삭제 */
+		DELETE 
+		FROM 
+			mentee_certificate_details 
+		WHERE 
+			mentee_certificate_details_code=#{menteeCtfcCode}
+  		</delete>
 	  	
   <!-- 자격증 관리 쿼리문/ -->
   
@@ -456,6 +471,14 @@
  		
 	  	</insert>
   
+  		<delete id="removePortfolioByCode" parameterType="String">
+	  	/* 포트폴리오 삭제 */
+		DELETE 
+		FROM 
+			mentee_portfolio_registration_details 
+		WHERE 
+			mentee_portfolio_registration_details_code=#{menteePtflCode}
+  		</delete>
   
   <!-- 포트폴리오 관리 쿼리문/ -->
   

@@ -78,10 +78,13 @@
 			</div>
 			<div class="card mb-4">
 				<header class="card-header">
-					<div class="row gx-3">
-						<div class="col-lg-4 col-md-6 me-auto">
-							<input type="text" placeholder="Search..." class="form-control" />
-						</div>
+					<div class="col-3">
+					    <form class="d-flex" method="get" th:action="@{/manager/member/waitingForApprovalIdSearch}">
+					        <input type="text" placeholder="회원 ID로 검색" class="form-control me-2" name="keyword" />
+					        <button class="btn btn-light" type="submit">
+					            <i class="material-icons md-search"></i>
+					        </button>
+					    </form>
 					</div>
 				</header>
 				<div class="card-body">
@@ -101,7 +104,8 @@
 							<tbody>
 								<input type="hidden" name="actionType" id="actionType" value="" />
 								<input type="hidden" name="memberId" id="memberId" value="" />
-								<tr th:each="wfam : ${waitingForApprovalMentorList}">
+								<tr th:unless="${#lists.isEmpty(waitingForApprovalMentorList.contents)}"
+									th:each="wfam : ${waitingForApprovalMentorList.contents}">
 									<td>
 										<a href="#">
 											<img src="/manager/imgs/people/user-avatar.png" class="img-sm img-avatar" alt="Userpic" />
@@ -132,10 +136,31 @@
 										<button type="button" class="btn btn-sm btn-brand rounded font-sm applyDenyBtn" th:data-member-id="${wfam.memberId}" data-action-type="deny">거부</button>
 									</td>
 								</tr>
+								<tr th:if="${#lists.isEmpty(waitingForApprovalMentorList.contents)}">
+									<td class="text-center" colspan="10">조회 결과가 없습니다.</td>
+								</tr>
 							</tbody>
 						</table>
 					</div>
 				</div>
+			</div>
+			<div class="pagination-area mt-30 mb-50">
+			    <nav aria-label="Page navigation example">
+			        <ul class="pagination justify-content-start">
+				    	<li class="page-item" th:classappend="${waitingForApprovalMentorList.currentPage < 2}? 'disabled'">
+							<a class="page-link d-flex justify-content-center align-items-center" th:href="@{/manager/member/waitingForApproval(currentPage=${waitingForApprovalMentorList.currentPage - 1}, keyword=${keyword})}"><i class="material-icons md-chevron_left"></i></a>
+						</li>
+				        <th:block th:each="num : ${#numbers.sequence(waitingForApprovalMentorList.startPageNum, waitingForApprovalMentorList.endPageNum)}">
+				            <li class="page-item"
+				                th:classappend="${waitingForApprovalMentorList.currentPage == num} ? 'active'">
+				                <a class="page-link" th:href="@{/manager/member/waitingForApproval(currentPage=${num}, keyword=${keyword})}">[[${num}]]</a>
+				            </li>
+				        </th:block>
+				        <li class="page-item" th:classappend="${waitingForApprovalMentorList.currentPage >= waitingForApprovalMentorList.lastPage} ? 'disabled'">
+				            <a class="page-link d-flex justify-content-center align-items-center" th:href="@{/manager/member/waitingForApproval(currentPage=${waitingForApprovalMentorList.currentPage + 1}, keyword=${keyword})}"><i class="material-icons md-chevron_right"></i></a>
+				        </li>
+				    </ul>
+			    </nav>
 			</div>
 		</section>
 	</th:block>
