@@ -1,6 +1,46 @@
 ﻿<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{member/layouts/layout}">
+	
+	<th:block layout:fragment="customJs">
+		<script>
+			
+		 	$('.submitBtn').click(function(){
+		 		let isSubmit = true;
+				const $formVlue = $('#addEducation input') ;
+				const schoolCdValue =parseFloat($('.menteeSchoolCd').val());
+				const gdtCdValue =parseFloat($('.menteeGdtCd').val());
+				console.log(schoolCdValue);
+				console.log(gdtCdValue);
+				
+				
+				$formVlue.each((index, item)=>{
+					const value = $(item).val();
+					if(!value){
+						const cate = $(item).attr('placeholder');
+						const msg = `${cate} <- 필수 입력항목입니다.`;
+						alert(msg);
+						$(item).focus();
+						isSubmit = false;
+						return false;
+					}
+				});
+				if(!isNaN(schoolCdValue) && schoolCdValue == null){
+					alert('현제 학점을 정확하게 입력해주세요');
+					isSubmit = false;
+				}
+				if(!isNaN(gdtCdValue) && gdtCdValue == null){
+					alert('졸업 학점을 정확하게 입력해주세요');
+					isSubmit = false;
+				}
+				
+				
+				
+				if(isSubmit) $('#addEducation').submit();
+			}) 
+		</script>
+	</th:block>
+	
     <!--/* 기존 class는 main pages...  pages 누락 시 문제 없음
     	<main class="main pages"layout:fragment="content"> */-->	
     <th:block layout:fragment="customContent">
@@ -14,7 +54,7 @@
                 <div class="col-lg-7">
                     <div class="row">
                         <h3 class="mb-30">등록</h3>
-                        <form method="post" th:action="@{/mypage/mentee/educationAdd}">
+                        <form id="addEducation" method="post" th:action="@{/mypage/mentee/educationAdd}">
                         		<input class="form-control" name="menteeId" type="hidden" th:value="${session.SID}"/>
                                 <div class="form-group col-lg-6">
                                     <input type="text" required name="menteeSchoolNm" placeholder="학교명 *">
@@ -23,10 +63,10 @@
                                     <input type="text" required name="menteeMajorNm" placeholder="학과 *">
                                 </div>
                                 <div class="form-group col-lg-6">
-                                    <input type="text" name="menteeSchoolCd" required placeholder="현제 학점 *">
+                                    <input type="text" class="menteeSchoolCd" name="menteeSchoolCd" required placeholder="현제 학점 *">
                                 </div>
                                 <div class="form-group col-lg-6">
-                                    <input type="text" name="menteeGdtCd" placeholder="졸업 학점(졸업을 하지 않았을시 입력X) *">
+                                    <input type="text" class="menteeGdtCd" name="menteeGdtCd" placeholder="졸업 학점(졸업을 하지 않았을시 입력X) *">
                                 </div>
                                 <div class="form-group col-lg-6">입학일자
                                     <input type="date" name="menteeMtcltDate" required placeholder="입학일자 *">
@@ -34,7 +74,7 @@
                                 <div class="form-group col-lg-6">졸업일자
                                     <input type="date" name="menteeGdtDate" required placeholder="졸업일자 *">
                                 </div>
-							<button class="submit submit-auto-width" type="submit">추가</button>
+							<button class="submit submit-auto-width submitBtn" type="button">추가</button>
                         </form>
                     </div>
                 </div>
