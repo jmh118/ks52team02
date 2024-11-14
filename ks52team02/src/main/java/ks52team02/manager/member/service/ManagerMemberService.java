@@ -44,10 +44,10 @@ public interface ManagerMemberService {
 	PageInfo<LoginLog> getLoginLog(Pageable pageable, String keyId, String keyLoginCode, String memberLevelCate, String loginLogStartDate, String loginLogEndDate);
 
 	// 관리자 - 한 달 내 가입 회원 조회
-	PageInfo<Member> getMonthMemberList(Pageable pageable);
+	PageInfo<Member> getMonthMemberList(Pageable pageable, String keyword);
 
 	// 관리자 - 탈퇴 대기 회원 조회
-	List<WithdrawalMember> getWaitingForWithDrawalList();
+	PageInfo<WithdrawalMember> getWaitingForWithDrawalList(Pageable pageable, String keyword);
 
 	// ID로 특정 회원 조회
 	Member getMemberInfoById(String memberId);
@@ -56,7 +56,7 @@ public interface ManagerMemberService {
 	void updateMemberInfoById(Member member);
 	
 	// 승인 요청 멘토 조회
-	List<Member> getWaitingForApprovalMentorList();
+	PageInfo<Member> getWaitingForApprovalMentorList(Pageable pageable, String keyword);
 
 	// 멘토 승인
 	int approvalMentorLevel(MentorApproval mentorApproval, String actionType);
