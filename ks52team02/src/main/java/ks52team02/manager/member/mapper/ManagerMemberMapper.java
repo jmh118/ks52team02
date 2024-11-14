@@ -10,14 +10,17 @@ import ks52team02.manager.member.dto.LoginLog;
 import ks52team02.manager.member.dto.Member;
 import ks52team02.manager.member.dto.MentorApproval;
 import ks52team02.manager.member.dto.WithdrawalMember;
-import ks52team02.page.Pageable;
 
 @Mapper
 public interface ManagerMemberMapper {
 	
+	// 월별 로그인 건수 조회
+	List<Map<String, Object>> getMonthlyLoginCnt();
+	// 월별 회원가입 건수 조회
+	List<Map<String, Object>> getMonthlyRegisterCnt();
+	
 	// 전체 회원 수 조회
 	int getAllMemberCnt();
-	
 	
 	// 멘토 권한 멤버 조회
 	// 멘토 권한 멤버수 조회

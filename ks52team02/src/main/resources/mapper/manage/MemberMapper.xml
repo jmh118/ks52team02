@@ -4,6 +4,33 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ks52team02.manager.member.mapper.ManagerMemberMapper">
 
+	<select id="getMonthlyLoginCnt" resultType="map">
+		/* 월별 로그인이력 건수 조회*/
+		SELECT 
+		    MONTH(member_login_YMD) AS month,
+		    COUNT(login_log_code) AS loginCnt
+		FROM 
+		    member_login_log
+		GROUP BY 
+		    MONTH(member_login_YMD)
+		ORDER BY 
+		    month;
+	</select>
+
+	<select id="getMonthlyRegisterCnt" resultType="map">
+		/* 월별 회원가입 건수 조회*/
+		SELECT 
+		    MONTH(member_join_YMD) AS month,
+		    COUNT(member_id) AS memberCnt
+		FROM 
+		    `member`
+		GROUP BY 
+		    MONTH(member_join_YMD)
+		ORDER BY 
+		    month;
+
+	</select>
+
 	<select id="getAllMemberCnt" resultType="int">
 		/* 전체 (가입 중인) 회원 수 조회 */
 		SELECT 

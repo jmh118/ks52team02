@@ -2,10 +2,14 @@ package ks52team02.member.login.service;
 
 import java.util.Map;
 
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import jakarta.servlet.http.HttpSession;
+
 
 public interface MemberLoginService {
 	
-	
+	String loginProcess(String memberId, String memberPw, HttpSession session, RedirectAttributes reAttr);
 	
 	// 탈퇴 검증으로 로그인 유무 반환
 	boolean memberWithdrawalStatus(String memberId);

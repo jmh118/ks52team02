@@ -5,6 +5,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import ks52team02.manager.review.dto.Review;
 import ks52team02.manager.review.mapper.ManagerReviewMapper;
@@ -25,14 +26,16 @@ public class ManagerReviewController {
 	
 	
 	@GetMapping("remove")
-	public String deleteReviews(@RequestParam(name="reviewCode") String reviewCode, Model model) {
+	@ResponseBody
+	public boolean deleteReviews(@RequestParam(name="reviewCode") String reviewCode, Model model) {
 		
-		log.info("컨트롤러 실행 ");
-		log.info("리뷰 코드 : {}", reviewCode);
+		boolean isDel = false;
 		
-		managerReviewService.removeReview(reviewCode);
+		int result = managerReviewService.removeReview(reviewCode);
 		
-		return "redirect:/manager/review/list";
+		if(result > 0) isDel = true;
+		
+		return isDel;
 	}
 	
 	

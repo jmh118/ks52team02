@@ -5,6 +5,8 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.servlet.http.HttpSession;
 import ks52team02.common.mapper.CommonMapper;
@@ -23,6 +25,52 @@ public class MemberLoginServiceImpl implements MemberLoginService {
 	private final MemberLoginMapper memberLoginMapper;
 	private final CommonMapper commonMapper;
 	
+	@Override
+	public String loginProcess(String memberId, String memberPw, HttpSession session, RedirectAttributes reAttr) {
+	    String viewName;
+	    String msg = "회원의 정보가 일치하지 않습니다. 다시 로그인해주세요~";
+
+	    Map<String, Object> loginMap = checkedMember(memberId, memberPw);
+	    boolean checkMember = (boolean) loginMap.get("isCheck");
+
+	    if (checkMember) {
+	        if (!memberWithdrawalStatus(memberId)) {
+	            viewName = "redirect:/member/login";
+	            if (isCheckMemberLevel(memberId)) {
+	                viewName = "redirect:/member/managerLogin";
+	            }
+	            msg = "탈퇴한 회원이거나 탈퇴 신청 중인 회원은 로그인이 불가합니다.";
+	            reAttr.addAttribute("msg", msg);
+	            return viewName;
+	        }
+
+	        Member memberInfo = (Member) loginMap.get("memberInfo");
+	        String memberLevel = memberInfo.getMemberLevel();
+
+	        if ("member_level_manager".equals(memberLevel)) {
+	            viewName = "redirect:/manager";
+	        } else {
+	            viewName = "redirect:/member";
+	        }
+
+	        session.setAttribute("SID", memberId);
+	        session.setAttribute("SLEVEL", memberLevel);
+
+	    } else {
+	        String level = memberLoginMapper.getMemberLevelById(memberId);
+	        if (level == null) {
+	            viewName = "redirect:/member/login";
+	            msg = "존재하지 않는 회원입니다.";
+	        } else if ("member_level_manager".equals(level)) {
+	            viewName = "redirect:/member/managerLogin";
+	        } else {
+	            viewName = "redirect:/member/login";
+	        }
+	        reAttr.addAttribute("msg", msg);
+	    }
+
+	    return viewName;
+	}
 	
 	
 	@Override
