@@ -69,14 +69,23 @@
 				// 필수 항목 점검
 						$formControl.each((index, item)=>{
 							const value = $(item).val();
-							if(!value){
+							// 필수 입력 및 공백 점검
+							if(!value || !$.trim(value)) {
 								const cate = $(item).attr('placeholder');
-								const msg = `${cate}는 필수 입력항목입니다.`;
+								const msg = `${cate}은(는) 필수 입력항목입니다.`;
 								alert(msg);
 								$(item).focus();
 								isSubmit = false;
 								return false;
-							}
+							// 값에 공백이 포함된 경우 점검
+							} else if (value.includes(' ')) {
+						        const cate = $(item).attr('placeholder');
+						        const msg = `${cate}에는 공백을 포함할 수 없습니다.`;
+						        alert(msg);
+						        $(item).focus();
+						        isSubmit = false;
+						        return false;
+						    }
 						});
 						
 						
