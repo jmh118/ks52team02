@@ -8,8 +8,8 @@
 		 	$('.submitBtn').click(function(){
 		 		let isSubmit = true;
 				const $formVlue = $('#addEducation input') ;
-				const schoolCdValue =parseFloat($('.menteeSchoolCd').val());
-				const gdtCdValue =parseFloat($('.menteeGdtCd').val());
+				const schoolCdValue =$('.menteeSchoolCd').val();
+				const gdtCdValue =$('.menteeGdtCd').val();
 				console.log(schoolCdValue);
 				console.log(gdtCdValue);
 				
@@ -25,16 +25,14 @@
 						return false;
 					}
 				});
-				if(!isNaN(schoolCdValue) && schoolCdValue == null){
+				if(schoolCdValue === null || isNaN(schoolCdValue) || Number.isInteger(schoolCdValue)){
 					alert('현제 학점을 정확하게 입력해주세요');
 					isSubmit = false;
 				}
-				if(!isNaN(gdtCdValue) && gdtCdValue == null){
+				if(gdtCdValue === null || isNaN(gdtCdValue) || Number.isInteger(gdtCdValue)){
 					alert('졸업 학점을 정확하게 입력해주세요');
 					isSubmit = false;
 				}
-				
-				
 				
 				if(isSubmit) $('#addEducation').submit();
 			}) 
