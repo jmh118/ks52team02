@@ -9,7 +9,7 @@ import ks52team02.page.Pageable;
 public interface MemberMentorService {
 
 	// 멘토 조회
-	PageInfo<Member> getMentorList(Pageable pageable);
+	PageInfo<Member> getMentorList(Pageable pageable, String keyId);
 	
 	// 명예멘토 조회
 	List<Member> getHonorMentorList();

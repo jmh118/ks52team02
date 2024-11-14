@@ -12,7 +12,7 @@ public interface MemberMentorMapper {
 	// 멘토 조회
 	// 멘토 권한 멤버수 조회
 	List<Member> getMentorList(Map<String, Object> paramMap);
-	int getMentorListCount();
+	int getMentorListCount(String keyId);
 	
 	// 명예멘토 조회
 	List<Member> getHonorMentorList();

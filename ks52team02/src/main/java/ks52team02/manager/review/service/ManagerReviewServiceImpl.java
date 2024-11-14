@@ -29,9 +29,9 @@ public class ManagerReviewServiceImpl implements ManagerReviewService {
 	}
 
 	@Override
-	public void removeReview(String reviewCode) {
+	public int removeReview(String reviewCode) {
 		
-		managerReviewMapper.removeReview(reviewCode);
+		return managerReviewMapper.removeReview(reviewCode);
 		
 	}
 

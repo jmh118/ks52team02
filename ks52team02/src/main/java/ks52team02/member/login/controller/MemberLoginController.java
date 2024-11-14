@@ -30,7 +30,6 @@ public class MemberLoginController {
 	@ResponseBody
 	public boolean checkPw(HttpSession session, @RequestParam(value="memberPw") String memberPw) {
 
-		log.info("아이디 확인 : {}", session.getAttribute("SID"));
 		String memberId = (String) session.getAttribute("SID");
 		boolean isCheckPw = memberLoginService.isCheckMemberPw(memberId, memberPw);
 		
@@ -84,58 +83,8 @@ public class MemberLoginController {
 	}
 	
 	@PostMapping("/loginProc")
-	public String loginProcess(String memberId, String memberPw,
-							   HttpSession session, RedirectAttributes reAttr) {
-		
-		
-		String viewName = null;
-		String msg = "회원의 정보가 일치하지 않습니다. 다시 로그인해주세요~";
-		
-		
-		Map<String, Object> loginMap = memberLoginService.checkedMember(memberId, memberPw);
-		boolean checkMember = (boolean) loginMap.get("isCheck");
-		String level = memberLoginMapper.getMemberLevelById(memberId);
-		
-		if(checkMember) {
-			
-			if (!memberLoginService.memberWithdrawalStatus(memberId)) {
-				
-	            // 탈퇴 상태이거나 탈퇴 신청 상태인 경우
-	            viewName = "redirect:/member/login";
-	            if ("member_level_manager".equals(level)) {
-				    viewName = "redirect:/member/managerLogin";
-				}
-	            msg = "탈퇴한 회원이거나 탈퇴 신청 중인 회원은 로그인이 불가합니다.";
-	            reAttr.addAttribute("msg", msg);
-	            return viewName;
-	        }
-			
-			Member memberInfo = (Member) loginMap.get("memberInfo");
-			String memberLevel = memberInfo.getMemberLevel();
-			
-			if(memberLevel.equals("member_level_manager")) {
-				viewName = "redirect:/manager";
-			} else {
-				viewName = "redirect:/member";
-			} 
-			
-			session.setAttribute("SID", memberId);
-			session.setAttribute("SLEVEL", memberLevel);
-					
-		}else {
-			if (level == null) {
-			    viewName = "redirect:/member/login";
-			    msg = "존재하지 않는 회원입니다.";
-			} else if ("member_level_manager".equals(level)) {
-			    viewName = "redirect:/member/managerLogin";
-			} else {
-			    viewName = "redirect:/member/login";
-			}
-			reAttr.addAttribute("msg", msg);
-		}
-	
-		
-		return viewName;
+	public String loginProcess(String memberId, String memberPw, HttpSession session, RedirectAttributes reAttr) {
+	    return memberLoginService.loginProcess(memberId, memberPw, session, reAttr);
 	}
 	
 	

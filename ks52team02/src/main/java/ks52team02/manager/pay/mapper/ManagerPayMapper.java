@@ -1,6 +1,7 @@
 package ks52team02.manager.pay.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -10,6 +11,9 @@ import ks52team02.page.Pageable;
 
 @Mapper
 public interface ManagerPayMapper {
+	
+	// 월별 결제 건수 조회
+    List<Map<String, Object>> getMonthlyPaymentCnt();
 	
 	// 총 수익 조회
 	int getFlatformCalAmount();
