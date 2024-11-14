@@ -72,8 +72,8 @@
                 <div class="card mb-4">
                     <header class="card-header">
 						<div class="col-3">
-						    <form class="d-flex" method="get" th:action="@{/manager/member/4444444}">
-						        <input type="text" placeholder="회원 ID로 검색" class="form-control me-2" name="" />
+						    <form class="d-flex" method="get" th:action="@{/manager/member/waitingForWithdrawalIdSearch}">
+						        <input type="text" placeholder="회원 ID로 검색" class="form-control me-2" name="keyword" />
 						        <button class="btn btn-light" type="submit">
 						            <i class="material-icons md-search"></i>
 						        </button>
@@ -95,8 +95,8 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-	                                    <tr th:unless="${#lists.isEmpty(waitingForWithDrawalList)}"
-											th:each="wwl : ${waitingForWithDrawalList}">
+	                                    <tr th:unless="${#lists.isEmpty(waitingForWithDrawalList.contents)}"
+											th:each="wwl : ${waitingForWithDrawalList.contents}">
 	                                       	<td th:text="${wwl.withdrawalMemberCode}"></td>
 											<td th:text="${wwl.withdrawalMemberId}"></td>
 	                                        <td>	
@@ -110,7 +110,7 @@
 	                                            <button type="button" name="memberDelBtn" class="btn btn-sm btn-brand rounded font-sm mt-15 memberDelBtn" th:data-member-id="${wwl.withdrawalMemberId}">탈퇴승인</button>
 	                                        </td>
 	                                    </tr>
-										<tr th:if="${#lists.isEmpty(waitingForWithDrawalList)}">
+										<tr th:if="${#lists.isEmpty(waitingForWithDrawalList.contents)}">
 											<td class="text-center" colspan="10">조회 결과가 없습니다.</td>
 										</tr>
                                 </tbody>
@@ -121,19 +121,24 @@
                     <!-- card-body end// -->
                 </div>
                 <!-- card end// -->
-                <div class="pagination-area mt-15 mb-50">
-                    <nav aria-label="Page navigation example">
-                        <ul class="pagination justify-content-start">
-                            <li class="page-item active"><a class="page-link" href="#">01</a></li>
-                            <li class="page-item"><a class="page-link" href="#">02</a></li>
-                            <li class="page-item"><a class="page-link" href="#">03</a></li>
-                            <li class="page-item"><a class="page-link dot" href="#">...</a></li>
-                            <li class="page-item"><a class="page-link" href="#">16</a></li>
-                                <a class="page-link" href="#"><i class="material-icons md-chevron_right"></i></a>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
+				<div class="pagination-area mt-30 mb-50">
+				    <nav aria-label="Page navigation example">
+				        <ul class="pagination justify-content-start">
+					    	<li class="page-item" th:classappend="${waitingForWithDrawalList.currentPage < 2}? 'disabled'">
+								<a class="page-link d-flex justify-content-center align-items-center" th:href="@{/manager/member/waitingForWithdrawal(currentPage=${waitingForWithDrawalList.currentPage - 1}, keyword=${keyword})}"><i class="material-icons md-chevron_left"></i></a>
+							</li>
+					        <th:block th:each="num : ${#numbers.sequence(waitingForWithDrawalList.startPageNum, waitingForWithDrawalList.endPageNum)}">
+					            <li class="page-item"
+					                th:classappend="${waitingForWithDrawalList.currentPage == num} ? 'active'">
+					                <a class="page-link" th:href="@{/manager/member/waitingForWithdrawal(currentPage=${num}, keyword=${keyword})}">[[${num}]]</a>
+					            </li>
+					        </th:block>
+					        <li class="page-item" th:classappend="${waitingForWithDrawalList.currentPage >= waitingForWithDrawalList.lastPage} ? 'disabled'">
+					            <a class="page-link d-flex justify-content-center align-items-center" th:href="@{/manager/member/waitingForWithdrawal(currentPage=${waitingForWithDrawalList.currentPage + 1}, keyword=${keyword})}"><i class="material-icons md-chevron_right"></i></a>
+					        </li>
+					    </ul>
+				    </nav>
+				</div>
             </section>
             <!-- content-main end// -->
     </th:block>

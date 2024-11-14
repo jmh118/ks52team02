@@ -55,7 +55,7 @@ public class ManagerMemberServiceImpl implements ManagerMemberService {
 
 	@Override
 	public PageInfo<WithdrawalMember> getWithdrawalMemberList(Pageable pageable, String keyword) {
-		int rowCnt = managerMemberMapper.getWithdrawalMemberListCount(keyword);
+		int rowCnt = managerMemberMapper.getWaitingForWithDrawalListCount(keyword);
 		pageable.setRowPerPage(15);
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("rowPerPage", pageable.getRowPerPage());
@@ -109,23 +109,30 @@ public class ManagerMemberServiceImpl implements ManagerMemberService {
 
 
 	@Override
-	public PageInfo<Member> getMonthMemberList(Pageable pageable) {
-		int rowCnt = managerMemberMapper.getMonthMemberListCount();
+	public PageInfo<Member> getMonthMemberList(Pageable pageable, String keyword) {
+		int rowCnt = managerMemberMapper.getMonthMemberListCount(keyword);
 		pageable.setRowPerPage(12);
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("rowPerPage", pageable.getRowPerPage());
 		paramMap.put("offset", pageable.getOffset());
-		
+		paramMap.put("keyword", keyword);
 		List<Member> contents = managerMemberMapper.getMonthMemberList(paramMap);
 
 		return new PageInfo<>(contents, pageable, rowCnt);
 	}
 
 	@Override
-	public List<WithdrawalMember> getWaitingForWithDrawalList() {
-		List<WithdrawalMember> waitingForWithDrawalList = managerMemberMapper.getWaitingForWithDrawalList();
+	public PageInfo<WithdrawalMember> getWaitingForWithDrawalList(Pageable pageable, String keyword) {
+		int rowCnt = managerMemberMapper.getWaitingForWithDrawalListCount(keyword);
+		pageable.setRowPerPage(15);
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("rowPerPage", pageable.getRowPerPage());
+		paramMap.put("offset", pageable.getOffset());
+		paramMap.put("keyword", keyword);
 		
-		return waitingForWithDrawalList;
+		List<WithdrawalMember> contents = managerMemberMapper.getWaitingForWithDrawalList(paramMap);
+		
+		return new PageInfo<>(contents, pageable, rowCnt);
 	}
 
 	@Override
@@ -141,10 +148,16 @@ public class ManagerMemberServiceImpl implements ManagerMemberService {
 	}
 
 	@Override
-	public List<Member> getWaitingForApprovalMentorList() {
-		List<Member> waitingForApprovalMentorList = managerMemberMapper.getWaitingForApprovalMentorList();
+	public PageInfo<Member> getWaitingForApprovalMentorList(Pageable pageable, String keyword) {
+		int rowCnt = managerMemberMapper.getWaitingForApprovalMentorCount(keyword);
+		pageable.setRowPerPage(15);
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("rowPerPage", pageable.getRowPerPage());
+		paramMap.put("offset", pageable.getOffset());
+		paramMap.put("keyword", keyword);
+		List<Member> contents = managerMemberMapper.getWaitingForApprovalMentorList(paramMap);
 		
-		return waitingForApprovalMentorList;
+		return new PageInfo<>(contents, pageable, rowCnt);
 	}
 	
 
