@@ -48,6 +48,8 @@
 		WHERE 
 			member_id = #{mentorId};
   	</update>
+  	
+  	
   	<!-- 계정 정보 관리 쿼리문/ -->
   	
   	
@@ -161,7 +163,14 @@
 		  	
   	</insert>
   	
-  	
+  	<delete id="removeWorkByCode" parameterType="String">
+  	/* 근무경력 삭제 */
+  	DELETE 
+	FROM 
+		mentor_work_history_details 
+	WHERE 
+		mentor_work_career_details_code=#{mentorWorkCode}
+  	</delete>
   	
   	
   <!-- 근무 경력 관리 쿼리문/ -->
@@ -259,7 +268,14 @@
   	
   	</insert>
   
-  
+  	<delete id="removeProjectByCode" parameterType="String">
+  	/* 기술경력 삭제 */
+  	DELETE 
+	FROM 
+		mentor_tech_career_detail 
+	WHERE 
+		mentor_TECH_career_detail_code=#{mentorProjectCode}
+  	</delete>
   
   
   <!-- 프로젝트 경력 관리 쿼리문/ -->
@@ -373,7 +389,14 @@
 	  	
   	</insert>
   
-  
+  	<delete id="removeEducationByCode" parameterType="String">
+  	/* 학력 삭제 */
+  	DELETE 
+	FROM 
+		mentor_acbg_detail 
+	WHERE 
+		mentor_ACBG_detail_code=#{mentorEducationCode}
+  	</delete>
   
   <!-- 학력 관리 쿼리문/ -->
   
@@ -494,6 +517,14 @@
 	  	
   	</insert>
   	
+  	<delete id="removeCertificateByCode" parameterType="String">
+  	/* 자격증 삭제 */
+  	DELETE 
+	FROM 
+		mentor_certificate_detail 
+	WHERE 
+		mentor_certificate_detail_code=#{mentorCertificateCode}
+  	</delete>
   
   <!-- 자격증 관리 쿼리문/ -->
   

@@ -37,6 +37,7 @@ public class MemberMentoringController {
 	
 	@GetMapping("/removeNoticeQuestion")
 	public String removeNoticeQuestion(@RequestParam(name="questionCode") String questionCode, @RequestParam(name="noticeCode") String noticeCode) {
+		
 		mentoringService.removeNoticeQuestion(questionCode);
 		
 		return "redirect:/mentoring/noticeDetail?noticeCode=" + noticeCode;
@@ -44,6 +45,7 @@ public class MemberMentoringController {
 	
 	@GetMapping("/removeNoticeAnswer")
 	public String removeNoticeAnswer(@RequestParam(name="answerCode") String answerCode, @RequestParam(name="noticeCode") String noticeCode) {
+		
 		mentoringService.removeNoticeAnswer(answerCode);
 		
 		return "redirect:/mentoring/noticeDetail?noticeCode=" + noticeCode;
@@ -51,6 +53,7 @@ public class MemberMentoringController {
 	
 	@PostMapping("/modifyAnswer")
 	public String modifyAnswer(NoticeAnswer noticeAnswer, @RequestParam(name="noticeCode")String noticeCode) {
+		
 		mentoringService.modifyAnswer(noticeAnswer);
 		
 		return "redirect:/mentoring/noticeDetail?noticeCode=" + noticeCode;
@@ -58,6 +61,7 @@ public class MemberMentoringController {
 	
 	@PostMapping("/modifyQuestion")
 	public String modifyQuestion(NoticeQuestion noticeQuestion, @RequestParam(name="noticeCode")String noticeCode) {
+		
 		mentoringService.modifyQuestion(noticeQuestion);
 		
 		return "redirect:/mentoring/noticeDetail?noticeCode=" + noticeCode;
@@ -65,6 +69,7 @@ public class MemberMentoringController {
 	
 	@GetMapping("/applyMenteeProfile")
 	public String getapplyMenteeProfile(HttpSession session, Model model) {
+		
 		String memberID = (String) session.getAttribute("SID");
 		List<MenteeProfile> menteeProfile = mentoringService.getApplyMenteeProfileById(memberID);
 		
@@ -93,6 +98,7 @@ public class MemberMentoringController {
 	
 	@GetMapping("/modifyNotice")
 	public String modifyNotice(@RequestParam(name="noticeCode") String noticeCode, Model model) {
+		
 		List<Topic> topicList = mentoringService.getTopicList();
     	model.addAttribute("topicList", topicList);
     	

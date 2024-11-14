@@ -176,6 +176,15 @@ public class MentorMypageController {
         return  "member/mypage/mentor/careerInfo/mentorMypageWorkModify";
     }
     
+    @GetMapping("/workRemove")
+    public String workRemove(@RequestParam(name="mentorFileNm")String mentorFileNm,
+    						@RequestParam(name="mentorWorkCode")String mentorWorkCode) {
+    	mentorMypageMapper.removeWorkByCode(mentorWorkCode);
+    	fileService.removeFileByCode(mentorFileNm);
+        return  "redirect:/mypage/mentor/account";
+    }
+    
+    
     @PostMapping("/projectAdd")
     public String AddProjectInfo(@RequestPart(name="files", required = false)MultipartFile multipartFile, MentorProject mentorProject) {
     	String fileCode = fileService.addFile(multipartFile);
@@ -213,6 +222,14 @@ public class MentorMypageController {
         return  "member/mypage/mentor/careerInfo/mentorMypageProjectModify";
     }
     
+    @GetMapping("/projectRemove")
+    public String projectRemove(@RequestParam(name="mentorFileNm")String mentorFileNm,
+    						@RequestParam(name="mentorProjectCode")String mentorProjectCode) {
+    	mentorMypageMapper.removeProjectByCode(mentorProjectCode);
+    	fileService.removeFileByCode(mentorFileNm);
+        return  "redirect:/mypage/mentor/account";
+    }
+    
     @PostMapping("/educationAdd")
     public String AddEducationInfo(@RequestPart(name="files", required = false)MultipartFile multipartFile, MentorEducation mentorEducation) {
     	String fileCode = fileService.addFile(multipartFile);
@@ -248,6 +265,14 @@ public class MentorMypageController {
         MentorEducation educationInfo= mentorMypageMapper.getMentorEducationByCode(mentorEducationCode);
         model.addAttribute("educationInfo", educationInfo);
         return  "member/mypage/mentor/careerInfo/mentorMypageEducationModify";
+    }
+    
+    @GetMapping("/educationRemove")
+    public String educationRemove(@RequestParam(name="mentorFileNm")String mentorFileNm,
+    						@RequestParam(name="mentorEducationCode")String mentorEducationCode) {
+    	mentorMypageMapper.removeEducationByCode(mentorEducationCode);
+    	fileService.removeFileByCode(mentorFileNm);
+        return  "redirect:/mypage/mentor/account";
     }
     
     @PostMapping("/certificateAdd")
@@ -293,4 +318,13 @@ public class MentorMypageController {
         
         return  "member/mypage/mentor/careerInfo/mentorMypageCertificateModify";
     }
+    
+    @GetMapping("/certificateRemove")
+    public String certificateRemove(@RequestParam(name="mentorFileNm")String mentorFileNm,
+    						@RequestParam(name="mentorCertificateCode")String mentorCertificateCode) {
+    	mentorMypageMapper.removeCertificateByCode(mentorCertificateCode);
+    	fileService.removeFileByCode(mentorFileNm);
+        return  "redirect:/mypage/mentor/account";
+    }
+    
 }
