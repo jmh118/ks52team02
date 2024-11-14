@@ -163,6 +163,12 @@ public class MenteeMypageController {
         return  "member/mypage/mentee/careerInfo/menteeMypageEducationModify";
     }
 	
+    @GetMapping("/educationRemove")
+    public String educationRemove(@RequestParam(name="menteeAcbgCode")String menteeAcbgCode) {
+    	menteeMypageMapper.removeEducationByCode(menteeAcbgCode);
+        return  "redirect:/mypage/mentee/account";
+    }
+    
     @PostMapping("/certificateAdd")
     public String addCertificateInfo(MenteeCertificate menteeCertificate) {
 		menteeMypageService.addCertificateInfo(menteeCertificate);
@@ -193,6 +199,12 @@ public class MenteeMypageController {
         model.addAttribute("certificateNm", certificateNm);
         
         return  "member/mypage/mentee/careerInfo/menteeMypageCertificateModify";
+    }
+    
+    @GetMapping("/certificateRemove")
+    public String certificateRemove(@RequestParam(name="menteeCtfcCode")String menteeCtfcCode) {
+    	menteeMypageMapper.removeCertificateByCode(menteeCtfcCode);
+        return  "redirect:/mypage/mentee/account";
     }
 	
     @PostMapping("/portfolioAdd")
@@ -232,7 +244,13 @@ public class MenteeMypageController {
         return  "member/mypage/mentee/careerInfo/menteeMypagePortfolioModify";
     }
     
-    
+    @GetMapping("/portfolioRemove")
+    public String portfolioRemove(@RequestParam(name="menteePtflFileNm")String menteePtflFileNm,
+    							@RequestParam(name="menteePtflCode")String menteePtflCode) {
+    	menteeMypageMapper.removePortfolioByCode(menteePtflCode);
+    	fileService.removeFileByCode(menteePtflFileNm);
+        return  "redirect:/mypage/mentee/account";
+    }
 	
 
     

@@ -51,7 +51,14 @@ public interface MentorMypageMapper {
 	int addCertificateInfo(MentorCertificate mentorCertificate);
 	//자격증의 이름,발급기관 체크박스
 	List<CertificateName> getCertificateInfoCode();
-	
+	//근무경력 코드로 삭제
+	int removeWorkByCode(String mentorWorkCode);
+	//기술경력 코드로 삭제
+	int removeProjectByCode(String mentorProjectCode);
+	//학력 코드로 삭제
+	int removeEducationByCode(String mentorEducationCode);
+	//자격증 코드로 삭제
+	int removeCertificateByCode(String mentorCertificateCode);
 	
 	
 	
