@@ -186,21 +186,47 @@ public class ManagerMemberController {
 	
 	
 	@GetMapping("/registeredMembers")
-    public String getMonthMember(Pageable pageable, Model model) {
+    public String getMonthMember(Pageable pageable, Model model, String keyword) {
     	System.out.println("한 달 내 신규회원 조회 페이지 이동");
-    	PageInfo<Member> monthMemberList = managerMemberService.getMonthMemberList(pageable);
+    	PageInfo<Member> monthMemberList = managerMemberService.getMonthMemberList(pageable, keyword);
     	model.addAttribute("monthMemberList", monthMemberList);
     	
         return  "manager/memberInfo/registeredMembers";
     }
+	
+	@GetMapping("/registeredMembersIdSearch")
+	public String registeredMembersIdSearch(@RequestParam(value = "keyword", required = false) String keyword,
+            					Pageable pageable, Model model) {
+		System.out.println("한 달 내 신규회원 조회 ID검색");
+		PageInfo<Member> memberPage = managerMemberService.getMonthMemberList(pageable, keyword);
+		PageInfo<Member> monthMemberList = managerMemberService.getMonthMemberList(pageable, keyword);
+		model.addAttribute("monthMemberList", memberPage.getContents());
+		model.addAttribute("pageInfo", memberPage);
+		model.addAttribute("monthMemberList", monthMemberList);
+		
+		return "manager/memberInfo/registeredMembers";
+	}
 
 	
 // 조회 only ▲ ---------------------------------------------------------------------------
 	
 	@GetMapping("/waitingForApproval")
-	public String waitingForApproval(Model model) {
+	public String waitingForApproval(Pageable pageable, Model model, String keyword) {
 		System.out.println("멘토 회원가입 승인 대기 내역 조회 페이지 이동");
-		List<Member> waitingForApprovalMentorList = managerMemberService.getWaitingForApprovalMentorList();
+		PageInfo<Member> waitingForApprovalMentorList = managerMemberService.getWaitingForApprovalMentorList(pageable, keyword);
+		model.addAttribute("waitingForApprovalMentorList", waitingForApprovalMentorList);
+		
+		return  "manager/memberInfo/waitingForApprovalList";
+	}
+	
+	@GetMapping("/waitingForApprovalIdSearch")
+	public String waitingForApprovalIdSearch(@RequestParam(value = "keyword", required = false) String keyword,
+											Pageable pageable, Model model) {
+		System.out.println("멘토 회원가입 승인 대기 내역 ID검색");
+		PageInfo<Member> memberPage = managerMemberService.getWaitingForApprovalMentorList(pageable, keyword);
+		PageInfo<Member> waitingForApprovalMentorList = managerMemberService.getWaitingForApprovalMentorList(pageable, keyword);
+		model.addAttribute("waitingForApprovalMentorList", memberPage.getContents());
+		model.addAttribute("pageInfo", memberPage);
 		model.addAttribute("waitingForApprovalMentorList", waitingForApprovalMentorList);
 		
 		return  "manager/memberInfo/waitingForApprovalList";
@@ -228,14 +254,27 @@ public class ManagerMemberController {
 	
 	
 	@GetMapping("/waitingForWithdrawal")
-    public String waitingForWithdrawal(Model model) {
+    public String waitingForWithdrawal(Pageable pageable, Model model, String keyword) {
     	System.out.println("회원탈퇴 신청 대기 내역 페이지 이동");
-        List<WithdrawalMember> waitingForWithDrawalList = managerMemberService.getWaitingForWithDrawalList();
+    	PageInfo<WithdrawalMember> waitingForWithDrawalList = managerMemberService.getWaitingForWithDrawalList(pageable, keyword);
         model.addAttribute("waitingForWithDrawalList", waitingForWithDrawalList);
     
         return  "manager/memberInfo/waitingForWithdrawalList";
 	}
 	
+	
+	@GetMapping("/waitingForWithdrawalIdSearch")
+    public String waitingForWithdrawalIdSearch(@RequestParam(value = "keyword", required = false) String keyword,
+    										Pageable pageable, Model model) {
+    	System.out.println("회원탈퇴 신청 대기 내역 ID검색");
+    	PageInfo<WithdrawalMember> memberPage = managerMemberService.getWaitingForWithDrawalList(pageable, keyword);
+    	PageInfo<WithdrawalMember> waitingForWithDrawalList = managerMemberService.getWaitingForWithDrawalList(pageable, keyword);
+        model.addAttribute("waitingForWithDrawalList", memberPage.getContents());
+        model.addAttribute("pageInfo", memberPage);
+        model.addAttribute("waitingForWithDrawalList", waitingForWithDrawalList);
+    
+        return  "manager/memberInfo/waitingForWithdrawalList";
+	}
 	
 	@PostMapping("/withdrawalApprove")
     @ResponseBody

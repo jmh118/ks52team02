@@ -36,8 +36,8 @@
                                 <div class="form-group col-lg-6">자격증 등급*
                                     <input type="text" name="menteeCtfcGrade" required placeholder="자격증 등급 *" th:value="*{menteeCtfcGrade}">
                                 </div>
-							<button class="submit submit-auto-width" type="submit">수정</button>
-							<button class="submit submit-auto-width" type="submit">삭제</button>
+							<button class="button rounded btn-md" type="submit">수정</button>
+							<a class="button rounded btn-md" th:href="@{/mypage/mentee/certificateRemove(menteeCtfcCode=*{menteeCtfcCode})}">삭제</a>
                         </form>
                     </div>
                 </div>

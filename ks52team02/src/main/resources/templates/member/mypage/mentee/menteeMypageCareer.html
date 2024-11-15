@@ -22,6 +22,7 @@
 								<th>학교명</th>
 								<th>학과</th>
 								<th>학점</th>
+								<th>수정&삭제</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -29,7 +30,7 @@
 								<td th:text="${e.menteeSchoolNm}"></td>
 								<td th:text="${e.menteeMajorNm}"></td>
 								<td th:text="${e.menteeSchoolCd}"></td>
-								<td><a th:href="@{/mypage/mentee/educationModify(menteeAcbgCode = ${e.menteeAcbgCode})}" class="btn-small d-block">수정</a></td>
+								<td><a th:href="@{/mypage/mentee/educationModify(menteeAcbgCode = ${e.menteeAcbgCode})}" class="btn-small d-block">수정&삭제</a></td>
 							</tr>
 						</tbody>
 					</table>
@@ -50,6 +51,7 @@
 								<th>발급기관</th>
 								<th>자격증 등급</th>
 								<th>자격증 발급일</th>
+								<th>수정&삭제</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -58,7 +60,7 @@
 								<td th:text="${c.certificateName.institutionNm}"></td>
 								<td th:text="${c.menteeCtfcGrade}"></td>
 								<td th:text="${c.menteeCtfcDate}"></td>
-								<td><a th:href="@{/mypage/mentee/certificateModify(menteeCtfcCode = ${c.menteeCtfcCode})}" class="btn-small d-block">수정</a></td>
+								<td><a th:href="@{/mypage/mentee/certificateModify(menteeCtfcCode = ${c.menteeCtfcCode})}" class="btn-small d-block">수정&삭제</a></td>
 							</tr>
 						</tbody>
 					</table>
@@ -78,6 +80,7 @@
 								<th>포트폴리오 제목</th>
 								<th>내용</th>
 								<th>등록일</th>
+								<th>수정&삭제</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -85,7 +88,7 @@
 								<td th:text="${p.menteePtflTitle}"></td>
 								<td th:text="${p.menteePtflCtnt}"></td>
 								<td th:text="${p.menteePtflRgstDate}"></td>
-								<td><a th:href="@{/mypage/mentee/portfolioModify(menteePtflCode = ${p.menteePtflCode})}" class="btn-small d-block">수정</a></td>
+								<td><a th:href="@{/mypage/mentee/portfolioModify(menteePtflCode = ${p.menteePtflCode})}" class="btn-small d-block">수정&삭제</a></td>
 							</tr>
 						</tbody>
 					</table>

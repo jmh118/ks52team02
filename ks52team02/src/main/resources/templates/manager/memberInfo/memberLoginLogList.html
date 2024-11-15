@@ -7,10 +7,20 @@
 		// 쿼리에서 가져온 값으로 option 고정
 		document.addEventListener("DOMContentLoaded", function() {
 		    const urlParams = new URLSearchParams(window.location.search);
+		    const keyLoginCodeValue = urlParams.get('keyLoginCode');
+		    const keyIdValue = urlParams.get('keyId');
 		    const selectedValue = urlParams.get('memberLevelCate');
 		    const startDateValue = urlParams.get('loginLogStartDate');
 		    const endDateValue = urlParams.get('loginLogEndDate');
 
+		    if (keyLoginCodeValue) {
+		        const select = document.querySelector('.keyLoginCode');
+		        select.value = keyLoginCodeValue;
+		    }
+		    if (keyIdValue) {
+		        const select = document.querySelector('.keyId');
+		        select.value = keyIdValue;
+		    }
 		    if (selectedValue) {
 		        const select = document.querySelector('.memberLevelCate');
 		        select.value = selectedValue;
@@ -78,11 +88,11 @@
                                 <form  method="get" th:action="@{/manager/member/loginLogSearch}">
                                     <div class="mb-4">
                                         <label for="order_id" class="form-label">로그인 로그 코드</label>
-                                        <input type="text" placeholder="Type here" class="form-control" id="order_id" name="keyLoginCode"/>
+                                        <input type="text" placeholder="Type here" class="form-control keyLoginCode" name="keyLoginCode"/>
                                     </div>
                                     <div class="mb-4">
                                         <label for="order_customer" class="form-label">회원아이디</label>
-                                        <input type="text" placeholder="Type here" class="form-control" id="order_customer" name="keyId" />
+                                        <input type="text" placeholder="Type here" class="form-control keyId" name="keyId" />
                                     </div>
                                     <div class="mb-4">
                                         <label class="form-label">회원권한</label>

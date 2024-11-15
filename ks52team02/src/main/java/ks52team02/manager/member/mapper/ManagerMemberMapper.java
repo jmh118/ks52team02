@@ -42,7 +42,7 @@ public interface ManagerMemberMapper {
 	// 관리자 - 탈퇴 회원 조회
 	// 관리자 - 탈퇴 회원 수 조회
 	List<WithdrawalMember> getWithdrawalMemberList(Map<String, Object> paramMap);
-	int getWithdrawalMemberListCount(String keyword);
+	int getWithdrawalMemberCount(String keyword);
 
 	
 	// 관리자 - 회원탈퇴 승인
@@ -66,11 +66,13 @@ public interface ManagerMemberMapper {
 	// 관리자 - 한 달 내 가입한 멤버 조회
 	// 관리자 - 한 달 내 가입한 멤버 수 조회
 	List<Member> getMonthMemberList(Map<String, Object> paramMap);
-	int getMonthMemberListCount();
+	int getMonthMemberListCount(String keyword);
 
 	
 	// 관리자 - 탈퇴 대기 회원 조회
-	List<WithdrawalMember> getWaitingForWithDrawalList();
+	// 관리자 - 탈퇴 대기 회원수 조회
+	List<WithdrawalMember> getWaitingForWithDrawalList(Map<String, Object> paramMap);
+	int getWaitingForWithDrawalListCount(String keyword);
 
 	
 	// ID로 특정 회원 정보 조회
@@ -82,7 +84,9 @@ public interface ManagerMemberMapper {
 	
 	
 	// 승인 요청 멘토 조회
-	List<Member> getWaitingForApprovalMentorList();
+	// 승인 요청 멘토 수 조회
+	List<Member> getWaitingForApprovalMentorList(Map<String, Object> paramMap);
+	int getWaitingForApprovalMentorCount(String keyword);
 
 	
 	// 멘토 요청 승인/반려

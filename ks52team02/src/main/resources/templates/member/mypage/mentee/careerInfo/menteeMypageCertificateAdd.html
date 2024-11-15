@@ -1,6 +1,30 @@
 ﻿<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{member/layouts/layout}">
+	
+	<th:block layout:fragment="customJs">
+		<script>
+			
+		 	$('.submitBtn').click(function(){
+		 		let isSubmit = true;
+				const $formVlue = $('#addCertificate input') ;
+				
+				$formVlue.each((index, item)=>{
+					const value = $(item).val();
+					if(!value){
+						const cate = $(item).attr('placeholder');
+						const msg = `${cate} <- 필수 입력항목입니다.`;
+						alert(msg);
+						$(item).focus();
+						isSubmit = false;
+						return false;
+					}
+				});
+				if(isSubmit) $('#addCertificate').submit();
+			}) 
+		</script>
+	</th:block>
+	
     <!--/* 기존 class는 main pages...  pages 누락 시 문제 없음
     	<main class="main pages"layout:fragment="content"> */-->	
     <th:block layout:fragment="customContent">
@@ -14,11 +38,10 @@
                 <div class="col-lg-7">
                     <div class="row">
                         <h3 class="mb-30">등록</h3>
-                        <form method="post" th:action="@{/mypage/mentee/certificateAdd}">
+                        <form id="addCertificate" method="post" th:action="@{/mypage/mentee/certificateAdd}">
                         		<input class="form-control" name="menteeId" type="hidden" th:value="${session.SID}"/>
                                 <div class="form-group col-lg-6">자격증명*
 	                                <select class="form-select" name="menteeCtfcNm">
-										<option value=""> ================== </option>
 										<th:block>
 											<option th:each="cic : ${certificateNameCode}" th:value="${cic.nameCode}" th:text="${cic.certificateNm}"></option>
 										</th:block>
@@ -26,7 +49,6 @@
 								</div>
 								<div class="form-group col-lg-6">발급기관명*
 	                                <select class="form-select" name="menteeCtfcIstt">
-										<option> ================== </option>
 										<th:block>
 											<option th:each="cic : ${certificateNameCode}" th:value="${cic.institutionCode}" th:text="${cic.institutionNm}"></option>
 										</th:block>
@@ -38,7 +60,7 @@
                                 <div class="form-group col-lg-6">
                                     <input type="text" name="menteeCtfcGrade" required placeholder="자격증 등급 *">
                                 </div>
-							<button class="submit submit-auto-width" type="submit">추가</button>
+							<button class="submit submit-auto-width submitBtn" type="button">추가</button>
                         </form>
                     </div>
                 </div>
