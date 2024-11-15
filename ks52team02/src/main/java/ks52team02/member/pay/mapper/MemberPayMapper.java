@@ -9,7 +9,6 @@ import ks52team02.manager.pay.dto.PaymentSettlement;
 import ks52team02.member.pay.dto.BeforePay;
 import ks52team02.member.pay.dto.MentoringData;
 import ks52team02.member.pay.dto.Pay;
-import ks52team02.page.PageInfo;
 
 @Mapper
 public interface MemberPayMapper {
