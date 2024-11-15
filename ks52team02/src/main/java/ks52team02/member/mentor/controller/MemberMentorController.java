@@ -34,7 +34,7 @@ public class MemberMentorController {
 	@GetMapping("/listMentorIdSearch") 
 	public String listMentorIdSearch(@RequestParam(value = "keyId", required = false) String keyId,
             						Pageable pageable, Model model) {
-		System.out.println("멘토찾기 | 멘토 조회 화면");
+		System.out.println("멘토찾기 | 멘토 조회 화면 - ID검색");
 		PageInfo<Member> memberPage = memberMentorService.getMentorList(pageable, keyId);
 		PageInfo<Member> mentorList = memberMentorService.getMentorList(pageable, keyId);
 		model.addAttribute("mentorList", memberPage.getContents());
