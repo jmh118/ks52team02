@@ -1,7 +1,5 @@
 package ks52team02.member.review.controller;
 
-
-
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
