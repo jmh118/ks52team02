@@ -26,7 +26,7 @@ public class MemberMentorServiceImpl implements MemberMentorService {
 	public PageInfo<Member> getMentorList(Pageable pageable, String keyId) {
 		int rowCnt = memberMentorMapper.getMentorListCount(keyId);
 		Map<String, Object> paramMap = new HashMap<String, Object>();
-		pageable.setRowPerPage(20);
+		pageable.setRowPerPage(12);
 		paramMap.put("rowPerPage", pageable.getRowPerPage());
 		paramMap.put("offset", pageable.getOffset());
 		paramMap.put("keyId", keyId);
