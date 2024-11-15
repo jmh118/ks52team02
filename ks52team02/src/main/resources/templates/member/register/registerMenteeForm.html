@@ -5,7 +5,6 @@
 			
 	<th:block layout:fragment="customJs">		
  	<script>	
-					
 			// 회원 ID 중복여부 검사
 			$('#memberId').change(function(){
 					$('#registerMenteeForm input').not('#memberId').prop('disabled', true);
@@ -68,20 +67,31 @@
 			// 필수 항목 점검
 					$formControl.each((index, item)=>{
 						const value = $(item).val();
-						if(!value){
+						// 필수 입력 및 공백 점검
+						if(!value || !$.trim(value)) {
 							const cate = $(item).attr('placeholder');
-							const msg = `${cate}는 필수 입력항목입니다.`;
+							const msg = `${cate}은(는) 필수 입력항목입니다.`;
 							alert(msg);
 							$(item).focus();
 							isSubmit = false;
 							return false;
-						}
+							
+						// 값에 공백이 포함된 경우 점검
+						} else if (value.includes(' ')) {
+					        const cate = $(item).attr('placeholder');
+					        const msg = `${cate}에는 공백을 포함할 수 없습니다.`;
+					        alert(msg);
+					        $(item).focus();
+					        isSubmit = false;
+					        return false;
+					    }
 					});
 					
 					
 			// 비밀번호 확인
 					const $memberPw = $('#memberPw').val();
 					const $checkMemberPw = $('#checkMemberPw').val();
+					const PwChar = /[^A-Za-z0-9!@#$%]/;
 					
 					// 최소 비밀번호 길이 충족
 					const memberPwLength = $('#memberPw').val().length;
@@ -102,6 +112,23 @@
 					    return false;
 					}
 					
+					// 영문 및 숫자, 특수문자 !@#$% 만 비밀번호로 설정할 수 있도록 함.
+					if(PwChar.test($memberPw)){
+						alert('비밀번호는 영문 및 숫자, 특수문자 !, @, #, $, %만 사용 가능합니다.');
+						$('#memberPw').focus();
+						return ;
+					}
+					
+			// 연락처 포맷 설정
+			const $memberTelNo = $('#memberTelNo').val();
+			const phoneFormat = /^[0-9]{3}-[0-9]{4}-[0-9]{4}$/;
+			
+				if(!phoneFormat.test($memberTelNo)){
+					alert('연락처는 000-0000-0000의 형식으로 작성해 주세요.');
+					$('#memberTelNo').focus();
+					return ;
+				}
+				
 			// 필수 동의 항목 체크
 					const $registerBasicTermCheckbox = $('#registerBasicTermCheckbox').prop('checked');
 					
@@ -119,7 +146,6 @@
 				});
 				
 		</script>
-		
 		
 	</th:block>
     
@@ -142,12 +168,12 @@
                             <!-- form-group// -->
 							<div class="mb-4">
                                 <label class="form-label" for="memberPw">회원 비밀번호 (6자리 이상으로 설정해주세요) *</label>
-                                <input class="form-control" id="memberPw" name="memberPw" placeholder="Password" type="text" disabled="disabled" />
+                                <input class="form-control" id="memberPw" name="memberPw" placeholder="Password" type="Password" disabled="disabled" maxlength='13'/>
                             </div>
                             <!-- form-group// -->
 							<div class="mb-4">
                                 <label class="form-label" for="checkMemberPw">비밀번호 확인 *</label>
-                                <input class="form-control" id="checkMemberPw" name="checkMemberPw" placeholder="비밀번호 확인" type="text" disabled="disabled"/>
+                                <input class="form-control" id="checkMemberPw" name="checkMemberPw" placeholder="비밀번호 확인" type="Password" disabled="disabled" maxlength='13'/>
                             </div>
                             <!-- form-group// -->
 							<div class="mb-4">
@@ -168,7 +194,7 @@
                             </div>
                             <!-- form-group// -->									
                             <div class="mb-4">
-                                <label class="form-label" for="memberTelNo">연락처 *</label>
+                                <label class="form-label" for="memberTelNo">연락처 (000-0000-0000의 형식으로 작성해 주세요)*</label>
                                 <div class="row gx-2">
                                     <div class="col-12"><input class="form-control" id="memberTelNo" name="memberTelNo" placeholder="Phone" type="text" disabled="disabled" /></div>
                                 </div>

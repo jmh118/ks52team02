@@ -48,6 +48,19 @@
 	    </association>
 	</resultMap>
 	
+	<select id="getMonthlyPaymentCnt" resultType="map">
+		/* 월별 결제 건수 조회*/
+		SELECT 
+		    MONTH(settlement_day) AS month,
+		    COUNT(mentee_settlement_mentor_calculation_code) AS settlement_count
+		FROM 
+		    mentee_settlement_mentor_calculation
+		GROUP BY 
+		    MONTH(settlement_day)
+		ORDER BY 
+		    month;
+	</select>
+	
 	<select id="getFlatformCalAmount" resultType="int">
 		/* 총 수익 금액 조회 */
 		SELECT

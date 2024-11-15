@@ -4,6 +4,33 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ks52team02.manager.member.mapper.ManagerMemberMapper">
 
+	<select id="getMonthlyLoginCnt" resultType="map">
+		/* 월별 로그인이력 건수 조회*/
+		SELECT 
+		    MONTH(member_login_YMD) AS month,
+		    COUNT(login_log_code) AS loginCnt
+		FROM 
+		    member_login_log
+		GROUP BY 
+		    MONTH(member_login_YMD)
+		ORDER BY 
+		    month;
+	</select>
+
+	<select id="getMonthlyRegisterCnt" resultType="map">
+		/* 월별 회원가입 건수 조회*/
+		SELECT 
+		    MONTH(member_join_YMD) AS month,
+		    COUNT(member_id) AS memberCnt
+		FROM 
+		    `member`
+		GROUP BY 
+		    MONTH(member_join_YMD)
+		ORDER BY 
+		    month;
+
+	</select>
+
 	<select id="getAllMemberCnt" resultType="int">
 		/* 전체 (가입 중인) 회원 수 조회 */
 		SELECT 
@@ -41,7 +68,7 @@
 		LIMIT #{rowPerPage} OFFSET #{offset};
 	</select>
 	
-	<select id="getMemberListCount" resultType="int">
+	<select id="getMemberListCount" parameterType="map" resultType="int">
 		/* 관리자 - 전체 회원 수 조회 */
 		SELECT
 			COUNT(*)
@@ -71,6 +98,9 @@
 			m.member_level_code=ml.member_level_code
 		WHERE
 			member_withdrawal_YN = 'N'
+	    <if test="keyword != null and keyword != ''">
+    		AND (member_id LIKE CONCAT('%', #{keyword}, '%'))
+		</if>
 		LIMIT #{rowPerPage} OFFSET #{offset};
 	</select>
 	
@@ -107,6 +137,9 @@
 			mwa.member_level_code=ml.member_level_code
 		WHERE
 			member_withdrawal_YN = 'Y'
+		<if test="keyword != null and keyword != ''">
+    		AND (withdrawal_member_id LIKE CONCAT('%', #{keyword}, '%'))
+		</if>
 		ORDER BY
 			mwa.withdrawal_approval_YMD desc
 		LIMIT #{rowPerPage} OFFSET #{offset};
@@ -153,6 +186,9 @@
 		WHERE
 			DATEDIFF(NOW(), mll.member_login_YMD)>=183 AND
 			m.member_withdrawal_YN = 'N'
+		<if test="keyword != null and keyword != ''">
+    		AND (m.member_id LIKE CONCAT('%', #{keyword}, '%'))
+		</if>
 		GROUP BY memberId
 		ORDER BY mll.member_login_YMD desc
 		LIMIT #{rowPerPage} OFFSET #{offset};
@@ -182,7 +218,23 @@
 			member m
 			ON
 			mll.member_id=m.member_id
-			
+		<where>
+	        <if test="keyId != null and keyId != ''">
+	          AND m.member_id LIKE CONCAT('%', #{keyId}, '%')
+	        </if>
+	        <if test="keyLoginCode != null and keyLoginCode != ''">
+	          AND mll.login_log_code LIKE CONCAT('%', #{keyLoginCode}, '%')
+	        </if>
+	        <if test="memberLevelCate != null and memberLevelCate != ''">
+	          AND m.member_level_code LIKE CONCAT('%', #{memberLevelCate}, '%')
+	        </if>
+	        <if test="loginLogStartDate != null and loginLogStartDate != ''">
+	          AND mll.member_login_YMD >= #{loginLogStartDate}
+	        </if>
+	        <if test="loginLogEndDate != null and loginLogEndDate != ''">
+	          AND mll.member_login_YMD &lt;= #{loginLogEndDate}
+	        </if>
+	    </where>
 		ORDER BY mll.member_login_YMD desc
 		LIMIT #{rowPerPage} OFFSET #{offset};
 	</select>
@@ -202,6 +254,9 @@
 			m.member_level_code=ml.member_level_code
 		WHERE
 			DATEDIFF(NOW(), m.member_join_YMD)&lt;=31
+		<if test="keyword != null and keyword != ''">
+	        AND m.member_id LIKE CONCAT('%', #{keyword}, '%')
+	    </if>
 		ORDER BY
 			m.member_join_YMD DESC
 		LIMIT #{rowPerPage} OFFSET #{offset};
@@ -229,6 +284,22 @@
 			ml.member_level_name AS withdrawalMemberLevel,
 			mwa.withdrawal_member_id AS withdrawalMemberId,
 			mwa.withdrawal_demand_YMD AS withdrawalDemandYMD
+		FROM
+			member_withdrawal_apply mwa
+			LEFT JOIN
+			member_level ml
+			ON
+			mwa.member_level_code=ml.member_level_code
+		WHERE
+			mwa.withdrawal_approval_YN='N'
+		<if test="keyword != null and keyword != ''">
+	        AND mwa.withdrawal_member_id LIKE CONCAT('%', #{keyword}, '%')
+	    </if>;
+	</select>
+	
+	<select id="getWaitingForWithDrawalListCount" resultType="int">
+		SELECT
+			COUNT(*)
 		FROM
 			member_withdrawal_apply mwa
 			LEFT JOIN
@@ -295,6 +366,23 @@
 			m.member_join_YMD AS memberJoinYMD,
 			maa.mentor_join_approval_YN AS mentorApprovalStatus,
 			maa.mentor_approval_or_reject_reason AS mentorApprovalReason
+		FROM
+			mentor_authority_approval maa
+			LEFT JOIN
+			member m
+			ON
+			maa.member_id=m.member_id
+		WHERE
+			maa.mentor_join_approval_YN = '승인요청상태' 
+		<if test="keyword != null and keyword != ''">
+	        AND m.member_id LIKE CONCAT('%', #{keyword}, '%')
+	    </if>
+			AND m.member_withdrawal_YN = 'N';
+	</select>
+	
+	<select id="getWaitingForApprovalMentorCount" resultType="int">
+		SELECT
+			COUNT(*)
 		FROM
 			mentor_authority_approval maa
 			LEFT JOIN

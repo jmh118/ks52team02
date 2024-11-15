@@ -7,7 +7,7 @@ import ks52team02.page.Pageable;
 public interface ManagerReviewService {
 	
 	// 멘토링 후기 삭제
-	void removeReview(String reviewCode);
+	int removeReview(String reviewCode);
 	
 	// 전체 후기 조회
 	PageInfo<Review> getAllMentoringReviewList(Pageable pageable);

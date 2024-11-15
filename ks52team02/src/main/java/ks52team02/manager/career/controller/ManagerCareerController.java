@@ -100,14 +100,16 @@ public class ManagerCareerController {
     }
 	
 	@GetMapping("/workCheck")
-    public String workCheck(@RequestParam(name="mentorCode") String mentorCode,
+    @ResponseBody
+	public boolean workCheck(@RequestParam(name="mentorCode") String mentorCode,
     						@RequestParam(name="managerId") String managerId) {
 		Work workCheck = new Work();
 		workCheck.setMentorCode(mentorCode);
 		workCheck.setManagerId(managerId);
-		careerMapper.checkWorkByFileNm(workCheck);
-        
-        return "redirect:/manager/career/work";
+		boolean result = false; 
+		int resCheck = careerMapper.checkWorkByFileNm(workCheck);
+        if(resCheck > 0) result = true;
+        return result;
 	}
 	/*
 	 * @GetMapping("/workYn") public String

@@ -2,8 +2,6 @@ package ks52team02.member.pay.controller;
 
 import java.util.List;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +15,7 @@ import com.siot.IamportRestClient.IamportClient;
 import com.siot.IamportRestClient.response.IamportResponse;
 import com.siot.IamportRestClient.response.Payment;
 
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import ks52team02.manager.pay.dto.PaymentSettlement;
 import ks52team02.member.pay.dto.BeforePay;
@@ -137,14 +136,16 @@ public class MemberPayController {
 	}
 	
 	@PostMapping("/process")
-	public ResponseEntity<String> handlePayment(@RequestBody PaymentRequest paymentRequest, HttpSession session) {
-		
-		log.info("Received impUid: {}", paymentRequest.getImpUid());
+	@ResponseBody
+	public String handlePayment(@RequestBody PaymentRequest paymentRequest, HttpServletResponse response, HttpSession session) {
+
+	    log.info("Received impUid: {}", paymentRequest.getImpUid());
 	    log.info("Received totalAmount: {}", paymentRequest.getTotalAmount());
 	    log.info("Received mentoringData: {}", paymentRequest.getMentoringData());
-		
+
 	    if (paymentRequest.getImpUid() == null || paymentRequest.getImpUid().isEmpty()) {
-	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("imp_uid가 누락되었습니다.");
+	        response.setStatus(HttpServletResponse.SC_BAD_REQUEST); // 400 상태 코드 설정
+	        return "imp_uid가 누락되었습니다.";
 	    }
 
 	    try {
@@ -155,19 +156,23 @@ public class MemberPayController {
 	            if (paymentData.getAmount().intValue() == paymentRequest.getTotalAmount()) {
 	                int result = memberPayService.addPay(paymentRequest.getMentoringData());
 	                log.info("디비 등록 결과 : {}", result);
-	                return ResponseEntity.ok("결제 완료 및 데이터 저장 완료");
+	                response.setStatus(HttpServletResponse.SC_OK); // 200 상태 코드 설정
+	                return "결제 완료 및 데이터 저장 완료";
 	            } else {
 	                log.error("결제 금액 불일치: 요청 금액 {} != 실제 결제 금액 {}", paymentRequest.getTotalAmount(), paymentData.getAmount());
-	                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("결제 금액 불일치");
+	                response.setStatus(HttpServletResponse.SC_BAD_REQUEST); // 400 상태 코드 설정
+	                return "결제 금액 불일치";
 	            }
 	        } else {
 	            log.error("유효하지 않은 결제 데이터");
-	            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("유효하지 않은 결제 데이터");
+	            response.setStatus(HttpServletResponse.SC_BAD_REQUEST); // 400 상태 코드 설정
+	            return "유효하지 않은 결제 데이터";
 	        }
 
 	    } catch (Exception e) {
 	        log.error("결제 검증 실패", e);
-	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("결제 검증 실패");
+	        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR); // 500 상태 코드 설정
+	        return "결제 검증 실패";
 	    }
 	}
 	

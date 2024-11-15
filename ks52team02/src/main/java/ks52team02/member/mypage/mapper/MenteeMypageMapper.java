@@ -47,4 +47,10 @@ public interface MenteeMypageMapper {
 	MenteePortfolio getPortfolioCode(String menteePtflCode);
 	//코드로 포트폴리오 수정
 	int modifyPortfolioInfo(MenteePortfolio menteePortfolio);
+	//학력 삭제
+	int removeEducationByCode(String menteeAcbgCode);
+	//자격증 삭제
+	int removeCertificateByCode(String menteeCtfcCode);
+	//포트폴리오 삭제
+	int removePortfolioByCode(String menteePtflCode);
 }

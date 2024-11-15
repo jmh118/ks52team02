@@ -28,8 +28,8 @@
                                 	<span><input type="file" name="files" multiple></span>
                                 	<span><a th:href="@{/mypage/mentee/download(menteePtflFileNm=*{menteePtflFileNm})}">등록되어 있는 파일확인 (다운로드)</a></span>
 							  	</div>
-							<button class="submit submit-auto-width" type="submit">수정</button>
-							<button class="submit submit-auto-width" type="submit">삭제</button>
+							<button class="button rounded btn-md" type="submit">수정</button>
+							<a class="button rounded btn-md" th:href="@{/mypage/mentee/portfolioRemove(menteePtflFileNm=*{menteePtflFileNm}, menteePtflCode=*{menteePtflCode})}">삭제</a>
                         </form>
                     </div>
                 </div>

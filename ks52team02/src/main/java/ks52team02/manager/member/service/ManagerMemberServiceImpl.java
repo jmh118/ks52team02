@@ -6,9 +6,9 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.Model;
 
 import ks52team02.common.mapper.CommonMapper;
+import ks52team02.common.util.MonthlyCountUtil;
 import ks52team02.manager.member.dto.LoginLog;
 import ks52team02.manager.member.dto.Member;
 import ks52team02.manager.member.dto.MentorApproval;
@@ -27,47 +27,70 @@ public class ManagerMemberServiceImpl implements ManagerMemberService {
 
 	private final ManagerMemberMapper managerMemberMapper;
 	private final CommonMapper withdrawalCommonMapper;
+	private final MonthlyCountUtil monthlyCountUtil;
 	
+	@Override
+	public List<Integer> getMonthlyLoginCounts() {
+		List<Map<String, Object>> resultList = managerMemberMapper.getMonthlyLoginCnt();
+		return monthlyCountUtil.getMonthlyCounts(resultList, "month", "loginCnt");
+	}
+	
+	@Override
+	public List<Integer> getMonthlyRegisterCounts() {
+		 List<Map<String, Object>> resultList = managerMemberMapper.getMonthlyRegisterCnt();
+		 return monthlyCountUtil.getMonthlyCounts(resultList, "month", "memberCnt");
+	}
 	 
 	@Override
-	public PageInfo<Member> getMemberList(Pageable pageable) {
-		int rowCnt = managerMemberMapper.getMemberListCount();
+	public PageInfo<Member> getMemberList(Pageable pageable, String keyword) {
+		int rowCnt = managerMemberMapper.getMemberListCount(keyword);
+		pageable.setRowPerPage(15);
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("rowPerPage", pageable.getRowPerPage());
 		paramMap.put("offset", pageable.getOffset());
-		// paramMap.put("category",category); <- 검색기능 추가
+		paramMap.put("keyword", keyword);
 		List<Member> contents = managerMemberMapper.getMemberList(paramMap);
 		return new PageInfo<>(contents, pageable, rowCnt);
 	}
 
 	@Override
-	public PageInfo<WithdrawalMember> getWithdrawalMemberList(Pageable pageable) {
-		int rowCnt = managerMemberMapper.getWithdrawalMemberListCount();
+	public PageInfo<WithdrawalMember> getWithdrawalMemberList(Pageable pageable, String keyword) {
+		int rowCnt = managerMemberMapper.getWaitingForWithDrawalListCount(keyword);
+		pageable.setRowPerPage(15);
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("rowPerPage", pageable.getRowPerPage());
 		paramMap.put("offset", pageable.getOffset());
+		paramMap.put("keyword", keyword);
 		List<WithdrawalMember> contents = managerMemberMapper.getWithdrawalMemberList(paramMap);
 		
 		return new PageInfo<>(contents, pageable, rowCnt);
 	}
 
 	@Override
-	public PageInfo<Member> getDormantMemberList(Pageable pageable) {
-		int rowCnt  = managerMemberMapper.getDormantMemberListCount();
+	public PageInfo<Member> getDormantMemberList(Pageable pageable, String keyword) {
+		int rowCnt  = managerMemberMapper.getDormantMemberListCount(keyword);
+		pageable.setRowPerPage(15);
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("rowPerPage", pageable.getRowPerPage());
 		paramMap.put("offset", pageable.getOffset());
+		paramMap.put("keyword", keyword);
 		List<Member> contents = managerMemberMapper.getDormantMemberList(paramMap);
 		
 		return new PageInfo<>(contents, pageable, rowCnt);
 	}
 	
 	@Override
-	public PageInfo<LoginLog> getLoginLog(Pageable pageable){
-		int rowCnt = managerMemberMapper.getLoginLogCount();
+	public PageInfo<LoginLog> getLoginLog(Pageable pageable, String keyId, String keyLoginCode, String memberLevelCate, String loginLogStartDate, String loginLogEndDate){
+		int rowCnt = managerMemberMapper.getLoginLogCount(keyId, keyLoginCode, memberLevelCate, loginLogStartDate, loginLogEndDate);
+		pageable.setRowPerPage(15);
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("rowPerPage", pageable.getRowPerPage());
 		paramMap.put("offset", pageable.getOffset());
+		paramMap.put("keyId", keyId);
+		paramMap.put("keyLoginCode", keyLoginCode);
+		paramMap.put("memberLevelCate", memberLevelCate);
+		paramMap.put("loginLogStartDate", loginLogStartDate);
+		paramMap.put("loginLogEndDate", loginLogEndDate);
 		List<LoginLog> contents = managerMemberMapper.getLoginLog(paramMap);
 		
 		return new PageInfo<>(contents, pageable, rowCnt);
@@ -86,23 +109,30 @@ public class ManagerMemberServiceImpl implements ManagerMemberService {
 
 
 	@Override
-	public PageInfo<Member> getMonthMemberList(Pageable pageable) {
-		int rowCnt = managerMemberMapper.getMonthMemberListCount();
+	public PageInfo<Member> getMonthMemberList(Pageable pageable, String keyword) {
+		int rowCnt = managerMemberMapper.getMonthMemberListCount(keyword);
 		pageable.setRowPerPage(12);
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("rowPerPage", pageable.getRowPerPage());
 		paramMap.put("offset", pageable.getOffset());
-		
+		paramMap.put("keyword", keyword);
 		List<Member> contents = managerMemberMapper.getMonthMemberList(paramMap);
 
 		return new PageInfo<>(contents, pageable, rowCnt);
 	}
 
 	@Override
-	public List<WithdrawalMember> getWaitingForWithDrawalList() {
-		List<WithdrawalMember> waitingForWithDrawalList = managerMemberMapper.getWaitingForWithDrawalList();
+	public PageInfo<WithdrawalMember> getWaitingForWithDrawalList(Pageable pageable, String keyword) {
+		int rowCnt = managerMemberMapper.getWaitingForWithDrawalListCount(keyword);
+		pageable.setRowPerPage(15);
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("rowPerPage", pageable.getRowPerPage());
+		paramMap.put("offset", pageable.getOffset());
+		paramMap.put("keyword", keyword);
 		
-		return waitingForWithDrawalList;
+		List<WithdrawalMember> contents = managerMemberMapper.getWaitingForWithDrawalList(paramMap);
+		
+		return new PageInfo<>(contents, pageable, rowCnt);
 	}
 
 	@Override
@@ -118,10 +148,16 @@ public class ManagerMemberServiceImpl implements ManagerMemberService {
 	}
 
 	@Override
-	public List<Member> getWaitingForApprovalMentorList() {
-		List<Member> waitingForApprovalMentorList = managerMemberMapper.getWaitingForApprovalMentorList();
+	public PageInfo<Member> getWaitingForApprovalMentorList(Pageable pageable, String keyword) {
+		int rowCnt = managerMemberMapper.getWaitingForApprovalMentorCount(keyword);
+		pageable.setRowPerPage(15);
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("rowPerPage", pageable.getRowPerPage());
+		paramMap.put("offset", pageable.getOffset());
+		paramMap.put("keyword", keyword);
+		List<Member> contents = managerMemberMapper.getWaitingForApprovalMentorList(paramMap);
 		
-		return waitingForApprovalMentorList;
+		return new PageInfo<>(contents, pageable, rowCnt);
 	}
 	
 

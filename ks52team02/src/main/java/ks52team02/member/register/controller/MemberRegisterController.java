@@ -19,7 +19,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -33,8 +32,6 @@ import ks52team02.files.mapper.FileMapper;
 import ks52team02.files.service.FileService;
 import ks52team02.manager.member.dto.Member;
 import ks52team02.manager.member.dto.MentorApproval;
-import ks52team02.member.mypage.dto.MentorWork;
-import ks52team02.member.register.dto.MentorRegisterData;
 import ks52team02.member.register.mapper.MemberRegisterMapper;
 import ks52team02.member.register.service.MemberRegisterService;
 import lombok.RequiredArgsConstructor;
@@ -137,18 +134,15 @@ public class MemberRegisterController {
 	
 
 	  @PostMapping("/mentor")
-	  public String registerMentor(@RequestPart(name="files", required = false) 
+	  public String registerMentor(@RequestPart(name="registerFiles", required = false) 
 	  								MultipartFile multipartFile, 
 	  								MentorApproval mentorApproval, 
-	  								Member member, 
-	  								MentorWork mentorWork) { 
-		  // log.info("mentorRegisterData ################ : {}", mentorRegisterData);
-		  String fileCode = fileService.addFile(multipartFile);
+	  								@RequestParam(name="hiddenMemberId") String memberId) { 
+		  System.out.println("멘토 회원가입");
+
+		  mentorApproval.setMemberId(memberId);
+		  fileService.addFile(multipartFile);
 		  memberRegisterService.mentorPreRegister(mentorApproval);
-		  memberRegisterService.registerAddWorkInfo(mentorWork);
-		  memberRegisterMapper.register(member); mentorWork.setMentorFileNm(fileCode);
-		  
-//		  System.out.println("멘토 회원가입");
 		  
 		  return "redirect:/member"; 
 	  }

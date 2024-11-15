@@ -15,6 +15,8 @@
 					$('#duplicateIdCheckBtn').click(function(){
 						
 						const memberId = $('#memberId').val();
+						sessionStorage.setItem('memberId', memberId);
+
 						const denyChar = /[^A-Za-z0-9]/;
 						
 						// 영문 및 숫자만 아이디로 설정할 수 있도록 함.
@@ -67,20 +69,31 @@
 				// 필수 항목 점검
 						$formControl.each((index, item)=>{
 							const value = $(item).val();
-							if(!value){
+							// 필수 입력 및 공백 점검
+							if(!value || !$.trim(value)) {
 								const cate = $(item).attr('placeholder');
-								const msg = `${cate}는 필수 입력항목입니다.`;
+								const msg = `${cate}은(는) 필수 입력항목입니다.`;
 								alert(msg);
 								$(item).focus();
 								isSubmit = false;
 								return false;
-							}
+								
+							// 값에 공백이 포함된 경우 점검
+							} else if (value.includes(' ')) {
+						        const cate = $(item).attr('placeholder');
+						        const msg = `${cate}에는 공백을 포함할 수 없습니다.`;
+						        alert(msg);
+						        $(item).focus();
+						        isSubmit = false;
+						        return false;
+						    }
 						});
 						
 						
-				// 비밀번호 확인
+				// 비밀번호 점검
 						const $memberPw = $('#memberPw').val();
 						const $checkMemberPw = $('#checkMemberPw').val();
+						const PwChar = /[^A-Za-z0-9!@#$%]/;
 						
 						// 최소 비밀번호 길이 충족
 						const memberPwLength = $('#memberPw').val().length;
@@ -100,7 +113,24 @@
 						    isSubmit = false;
 						    return false;
 						}
+
+						// 영문 및 숫자, 특수문자 !@#$%만 비밀번호로 설정할 수 있도록 함.
+						if(PwChar.test($memberPw)){
+							alert('비밀번호는 영문 및 숫자, 특수문자 !, @, #, $, %만 사용 가능합니다.');
+							$('#memberPw').focus();
+							return ;
+						}
 						
+				// 연락처 포맷 설정
+				const $memberTelNo = $('#memberTelNo').val();
+				const phoneFormat = /^[0-9]{3}-[0-9]{4}-[0-9]{4}$/;
+
+					if(!phoneFormat.test($memberTelNo)){
+						alert('연락처는 000-0000-0000의 형식으로 작성해 주세요.');
+						$('#memberTelNo').focus();
+						return ;
+					}
+							
 				// 필수 동의 항목 체크
 						const $registerBasicTermCheckbox = $('#registerBasicTermCheckbox').prop('checked');
 						
@@ -117,6 +147,7 @@
 							alert('자료 확인 후 멘토 권한으로 변경됩니다.');
 							}
 					});
+
 					
 			</script>
 		</th:block>
@@ -125,7 +156,7 @@
 			<div class="card-body container col-3 my-2">
 				<h3 class="mb-20 mt-40 text-brand d-flex justify-content-center">멘토 권한으로 계정 생성</h3>
 				<div>
-					<p class="text-center mb-2">이미 계정을 가지고 있으신가요? <a href="/member/login"> &nbsp; 로그인하러 가기</a></p>
+					<p class="text-center mb-2">이미 계정을 가지고 있으신가요? <a id="goLoginPage" href="/member/login"> &nbsp; 로그인하러 가기</a></p>
 				</div>
 				<form class="member container mt-40" th:action="@{/register/mentor1}" method="post" id="registerMentorForm" name="registerMentorForm">
 					<div class="mb-4">
@@ -138,12 +169,12 @@
                            <!-- form-group// -->
 						<div class="mb-4">
                                <label class="form-label" for="memberPw">회원 비밀번호 (6자리 이상으로 설정해주세요) *</label>
-                               <input class="form-control" id="memberPw" name="memberPw" placeholder="Password" type="text" disabled="disabled" />
+                               <input class="form-control" id="memberPw" name="memberPw" placeholder="Password" type="Password" disabled="disabled" maxlength='13'/>
                            </div>
                            <!-- form-group// -->
 						<div class="mb-4">
                                <label class="form-label" for="checkMemberPw">비밀번호 확인 *</label>
-                               <input class="form-control" id="checkMemberPw" name="checkMemberPw" placeholder="비밀번호 확인" type="text" disabled="disabled"/>
+                               <input class="form-control" id="checkMemberPw" name="checkMemberPw" placeholder="비밀번호 확인" type="Password" disabled="disabled" maxlength='13'/>
                            </div>
                            <!-- form-group// -->
 						<div class="mb-4">
@@ -158,14 +189,13 @@
                                <input class="form-control" id="memberPwAnswer" name="memberPwAnswer" placeholder="Answer" type="text"  disabled="disabled"/>
                            </div>
 					<!-- form-group// -->
-					<div class="mb-4">
-						<label class="form-label">회원 이름 *</label>
+							<div class="mb-4">
 						      <label class="form-label" for="memberName">회원 이름 *</label>
 						        <input class="form-control" id="memberName" name="memberName" placeholder="Name" type="text" disabled="disabled" />
 						    </div>
 						    <!-- form-group// -->									
 						    <div class="mb-4">
-						        <label class="form-label" for="memberTelNo">연락처 *</label>
+						        <label class="form-label" for="memberTelNo">연락처 (000-0000-0000의 형식으로 작성해 주세요)*</label>
 						        <div class="row gx-2">
 						            <div class="col-12"><input class="form-control" id="memberTelNo" name="memberTelNo" placeholder="Phone" type="text" disabled="disabled" /></div>
 						        </div>
@@ -195,7 +225,7 @@
 						    </div>
 						    <!-- form-group  .// -->
 						    <div class="mb-10 d-flex justify-content-center">
-						        <button type="button" class="btn btn-block w-80" id="continueBtn" name="continueBtn" th:onclick="|location.href='@{/register/mentor2}'|">회원가입 계속하기</button>
+						        <button type="button" class="btn btn-block w-80" id="continueBtn" name="continueBtn">회원가입 계속하기</button>
 						    </div>
 						    <!-- form-group// -->
 					</form>

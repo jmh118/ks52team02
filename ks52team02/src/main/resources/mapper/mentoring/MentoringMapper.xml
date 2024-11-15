@@ -140,7 +140,7 @@
 		WHERE mentoring_notice_detail_code=#{noticeDetailCode};
 	</update>
 	
-	<select id="getApplyCheck" parameterType="string" resultType="ks52team02.manager.member.dto.Member">
+	<select id="checkApply" parameterType="string" resultType="ks52team02.manager.member.dto.Member">
 		/* 공고신청 조회 */
 		SELECT
 			member_name AS memberName, 
@@ -210,7 +210,7 @@
 	</insert>
 
 	<insert id="addNoticeAnswer" parameterType="NoticeAnswer">
-		/* 공고관련질문 등록 */
+		/* 질문관련 답변 등록 */
 		INSERT INTO mentoring_notice_question_answer
 			(mentoring_notice_question_answer_code, mentoring_notice_question_code, mentor_id, answer_content, answer_writing_YMD)
 		VALUES 
@@ -218,7 +218,7 @@
 	</insert>
 	
 	<insert id="addNoticeQuestion" parameterType="NoticeQuestion">
-		/* 공고관련질문 등록 */
+		/* 공고관련 질문 등록 */
 		INSERT INTO mentoring_notice_question
 			(mentoring_notice_question_code, mentoring_notice_code, member_id, question_content, question_writing_YMD)
 		VALUES 
@@ -245,7 +245,7 @@
 	</select>
 
 	<select id="getNoticeApplyYmdByCode" parameterType="String" resultType="NoticeDetail">
-		/* 신청가능한 공고요일 */
+		/* 신청가능한 공고요일시간 */
 		SELECT
 			day_mentoring_YMD AS mentoringYmd,
 			day_mentoring_time AS mentoringTime,
@@ -371,6 +371,7 @@
 	</select>
 	
 	<select id="getNoticeMainList" resultType="Notice">
+		/* 메인화면 공고 조회 */
 		SELECT
 			mn.mentoring_notice_code AS noticeCode,
 		    mn.mentoring_notice_title AS noticeTitle,
