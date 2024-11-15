@@ -241,7 +241,7 @@ public class ManagerMemberController {
 	    @RequestParam(name="mentorApprovalReason") String mentorApprovalReason,
 	    MentorApproval mentorApproval, 
 	    HttpSession session) {
-	    System.out.println("멘토 - 멘티로 회원가입 승인 및 권한 변경 요청");
+	    System.out.println("멘토 - 회원가입 승인 및 권한 변경");
 
 	    String mentorApprovalManager = (String) session.getAttribute("SID");
 	    mentorApproval.setMentorApprovalManager(mentorApprovalManager);
