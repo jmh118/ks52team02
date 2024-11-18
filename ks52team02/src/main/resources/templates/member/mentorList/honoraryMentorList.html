@@ -10,22 +10,22 @@
                 <div class="archive-header-2 text-center">
                     <h1 class="display-10 mb-50">명예멘토 List</h1>
                     <div class="row">
-                        <div class="col-lg-5 mx-auto">
-                            <div class="sidebar-widget-2 widget_search mb-50">
-                                <div class="search-form">
-                                    <form action="#">
-                                        <input type="text" placeholder="Search vendors (by name or ID)..." />
-                                        <button type="submit"><i class="fi-rs-search"></i></button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
+						<div class="col-lg-5 mx-auto">
+						    <div class="sidebar-widget-2 widget_search mb-50">
+						        <div class="search-form">
+						            <form method="get" th:action="@{/honor/mentorListIdSearch}">
+						                <input type="text" placeholder="로그인하여 ID로 명예멘토를 검색해 보세요" name="keyId" />
+						                <button type="submit"><i class="fi-rs-search"></i></button>
+						            </form>
+						        </div>
+						    </div>
+						</div>
                     </div>
                 </div>
                 <div class="row mb-50">
 				</div> 
                 <div class="row vendor-grid">
-                    <div class="col-lg-3 col-md-6 col-12 col-sm-6" th:each="hm:${honorMentorList}">
+                    <div class="col-lg-3 col-md-6 col-12 col-sm-6" th:each="hm:${honorMentorList.contents}">
                         <div class="vendor-wrap mb-40">
                             <div class="vendor-img-action-wrap">
                                 <div class="product-badges product-badges-position product-badges-mrg">
@@ -51,14 +51,23 @@
                                     </ul>
                         		</div>
                     		</div>
-                	</div>
-                <div class="pagination-area mt-20 mb-20">
-
-					
-					<!-- page -->
-					
-                </div>
-            </div>
-        </div>
+                		</div>
+            		</div>
+				<div class="pagination-area mt-20 mb-20">
+				    <nav aria-label="Page navigation example">
+				       <ul class="pagination justify-content-start">
+				            <th:block th:each="num : ${#numbers.sequence(honorMentorList.startPageNum, honorMentorList.endPageNum)}">
+					            <li class="page-item"
+					                th:classappend="${honorMentorList.currentPage == num} ? 'active'">
+					                <a class="page-link cate-list" th:href="@{/honor/mentorList(currentPage=${num}, keyId=${keyId})}" th:if ="${num} != 0">[[${num}]]</a>
+					            </li>
+				       		</th:block>
+				            <li class="page-item" th:classappend="${honorMentorList.currentPage >= honorMentorList.lastPage} ? 'disabled'">
+				                <a class="page-link cate-list" th:href="@{/honor/mentorList(currentPage=${honorMentorList.currentPage + 1}, keyId=${keyId})}"><i class="fi-rs-arrow-small-right"></i></a>
+				            </li>
+				        </ul>
+				    </nav>
+				</div>
+        	</div>
     </th:block>
 </html>

@@ -26,7 +26,7 @@ public class MemberMentorServiceImpl implements MemberMentorService {
 	public PageInfo<Member> getMentorList(Pageable pageable, String keyId) {
 		int rowCnt = memberMentorMapper.getMentorListCount(keyId);
 		Map<String, Object> paramMap = new HashMap<String, Object>();
-		pageable.setRowPerPage(20);
+		pageable.setRowPerPage(12);
 		paramMap.put("rowPerPage", pageable.getRowPerPage());
 		paramMap.put("offset", pageable.getOffset());
 		paramMap.put("keyId", keyId);
@@ -37,10 +37,17 @@ public class MemberMentorServiceImpl implements MemberMentorService {
 	}
 
 	@Override
-	public List<Member> getHonorMentorList() {
-		List<Member> honorMentorList = memberMentorMapper.getHonorMentorList();
+	public PageInfo<Member> getHonorMentorList(Pageable pageable, String keyId) {
+		int rowCnt = memberMentorMapper.getHonorMentorListCount(keyId);
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		pageable.setRowPerPage(12);
+		paramMap.put("rowPerPage", pageable.getRowPerPage());
+		paramMap.put("offset", pageable.getOffset());
+		paramMap.put("keyId", keyId);
 		
-		return honorMentorList;
+		List<Member> contents = memberMentorMapper.getHonorMentorList(paramMap);
+		
+		return new PageInfo<>(contents, pageable, rowCnt);
 	}
 
 	
