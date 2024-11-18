@@ -30,9 +30,11 @@
             request.done(function(data) {
          	   console.log(data);
                 // 요청이 성공했을 때 실행할 작업
-                alert('작업 확인이 완료되었습니다');   // 서버에서 전달된 응답 메시지 표시
-                location.reload();
-                //$(".table-responsive").load(window.location.href + " .table-responsive");//해당 div만 새로고침
+                if(data){
+                	alert('작업 확인이 완료되었습니다');   // 서버에서 전달된 응답 메시지 표시
+                	location.reload();
+                }
+                
             })
             request.fail(function(xhr, status, error) {
                 console.error("오류 발생:", error);
