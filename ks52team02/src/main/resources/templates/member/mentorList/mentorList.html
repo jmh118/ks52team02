@@ -13,7 +13,7 @@
                             <div class="sidebar-widget-2 widget_search mb-50">
                                 <div class="search-form">
                                     <form method="get" th:action="@{/mentor/listMentorIdSearch}">
-                                        <input type="text" placeholder="Search mentor by ID..." name="keyId" />
+                                        <input type="text" placeholder="로그인하여 ID로 멘토를 검색해 보세요" name="keyId" />
                                         <button type="submit"><i class="fi-rs-search"></i></button>
                                     </form>
                                 </div>
@@ -57,16 +57,16 @@
 					<nav aria-label="Page navigation example">
 					    <ul class="pagination justify-content-start">
 					    	<li class="page-item" th:classappend="${mentorList.currentPage < 2}? 'disabled'">
-								<a class="page-link d-flex justify-content-center align-items-center" th:href="@{/mentor/list(currentPage=${mentorList.currentPage - 1})}"><i class="material-icons md-chevron_left"></i></a>
+								<a class="page-link d-flex justify-content-center align-items-center" th:href="@{/mentor/list(currentPage=${mentorList.currentPage - 1}, keyId=${keyId})}"><i class="material-icons md-chevron_left"></i></a>
 							</li>
 					        <th:block th:each="num : ${#numbers.sequence(mentorList.startPageNum, mentorList.endPageNum)}">
 					            <li class="page-item"
 					                th:classappend="${mentorList.currentPage == num} ? 'active'">
-					                <a class="page-link" th:href="@{/mentor/list(currentPage=${num})}">[[${num}]]</a>
+					                <a class="page-link" th:href="@{/mentor/list(currentPage=${num}, keyId=${keyId})}">[[${num}]]</a>
 					            </li>
 					        </th:block>
 					        <li class="page-item" th:classappend="${mentorList.currentPage >= mentorList.lastPage} ? 'disabled'">
-					            <a class="page-link d-flex justify-content-center align-items-center" th:href="@{/mentor/list(currentPage=${mentorList.currentPage + 1})}"><i class="material-icons md-chevron_right"></i></a>
+					            <a class="page-link d-flex justify-content-center align-items-center" th:href="@{/mentor/list(currentPage=${mentorList.currentPage + 1}, keyId=${keyId})}"><i class="material-icons md-chevron_right"></i></a>
 					        </li>
 					    </ul>
 					</nav>
