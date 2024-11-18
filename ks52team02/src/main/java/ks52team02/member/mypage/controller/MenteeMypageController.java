@@ -59,7 +59,7 @@ public class MenteeMypageController {
 	//다운로드 버튼
 		@GetMapping("/download")
 		@ResponseBody
-		public ResponseEntity<Object> archiveDownload(@RequestParam(value="mentorFileNm", required = false) String fileIdx,
+		public ResponseEntity<Object> archiveDownload(@RequestParam(value="menteePtflFileNm", required = false) String fileIdx,
 								HttpServletRequest request,HttpServletResponse response) throws URISyntaxException{
 			
 			

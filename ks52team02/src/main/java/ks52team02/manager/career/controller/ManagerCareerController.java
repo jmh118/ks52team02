@@ -111,16 +111,6 @@ public class ManagerCareerController {
         if(resCheck > 0) result = true;
         return result;
 	}
-	/*
-	 * @GetMapping("/workYn") public String
-	 * workYn(@RequestParam(value="selectedFilter") String selectedFilter, Pageable
-	 * pageable,Model model) { PageInfo<Work> memberList =
-	 * careerService.getMemberWorkCareer(pageable, selectedFilter);
-	 * 
-	 * model.addAttribute("memberList", memberList);
-	 * 
-	 * return "redirect:/manager/career/workYn"; }
-	 */
 
     @GetMapping("/project")
     public String mentorCareerProject(Pageable pageable, Model model) {
