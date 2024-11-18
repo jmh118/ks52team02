@@ -124,14 +124,17 @@ public class ManagerCareerController {
     }
     
     @GetMapping("/projectCheck")
-    public String projectCheck(@RequestParam(name="mentorCode") String mentorCode,
+    @ResponseBody
+    public boolean projectCheck(@RequestParam(name="mentorCode") String mentorCode,
     						@RequestParam(name="managerId") String managerId) {
     	Project projectCheck = new Project();
     	projectCheck.setMentorCode(mentorCode);
     	projectCheck.setManagerId(managerId);
-		careerMapper.checkProjectByFileNm(projectCheck);
+    	boolean result = false; 
+    	int resCheck = careerMapper.checkProjectByFileNm(projectCheck);
+        if(resCheck > 0) result = true;
         
-        return "redirect:/manager/career/project";
+        return result;
     }
 
     @GetMapping("/education")
@@ -146,14 +149,17 @@ public class ManagerCareerController {
     }
 
     @GetMapping("/educationCheck")
-    public String educationCheck(@RequestParam(name="mentorCode") String mentorCode,
+    @ResponseBody
+    public boolean educationCheck(@RequestParam(name="mentorCode") String mentorCode,
     						@RequestParam(name="managerId") String managerId) {
     	Education educationCheck = new Education();
     	educationCheck.setMentorCode(mentorCode);
     	educationCheck.setManagerId(managerId);
-		careerMapper.checkEducationByFileNm(educationCheck);
+    	boolean result = false;
+    	int resCheck = careerMapper.checkEducationByFileNm(educationCheck);
+        if(resCheck > 0) result = true;
         
-        return "redirect:/manager/career/education";
+        return result;
     }
     
     @GetMapping("/certificate")
@@ -168,14 +174,17 @@ public class ManagerCareerController {
     }
 	
     @GetMapping("/certificateCheck")
-    public String certificateCheck(@RequestParam(name="mentorCode") String mentorCode,
+    @ResponseBody
+    public boolean certificateCheck(@RequestParam(name="mentorCode") String mentorCode,
     								@RequestParam(name="managerId") String managerId) {
     	Certificate certificateCheck = new Certificate();
     	certificateCheck.setMentorCode(mentorCode);
     	certificateCheck.setManagerId(managerId);
-		careerMapper.checkCertificateByFileNm(certificateCheck);
+    	boolean result = false;
+    	int resCheck = careerMapper.checkCertificateByFileNm(certificateCheck);
+        if(resCheck > 0) result = true;
         
-        return "redirect:/manager/career/certificate";
+        return result;
     }
     
 }
