@@ -59,14 +59,14 @@ public class MenteeMypageController {
 	//다운로드 버튼
 		@GetMapping("/download")
 		@ResponseBody
-		public ResponseEntity<Object> archiveDownload(@RequestParam(value="mentorFileNm", required = false) String fileIdx,
+		public ResponseEntity<Object> archiveDownload(@RequestParam(value="menteePtflFileNm", required = false) String fileIdx,
 								HttpServletRequest request,HttpServletResponse response) throws URISyntaxException{
 			
 			
 			if(fileIdx != null) {
 				FileDto fileDto = fileMapper.getFileInfoByCode(fileIdx);
 				
-				File file = new File("/home/teamproject" + fileDto.getFilePath());
+				File file = new File("/home/teamproject/teachtalk" + fileDto.getFilePath());
 			
 				Path path = Paths.get(file.getAbsolutePath());
 		        Resource resource;

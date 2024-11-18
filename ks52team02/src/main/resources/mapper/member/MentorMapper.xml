@@ -57,19 +57,38 @@
 	
 	<select id="getHonorMentorList" resultType="Member">
 		/* 명예멘토만 조회 */
-			SELECT
-				m.member_id AS memberId,
-				m.member_phone_number AS memberTelNo, 
-				m.member_email AS memberEmail
-			FROM
-				member m
-				LEFT JOIN
-				mentor_authority_approval maa
-				ON
-				m.member_id=maa.member_id
-			WHERE
-				m.member_withdrawal_YN = 'N' AND 
-				maa.honor_mentor_YN = 'Y';
+		SELECT
+			m.member_id AS memberId,
+			m.member_phone_number AS memberTelNo, 
+			m.member_email AS memberEmail
+		FROM
+			member m
+			LEFT JOIN
+			mentor_authority_approval maa
+			ON
+			m.member_id=maa.member_id
+		WHERE
+			m.member_withdrawal_YN = 'N' AND 
+			maa.honor_mentor_YN = 'Y'
+			<if test="keyId != null and keyId != ''">
+	    		AND (m.member_id LIKE CONCAT('%', #{keyId}, '%'))
+			</if>
+			LIMIT #{rowPerPage} OFFSET #{offset};
+	</select>
+	
+	<select id="getHonorMentorListCount" resultType="int">
+		/* 관리자 - 명예멘토 멘토수 조회 */
+		SELECT
+			COUNT(*)
+		FROM
+			member m
+			LEFT JOIN
+			mentor_authority_approval maa
+			ON
+			m.member_id=maa.member_id
+		WHERE
+			m.member_withdrawal_YN = 'N' AND 
+			maa.honor_mentor_YN = 'Y';
 	</select>
 	
 </mapper>

@@ -15,6 +15,7 @@ public interface MemberMentorMapper {
 	int getMentorListCount(String keyId);
 	
 	// 명예멘토 조회
-	List<Member> getHonorMentorList();
-
+	// 명예멘토 권한 멤버수 조회
+	List<Member> getHonorMentorList(Map<String, Object> paramMap);
+	int getHonorMentorListCount(String keyId);
 }

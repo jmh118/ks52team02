@@ -65,7 +65,7 @@ public class MentorMypageController {
 		if(fileIdx != null) {
 			FileDto fileDto = fileMapper.getFileInfoByCode(fileIdx);
 			
-			File file = new File("/home/teamproject" + fileDto.getFilePath());
+			File file = new File("/home/teamproject/teachtalk" + fileDto.getFilePath());
 		
 			Path path = Paths.get(file.getAbsolutePath());
 	        Resource resource;

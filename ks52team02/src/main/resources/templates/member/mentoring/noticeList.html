@@ -70,7 +70,7 @@
                                     <div class="product-category"><h2 th:text="${nl.noticeTitle}"></h2></div>
                                     <div>
 										<div class="font-small text-muted" th:text="${'분야 : ' + nl.topicName}"></div>
-										<div class="font-small text-muted" th:text="${'직무 : ' + nl.mentorPowkName}"></div>
+										<div class="font-small text-muted" th:text="${nl.mentorPowkName != '' ? '직무 : ' + nl.mentorPowkName : '직무 : 비공개'}"></div>
 										<div class="font-small text-muted" th:text="${'By : ' + nl.memberName}"></div>
                                     </div>
                                     <div class="product-card-bottom" style="margin-top:auto; text-align: center;">

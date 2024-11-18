@@ -278,7 +278,7 @@
 			m.member_name AS memberName,
 			tc.topic_name AS topicName,
 			mn.last_UNTPRC AS noticeUntprc,
-			COALESCE(mwhd.mentor_POWK_NM, mw2.mentor_POWK_NM) AS mentorPowkName,
+			IFNULL(COALESCE(mwhd.mentor_POWK_NM, mw2.mentor_POWK_NM),'') AS mentorPowkName,
 			mn.mentoring_notice_content AS noticeContent,
 			CONCAT(DATE_FORMAT(mn.mentoring_mentor_PSBLTY_start_YMD, '%Y-%m-%d'), ' ~ ', DATE_FORMAT(mn.mentoring_mentor_PSBLTY_end_YMD, '%Y-%m-%d')) AS mentoringPeriod,
 			maa.honor_mentor_YN AS honorMentor
@@ -354,6 +354,7 @@
 				tc.topic_category_code=#{category}
 			</if>
 		</where>
+		ORDER BY mn.mentoring_notice_code 
 		LIMIT #{rowPerPage} OFFSET #{offset};
 	</select>
 	
@@ -397,6 +398,7 @@
 			LEFT JOIN mentor_work_history_details mw2
 			    ON m.member_id = mw2.member_id
 			    AND mw2.mentor_RSGNTN_YMD IS NULL
+		ORDER BY mn.mentoring_notice_code 
 		LIMIT 10;
 	</select>
 	
