@@ -74,11 +74,21 @@
 		.title-li {
 			margin-bottom: 20px;
 		}
-	    .icon-link img {
-	        transition: transform 0.3s ease, opacity 0.3s ease;
-	    }
+		.icon-link-container {
+		    text-align: center; 
+		    margin: 5px 0; 
+		}
+		.icon-link {
+		    display: inline-block;
+    		margin: 0 5px;
+		}
 	    .icon-link:hover img {
 	        transform: scale(1.1); 
+	    }
+	    .icon-link img {
+	        transition: transform 0.3s ease, opacity 0.3s ease;
+	        display: inline-block; 
+    		vertical-align: middle;
 	    }
 	
 	    
@@ -86,13 +96,12 @@
 </head>
 <body>
 	<div id="wrap">
-		<h3 >2024년 11월 18일 10시 50분</h3>
 		<div class="info-title-area">
 			<h3 >한국스마트정보교육원 52기 2팀</h3>
 			<h1 id="title">
 				멘토링을 통한 IT경력개발 및 취업성공 플랫폼	
 			</h1>
-			<div>
+			<div class="icon-link-container">
 				<a href="https://github.com/jmh118/ks52team02" target="_blank" class="icon-link">
 			        <img alt="github" src="/common/img/github-logo.png" style="width: 50px">
 			    </a>
