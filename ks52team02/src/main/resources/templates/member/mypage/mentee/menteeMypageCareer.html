@@ -78,7 +78,6 @@
 						<thead>
 							<tr>
 								<th>포트폴리오 제목</th>
-								<th>내용</th>
 								<th>등록일</th>
 								<th>수정&삭제</th>
 							</tr>
@@ -86,7 +85,6 @@
 						<tbody>
 							<tr th:each="p : ${menteePortfolioInfo}">
 								<td th:text="${p.menteePtflTitle}"></td>
-								<td th:text="${p.menteePtflCtnt}"></td>
 								<td th:text="${p.menteePtflRgstDate}"></td>
 								<td><a th:href="@{/mypage/mentee/portfolioModify(menteePtflCode = ${p.menteePtflCode})}" class="btn-small d-block">수정&삭제</a></td>
 							</tr>
