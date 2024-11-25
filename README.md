@@ -1,6 +1,5 @@
 
-![Logo](https://raw.githubusercontent.com/jmh118/ks52team02/main/ks52team02/src/main/resources/static/manager/imgs/theme/Preview.png
-)
+![Logo](https://raw.githubusercontent.com/jmh118/ks52team02/main/ks52team02/src/main/resources/static/manager/imgs/theme/Preview.png)
 
 
 ## 💡 teachtalk란?
@@ -24,6 +23,7 @@
 
 ## 🔍 [teachtalk 방문하기](https://ksteam.store/)
 <br>
+
 ---
 
 <br>
@@ -37,4 +37,7 @@
 | Framework       | bootstrap 5 / Spring Framework  / Mybatis 3.0          |
 | Database       | MySQL            |
 | TOOL           | Eclipse, Spring Tool Suite, Visual studio code           |
+
+## 아키텍처
+![image](https://github.com/user-attachments/assets/b3d3b410-4c72-479f-bcfd-4e21adc605b2)
 
