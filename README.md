@@ -29,14 +29,9 @@
 <br>
 
 ## 📚 기술스택
+![html](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white) ![css](https://img.shields.io/badge/CSS-239120?&style=for-the-badge&logo=css3&logoColor=white) ![js](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=JavaScript&logoColor=white) ![jquery](https://img.shields.io/badge/jQuery-0769AD?style=for-the-badge&logo=jquery&logoColor=white) ![thymeleaf](https://img.shields.io/badge/thymeleaf-005F0F?style=flat-square&logo=thymeleaf&logoColor=white)
 
-| 분야           | 사용 기술                       |
-| -------------- | ------------------------------- | 
-| FrontEnd       | JavaScript / HTML5 / CSS /  thymeleaf / jQuery              |
-| BackEnd        | JAVA 17 / Servlet 3.1 / UTF-8                         |
-| Framework       | bootstrap 5 / Spring Framework  / Mybatis 3.0          |
-| Database       | MySQL            |
-| TOOL           | Eclipse, Spring Tool Suite, Visual studio code           |
+
 
 ## 아키텍처
 ![image](https://github.com/user-attachments/assets/b3d3b410-4c72-479f-bcfd-4e21adc605b2)
