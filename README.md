@@ -24,8 +24,7 @@
 
 ## 🔍 [teachtalk 방문하기](https://ksteam.store/)
 
-
-<br>
+--
 
 ## 📚 기술스택
 
