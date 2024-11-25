@@ -23,3 +23,18 @@
 - 멘티는 경력 개발의 기회를, 멘토는 자신의 전문성을 강화할 수 있는 상호 이익 제공.
 
 ## 🔍 [teachtalk 방문하기](https://ksteam.store/)
+
+---
+
+<br>
+
+## 📚 기술스택
+
+| 분야           | 사용 기술                       |
+| -------------- | ------------------------------- | 
+| FrontEnd       | JavaScript / HTML5 / CSS /  thymeleaf / jQuery              |
+| BackEnd        | JAVA 17 / Servlet 3.1 / UTF-8                         |
+| Framework       | bootstrap 5 / Spring Framework  / Mybatis 3.0          |
+| Database       | MySQL            |
+| TOOL           | Eclipse, Spring Tool Suite, Visual studio code           |
+
