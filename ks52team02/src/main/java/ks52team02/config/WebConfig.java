@@ -64,8 +64,8 @@ public class WebConfig implements WebMvcConfigurer {
 		excludePath.add("/mentoring/notice");
 		excludePath.add("/mentoring/noticeDetail");
 		excludePath.add("/portfolio/**");
-		excludePath.add("/honor/mentorList");
-		excludePath.add("/mentor/list");
+		excludePath.add("/honor/**");
+		excludePath.add("/mentor/**");
 		excludePath.add("/review/mentorReviewList");
 	    
 		
