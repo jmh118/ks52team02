@@ -21,7 +21,7 @@
 - 프로젝트 기반 학습을 통한 실습과 경험 축적.
 - 멘티는 경력 개발의 기회를, 멘토는 자신의 전문성을 강화할 수 있는 상호 이익 제공.
 
-## 🔍 [teachtalk 방문하기](https://ksteam.store/)
+## 🔍 [teachtalk 방문하기](https://teachtalk.site/)
 <br>
 
 ---
